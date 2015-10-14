@@ -4,3 +4,4 @@ target/
 .project
 SpingMvcTest.iml
 .CLASSPATH
+/.classpath
