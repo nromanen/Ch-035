@@ -3,8 +3,8 @@ package com.crsms.domain;
 public class TestResult {
 	private Test test;
 	private Boolean complete = false;
-	//TODO field Result. Hoe to calculate.
-	//TODO commit for private User user;
+	//TODO field Result. How to calculate.
+	private User user;
 	
 	public TestResult() {}
 
@@ -22,6 +22,14 @@ public class TestResult {
 
 	public void setComplete(Boolean complete) {
 		this.complete = complete;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

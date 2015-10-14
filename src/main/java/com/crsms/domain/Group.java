@@ -3,7 +3,6 @@ package com.crsms.domain;
 import java.util.Set;
 
 public class Group {
-	
 	private Long id;
 	private String name;
 	private Type type;

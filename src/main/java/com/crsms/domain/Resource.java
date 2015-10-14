@@ -19,7 +19,6 @@ public class Resource {
 	}
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	
+	}	
 	
 }

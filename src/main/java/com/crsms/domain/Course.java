@@ -69,8 +69,6 @@ public class Course {
 
 	public void setDirection(Direction direction) {
 		this.direction = direction;
-	};
-	
-
+	}
 	
 }

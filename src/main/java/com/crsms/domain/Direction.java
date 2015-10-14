@@ -4,11 +4,9 @@ public class Direction {
 	private Long id;
 	private String name;
 	
-	
 	public Direction() {
 		super();
 	}
-	
 	
 	public Long getId() {
 		return id;
@@ -22,6 +20,5 @@ public class Direction {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+		
 }
