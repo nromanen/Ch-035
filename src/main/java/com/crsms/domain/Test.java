@@ -1,16 +1,16 @@
 package com.crsms.domain;
 
-import java.util.Calendar;
+import java.util.Set;
 
 public class Test {
 	private Long id;
+	private Module module;
 	private String name;
-	private Calendar startDate;
-	private Calendar endDate;
-	private Boolean visible;
+	private Boolean available = false;
+	private Set<Question> questions;
 	
 	public Test() { }
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -27,27 +27,28 @@ public class Test {
 		this.name = name;
 	}
 
-	public Calendar getStartDate() {
-		return startDate;
+	public Boolean getAvailable() {
+		return available;
 	}
 
-	public void setStartDate(Calendar startDate) {
-		this.startDate = startDate;
+	public void setAvailable(Boolean available) {
+		this.available = available;
 	}
 
-	public Calendar getEndDate() {
-		return endDate;
+	public Set<Question> getQuestions() {
+		return questions;
 	}
 
-	public void setEndDate(Calendar endDate) {
-		this.endDate = endDate;
-	};
+	public void setQuestions(Set<Question> questions) {
+		this.questions = questions;
+	}
+
+	public Module getModule() {
+		return module;
+	}
+
+	public void setModule(Module module) {
+		this.module = module;
+	}
 	
-	public Boolean getVisible() {
-		return visible;
-	}
-
-	public void setVisible(Boolean visible) {
-		this.visible = visible;
-	}
 }
