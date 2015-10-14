@@ -8,7 +8,7 @@ public class Module {
 	private String description;
 	private Set<Resource> resources;
 	private Set<Test> tests;
-	private Boolean available;
+	private Boolean available = false;
 	private Long order;
 	
 	public Module() {
