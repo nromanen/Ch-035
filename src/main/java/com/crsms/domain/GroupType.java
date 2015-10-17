@@ -15,32 +15,36 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="resource")
-public class Resource {
+@Table(name="group_type")
+public class GroupType {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "resource_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "group_type_id_seq", allocationSize = 1)
 	private Long id;
 	
 	@Column(nullable = false)
-	private String url;
+	private String name;
 	
-	public Resource() {
+	public GroupType() {
 		super();
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUrl() {
-		return url;
+
+	public String getName() {
+		return name;
 	}
-	public void setUrl(String url) {
-		this.url = url;
-	}	
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	
 }

@@ -2,15 +2,58 @@ package com.crsms.domain;
 
 import java.util.Set;
 
-import org.joda.time.DateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+
+/**
+ * 
+ * @author Valerii Motresku
+ *
+ */
+
+@Entity
+@Table(name="course")
 public class Course {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "course_id_seq", allocationSize = 1)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String name;
+	
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime startDate;
-	private DateTime duration;
-	private Set<Module> modules; 
+	
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
+	private Duration duration;
+	
+	@OneToMany(mappedBy="course", fetch = FetchType.LAZY)
+	@Cascade({CascadeType.ALL})
+	private Set<Module> modules;
+	
+	@Column(nullable = false)
 	private Boolean open = false;
+	
+	@OneToOne
+	@Cascade({CascadeType.ALL})
+    @JoinColumn(name="direction_id")
 	private Direction direction;
 	
 	public Course() { }
@@ -39,11 +82,11 @@ public class Course {
 		this.startDate = startDate;
 	}
 
-	public DateTime getDuration() {
+	public Duration getDuration() {
 		return duration;
 	}
 
-	public void setDuration(DateTime duration) {
+	public void setDuration(Duration duration) {
 		this.duration = duration;
 	}
 

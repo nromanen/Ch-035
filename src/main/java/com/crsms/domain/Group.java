@@ -2,13 +2,56 @@ package com.crsms.domain;
 
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+/**
+ * 
+ * @author Valerii Motresku
+ *
+ */
+
+@Entity
+@Table(name="group_entity")
 public class Group {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "group_id_seq", allocationSize = 1)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String name;
-	private Type type;
-	private Set<User> users;
+	
+	@OneToOne
+	@Cascade({CascadeType.ALL})
+    @JoinColumn(name="type_id")
+	private GroupType groupType;
+	
+	@ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+	@Cascade({CascadeType.ALL})
+	private Set<UserInfo> users;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@Cascade({CascadeType.ALL})
 	private Set<Course> courses;
+	
+	@Column(columnDefinition = "default = 0", nullable = false)
 	private Long maxUserCount;
+	
+	
 	private Boolean recruited;
 	
 	public Group() {
@@ -31,19 +74,19 @@ public class Group {
 		this.name = name;
 	}
 
-	public Type getType() {
-		return type;
+	public GroupType getGroupType() {
+		return groupType;
 	}
 
-	public void setType(Type type) {
-		this.type = type;
+	public void setGroupType(GroupType groupType) {
+		this.groupType = groupType;
 	}
 
-	public Set<User> getUsers() {
+	public Set<UserInfo> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Set<User> users) {
+	public void setUsers(Set<UserInfo> users) {
 		this.users = users;
 	}
 
