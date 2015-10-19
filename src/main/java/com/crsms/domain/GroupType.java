@@ -15,32 +15,36 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="direction")
-public class Direction {
+@Table(name="group_type")
+public class GroupType {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "direction_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "group_type_id_seq", allocationSize = 1)
 	private Long id;
 	
 	@Column(nullable = false)
 	private String name;
 	
-	public Direction() {
+	public GroupType() {
 		super();
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-		
+	
+	
 }

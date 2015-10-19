@@ -2,14 +2,59 @@ package com.crsms.domain;
 
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+/**
+ * 
+ * @author Valerii Motresku
+ *
+ */
+
+@Entity
+@Table(name="module")
 public class Module {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "module_id_seq", allocationSize = 1)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String name;
+	
+	@Column(nullable = false)
 	private String description;
+	
+	@ManyToOne
+	@JoinColumn(name = "course_id")
+	private Course course;
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	@Cascade({CascadeType.ALL})
 	private Set<Resource> resources;
+	
+	@OneToMany(mappedBy = "module",fetch = FetchType.LAZY)
+	@Cascade({CascadeType.ALL})
 	private Set<Test> tests;
+	
+	@Column(nullable = false)
 	private Boolean available = false;
-	private Long order;
+	
+	@Column(name = "order_position", nullable = true)
+	private Long orderPosition;
 	
 	public Module() {
 		super();
@@ -29,6 +74,14 @@ public class Module {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 	public String getDescription() {
@@ -63,13 +116,15 @@ public class Module {
 		this.available = available;
 	}
 
-	public Long getOrder() {
-		return order;
+	public Long getOrderPosition() {
+		return orderPosition;
 	}
 
-	public void setOrder(Long order) {
-		this.order = order;
+	public void setOrderPosition(Long orderPosition) {
+		this.orderPosition = orderPosition;
 	}
+
+
 	
 	
 }

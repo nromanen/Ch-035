@@ -1,10 +1,40 @@
 package com.crsms.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+/**
+ * 
+ * @author Valerii Motresku
+ *
+ */
+
+@Entity
+@Table(name="answer")
 public class Answer {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "answer_id_seq",  allocationSize = 1)
 	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name = "question_id")
 	private Question question;
+	
+	@Column(nullable = false)
 	private String text;
-	private Boolean isRight = false;
+	
+	@Column(nullable = false)
+	private Boolean correct = false;
+	
+	
 	
 	public Answer() {}
 
@@ -24,12 +54,12 @@ public class Answer {
 		this.text = text;
 	}
 
-	public Boolean getIsRight() {
-		return isRight;
+	public Boolean getCorrect() {
+		return correct;
 	}
 
-	public void setIsRight(Boolean isRight) {
-		this.isRight = isRight;
+	public void setCorrect(Boolean correct) {
+		this.correct = correct;
 	}
 
 	public Question getQuestion() {
