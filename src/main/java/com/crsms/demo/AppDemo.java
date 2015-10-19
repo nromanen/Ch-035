@@ -136,11 +136,13 @@ public class AppDemo {
         
         //create resources
         Resource res = new Resource();
+        res.setName("1");
         res.setUrl("https://google.com.ua");
         Set<Resource> resources = new LinkedHashSet<Resource>();
         resources.add(res);
         
         res = new Resource();
+        res.setName("2");
         res.setUrl("https://softserve.ua");
         resources.add(res);
         
