@@ -27,6 +27,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq", allocationSize = 1)
 	private Long id;
+
 	
 	@Column(nullable = false)
 	private String email;
@@ -53,6 +54,14 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPasssword() {
@@ -86,7 +95,7 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
+
 	
 
 }

@@ -89,6 +89,7 @@
 			<artifactId>joda-time</artifactId>
 			<version>${joda-time.version}</version>
 		</dependency>
+
         <!-- JodaTime persistent support -->
         <dependency>
 			<groupId>org.jadira.usertype</groupId>
@@ -132,4 +133,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
