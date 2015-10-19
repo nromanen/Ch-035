@@ -24,6 +24,9 @@ public class Resource {
 	private Long id;
 	
 	@Column(nullable = false)
+	private String name;
+	
+	@Column(nullable = false)
 	private String url;
 	
 	public Resource() {
@@ -36,6 +39,14 @@ public class Resource {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getUrl() {
 		return url;
 	}
