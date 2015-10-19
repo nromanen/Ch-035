@@ -72,14 +72,6 @@ public class User {
 		this.passsword = passsword;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}
