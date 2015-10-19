@@ -1,4 +1,4 @@
-/*package com.crsms.config;
+package com.crsms.config;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -27,4 +27,3 @@ public class Initializer implements WebApplicationInitializer {
         servletRegistration.setLoadOnStartup(1);
     }
 }
-*/

@@ -1,4 +1,4 @@
-/*package com.crsms.config;
+package com.crsms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,4 +30,3 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     }
 }
-*/
