@@ -1,24 +1,23 @@
 package com.crsms.service;
 
-import java.util.Set;
+import java.util.List;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.crsms.domain.User;
 
-/**
- * 
- * @author Valerii Motresku
- *
- */
-
 public interface UserService {
-	
-	void saveUser(User user);
-		
-	Set<User> getAllUser();
-	
+
+	User saveUser(User user);
+
+	User updateUser(User user);
+
 	User getUserById(Long id);
 
-	void updateUser(User user);
-	
-	User getUser(String name);
+	User getUserByEmail(String email);
+
+	void delete(Long id);
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	List<User> getAllUsers();
 }

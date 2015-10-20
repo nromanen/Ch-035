@@ -1,56 +1,54 @@
 package com.crsms.service;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.UserDao;
 import com.crsms.domain.User;
 
-/**
- * 
- * @author Valerii Motresku
- *
- */
-
 @Service("userService")
-@Transactional
+@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService {
-
-	@Autowired
-    private UserDao userDao;
 	
-	@Override
-	public void saveUser(User user) {
-		
-		userDao.saveUser(user);
+	@Autowired
+	private UserDao userDao;
 
+	@Override
+	@Transactional
+	public User saveUser(User user) {
+		return userDao.saveUser(user);
 	}
 
 	@Override
-	public Set<User> getAllUser() {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public User updateUser(User user) {
+		return userDao.saveUser(user);
 	}
 
 	@Override
 	public User getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.getUserById(id);
 	}
 
 	@Override
-	public void updateUser(User user) {
-		// TODO Auto-generated method stub
+	public User getUserByEmail(String email) {
+		return userDao.getUserByEmail(email);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		userDao.delete(id);
 
 	}
 
 	@Override
-	public User getUser(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> getAllUsers() {
+		return userDao.getAllUsers();
 	}
 
 }
