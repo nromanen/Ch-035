@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 /**
  * 
@@ -25,6 +27,9 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="module")
+@NamedQueries({
+	@NamedQuery(name = "getModuleById", query = "from module m where m.id = :id")
+})
 public class Module {
 	
 	@Id
