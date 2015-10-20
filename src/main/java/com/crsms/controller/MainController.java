@@ -1,4 +1,4 @@
-package com.crsms.mvc;
+package com.crsms.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
