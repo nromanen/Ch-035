@@ -1,76 +1,64 @@
 package com.crsms.dao;
 
 import java.util.Set;
-
-
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.crsms.domain.Test;
 
-/**
- * 
- * @author Valerii Motresku
+/** 
+ * @author Petro Andriets
  *
  */
 
-
 @Repository("testDao")
 public class TestDaoImpl implements TestDao {
-
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static Logger log = LogManager.getLogger(TestDaoImpl.class);
-	
-	@Override
-	public void saveTest(Test test) {
-		
-		try {
-			sessionFactory.getCurrentSession().save(test);
-		} catch (Exception e) {
-			log.error("Error saveTest: " + e);
-		}
-	}
+	public TestDaoImpl() {}
 
 	@Override
-	public Set<Test> getAllTest() {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveTest(Test test) {
+		Session session = sessionFactory.getCurrentSession();
+		session.persist(test);
 	}
 
 	@Override
 	public Test getTestById(Long id) {
-		Test test = null;
-		Session session = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-			test = (Test) session.get(Test.class, id);
-		} catch (Exception e) {
-			log.error("Error getTest: " + e);
-		}
-		//lazy initialization for FetchType.LAZY
-		Hibernate.initialize(test.getQuestions());
-		session.clear();
+		Session session = sessionFactory.getCurrentSession();
+		Test test = (Test) session.load(Test.class, new Long(id));
 		return test;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<Test> getAllTest() {
+		Session session = sessionFactory.getCurrentSession();
+		Set<Test> testSet = (Set<Test>) session.createQuery("from Test").list();
+		return testSet;
 	}
 
 	@Override
 	public void updateTest(Test test) {
-		// TODO Auto-generated method stub
-
+		Session session = sessionFactory.getCurrentSession();
+		session.update(test);
 	}
 
 	@Override
-	public Test getTest(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteTest(Test test) {
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(test);
 	}
 
+	@Override
+	public void delteTestById(Long id) {
+		Session session = sessionFactory.getCurrentSession();
+		Test test = (Test) session.load(Test.class, new Long(id));
+		if (test != null) {
+			session.delete(test);
+		}
+	}
+	
 }

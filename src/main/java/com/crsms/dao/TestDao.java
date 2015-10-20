@@ -5,21 +5,22 @@ import java.util.Set;
 import com.crsms.domain.Test;
 
 /**
- * 
- * @author Valerii Motresku
+ * @author Petro Andriets
  *
  */
 
 public interface TestDao {
 
-	void saveTest(Test test);
+	public void saveTest(Test test);
 	
-	Set<Test> getAllTest();
+	public Test getTestById(Long id);
 	
-	Test getTestById(Long id);
+	public Set<Test> getAllTest();
 
-	void updateTest(Test test);
+	public void updateTest(Test test);
 	
-	Test getTest(String name);
+	public void deleteTest(Test test);
+	
+	public void delteTestById(Long id);
 	
 }
