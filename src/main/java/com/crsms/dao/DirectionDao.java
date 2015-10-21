@@ -14,7 +14,7 @@ public interface DirectionDao {
 	
 	void saveDirection(Direction direction);
 	
-	List<Direction> getAllDirection();
+	List<Direction> getAllDirections();
 	
 	Direction getDirectionById(Long id);
 

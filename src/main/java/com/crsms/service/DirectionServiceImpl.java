@@ -17,7 +17,7 @@ import com.crsms.domain.Direction;
  *
  */
 
-@Service("courseService")
+@Service("directionService")
 @Transactional
 public class DirectionServiceImpl implements DirectionService {
 	
@@ -31,8 +31,8 @@ public class DirectionServiceImpl implements DirectionService {
 	}
 
 	@Override
-	public List<Direction> getAllDirection() {
-		return directionDao.getAllDirection();
+	public List<Direction> getAllDirections() {
+		return directionDao.getAllDirections();
 	}
 
 	@Override

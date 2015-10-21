@@ -14,7 +14,7 @@ import com.crsms.domain.Direction;
 public interface DirectionService {
 void saveDirection(Direction direction);
 	
-	List<Direction> getAllDirection();
+	List<Direction> getAllDirections();
 	
 	Direction getDirectionById(Long id);
 

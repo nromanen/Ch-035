@@ -26,21 +26,21 @@ public class DirectionDaoImpl implements DirectionDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static Logger log = LogManager.getLogger(DirectionDaoImpl.class);
-	
+	private static Logger logger = LogManager.getLogger(DirectionDaoImpl.class);
+
 	@Override
 	public void saveDirection(Direction direction) {
 		try {
 			sessionFactory.getCurrentSession().save(direction);
 		} catch (Exception e) {
-			log.error("Error saveDirection: " + e);
+			logger.error("Error saveDirection: " + e);
 		}
 
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Direction> getAllDirection() {
+	public List<Direction> getAllDirections() {
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Direction d ORDER BY d.id");
 		return query.list();
 	}
@@ -53,7 +53,7 @@ public class DirectionDaoImpl implements DirectionDao {
 			session = sessionFactory.getCurrentSession();
 			direction = (Direction) session.get(Direction.class, id);
 		} catch (Exception e) {
-			log.error("Error getTest: " + e);
+			logger.error("Error getTest: " + e);
 		}
 		session.clear();
 		return direction;
@@ -64,7 +64,7 @@ public class DirectionDaoImpl implements DirectionDao {
 		try {
 			sessionFactory.getCurrentSession().update(direction);
 		} catch (Exception e) {
-			log.error("Error updateDirection: " + e);
+			logger.error("Error updateDirection: " + e);
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class DirectionDaoImpl implements DirectionDao {
 			session = sessionFactory.getCurrentSession();
 			direction = (Direction) session.get(Direction.class, name);
 		} catch (Exception e) {
-			log.error("Error getTest: " + e);
+			logger.error("Error getTest: " + e);
 		}
 		session.clear();
 		return direction;
