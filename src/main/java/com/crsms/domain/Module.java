@@ -28,7 +28,7 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @Table(name="module")
 @NamedQueries({
-	@NamedQuery(name = "getModuleById", query = "from module m where m.id = :id")
+	@NamedQuery(name = "getModuleById", query = "from Module m where m.id = :id")
 })
 public class Module {
 	
