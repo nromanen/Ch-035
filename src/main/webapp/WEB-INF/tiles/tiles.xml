@@ -1,6 +1,8 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
 <tiles-definitions>
-	<definition name="base-template" template="/WEB-INF/view/template/template.jsp">
+
+	<definition name="base-template" template="/WEB-INF/view/template/template.jsp" >
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp" />
@@ -21,7 +23,15 @@
 	
 	<!-- derived -->
 	<!-- EXMAPLE -->
-	<definition name="tiles-demozz" extends="base-template">
+	<!-- 
+		 SS students, pay attention, that you must return from
+		 controller the name of definition not jsp page.
+		 That's why, to show you an example, I used name="tiles-demo-def"
+		 for tiles-demo.jsp, so the name are different. But they could be
+		 the same, obviously.
+	-->
+	<definition name="tiles-demo-def" extends="base-template" >
+		<put-attribute name="title" value="Title Demo" />
 		<put-attribute name="content" value="/WEB-INF/view/tiles-demo.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/resources/js/tiles-demo.js" />
@@ -31,7 +41,7 @@
 		</put-list-attribute>
 	</definition>
 	
-	<definition name="index" extends="base-template">
+	<definition name="index" extends="base-template" >
 		<put-attribute name="title" value="Hello Title" />
 		<put-attribute name="content" value="/index.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
