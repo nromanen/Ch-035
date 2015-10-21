@@ -28,17 +28,17 @@ public class MainController {
 
 	}
 
-	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
-	public ModelAndView adminPage() {
-
-		ModelAndView model = new ModelAndView();
-		model.addObject("title", "Course Management System");
-		model.addObject("message", "This page is for ROLE_ADMIN only!");
-		model.setViewName("admin");
-
-		return model;
-
-	}
+//	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
+//	public ModelAndView adminPage() {
+//
+//		ModelAndView model = new ModelAndView();
+//		model.addObject("title", "Course Management System");
+//		model.addObject("message", "This page is for ROLE_ADMIN only!");
+//		model.setViewName("admin");
+//
+//		return model;
+//
+//	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,

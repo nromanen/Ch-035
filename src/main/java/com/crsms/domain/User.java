@@ -52,7 +52,8 @@ public class User {
 	private UserInfo userInfo;
 
 	@OneToOne
-	@Cascade({ CascadeType.ALL })
+	@Cascade({ CascadeType.SAVE_UPDATE })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@JoinColumn(name = "role_id")
 	private Role role;
 

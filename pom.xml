@@ -21,6 +21,7 @@
 		<hibernate-validator.version>5.2.2.Final</hibernate-validator.version>
 		<spring-security.version>4.0.2.RELEASE</spring-security.version>
 		<servletapi.version>2.5</servletapi.version>
+		<testng.version>6.1.1</testng.version>
 	</properties>
 
 	<dependencies>
@@ -132,6 +133,18 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>junit</artifactId>
+					<groupId>junit</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- JodaTime for DateTime -->
