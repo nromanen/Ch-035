@@ -1,5 +1,7 @@
 package com.crsms.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,5 +29,12 @@ public class ModuleController {
 		service.save(module);
 		model.addAttribute("message", "Module " + module.getName() + " created successfully");
 		return "success";
+	}
+	
+	@RequestMapping(value = {"/modules"}, method = RequestMethod.GET)
+	public String showModules(ModelMap model) {
+		List<Module> modules = service.getAll();
+		model.addAttribute("modules", modules);
+		return "modules";
 	}
 }
