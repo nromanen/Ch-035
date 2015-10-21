@@ -16,28 +16,12 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.crsms")
 @Import({ SecurityConfig.class, HibernateConfig.class})
-public class AppConfig extends WebMvcConfigurerAdapter {
-
-//    @Bean
-//    public ViewResolver getViewResolver() {
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("/WEB-INF/view/");
-//        resolver.setSuffix(".jsp");
-//        resolver.setViewClass(JstlView.class);
-//        return resolver;
-//    }
-    @Bean(name="viewResolwer")
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/view/");
-        viewResolver.setSuffix(".jsp");
- 
-        return viewResolver;
-    }
-    @Override
+public class RootConfig extends WebMvcConfigurerAdapter {
+	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-
+        registry.addResourceHandler("/resources/**").
+        	addResourceLocations("/resources/");
+        registry.addResourceHandler("/webjars/**").
+        	addResourceLocations("/webjars/");
     }
 }

@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>CrsMS</groupId>
-	<artifactId>CrsMS</artifactId>
+	<groupId>crsms</groupId>
+	<artifactId>crsms</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>CrsMS</name>
+	<name>crsms</name>
 
 	<properties>
 		<java.version>1.7</java.version>
@@ -21,6 +21,7 @@
 		<hibernate-validator.version>5.2.2.Final</hibernate-validator.version>
 		<spring-security.version>4.0.2.RELEASE</spring-security.version>
 		<servletapi.version>2.5</servletapi.version>
+		<apache.tiles.version>3.0.5</apache.tiles.version>
 	</properties>
 
 	<dependencies>
@@ -160,12 +161,37 @@
 			<artifactId>log4j-api</artifactId>
 			<version>${log4j2.version}</version>
 		</dependency>
+		
+		<!-- Apache tiles -->
+		 <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-core</artifactId>
+            <version>${apache.tiles.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-jsp</artifactId>
+            <version>${apache.tiles.version}</version>
+        </dependency>
+        
+        <!-- UI: jQuery, Bootstrap -->
+        <dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.5</version>
+		</dependency>
+		
 
 
 	</dependencies>
 
 	<build>
-		<finalName>CrsMS</finalName>
+		<finalName>crsms</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
