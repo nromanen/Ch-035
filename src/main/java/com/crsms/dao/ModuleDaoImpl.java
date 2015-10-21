@@ -1,8 +1,9 @@
 package com.crsms.dao;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,9 +27,18 @@ public class ModuleDaoImpl implements ModuleDao {
 	@Override
 	public void save(Module module) {
 		try {
-			sessionFactory.getCurrentSession().save(module);
+			sessionFactory.getCurrentSession().persist(module);
 		} catch (Exception e) {
 			log.error("Error in save module: " + e);
+		}
+	}
+	
+	@Override
+	public void update(Module module) {
+		try {
+			sessionFactory.getCurrentSession().update(module);
+		} catch (Exception e) {
+			log.error("Error in update module: " + e);
 		}
 	}
 
@@ -43,15 +53,24 @@ public class ModuleDaoImpl implements ModuleDao {
 
 	@Override
 	public Module getById(Long id) {
-		Query query = sessionFactory.getCurrentSession()
-				.getNamedQuery("getModuleById").setLong("id", id);
 		Module module = null;
 		try {
-			module = (Module) query.list();
+			module = (Module) sessionFactory.getCurrentSession().get(Module.class, id);
 		} catch (Exception e) {
 			log.error("Error in get module by id: " + e);
 		}
 		return module;
+	}
+
+	@Override
+	public List<Module> getAll() {
+		List<Module> list = null;
+		try {
+			list = sessionFactory.getCurrentSession().createCriteria(Module.class).list();
+		} catch (Exception e) {
+			log.error("Error in get all modules: " + e);
+		}
+		return list;
 	}
 
 }
