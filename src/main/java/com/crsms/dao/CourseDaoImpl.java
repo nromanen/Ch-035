@@ -1,9 +1,12 @@
 package com.crsms.dao;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,35 +31,73 @@ public class CourseDaoImpl implements CourseDao {
 	public void saveCourse(Course course) {
 		
 		try {
-			sessionFactory.getCurrentSession().save(course);
-		} catch (Exception e) {
+			if(course.getId() == null) {
+				//sessionFactory.getCurrentSession().persist(course);
+				sessionFactory.getCurrentSession().save(course);
+				log.info("DAO:create course:" + course.getName());
+			} else {
+				sessionFactory.getCurrentSession().update(course);
+				log.info("DAO:create update:" + course.getName());
+			}
+		} catch (HibernateException e) {
 			log.error("Error saveCourse: " + e);
 		}
-
 	}
 
 	@Override
-	public Set<Course> getAllCourse() {
-		// TODO Auto-generated method stub
+	public List<Course> getAllCourse() {
+		try {
+			return (List<Course>)sessionFactory.getCurrentSession().createQuery("FROM Course").list();
+
+		} catch (HibernateException e) {
+			log.error("Error getAllCourse: " + e);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Course getCourseById(Long id) {
-		// TODO Auto-generated method stub
+		try {
+			return (Course)sessionFactory.getCurrentSession().
+					get(Course.class, id);
+		} catch (HibernateException e) {
+			log.error("Error getCourseById: " + e);
+		}
 		return null;
 	}
 
 	@Override
-	public void updateCourse(Course test) {
-		// TODO Auto-generated method stub
+	public void updateCourse(Course course) {
+		try {
+			sessionFactory.getCurrentSession().update(course);
+			log.info("DAO:create update:" + course.getName());
+		} catch (Exception e) {
+			log.error("Error updateCourse: " + e);
+		}
 
 	}
-
+	
 	@Override
 	public Course getCourse(String name) {
-		// TODO Auto-generated method stub
+		try {
+			sessionFactory.getCurrentSession()
+				.createQuery("FROM Course c WHERE c.name=:name")
+				.setString("name", name).uniqueResult();
+		} catch (Exception e) {
+			log.error("Error getCourse: " + e);
+		}
 		return null;
+	}
+
+	@Override
+	public void deleteCourse(Course course) {
+		try {
+			sessionFactory.getCurrentSession().delete(course);
+		} catch (HibernateException e) {
+			log.error("Error delete: " + e);
+		}
+		
 	}
 
 }

@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,12 +25,17 @@ import org.joda.time.Duration;
 /**
  * 
  * @author Valerii Motresku
+ * @author maftey
  *
  */
 
 @Entity
 @Table(name="course")
+@NamedQueries({
+	@NamedQuery(name = Course.GET_BY_NAME, query = "FROM Course c WHERE c.name=:name")
+})
 public class Course {
+	public static final String GET_BY_NAME = "course.getCourseByName";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -37,6 +44,9 @@ public class Course {
 	
 	@Column(nullable = false)
 	private String name;
+	
+	@Column(nullable = false, length = 1024)
+	private String description;
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime startDate;
@@ -113,5 +123,12 @@ public class Course {
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
