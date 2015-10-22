@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +40,12 @@ public class MainController {
 //		return model;
 //
 //	}
+	
+	@RequestMapping(value = "/db", method = RequestMethod.GET)
+	public String dbaPage(ModelMap model) {
+		model.addAttribute("user", getPrincipal());
+		return "dba";
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
@@ -94,6 +101,18 @@ public class MainController {
 		model.setViewName("403");
 		return model;
 
+	}
+	private String getPrincipal() {
+		String userEmail = null;
+		Object principal = SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			userEmail = ((UserDetails) principal).getUsername();
+		} else {
+			userEmail = principal.toString();
+		}
+		return userEmail;
 	}
 
 }

@@ -13,11 +13,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
@@ -41,9 +44,12 @@ public class User {
 	private Long id;
 
 	@Column(nullable = false)
+	@Email 
+	@NotEmpty
 	private String email;
 
 	@Column(nullable = false)
+	@Size(min=5, max=30)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
@@ -103,9 +109,13 @@ public class User {
 	@Override
 	
 	public String toString() {
-		return "User{" + ", id: " + getId() + ", email: " + getEmail()
-				+ ", password: " + getPassword() + ", role: " + getRole()
-				+ ", user info: " + getUserInfo() + "}";
+		return "User{" 
+					+ ", id: " + getId() 
+					+ ", email: " + getEmail()
+					+ ", password: " + getPassword() 
+					+ ", role: " + getRole()
+					+ ", user info: " + getUserInfo() 
+					+ "}";
 	}
 
 }
