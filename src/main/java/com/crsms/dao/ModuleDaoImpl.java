@@ -67,6 +67,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	public List<Module> getAll() {
 		List<Module> list = null;
 		try {
+			//TODO change it to hql query
 			list = sessionFactory.getCurrentSession().createCriteria(Module.class).list();
 		} catch (Exception e) {
 			log.error("Error in get all modules: " + e);
@@ -76,7 +77,7 @@ public class ModuleDaoImpl implements ModuleDao {
 
 	@Override
 	public void deleteById(Long id) {
-		String hql = "delete " + Module.class.getName() + " where id = :id";
+		String hql = "delete Module where id = :id";
 	    Query q = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
 	    try {
 	    	q.executeUpdate();
