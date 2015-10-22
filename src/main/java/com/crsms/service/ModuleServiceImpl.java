@@ -62,4 +62,11 @@ public class ModuleServiceImpl implements ModuleService {
 		return moduleDao.getAll();
 	}
 
+	@Override
+	public void deleteById(Long id) {
+		log.info("in moduleService deleteById(module id)");
+		moduleDao.deleteById(id);
+		log.info("out moduleService deleteById(module id)");
+	}
+
 }
