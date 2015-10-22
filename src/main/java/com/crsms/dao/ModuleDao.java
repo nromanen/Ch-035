@@ -21,5 +21,7 @@ public interface ModuleDao {
 	Module getById(Long id);
 	
 	List<Module> getAll();
+
+	void deleteById(Long id);
 	
 }
