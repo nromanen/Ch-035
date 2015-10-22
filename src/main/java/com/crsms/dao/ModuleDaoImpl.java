@@ -23,14 +23,14 @@ public class ModuleDaoImpl implements ModuleDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static Logger log = LogManager.getLogger(ModuleDaoImpl.class);
+	private static Logger logger = LogManager.getLogger(ModuleDaoImpl.class);
 
 	@Override
 	public void save(Module module) {
 		try {
 			sessionFactory.getCurrentSession().persist(module);
 		} catch (Exception e) {
-			log.error("Error in save module: " + e);
+			logger.error("Error in save module: " + e);
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class ModuleDaoImpl implements ModuleDao {
 		try {
 			sessionFactory.getCurrentSession().update(module);
 		} catch (Exception e) {
-			log.error("Error in update module: " + e);
+			logger.error("Error in update module: " + e);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class ModuleDaoImpl implements ModuleDao {
 		try {
 			sessionFactory.getCurrentSession().delete(module);
 		} catch (Exception e) {
-			log.error("Error in delete module: " + e);
+			logger.error("Error in delete module: " + e);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class ModuleDaoImpl implements ModuleDao {
 		try {
 			module = (Module) sessionFactory.getCurrentSession().get(Module.class, id);
 		} catch (Exception e) {
-			log.error("Error in get module by id: " + e);
+			logger.error("Error in get module by id: " + e);
 		}
 		return module;
 	}
@@ -70,7 +70,7 @@ public class ModuleDaoImpl implements ModuleDao {
 			//TODO change it to hql query
 			list = sessionFactory.getCurrentSession().createCriteria(Module.class).list();
 		} catch (Exception e) {
-			log.error("Error in get all modules: " + e);
+			logger.error("Error in get all modules: " + e);
 		}
 		return list;
 	}
@@ -82,7 +82,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	    try {
 	    	q.executeUpdate();
 		} catch (Exception e) {
-			log.error("Error in delete module by id: " + e);
+			logger.error("Error in delete module by id: " + e);
 		}
 	}
 

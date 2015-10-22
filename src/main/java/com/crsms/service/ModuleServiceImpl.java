@@ -22,51 +22,51 @@ import com.crsms.domain.Module;
 @Transactional
 public class ModuleServiceImpl implements ModuleService {
 	
-	private static Logger log = LogManager.getLogger(ModuleServiceImpl.class);
+	private static Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 	
 	@Autowired
 	private ModuleDao moduleDao;
 
 	@Override
 	public void save(Module module) {
-		log.info("in moduleService save(Module)");
+		logger.info("in moduleService save(Module)");
 		moduleDao.save(module);
-		log.info("out moduleService save(Module)");
+		logger.info("out moduleService save(Module)");
 	}
 	
 	@Override
 	public void update(Module module) {
-		log.info("in moduleService update(Module)");
+		logger.info("in moduleService update(Module)");
 		moduleDao.update(module);
-		log.info("out moduleService update(Module)");
+		logger.info("out moduleService update(Module)");
 	}
 
 	@Override
 	public void delete(Module module) {
-		log.info("in moduleService delete(Module)");
+		logger.info("in moduleService delete(Module)");
 		moduleDao.delete(module);
-		log.info("out moduleService delete(Module)");
+		logger.info("out moduleService delete(Module)");
 	}
 
 	@Override
 	public Module getById(Long id) {
-		log.info("in moduleService getById(module id)");
-		log.info("trying to get module");
+		logger.info("in moduleService getById(module id)");
+		logger.info("trying to get module");
 		return moduleDao.getById(id);
 	}
 
 	@Override
 	public List<Module> getAll() {
-		log.info("in moduleService getAll(Module)");
-		log.info("trying to get modules");
+		logger.info("in moduleService getAll(Module)");
+		logger.info("trying to get modules");
 		return moduleDao.getAll();
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		log.info("in moduleService deleteById(module id)");
+		logger.info("in moduleService deleteById(module id)");
 		moduleDao.deleteById(id);
-		log.info("out moduleService deleteById(module id)");
+		logger.info("out moduleService deleteById(module id)");
 	}
 
 }
