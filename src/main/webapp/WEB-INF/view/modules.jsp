@@ -5,13 +5,14 @@
 		<td>ID</td>
 		<td>Module name</td>
 		<td>Description</td>
-		<td>Control</td>
+		<td>Delete</td>
 	</tr>
 	<c:forEach var = "module" items = "${modules}">
 		<tr>
 			<td>${module.id}</td>
-			<td>${module.name}</td>
+			<td><a href = "editmodule${module.id}">${module.name}</a></td>
 			<td>${module.description}</td>
+			<td><a href = "deletemodule${module.id}">delete</a></td>
 		</tr>
 	</c:forEach>
 </table>
