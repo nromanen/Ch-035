@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class ModuleDaoImpl implements ModuleDao {
 		} catch (Exception e) {
 			logger.error("Error in get module by id: " + e);
 		}
+		//Hibernate.initialize(module.getCourse());
 		return module;
 	}
 
@@ -67,7 +69,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	public List<Module> getAll() {
 		List<Module> list = null;
 		try {
-			//TODO change it to hql query
+			//TODO change it to hql query, change List to Set
 			list = sessionFactory.getCurrentSession().createCriteria(Module.class).list();
 		} catch (Exception e) {
 			logger.error("Error in get all modules: " + e);
