@@ -41,6 +41,47 @@
 		</put-list-attribute>
 	</definition>
 	
+	<definition name="403" extends="base-template" >
+		<put-attribute name="title" value="access is forbidden" />
+		<put-attribute name="content" value="/WEB-INF/view/403.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	<definition name="admin" extends="base-template" >
+		<put-attribute name="title" value="secured admin area" />
+		<put-attribute name="content" value="/WEB-INF/view/admin.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	<definition name="hello" extends="base-template" >
+		<put-attribute name="title" value="main page" />
+		<put-attribute name="content" value="/WEB-INF/view/hello.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	<definition name="login" extends="base-template" >
+		<put-attribute name="title" value="user login page" />
+		<put-attribute name="content" value="/WEB-INF/view/login.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	
 	<definition name="index" extends="base-template" >
 		<put-attribute name="title" value="Hello Title" />
 		<put-attribute name="content" value="/index.jsp" />

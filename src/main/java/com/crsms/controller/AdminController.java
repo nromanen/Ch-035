@@ -32,7 +32,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String admin(ModelMap mm) {
+    	public String admin(ModelMap mm) {
 		mm.put("title", "Course Management System");
 		mm.put("message", "This page is for ROLE_ADMIN only!");
 		mm.put("user", new User());
@@ -40,12 +40,14 @@ public class AdminController {
 		return "admin";
 	}
 
+
 	@RequestMapping(method = RequestMethod.GET)
 	public List<User> getAll() {
 		return service.getAllUsers();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+
 	public User get(@PathVariable("id") long id) {
 		return service.getUserById(id);
 	}
@@ -77,4 +79,5 @@ public class AdminController {
 		}
 		return userEmail;
 	}
+
 }

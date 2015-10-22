@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
 
-	@RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/","/hello", "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
 
 		ModelAndView model = new ModelAndView();
@@ -28,6 +28,7 @@ public class MainController {
 		return model;
 
 	}
+
 
 //	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
 //	public ModelAndView adminPage() {
@@ -50,26 +51,20 @@ public class MainController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
-
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
-
 		if (logout != null) {
 			model.addObject("msg", "You've been logged out successfully.");
 		}
 		model.setViewName("login");
-
 		return model;
-
 	}
 
 	// customize the error message
 	private String getErrorMessage(HttpServletRequest request, String key) {
-
 		Exception exception = (Exception) request.getSession().getAttribute(key);
-
 		String error = "";
 		if (exception instanceof BadCredentialsException) {
 			error = "Invalid username and password!";
@@ -78,14 +73,12 @@ public class MainController {
 		} else {
 			error = "Invalid username and password!";
 		}
-
 		return error;
 	}
 
 	// for 403 access denied page
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public ModelAndView accesssDenied() {
-
 		ModelAndView model = new ModelAndView();
 
 		// check if user is login
@@ -93,15 +86,12 @@ public class MainController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			System.out.println(userDetail);
-
 			model.addObject("username", userDetail.getUsername());
-
 		}
-
 		model.setViewName("403");
 		return model;
-
 	}
+
 	private String getPrincipal() {
 		String userEmail = null;
 		Object principal = SecurityContextHolder.getContext()
@@ -114,5 +104,6 @@ public class MainController {
 		}
 		return userEmail;
 	}
+
 
 }
