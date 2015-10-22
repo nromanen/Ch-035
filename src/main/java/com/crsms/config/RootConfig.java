@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 //@EnableWebMvc is turned off for console debug only!!!
-//@EnableWebMvc
+@EnableWebMvc
 @ComponentScan(basePackages = "com.crsms")
 @Import({ SecurityConfig.class, HibernateConfig.class})
 public class RootConfig extends WebMvcConfigurerAdapter {

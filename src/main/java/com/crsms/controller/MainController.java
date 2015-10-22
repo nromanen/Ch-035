@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
 
-	@RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/","/hello", "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
 
 		ModelAndView model = new ModelAndView();
@@ -28,41 +28,49 @@ public class MainController {
 
 	}
 
-//	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
-//	public ModelAndView adminPage() {
-//
-//		ModelAndView model = new ModelAndView();
-//		model.addObject("title", "Course Management System");
-//		model.addObject("message", "This page is for ROLE_ADMIN only!");
-//		model.setViewName("admin");
-//
-//		return model;
-//
-//	}
+	@RequestMapping(value = "/manager**", method = RequestMethod.GET)
+	public ModelAndView managerPage() {
+
+		ModelAndView model = new ModelAndView();
+		model.addObject("title", "Course Management System");
+		model.addObject("message", "This page is for ROLE_MANAGER only!");
+		model.setViewName("manager");
+		return model;
+	}
+	@RequestMapping(value = "/teacher**", method = RequestMethod.GET)
+	public ModelAndView teacherPage() {
+		ModelAndView model = new ModelAndView();
+		model.addObject("title", "Course Management System");
+		model.addObject("message", "This page is for ROLE_TEACHER only!");
+		model.setViewName("teacher");
+		return model;
+	}
+	@RequestMapping(value = "/student**", method = RequestMethod.GET)
+	public ModelAndView studentPage() {
+		ModelAndView model = new ModelAndView();
+		model.addObject("title", "Course Management System");
+		model.addObject("message", "This page is for ROLE_STUDENT only!");
+		model.setViewName("teacher");
+		return model;
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
-
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
-
 		if (logout != null) {
 			model.addObject("msg", "You've been logged out successfully.");
 		}
 		model.setViewName("login");
-
 		return model;
-
 	}
 
 	// customize the error message
 	private String getErrorMessage(HttpServletRequest request, String key) {
-
 		Exception exception = (Exception) request.getSession().getAttribute(key);
-
 		String error = "";
 		if (exception instanceof BadCredentialsException) {
 			error = "Invalid username and password!";
@@ -71,14 +79,12 @@ public class MainController {
 		} else {
 			error = "Invalid username and password!";
 		}
-
 		return error;
 	}
 
 	// for 403 access denied page
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public ModelAndView accesssDenied() {
-
 		ModelAndView model = new ModelAndView();
 
 		// check if user is login
@@ -86,14 +92,9 @@ public class MainController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			System.out.println(userDetail);
-
 			model.addObject("username", userDetail.getUsername());
-
 		}
-
 		model.setViewName("403");
 		return model;
-
 	}
-
 }

@@ -6,7 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,14 +26,19 @@ public class AdminController {
     private UserService service;
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String admin (ModelMap mm){
-		mm.put("title", "Course Management System");
-		mm.put("message", "This page is for ROLE_ADMIN only!");
-		mm.put("user", new User());
-		mm.put("userlist",service.getAllUsers());
+	public String admin (Model model){
+		
+		model.addAttribute("user", new User());
+		model.addAttribute("userlist",service.getAllUsers());
 		return "admin";
 	}
-		
+	@RequestMapping(value= "/user/add", method = RequestMethod.POST)
+    public String addPerson(@ModelAttribute("user") User user){
+        this.service.saveUser(user);
+         
+        return "redirect:/users";
+         
+    }
 	@RequestMapping(method = RequestMethod.GET)
 	public List<User> getAll() {
       return service.getAllUsers();
@@ -42,9 +49,11 @@ public class AdminController {
        return service.getUserById(id);
     }
 	
-	 @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	    public void delete(@PathVariable("id") long id) {
+	 @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	    public String delete(@PathVariable("id") long id) {
 	        service.delete(id);
+			return "redirect:/users";
+	        
 	    }
 	 @RequestMapping( method = RequestMethod.PUT)
 	    public void update( User user) {
