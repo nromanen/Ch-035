@@ -17,5 +17,11 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "com.crsms")
 @Import({ SecurityConfig.class, HibernateConfig.class})
 public class RootConfig extends WebMvcConfigurerAdapter {
-
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").
+        	addResourceLocations("/resources/");
+        registry.addResourceHandler("/webjars/**").
+        	addResourceLocations("/webjars/");
+    }
 }
