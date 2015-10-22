@@ -1,27 +1,31 @@
 <%@ taglib uri="http://www.springframework.org/tags/form"  prefix="form"%>
 
-<h2>Create new module</h2>
-<form:form modelAttribute = "module" method = "POST" >
-	<table border = "1">
-		<tr>
-			<td><label for = "name">Module name: </label></td>
-			<td><form:input path = "name" id = "name"/></td>
-		</tr>
+<div class="container">
+	<h2>Create new module</h2>
+	
+	<form:form modelAttribute = "module" method = "POST" class = "form-horizontal">
+		<form:input path = "id" type = "hidden"/>
 		
-		<tr>
-			<td><label for = "description">Description: </label></td>
-			<td><form:textarea path = "description" name = "description"/></td>
-		</tr>
-		<tr>
-			<td><span>Resources: </span></td>
-			<td></td>
-		</tr>
+		<div class="form-group">
+			<label for = "name" class="col-sm-2 control-label">Module name: </label>
+			<div class="col-sm-10">
+				<form:input path = "name" id = "name" 
+							class="form-control" placeholder="Module name"/>
+			</div>
+		</div>
 		
-		<tr>
-			<td></td>
-               <td>
-				<input type = "submit" value = "Submit"/>
-               </td>
-           </tr>
-	</table>
-</form:form>
+		<div class="form-group">
+			<label for = "description" class="col-sm-2 control-label">Description: </label>
+			<div class="col-sm-10">
+				<form:textarea path = "description" name = "description" 
+								class="form-control" placeholder="Module description"/>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<input type = "submit" value = "Submit" class="btn btn-default"/>
+			</div>
+		</div>		
+	</form:form>
+</div>
