@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -37,4 +38,28 @@ public class ModuleController {
 		model.addAttribute("modules", modules);
 		return "modules";
 	}
+	
+	@RequestMapping(value = {"/editmodule{id}"}, method = RequestMethod.GET)
+	public String editModule(@PathVariable String id, ModelMap model) {
+		Module module = service.getById(Long.parseLong(id));
+		model.addAttribute("module", module);
+		return "createmodule";
+	}
+	
+	@RequestMapping(value = {"/editmodule{id}"}, method = RequestMethod.POST)
+	public String updateModule(@PathVariable String id, Module module, ModelMap model) {
+		if (service.getById(Long.parseLong(id)) != null) {
+			service.update(module);
+		}
+		model.addAttribute("message", "Module " + module.getName() + " updated successfully");
+		return "success";
+	}
+	
+	@RequestMapping(value = {"/deletemodule{id}"}, method = RequestMethod.GET)
+	public String deleteModule(@PathVariable String id, ModelMap model) {
+		service.deleteById(Long.parseLong(id));
+		return "redirect:/modules";
+	}
+	
+	
 }
