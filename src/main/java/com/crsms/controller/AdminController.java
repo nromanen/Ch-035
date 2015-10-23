@@ -16,56 +16,49 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crsms.domain.User;
 import com.crsms.service.UserService;
-
 @Controller
-
 public class AdminController {
 	private static Logger log = LogManager.getLogger(AdminController.class);
 
 	@Autowired
 	private UserService service;
 
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String adminPage(ModelMap model) {
-		model.addAttribute("user", getPrincipal());
-		return "admin";
-	}
-
-//	@RequestMapping(value = "/users", method = RequestMethod.GET)
-//    	public String admin(ModelMap mm) {
-//		mm.put("title", "Course Management System");
-//		mm.put("message", "This page is for ROLE_ADMIN only!");
-//		mm.put("user", new User());
-//		mm.put("userlist", service.getAllUsers());
+//	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+//	public String adminPage(ModelMap model) {
+//		model.addAttribute("user", getPrincipal());
 //		return "admin";
 //	}
 
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String getAllUsers(ModelMap model) {
+        List<User> users = service.getAllUsers();
+        model.addAttribute("users", users);
+        return "admin";
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	public List<User> getAll() {
-		return service.getAllUsers();
-	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	
+//	@RequestMapping(value = "/by-{id}", method = RequestMethod.GET)
+//
+//	public User get(@PathVariable("id") long id) {
+//		return service.getUserById(id);
+//	}
+//
+	@RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
+    public String deleteUser(@PathVariable long id) {
+        service.delete(id);
+        return "redirect:/admin";
+    }
 
-	public User get(@PathVariable("id") long id) {
-		return service.getUserById(id);
-	}
+//	@RequestMapping(method = RequestMethod.PUT)
+//	public void update(User user) {
+//		service.updateUser(user);
+//	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable("id") long id) {
-		service.delete(id);
-	}
-
-	@RequestMapping(method = RequestMethod.PUT)
-	public void update(User user) {
-		service.updateUser(user);
-	}
-
-	@RequestMapping(value = "/by", method = RequestMethod.GET)
-	public User getByMail(@RequestParam("email") String email) {
-		return service.getUserByEmail(email);
-	}
+//	@RequestMapping(value = "/by", method = RequestMethod.GET)
+//	public User getByMail(@RequestParam("email") String email) {
+//		return service.getUserByEmail(email);
+//	}
 
 	private String getPrincipal() {
 		String userEmail = null;

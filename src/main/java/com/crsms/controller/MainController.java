@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,84 +21,80 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
 
-	@RequestMapping(value = { "/","/hello"}, method = RequestMethod.GET)
-	public ModelAndView defaultPage() {
-
-		ModelAndView model = new ModelAndView();
-		model.addObject("title", "Course Management System");
-		model.addObject("message", "This is default page for all users!");
-		model.setViewName("hello");
-		return model;
-
+	@RequestMapping(value = { "/", "/hello" }, method = RequestMethod.GET)
+	public String helloPage(ModelMap model) {
+		model.addAttribute("title", "Course Management System");
+		model.addAttribute("message", "This is default page for all users!");
+		return ("hello");
 	}
 
-
-//	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
-//	public ModelAndView adminPage() {
-//
-//		ModelAndView model = new ModelAndView();
-//		model.addObject("title", "Course Management System");
-//		model.addObject("message", "This page is for ROLE_ADMIN only!");
-//		model.setViewName("admin");
-//
-//		return model;
-//
-//	}
-	
 	@RequestMapping(value = "/manager", method = RequestMethod.GET)
 	public String managerPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
 		return "manager";
 	}
-	
+
 	@RequestMapping(value = "/student", method = RequestMethod.GET)
 	public String studentPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
 		return "student";
 	}
-	
+
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
 	public String teacherPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
 		return "teacher";
 	}
-	
-	
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage() {
+	public String loginPage(
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout,
+			HttpServletRequest request, ModelMap model) {
+		if (error != null) {
+			model.addAttribute("error",
+					getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+		}
+		if (logout != null) {
+			model.addAttribute("msg", "You've been logged out successfully.");
+		}
 		return "login";
 	}
 
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null){    
+	private String getErrorMessage(HttpServletRequest request, String key) {
+
+		Exception exception = (Exception) request.getSession()
+				.getAttribute(key);
+
+		String error = "";
+		if (exception instanceof BadCredentialsException) {
+			error = "Invalid username or password!";
+		} else if (exception instanceof LockedException) {
+			error = exception.getMessage();
+		} else {
+			error = "Invalid username or password!";
+		}
+		return error;
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logoutPage(HttpServletRequest request,
+			HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
 		return "redirect:/login?logout";
 	}
-	// customize the error message
-//	private String getErrorMessage(HttpServletRequest request, String key) {
-//		Exception exception = (Exception) request.getSession().getAttribute(key);
-//		String error = "";
-//		if (exception instanceof BadCredentialsException) {
-//			error = "Invalid username and password!";
-//		} else if (exception instanceof LockedException) {
-//			error = exception.getMessage();
-//		} else {
-//			error = "Invalid username and password!";
-//		}
-//		return error;
-//	}
 
-	// for 403 access denied page
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public ModelAndView accesssDenied() {
-		ModelAndView model = new ModelAndView();
 
+		ModelAndView model = new ModelAndView();
 		// check if user is login
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			System.out.println(userDetail);
@@ -111,7 +108,6 @@ public class MainController {
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-
 		if (principal instanceof UserDetails) {
 			userName = ((UserDetails) principal).getUsername();
 		} else {
@@ -119,6 +115,5 @@ public class MainController {
 		}
 		return userName;
 	}
-
 
 }

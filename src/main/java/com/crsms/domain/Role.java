@@ -8,12 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-/**
- * 
- * @author Valerii Motresku
- *
- */
-
 @Entity
 @Table(name="roles")
 public class Role {
@@ -44,6 +38,13 @@ public class Role {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String toString() {
+		return "Role{" 
+					+ ", id: " + getId() 
+					+ ", name: " + getName()
+					+ "}";
 	}
 	
 	
