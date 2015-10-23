@@ -15,12 +15,12 @@
 				<tr>
 					<th>${module.id}</th>
 					<td>
-						<c:url var = "editModule" value = "module/${module.id}/edit" />
+						<c:url var = "editModule" value = "modules/${module.id}/edit" />
 						<a href = "${editModule}">${module.name}</a>
 					</td>
 					<td>${module.description}</td>
 					<td>
-						<c:url var = "deleteModule" value = "module/${module.id}/delete" />
+						<c:url var = "deleteModule" value = "modules/${module.id}/delete" />
 						<a href = "${deleteModule}">delete</a>
 					</td>
 				</tr>
@@ -28,6 +28,6 @@
 		</tbody>
 	</table>
 	
-	<c:url var = "createModule" value = "module/new" />
+	<c:url var = "createModule" value = "modules/add" />
 	<a class = "btn btn-primary btn-lg pull-right" href = "${createModule}">Create new module</a>
 </div>
