@@ -14,98 +14,60 @@ import com.crsms.domain.Module;
 import com.crsms.service.ModuleService;
 
 @Controller
-@RequestMapping(value = "course/{courseId}")
+@RequestMapping(value = "courses/{courseId}/modules")
 public class ModuleController {
 	
 	@Autowired
 	ModuleService moduleService;
 	
-	@RequestMapping(value = {"/module"}, method = RequestMethod.GET)
+	@RequestMapping(value = {""}, method = RequestMethod.GET)
 	public String showModules(ModelMap model) {
 		List<Module> modules = moduleService.getAll();
 		model.addAttribute("modules", modules);
 		return "modules";
 	}
 	
-	@RequestMapping(value = {"/module/{moduleId}/edit"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.GET)
 	public String editModule(@PathVariable Long moduleId, ModelMap model) {
 		Module module = moduleService.getById(moduleId);
 		model.addAttribute("module", module);
 		return "createmodule";
 	}
 	
-	@RequestMapping(value = {"/module/{moduleId}/edit"}, method = RequestMethod.POST)
-	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, Module module, ModelMap model) {
+	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
+	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, 
+								Module module, ModelMap model) {
 		if (moduleService.getById(moduleId) != null) {
 			moduleService.update(module);
 		}
-		String redirect = "redirect:/course/" + courseId + "/module";
-		return redirect;
+		return redirect(courseId);
 	}
 	
-	@RequestMapping(value = {"/module/{moduleId}/delete"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/{moduleId}/delete"}, method = RequestMethod.GET)
 	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId, ModelMap model) {
 		moduleService.deleteById(moduleId);
-		String redirect = "redirect:/course/" + courseId + "/module";
-		return redirect;
+		return redirect(courseId);
 	}
 	
-	@RequestMapping(value = {"/module/new"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/add"}, method = RequestMethod.GET)
 	public String newModule(ModelMap model) {
 		Module module = new Module();
 		model.addAttribute("module", module);
 		return "createmodule";
 	}
 	
-	@RequestMapping(value = {"/module/new"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
 	public String saveModule(@PathVariable Long courseId, Module module, ModelMap model) {
 		moduleService.save(module);
-		String redirect = "redirect:/course/" + courseId + "/module";
-		return redirect;
+		return redirect(courseId);
+	}	
+	
+	/**
+	 * Returns redirection path
+	 * @param courseId
+	 * @return String 
+	 */
+	private String redirect(Long courseId) {
+		return "redirect:/courses/" + courseId + "/modules";
 	}
-	
-	/*@RequestMapping(value = {"/createmodule"}, method = RequestMethod.GET)
-	public String newModule(ModelMap model) {
-		Module module = new Module();
-		model.addAttribute("module", module);
-		return "createmodule";
-	}*/
-	
-	/*@RequestMapping(value = {"/createmodule"}, method = RequestMethod.POST)
-	public String saveModule(Module module, ModelMap model) {
-		service.save(module);
-		model.addAttribute("message", "Module " + module.getName() + " created successfully");
-		return "success";
-	}*/
-	
-	/*@RequestMapping(value = {"/modules"}, method = RequestMethod.GET)
-	public String showModules(ModelMap model) {
-		List<Module> modules = service.getAll();
-		model.addAttribute("modules", modules);
-		return "modules";
-	}*/
-	
-	/*@RequestMapping(value = {"/editmodule{id}"}, method = RequestMethod.GET)
-	public String editModule(@PathVariable String id, ModelMap model) {
-		Module module = service.getById(Long.parseLong(id));
-		model.addAttribute("module", module);
-		return "createmodule";
-	}*/
-	
-	/*@RequestMapping(value = {"/editmodule{id}"}, method = RequestMethod.POST)
-	public String updateModule(@PathVariable String id, Module module, ModelMap model) {
-		if (service.getById(Long.parseLong(id)) != null) {
-			service.update(module);
-		}
-		model.addAttribute("message", "Module " + module.getName() + " updated successfully");
-		return "success";
-	}*/
-	
-	/*@RequestMapping(value = {"/deletemodule{id}"}, method = RequestMethod.GET)
-	public String deleteModule(@PathVariable String id, ModelMap model) {
-		service.deleteById(Long.parseLong(id));
-		return "redirect:/modules";
-	}*/
-	
-	
 }
