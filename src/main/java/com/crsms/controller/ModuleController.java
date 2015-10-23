@@ -14,26 +14,27 @@ import com.crsms.domain.Module;
 import com.crsms.service.ModuleService;
 
 @Controller
+@RequestMapping(value = "course/{courseId}")
 public class ModuleController {
 	
 	@Autowired
 	ModuleService moduleService;
 	
-	@RequestMapping(value = {"course/{courseId}/module"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/module"}, method = RequestMethod.GET)
 	public String showModules(ModelMap model) {
 		List<Module> modules = moduleService.getAll();
 		model.addAttribute("modules", modules);
 		return "modules";
 	}
 	
-	@RequestMapping(value = {"course/{courseId}/module/{moduleId}/edit"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/module/{moduleId}/edit"}, method = RequestMethod.GET)
 	public String editModule(@PathVariable Long moduleId, ModelMap model) {
 		Module module = moduleService.getById(moduleId);
 		model.addAttribute("module", module);
 		return "createmodule";
 	}
 	
-	@RequestMapping(value = {"course/{courseId}/module/{moduleId}/edit"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/module/{moduleId}/edit"}, method = RequestMethod.POST)
 	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, Module module, ModelMap model) {
 		if (moduleService.getById(moduleId) != null) {
 			moduleService.update(module);
@@ -42,21 +43,21 @@ public class ModuleController {
 		return redirect;
 	}
 	
-	@RequestMapping(value = {"course/{courseId}/module/{moduleId}/delete"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/module/{moduleId}/delete"}, method = RequestMethod.GET)
 	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId, ModelMap model) {
 		moduleService.deleteById(moduleId);
 		String redirect = "redirect:/course/" + courseId + "/module";
 		return redirect;
 	}
 	
-	@RequestMapping(value = {"course/{courseId}/module/new"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/module/new"}, method = RequestMethod.GET)
 	public String newModule(ModelMap model) {
 		Module module = new Module();
 		model.addAttribute("module", module);
 		return "createmodule";
 	}
 	
-	@RequestMapping(value = {"course/{courseId}/module/new"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/module/new"}, method = RequestMethod.POST)
 	public String saveModule(@PathVariable Long courseId, Module module, ModelMap model) {
 		moduleService.save(module);
 		String redirect = "redirect:/course/" + courseId + "/module";

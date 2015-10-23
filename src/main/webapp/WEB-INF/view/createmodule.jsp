@@ -1,8 +1,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form"  prefix="form"%>
 
-<div class="container">
-	<h2>Create new module</h2>
-	
+<div class="container">	
 	<form:form modelAttribute = "module" method = "POST" class = "form-horizontal">
 		<form:input path = "id" type = "hidden"/>
 		
@@ -24,7 +22,17 @@
 		
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<input type = "submit" value = "Submit" class="btn btn-default"/>
+				<div class="checkbox">
+					<label for = "available">
+						<form:checkbox path="available" id = "available"/> Available
+					</label>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<input type = "submit" value = "Save" class="btn btn-default"/>
 			</div>
 		</div>		
 	</form:form>
