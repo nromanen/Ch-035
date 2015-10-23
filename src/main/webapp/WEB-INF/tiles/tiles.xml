@@ -51,6 +51,16 @@
 			
 		</put-list-attribute>
 	</definition>
+	
+	<definition name = "createmodule" extends = "base-template">
+		<put-attribute name="title" value="Create module" />
+		<put-attribute name="content" value="/WEB-INF/view/createmodule.jsp" />
+	</definition>
+	
+	<definition name = "modules" extends = "base-template">
+		<put-attribute name="title" value="Modules" />
+		<put-attribute name="content" value="/WEB-INF/view/modules.jsp" />
+	</definition>
 	<!-- END EXAMPLE -->
 
 </tiles-definitions>
