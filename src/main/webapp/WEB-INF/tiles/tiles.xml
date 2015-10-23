@@ -57,11 +57,6 @@
 		<put-attribute name="content" value="/WEB-INF/view/createmodule.jsp" />
 	</definition>
 	
-	<definition name = "success" extends = "base-template">
-		<put-attribute name="title" value="Success" />
-		<put-attribute name="content" value="/WEB-INF/view/success.jsp" />
-	</definition>
-	
 	<definition name = "modules" extends = "base-template">
 		<put-attribute name="title" value="Modules" />
 		<put-attribute name="content" value="/WEB-INF/view/modules.jsp" />
