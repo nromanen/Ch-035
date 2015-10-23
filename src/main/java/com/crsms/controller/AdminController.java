@@ -18,7 +18,7 @@ import com.crsms.domain.User;
 import com.crsms.service.UserService;
 
 @Controller
-@RequestMapping("/admin")
+
 public class AdminController {
 	private static Logger log = LogManager.getLogger(AdminController.class);
 
@@ -31,14 +31,14 @@ public class AdminController {
 		return "admin";
 	}
 
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
-    	public String admin(ModelMap mm) {
-		mm.put("title", "Course Management System");
-		mm.put("message", "This page is for ROLE_ADMIN only!");
-		mm.put("user", new User());
-		mm.put("userlist", service.getAllUsers());
-		return "admin";
-	}
+//	@RequestMapping(value = "/users", method = RequestMethod.GET)
+//    	public String admin(ModelMap mm) {
+//		mm.put("title", "Course Management System");
+//		mm.put("message", "This page is for ROLE_ADMIN only!");
+//		mm.put("user", new User());
+//		mm.put("userlist", service.getAllUsers());
+//		return "admin";
+//	}
 
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -77,6 +77,7 @@ public class AdminController {
 		} else {
 			userEmail = principal.toString();
 		}
+		System.out.println(userEmail);
 		return userEmail;
 	}
 

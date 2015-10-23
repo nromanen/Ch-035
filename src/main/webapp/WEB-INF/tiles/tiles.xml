@@ -61,6 +61,36 @@
 			<add-attribute value="/resources/css/tiles-demo.css" />
 		</put-list-attribute>
 	</definition>
+	<definition name="manager" extends="base-template" >
+		<put-attribute name="title" value="secured manager area" />
+		<put-attribute name="content" value="/WEB-INF/view/manager.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	<definition name="student" extends="base-template" >
+		<put-attribute name="title" value="secured student area" />
+		<put-attribute name="content" value="/WEB-INF/view/student.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	<definition name="teacher" extends="base-template" >
+		<put-attribute name="title" value="secured teacher area" />
+		<put-attribute name="content" value="/WEB-INF/view/teacher.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
 	<definition name="hello" extends="base-template" >
 		<put-attribute name="title" value="main page" />
 		<put-attribute name="content" value="/WEB-INF/view/hello.jsp" />

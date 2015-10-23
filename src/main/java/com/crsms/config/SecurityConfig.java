@@ -38,26 +38,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		auth.userDetailsService(userDetailsService);
 	}
-
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/login/").permitAll()
-				.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-				.antMatchers("/manager/**")
-				.access("hasRole('ROLE_MANAGER') and hasRole('ROLE_ADMIN')")
-				.antMatchers("/teacher/**")
-				.access("hasRole('ROLE_TEACHER') and hasRole('ROLE_ADMIN')")
-				.antMatchers("/student/**")
-				.access("hasRole('ROLE_STUDENT') and hasRole('ROLE_ADMIN')")
-				.and().formLogin().loginPage("/login")
-				.failureUrl("/login?error").usernameParameter("username")
-				.passwordParameter("password")
-//				.successHandler(customHandler)
-				 .defaultSuccessUrl("/", false)
-				.and().logout().logoutSuccessUrl("/login?logout").and().csrf()
-				.and().exceptionHandling().accessDeniedPage("/403");
-}
-	
+	  http
+		  .authorizeRequests()
+						  	.antMatchers("/", "/hello").permitAll()
+						  	.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+						  	.antMatchers("/student/**").access("hasRole('ROLE_STUDENT') and hasRole('ROLE_ADMIN')")
+						  	.antMatchers("/manager/**").access("hasRole('ROLE_MANAGER')")
+						  	.antMatchers("/teacher/**").access("hasRole('ROLE_TEACHER')")
+						  	.and()
+		.formLogin().loginPage("/login")
+						  	.usernameParameter("email")
+						  	.passwordParameter("password")
+						  	.successHandler(customHandler)
+						  	.and().csrf()
+						  	.and().exceptionHandling().accessDeniedPage("/403");
+	}
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
