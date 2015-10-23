@@ -1,4 +1,4 @@
-<footer>
+
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
   Show License
 </button>
@@ -7,4 +7,3 @@
     open source under MIT license
   </div>
 </div>
-</footer>

@@ -49,9 +49,9 @@
     <![endif]-->
 
     <!-- header -->
-    <div id="header">
-        <tiles:insertAttribute name="header"></tiles:insertAttribute>
-    </div>
+    <header id="header">
+    	<tiles:insertAttribute name="header"></tiles:insertAttribute>
+	</header>
     <!-- end header  -->
     
     <!-- menu -->
@@ -61,15 +61,15 @@
     <!-- end menu  -->
 
     <!-- content -->
-    <div id="content">
+    <main id="main-body">
         <tiles:insertAttribute name="content"></tiles:insertAttribute>
-    </div>
+    </main>
     <!-- end content -->
 
     <!-- footer -->
-    <div id="footer">
+    <footer id="footer">
         <tiles:insertAttribute name="footer"></tiles:insertAttribute>
-    </div>
+    </footer>
     <!-- end footer -->
 
 </body>
