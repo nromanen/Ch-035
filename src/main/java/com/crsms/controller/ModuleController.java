@@ -17,6 +17,9 @@ import com.crsms.service.ModuleService;
 @RequestMapping(value = "courses/{courseId}/modules")
 public class ModuleController {
 	
+	private final String MODULES_PAGE = "modules";
+	private final String CREATE_MODULE_PAGE = "createmodule";
+	
 	@Autowired
 	ModuleService moduleService;
 	
@@ -24,14 +27,14 @@ public class ModuleController {
 	public String showModules(ModelMap model) {
 		List<Module> modules = moduleService.getAll();
 		model.addAttribute("modules", modules);
-		return "modules";
+		return MODULES_PAGE;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.GET)
 	public String editModule(@PathVariable Long moduleId, ModelMap model) {
 		Module module = moduleService.getById(moduleId);
 		model.addAttribute("module", module);
-		return "createmodule";
+		return CREATE_MODULE_PAGE;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
@@ -53,7 +56,7 @@ public class ModuleController {
 	public String newModule(ModelMap model) {
 		Module module = new Module();
 		model.addAttribute("module", module);
-		return "createmodule";
+		return CREATE_MODULE_PAGE;
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
@@ -64,8 +67,8 @@ public class ModuleController {
 	
 	/**
 	 * Returns redirection path
-	 * @param courseId
-	 * @return String 
+	 * @param courseId course id to be put into path
+	 * @return String path, like: "redirect:/courses/_courseId_here_/modules"
 	 */
 	private String redirect(Long courseId) {
 		return "redirect:/courses/" + courseId + "/modules";
