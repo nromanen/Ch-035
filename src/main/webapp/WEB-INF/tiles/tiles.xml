@@ -5,6 +5,7 @@
 	<definition name="base-template" template="/WEB-INF/view/template/template.jsp" >
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
+		<put-attribute name="header-title" value="" />
 		<put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp" />
 		<put-attribute name="content" value="" />
 		<put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
@@ -31,7 +32,8 @@
 	<!-- 
 		 SS students, pay attention, that you must return from
 		 controller the name of definition not jsp page.
-		 That's why, to show you an example, I used name="tiles-demo-def"
+		 That's why, to show you an example, 
+		 I used <definition name="tiles-demo-def"
 		 for tiles-demo.jsp, so the name are different. But they could be
 		 the same, obviously.
 	-->
@@ -56,7 +58,9 @@
 			
 		</put-list-attribute>
 	</definition>
+	<!-- END EXAMPLE -->
 	
+	<!-- Module -->
 	<definition name = "createmodule" extends = "base-template">
 		<put-attribute name="title" value="Create module" />
 		<put-attribute name="content" value="/WEB-INF/view/createmodule.jsp" />
@@ -66,6 +70,15 @@
 		<put-attribute name="title" value="Modules" />
 		<put-attribute name="content" value="/WEB-INF/view/modules.jsp" />
 	</definition>
-	<!-- END EXAMPLE -->
+	<!-- end Module -->
+	
+	<!-- Resource -->
+	<definition name = "resources" extends = "base-template">
+		<put-attribute name="title" value="Resources" />
+		<put-attribute name="header-title" value="Resources Header Title" />
+		<put-attribute name="content" value="/WEB-INF/view/resource/resources.jsp" />
+	</definition>
+	
+	<!-- end Resource -->
 
 </tiles-definitions>
