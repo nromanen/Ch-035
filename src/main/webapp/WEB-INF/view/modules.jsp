@@ -7,21 +7,22 @@
 				<th>ID</th>
 				<th>Module name</th>
 				<th>Description</th>
-				<th>Delete</th>
+				<th colspan = "2">Management</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var = "module" items = "${modules}">
 				<tr>
 					<th>${module.id}</th>
-					<td>
-						<c:url var = "editModule" value = "modules/${module.id}/edit" />
-						<a href = "${editModule}">${module.name}</a>
-					</td>
+					<td>${module.name}</td>
 					<td>${module.description}</td>
-					<td>
+					<td class = "managementCell">
+						<c:url var = "editModule" value = "modules/${module.id}/edit" />
+						<a href = "${editModule}"><span class = "glyphicon glyphicon-pencil"></span> edit</a>
+					</td>
+					<td class = "managementCell">
 						<c:url var = "deleteModule" value = "modules/${module.id}/delete" />
-						<a href = "${deleteModule}">delete</a>
+						<a href = "${deleteModule}"><span class = "glyphicon glyphicon-remove"></span> delete</a>
 					</td>
 				</tr>
 			</c:forEach>
