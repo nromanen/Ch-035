@@ -1,5 +1,6 @@
 package com.crsms.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,27 +30,29 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public Set<Course> getAllCourse() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Course> getAllCourse() {
+		return courseDao.getAllCourse();
 	}
 
 	@Override
 	public Course getCourseById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return courseDao.getCourseById(id);
 	}
 
 	@Override
 	public void updateCourse(Course course) {
-		// TODO Auto-generated method stub
+		courseDao.updateCourse(course);
 
 	}
 
 	@Override
 	public Course getCourse(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return courseDao.getCourse(name);
+	}
+
+	@Override
+	public void deleteCourse(Course course) {
+		courseDao.deleteCourse(course);
 	}
 
 }
