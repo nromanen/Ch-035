@@ -63,7 +63,11 @@
             <tr>
                 <td align="center">${direction.id}</td>
                 <td>${direction.name}</td>
-                <td align="center"><a href="<c:url value='/direction/edit/${direction.id}' />">Edit</a></td>
+                <td>
+                	<form action="/direction/edit">
+                		<input type="text" name="name" /><input type="submit"/>
+                	</form>
+                </td>
                 <td align="center"><a href="<c:url value='/direction/remove/${direction.id}' />">Delete</a></td>
             </tr>
         </c:forEach>

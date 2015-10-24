@@ -35,13 +35,13 @@ public class DirectionConrtoller {
         return "redirect:/directions";
     }
 
-    @RequestMapping(value = "/direction/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/direction/edit", method = RequestMethod.POST)
     public String updateDirection(@ModelAttribute("direction") Direction direction) {
         directionService.updateDirection(direction);
         return "redirect:/directions";
     }
 
-    @RequestMapping(value = "/direction", method = RequestMethod.GET)
+    @RequestMapping(value = "/direction/{id}", method = RequestMethod.GET)
     public String getDirectionById(@PathVariable("id") Long id, Model model) {
         model.addAttribute("direction", new Direction());
         model.addAttribute("getDirectionById", directionService.getDirectionById(id));
