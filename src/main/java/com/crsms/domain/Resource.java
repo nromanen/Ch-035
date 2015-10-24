@@ -29,6 +29,13 @@ public class Resource {
 	@Column(nullable = false)
 	private String url;
 	
+	@Column(nullable = false)
+	private Resource.Type type;
+	
+	private enum Type {
+		FILE, EMBEDDED
+	}
+	
 	public Resource() {
 		super();
 	}
@@ -52,6 +59,14 @@ public class Resource {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public Resource.Type getType() {
+		return type;
+	}
+
+	public void setType(Resource.Type type) {
+		this.type = type;
 	}	
 	
 }
