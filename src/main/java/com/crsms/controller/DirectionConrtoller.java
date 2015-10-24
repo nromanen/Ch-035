@@ -1,5 +1,6 @@
 package com.crsms.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +18,7 @@ import com.crsms.service.DirectionService;
 @Controller
 public class DirectionConrtoller {
 	
+	@Autowired
 	private DirectionService directionService;
 	
 	@RequestMapping(value = {"/directions"}, method = RequestMethod.GET)
@@ -33,7 +35,7 @@ public class DirectionConrtoller {
         return "redirect:/directions";
     }
 
-    @RequestMapping(value = "/direction/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/direction/edit/{id}", method = RequestMethod.GET)
     public String updateDirection(@ModelAttribute("direction") Direction direction) {
         directionService.updateDirection(direction);
         return "redirect:/directions";

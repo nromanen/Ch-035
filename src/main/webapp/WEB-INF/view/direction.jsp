@@ -2,11 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page session="false" %>
-<html>
-<head>
-    <title>Directions</title>
-</head>
-<body>
+
 <div align="center">
 <h2>
     Add Direction
@@ -16,7 +12,7 @@
 
 <form:form action="${addAction}" commandName="direction">
     <table>
-        <c:if direction="${!empty direction.name}">
+        <c:if test="${!empty direction.name}">
             <tr>
                 <td>
                     <form:label path="id">
@@ -39,11 +35,11 @@
                 <form:input path="name"/>
             </td>
             <td colspan="2">
-                <c:if direction="${!empty direction.name}">
+                <c:if test="${!empty direction.name}">
                     <input type="submit"
                            value="<spring:message text="Edit Direction"/>"/>
                 </c:if>
-                <c:if direction="${empty direction.name}">
+                <c:if test="${empty direction.name}">
                     <input type="submit"
                            value="<spring:message text="Add Direction"/>"/>
                 </c:if>
@@ -55,7 +51,7 @@
 <br>
 <div align="center">
 <h3>Directions List</h3>
-<c:if direction="${!empty getAllDirections}">
+<c:if test="${!empty getAllDirections}">
     <table class="tg">
         <tr>
             <th width="80">Direction ID</th>
@@ -74,5 +70,4 @@
     </table>
 </c:if>
 </div>
-</body>
-</html>
+>
