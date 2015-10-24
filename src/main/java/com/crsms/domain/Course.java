@@ -21,6 +21,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -48,7 +49,9 @@ public class Course {
 	@Column(nullable = false, length = 1024)
 	private String description;
 	
+	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private DateTime startDate;
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")

@@ -25,7 +25,7 @@ public class CourseDaoImpl implements CourseDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static Logger log = LogManager.getLogger(TestDaoImpl.class);
+	private static Logger logger = LogManager.getLogger(TestDaoImpl.class);
 	
 	@Override
 	public void saveCourse(Course course) {
@@ -34,13 +34,13 @@ public class CourseDaoImpl implements CourseDao {
 			if(course.getId() == null) {
 				//sessionFactory.getCurrentSession().persist(course);
 				sessionFactory.getCurrentSession().save(course);
-				log.info("DAO:create course:" + course.getName());
+				logger.info("DAO:create course:" + course.getName());
 			} else {
 				sessionFactory.getCurrentSession().update(course);
-				log.info("DAO:create update:" + course.getName());
+				logger.info("DAO:create update:" + course.getName());
 			}
 		} catch (HibernateException e) {
-			log.error("Error saveCourse: " + e);
+			logger.error("Error saveCourse: " + e);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class CourseDaoImpl implements CourseDao {
 			return (List<Course>)sessionFactory.getCurrentSession().createQuery("FROM Course").list();
 
 		} catch (HibernateException e) {
-			log.error("Error getAllCourse: " + e);
+			logger.error("Error getAllCourse: " + e);
 		}
 		
 		return null;
@@ -62,7 +62,7 @@ public class CourseDaoImpl implements CourseDao {
 			return (Course)sessionFactory.getCurrentSession().
 					get(Course.class, id);
 		} catch (HibernateException e) {
-			log.error("Error getCourseById: " + e);
+			logger.error("Error getCourseById: " + e);
 		}
 		return null;
 	}
@@ -71,9 +71,9 @@ public class CourseDaoImpl implements CourseDao {
 	public void updateCourse(Course course) {
 		try {
 			sessionFactory.getCurrentSession().update(course);
-			log.info("DAO:create update:" + course.getName());
+			logger.info("DAO:create update:" + course.getName());
 		} catch (Exception e) {
-			log.error("Error updateCourse: " + e);
+			logger.error("Error updateCourse: " + e);
 		}
 
 	}
@@ -85,7 +85,7 @@ public class CourseDaoImpl implements CourseDao {
 				.createQuery("FROM Course c WHERE c.name=:name")
 				.setString("name", name).uniqueResult();
 		} catch (Exception e) {
-			log.error("Error getCourse: " + e);
+			logger.error("Error getCourse: " + e);
 		}
 		return null;
 	}
@@ -95,7 +95,7 @@ public class CourseDaoImpl implements CourseDao {
 		try {
 			sessionFactory.getCurrentSession().delete(course);
 		} catch (HibernateException e) {
-			log.error("Error delete: " + e);
+			logger.error("Error delete: " + e);
 		}
 		
 	}

@@ -41,6 +41,21 @@
 		</put-list-attribute>
 	</definition>
 	
+	<definition name="courseManagmentList" extends="base-template" >
+		<put-attribute name="title" value="courses" />
+		<put-attribute name="content" value="/WEB-INF/view/courses/courseManagmentList.jsp" />
+	</definition>
+	
+	<definition name="editCourse" extends="base-template" >
+		<put-attribute name="title" value="edit course" />
+		<put-attribute name="content" value="/WEB-INF/view/courses/editCourse.jsp" />
+	</definition>
+	
+	<definition name="newCourse" extends="base-template" >
+		<put-attribute name="title" value="edit course" />
+		<put-attribute name="content" value="/WEB-INF/view/courses/newCourse.jsp" />
+	</definition>
+	
 	<definition name="index" extends="base-template" >
 		<put-attribute name="title" value="Hello Title" />
 		<put-attribute name="content" value="/index.jsp" />
