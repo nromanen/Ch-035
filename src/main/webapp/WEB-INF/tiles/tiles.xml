@@ -92,7 +92,7 @@
     <!-- Test -->
     <definition name="test" extends="base-template">
         <put-attribute name="title" value="Tests page"/>
-        <put-attribute name="header-title" value="Tests Header Title"/>
+        <put-attribute name="header-title" value="Tests page"/>
         <put-attribute name="content" value="/WEB-INF/view/test/test.jsp"/>
     </definition>
     <!-- end Test -->
