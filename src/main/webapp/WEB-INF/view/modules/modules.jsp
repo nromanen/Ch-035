@@ -18,13 +18,13 @@
 					<td>${module.name}</td>
 					<td>${module.description}</td>
 					<td class = "managementCell">
-						<c:url var = "editModule" value = "modules/${module.id}/edit" />
+						<c:url var = "editModule" value = "${module.id}/edit" />
 						<a href = "${editModule}">
 							<span class = "glyphicon glyphicon-pencil"></span> <spring:message code="crsms.modules.edit"/>
 						</a>
 					</td>
 					<td class = "managementCell">
-						<c:url var = "deleteModule" value = "modules/${module.id}/delete" />
+						<c:url var = "deleteModule" value = "${module.id}/delete" />
 						<a href = "${deleteModule}">
 							<span class = "glyphicon glyphicon-remove"></span> <spring:message code="crsms.modules.delete"/>
 						</a>
@@ -34,6 +34,6 @@
 		</tbody>
 	</table>
 	
-	<c:url var = "createModule" value = "modules/add" />
+	<c:url var = "createModule" value = "add" />
 	<a class = "btn btn-primary btn-lg pull-right" href = "${createModule}"><spring:message code="crsms.modules.createNew"/></a>
 </div>
