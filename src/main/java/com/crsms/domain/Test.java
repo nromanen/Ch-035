@@ -1,54 +1,40 @@
 package com.crsms.domain;
 
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import javax.persistence.*;
+import java.util.Set;
+
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets, Valerii Motresku
  */
 
 @Entity
-@Table(name="test")
+@Table(name = "test")
 public class Test {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "test_id_seq", allocationSize = 1)
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String name;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "module_id")
 	private Module module;
-	
+
 	@Column(nullable = false)
 	private Boolean available = false;
-	
-	@OneToMany(mappedBy="test", fetch = FetchType.LAZY)
-	//TODO orphan removal = true ???
+
+	@OneToMany(mappedBy = "test")
 	@Cascade({CascadeType.ALL})
 	private Set<Question> questions;
-	
-	public Test() { }
-	
+
+	public Test() {
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -88,5 +74,11 @@ public class Test {
 	public void setModule(Module module) {
 		this.module = module;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ID: " + id + "Title: " + name + "Module: " + module + "Available: " + getAvailable()
+				+ "Questions: " + getQuestions();
+	}
+
 }

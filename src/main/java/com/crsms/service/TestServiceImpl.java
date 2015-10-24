@@ -1,53 +1,103 @@
 package com.crsms.service;
 
-import java.util.Set;
-
+import com.crsms.dao.TestDao;
+import com.crsms.domain.Test;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.crsms.dao.TestDao;
-import com.crsms.domain.Test;
+import java.util.List;
+
 
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets
  */
 
 @Service("testService")
-@Transactional
 public class TestServiceImpl implements TestService {
-	
+	private static Logger logger = LogManager.getLogger(TestServiceImpl.class);
 	@Autowired
-    private TestDao testDao;
-	
-	@Override
-	public void saveTest(Test test) {
-		testDao.saveTest(test);
-	}
-	
-	@Override
-	public Set<Test> getAllTest() {
-		// TODO Auto-generated method stub
-		return null;
+	private TestDao testDao;
+
+	public TestServiceImpl() {
 	}
 
 	@Override
+	@Transactional
+	public void createTest(Test test) {
+		try {
+			logger.info("TestService. Creating a new test.");
+			testDao.saveTest(test);
+			logger.info("TestService. Creating a new test successfully.");
+		} catch (Exception e) {
+			logger.error("TestService. Test creating error: " + e);
+		}
+	}
+
+	@Override
+	@Transactional
 	public Test getTestById(Long id) {
-		return testDao.getTestById(id);
+		Test test = null;
+		try {
+			logger.info("TestService. Reading test by ID: " + id + ".");
+			test = testDao.getTestById(id);
+			logger.info("TestService. Reading test by ID: " + id + " successfully.");
+		} catch (Exception e) {
+			logger.error("TestService. Test reading by ID " + id + " error: " + e);
+		}
+		return test;
 	}
 
 	@Override
-	public void updateTest(Test test) {
-		// TODO Auto-generated method stub
-		
+	@Transactional
+	public List<Test> getAllTests() {
+		List<Test> testList = null;
+		try {
+			logger.info("TestService. Reading all tests.");
+			testList = testDao.getAllTests();
+			logger.info("TestService. Reading all tests successfully.");
+		} catch (Exception e) {
+			logger.error("TestService. All tests reading error: " + e);
+		}
+		return testList;
 	}
 
 	@Override
-	public Test getTest(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public void editTest(Test test) {
+		try {
+			logger.info("TestService. Editing test.");
+			testDao.updateTest(test);
+			logger.info("TestService. Editing test successfully.");
+		} catch (Exception e) {
+			logger.error("TestService. Test editing error: " + e);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void deleteTest(Test test) {
+		try {
+			logger.info("TestService. Deleting test.");
+			testDao.deleteTest(test);
+			logger.info("TestService. Deleting test successfully.");
+		} catch (Exception e) {
+			logger.error("TestService. Test deleting error: " + e);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void deleteTestById(Long id) {
+		try {
+			logger.info("TestService. Deleting test by ID: " + id + ".");
+			testDao.deleteTestById(id);
+			logger.info("TestService. Deleting test by ID: " + id + " successfully.");
+		} catch (Exception e) {
+			logger.error("TestService. Test by ID " + id + " deleting error: " + e);
+		}
 	}
 
 }
