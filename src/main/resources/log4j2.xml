@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
     <Appenders>
+        
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
-        <!-- immediateFlush="true" in File for debugging purpose -->
-        <File name="MyFile" fileName="/logs/temp.log" immediateFlush="true" append="true">
-            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </File>
+
+        <RollingFile name="RollingFile" fileName="logs/crsms.log"
+	                 filePattern="logs/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log.gz">
+	      	<PatternLayout>
+	        	<Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+	      	</PatternLayout>
+	      	<Policies>
+	        	<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+	      	</Policies>
+	      	<DefaultRolloverStrategy max="30"/>
+	    </RollingFile>
+	    
     </Appenders>
+    
     <Loggers>
-        <Root level="warn">
-            <AppenderRef ref="MyFile" level="warn"/>
-            <AppenderRef ref="Console"/>
+    	<Logger name="com.crms.service" level="warn" additivity="true">
+			<AppenderRef ref="RollingFile" level="warn" />
+		</Logger>
+		<Logger name="com.crms.dao" level="warn" additivity="true">
+			<AppenderRef ref="RollingFile" level="warn" />
+		</Logger>
+        <Root level="info">
+            <AppenderRef ref="RollingFile" level="warn"/>
+            <AppenderRef ref="Console" level = "debug"/>
         </Root>
     </Loggers>
+    
 </Configuration>
