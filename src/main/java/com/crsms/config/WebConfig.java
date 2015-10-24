@@ -59,11 +59,4 @@ class WebConfig extends WebMvcConfigurationSupport {
 		resolver.setCookieMaxAge(4800);
 		return resolver;
 	}
-    
-    @Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-		interceptor.setParamName("lang");
-		registry.addInterceptor(interceptor);
-	}
 }
