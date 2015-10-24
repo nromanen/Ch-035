@@ -9,21 +9,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.service.ModuleService;
 
 @Controller
-@RequestMapping(value = "courses/{courseId}/modules")
+@RequestMapping(value = {"/courses/{courseId}/modules"})
 public class ModuleController {
 	
 	private final String MODULES_PAGE = "modules";
 	private final String CREATE_MODULE_PAGE = "createmodule";
 	
 	@Autowired
-	ModuleService moduleService;
+	private ModuleService moduleService;
 	
-	@RequestMapping(value = {""}, method = RequestMethod.GET)
+	//TODO РОЗІБРАТИСЬ ЧОМУ У ВАЛЄРИ АВТОМАТИЧНО ДОДАЄ СЛЕШ '/' В КІНЦІ УРЛА 'crsms/courses/1/modules' А В МЕНЕ НІ
+	// crsms/courses/1/modules - видасть 404
+	// crsms/courses/1/modules/ - працюватиме
+	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
 	public String showModules(ModelMap model) {
 		List<Module> modules = moduleService.getAll();
 		model.addAttribute("modules", modules);
@@ -71,6 +73,6 @@ public class ModuleController {
 	 * @return String path, like: "redirect:/courses/_courseId_here_/modules"
 	 */
 	private String redirect(Long courseId) {
-		return "redirect:/courses/" + courseId + "/modules";
+		return "redirect:/courses/" + courseId + "/modules/";
 	}
 }
