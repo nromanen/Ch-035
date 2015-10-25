@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = false)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.formLogin().loginPage("/login")
 						  	.usernameParameter("email")
 						  	.passwordParameter("password")
-						  	.successHandler(customHandler)
+						  	.successHandler(customHandler)	// redirects user to his home page accordingly to his role
+//						  	.defaultSuccessUrl("/", false)	// HINT! redirects user after registration to page, from he came to register
 						  	.and().csrf()
 						  	.and().exceptionHandling().accessDeniedPage("/403");
 	}

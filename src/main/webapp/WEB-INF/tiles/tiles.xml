@@ -58,7 +58,28 @@
 	</definition>
 	<definition name="admin" extends="base-template" >
 		<put-attribute name="title" value="secured admin area" />
-		<put-attribute name="content" value="/WEB-INF/view/admin.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/users/admin.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="edituser" extends="base-template" >
+		<put-attribute name="title" value="edit user" />
+		<put-attribute name="content" value="/WEB-INF/view/users/edituser.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	<definition name="adduser" extends="base-template" >
+		<put-attribute name="title" value="new user" />
+		<put-attribute name="content" value="/WEB-INF/view/users/adduser.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/resources/js/tiles-demo.js" />
 		</put-list-attribute>
@@ -68,7 +89,7 @@
 	</definition>
 	<definition name="manager" extends="base-template" >
 		<put-attribute name="title" value="secured manager area" />
-		<put-attribute name="content" value="/WEB-INF/view/manager.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/users/manager.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/resources/js/tiles-demo.js" />
 		</put-list-attribute>
@@ -78,7 +99,7 @@
 	</definition>
 	<definition name="student" extends="base-template" >
 		<put-attribute name="title" value="secured student area" />
-		<put-attribute name="content" value="/WEB-INF/view/student.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/users/student.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/resources/js/tiles-demo.js" />
 		</put-list-attribute>
@@ -88,7 +109,7 @@
 	</definition>
 	<definition name="teacher" extends="base-template" >
 		<put-attribute name="title" value="secured teacher area" />
-		<put-attribute name="content" value="/WEB-INF/view/teacher.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/users/teacher.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/resources/js/tiles-demo.js" />
 		</put-list-attribute>
@@ -106,6 +127,7 @@
 			<add-attribute value="/resources/css/tiles-demo.css" />
 		</put-list-attribute>
 	</definition>
+	
 	<definition name="login" extends="base-template" >
 		<put-attribute name="title" value="user login page" />
 		<put-attribute name="content" value="/WEB-INF/view/login.jsp" />
