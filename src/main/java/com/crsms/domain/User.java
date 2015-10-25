@@ -56,7 +56,6 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-//	@JoinColumn(name = "userInfo_id")
 	private UserInfo userInfo;
 
 	@OneToOne

@@ -15,9 +15,10 @@ public interface UserService {
 	User getUserById(Long id);
 
 	User getUserByEmail(String email);
-
+	
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	void delete(Long id);
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	
 	List<User> getAllUsers();
 }
