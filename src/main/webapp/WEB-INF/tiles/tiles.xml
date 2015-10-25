@@ -78,12 +78,15 @@
 	<!-- Module -->
 	<definition name = "createmodule" extends = "base-template">
 		<put-attribute name="title" value="Create module" />
-		<put-attribute name="content" value="/WEB-INF/view/createmodule.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/modules/createmodule.jsp" />
 	</definition>
 	
 	<definition name = "modules" extends = "base-template">
 		<put-attribute name="title" value="Modules" />
-		<put-attribute name="content" value="/WEB-INF/view/modules.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/modules/modules.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/modules/modules.css" />
+		</put-list-attribute>
 	</definition>
 	<!-- end Module -->
 	
