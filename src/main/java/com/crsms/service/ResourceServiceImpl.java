@@ -28,39 +28,44 @@ public class ResourceServiceImpl implements ResourceService {
 	
 	@Override
 	public void save(Resource resource) {
-		
-		
-
+		logger.info("in resourceService save(Resource)");
+		resourceDao.save(resource);
+		logger.info("out resourceService save(Resource)");
 	}
-
+	
 	@Override
 	public void update(Resource resource) {
-		// TODO Auto-generated method stub
-
+		logger.info("in resourceService update(Resource)");
+		resourceDao.update(resource);
+		logger.info("out resourceService update(Resource)");
 	}
 
 	@Override
 	public void delete(Resource resource) {
-		// TODO Auto-generated method stub
-
+		logger.info("in resourceService delete(Resource)");
+		resourceDao.delete(resource);
+		logger.info("out resourceService delete(Resource)");
 	}
 
 	@Override
 	public Resource getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("in resourceService getById(resource id)");
+		logger.info("trying to get resource");
+		return resourceDao.getById(id);
 	}
 
 	@Override
 	public List<Resource> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("in resourceService getAll(Resource)");
+		logger.info("trying to get resources");
+		return resourceDao.getAll();
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-
+		logger.info("in resourceService deleteById(resource id)");
+		resourceDao.deleteById(id);
+		logger.info("out resourceService deleteById(resource id)");
 	}
 
 }

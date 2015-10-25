@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -19,8 +18,7 @@ import javax.persistence.Table;
 public class Resource {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "resource_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(nullable = false)
@@ -32,7 +30,8 @@ public class Resource {
 	@Column(nullable = false)
 	private Resource.Type type;
 	
-	private enum Type {
+	// implicitly static
+	public enum Type {
 		FILE, EMBEDDED
 	}
 	
