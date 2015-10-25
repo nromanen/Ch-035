@@ -5,7 +5,6 @@ import com.crsms.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 
 @Controller
-@RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests")
+@RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests/")
 public class TestController {
-    private final String TEST_RETURN = "test";
 
     @Autowired(required = true)
     private TestService testService;
@@ -31,10 +29,10 @@ public class TestController {
     }
 
     @RequestMapping(value = {"/add"}, method = RequestMethod.GET)
-    public String newTest(ModelMap model) {
+    public String newTest(Model model) {
         Test test = new Test();
         model.addAttribute("test", test);
-        return TEST_RETURN;
+        return "createtest";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
@@ -47,18 +45,18 @@ public class TestController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String editTest(@PathVariable("id") Long id, ModelMap model) {
+    public String editTest(@PathVariable("id") Long id, Model model) {
         Test tempTest = testService.getTestById(id);
         model.addAttribute("test", tempTest);
         return "createtest";
     }
 
     //TODO Need to resolve problem with forwarding.
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String getAllTests(Model model) {
         model.addAttribute("test", new Test());
         model.addAttribute("tests", testService.getAllTests());
-        return TEST_RETURN;
+        return "tests";
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
@@ -73,7 +71,7 @@ public class TestController {
     public String getTestById(@PathVariable("id") Long id, Model model) {
         model.addAttribute("test", new Test());
         model.addAttribute("getTestById", testService.getTestById(id));
-        return TEST_RETURN;
+        return "tests";
     }
 
     // Method from previous TestController realisation. Don't using yet in JSP pages.
@@ -88,7 +86,7 @@ public class TestController {
      * Method returns redirection path.
      */
     private String redirect(Long courseId, Long moduleId) {
-        return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests";
+        return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/";
     }
 
 }

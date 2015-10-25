@@ -1,109 +1,108 @@
-<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
-        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
 
-    <definition name="base-template" template="/WEB-INF/view/template/template.jsp">
-        <put-attribute name="title" value=""/>
-        <put-attribute name="header" value="/WEB-INF/view/template/header.jsp"/>
-        <put-attribute name="header-title" value=""/>
-        <put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp"/>
-        <put-attribute name="content" value=""/>
-        <put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp"/>
-        <put-list-attribute name="stylesheets">
-            <add-attribute value="/webjars/bootstrap/3.3.5/css/bootstrap.min.css"/>
-            <!-- Font -->
-            <!-- & is a special/functional char in HTML/XML so write &amp; instead of & -->
-            <add-attribute
-                    value="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,400italic,700italic,800italic,600italic&amp;subset=latin,cyrillic-ext"/>
-            <add-attribute value="/resources/css/template.css"/>
-        </put-list-attribute>
-        <put-list-attribute name="javascripts">
-            <add-attribute value="/webjars/jquery/2.1.4/jquery.min.js"/>
-            <add-attribute value="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"/>
-        </put-list-attribute>
-    </definition>
-
-    <definition name="direction" extends="base-template">
-        <put-attribute name="title" value="Directions"/>
-        <put-attribute name="content" value="/WEB-INF/view/direction.jsp"/>
-    </definition>
-
-    <!-- derived -->
-    <!-- EXMAPLE -->
-    <!--
-         SS students, pay attention, that you must return from
-         controller the name of definition not jsp page.
-         That's why, to show you an example,
-         I used <definition name="tiles-demo-def"
-         for tiles-demo.jsp, so the name are different. But they could be
-         the same, obviously.
-    -->
-    <definition name="tiles-demo-def" extends="base-template">
-        <put-attribute name="title" value="Title Demo"/>
-        <put-attribute name="content" value="/WEB-INF/view/tiles-demo.jsp"/>
-        <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/resources/js/tiles-demo.js"/>
-        </put-list-attribute>
-        <put-list-attribute name="stylesheets" inherit="true">
-            <add-attribute value="/resources/css/tiles-demo.css"/>
-        </put-list-attribute>
-    </definition>
-
-    <definition name="courseManagmentList" extends="base-template">
-        <put-attribute name="title" value="courses"/>
-        <put-attribute name="content" value="/WEB-INF/view/courses/courseManagmentList.jsp"/>
-    </definition>
-
-    <definition name="editCourse" extends="base-template">
-        <put-attribute name="title" value="edit course"/>
-        <put-attribute name="content" value="/WEB-INF/view/courses/editCourse.jsp"/>
-    </definition>
-
-    <definition name="newCourse" extends="base-template">
-        <put-attribute name="title" value="edit course"/>
-        <put-attribute name="content" value="/WEB-INF/view/courses/newCourse.jsp"/>
-    </definition>
-
-    <definition name="index" extends="base-template">
-        <put-attribute name="title" value="Hello Title"/>
-        <put-attribute name="content" value="/index.jsp"/>
-        <put-list-attribute name="javascripts" inherit="true">
-
-        </put-list-attribute>
-        <put-list-attribute name="stylesheets" inherit="true">
-
-        </put-list-attribute>
-    </definition>
-    <!-- END EXAMPLE -->
-
-    <!-- Module -->
-    <definition name="createmodule" extends="base-template">
-        <put-attribute name="title" value="Create module"/>
-        <put-attribute name="content" value="/WEB-INF/view/createmodule.jsp"/>
-    </definition>
-
-    <definition name="modules" extends="base-template">
-        <put-attribute name="title" value="Modules"/>
-        <put-attribute name="content" value="/WEB-INF/view/modules.jsp"/>
-    </definition>
-    <!-- end Module -->
-
-    <!-- Test -->
-    <definition name="test" extends="base-template">
-        <put-attribute name="title" value="Tests page"/>
-        <put-attribute name="header-title" value="Tests page"/>
-        <put-attribute name="content" value="/WEB-INF/view/test/tests.jsp"/>
-    </definition>
-    <!-- end Test -->
-
-    <!-- Resource -->
-    <definition name="resources" extends="base-template">
-        <put-attribute name="title" value="Resources"/>
-        <put-attribute name="header-title" value="Resources Header Title"/>
-        <put-attribute name="content" value="/WEB-INF/view/resource/resources.jsp"/>
-    </definition>
-
-    <!-- end Resource -->
+	<definition name="base-template" template="/WEB-INF/view/template/template.jsp" >
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
+		<put-attribute name="header-title" value="" />
+		<put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
+		<put-list-attribute name="stylesheets">
+			<add-attribute value="/webjars/bootstrap/3.3.5/css/bootstrap.min.css" />
+			<!-- Font -->
+			<!-- & is a special/functional char in HTML/XML so write &amp; instead of & -->
+			<add-attribute value="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,400italic,700italic,800italic,600italic&amp;subset=latin,cyrillic-ext"  />
+			<add-attribute value="/resources/css/template.css" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/webjars/jquery/2.1.4/jquery.min.js" />
+			<add-attribute value="/webjars/bootstrap/3.3.5/js/bootstrap.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name = "direction" extends = "base-template">
+ 	    <put-attribute name="title" value="Directions" />
+	    <put-attribute name="content" value="/WEB-INF/view/direction.jsp" />
+	</definition>
+	
+	<!-- derived -->
+	<!-- EXMAPLE -->
+	<!-- 
+		 SS students, pay attention, that you must return from
+		 controller the name of definition not jsp page.
+		 That's why, to show you an example, 
+		 I used <definition name="tiles-demo-def"
+		 for tiles-demo.jsp, so the name are different. But they could be
+		 the same, obviously.
+	-->
+	<definition name="tiles-demo-def" extends="base-template" >
+		<put-attribute name="title" value="Title Demo" />
+		<put-attribute name="content" value="/WEB-INF/view/tiles-demo.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/tiles-demo.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/tiles-demo.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="courseManagmentList" extends="base-template" >
+		<put-attribute name="title" value="courses" />
+		<put-attribute name="content" value="/WEB-INF/view/courses/courseManagmentList.jsp" />
+	</definition>
+	
+	<definition name="editCourse" extends="base-template" >
+		<put-attribute name="title" value="edit course" />
+		<put-attribute name="content" value="/WEB-INF/view/courses/editCourse.jsp" />
+	</definition>
+	
+	<definition name="newCourse" extends="base-template" >
+		<put-attribute name="title" value="edit course" />
+		<put-attribute name="content" value="/WEB-INF/view/courses/newCourse.jsp" />
+	</definition>
+	
+	<definition name="index" extends="base-template" >
+		<put-attribute name="title" value="Hello Title" />
+		<put-attribute name="content" value="/index.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			
+		</put-list-attribute>
+	</definition>
+	<!-- END EXAMPLE -->
+	
+	<!-- Module -->
+	<definition name = "createmodule" extends = "base-template">
+		<put-attribute name="title" value="Create module" />
+		<put-attribute name="content" value="/WEB-INF/view/modules/createmodule.jsp" />
+	</definition>
+	
+	<definition name = "modules" extends = "base-template">
+		<put-attribute name="title" value="Modules" />
+		<put-attribute name="content" value="/WEB-INF/view/modules/modules.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/modules/modules.css" />
+		</put-list-attribute>
+	</definition>
+	<!-- end Module -->
+	
+	<!-- Test -->
+	<definition name = "createtest" extends = "base-template">
+		<put-attribute name="title" value="Create test" />
+		<put-attribute name="content" value="/WEB-INF/view/test/createtest.jsp" />
+	</definition>
+	
+	<definition name = "tests" extends = "base-template">
+		<put-attribute name="title" value="Tests" />
+		<put-attribute name="content" value="/WEB-INF/view/test/tests.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/test/test.css" />
+		</put-list-attribute>
+	</definition>
+	<!-- end Test -->
 
 </tiles-definitions>
