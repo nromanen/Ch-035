@@ -12,7 +12,7 @@ import com.crsms.domain.Module;
 
 public interface ModuleDao {
 	
-	void save(Module module);
+	void add(Module module);
 	
 	void update(Module module);
 	
