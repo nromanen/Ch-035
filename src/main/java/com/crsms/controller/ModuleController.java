@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.crsms.domain.Module;
 import com.crsms.service.ModuleService;
 
+/**
+ * 
+ * @author St. Roman
+ *
+ */
+
 @Controller
 @RequestMapping(value = {"/courses/{courseId}/modules"})
 public class ModuleController {
