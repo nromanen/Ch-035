@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.crsms.domain.Course;
@@ -34,7 +35,7 @@ public class CourseManagementController {
 	
 	
 	//TODO: only for teacher
-	@RequestMapping(value = { "courses/{courseId}/delete" }, method = RequestMethod.GET)
+	@RequestMapping(value = "courses/{courseId}/delete", method = RequestMethod.GET)
 	public String deleteCourse(@PathVariable("courseId") Long courseId) {
 		Course course = courseService.getCourseById(courseId);
 		//TODO: check permissions
@@ -44,7 +45,7 @@ public class CourseManagementController {
 
 	}
 	
-	@RequestMapping(value = { "courses/{courseId}/edit" }, method = RequestMethod.GET)
+	@RequestMapping(value = "courses/{courseId}/edit", method = RequestMethod.GET)
 	public ModelAndView editCourse(@PathVariable("courseId") Long courseId) {
 		ModelAndView model = new ModelAndView();
 	
@@ -56,8 +57,17 @@ public class CourseManagementController {
 		return model;
 	}
 	
-	@RequestMapping(value = { "courses/add" }, method = RequestMethod.GET)
-	public ModelAndView editCourse() {
+	@RequestMapping(value = "courses/{courseId}/edit", method = RequestMethod.POST)
+	public String editCourseSubmit(
+			@PathVariable("courseId") Long courseId, Course course) {
+		
+		courseService.updateCourse(course);
+		
+		return "redirect:/courses";
+	}
+	
+	@RequestMapping(value = "courses/add", method = RequestMethod.GET)
+	public ModelAndView newCourse() {
 		ModelAndView model = new ModelAndView();
 	
 		model.addObject("title", "new course");
@@ -66,11 +76,11 @@ public class CourseManagementController {
 		return model;
 	}
 	
-	@RequestMapping(value = { "courses/add" }, method = RequestMethod.POST)
-	public ModelAndView editCourseSubmit(Course course) {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("newCourse");
-		return model;
+	@RequestMapping(value = "courses/add" , method = RequestMethod.POST)
+	public String newCourseSubmit(@RequestParam("weekDuration") int sweekDuration, Course course) {
+		course.setWeekDuration(sweekDuration);
+		courseService.saveCourse(course);
+		return "redirect:/courses";
 	}
 
 }

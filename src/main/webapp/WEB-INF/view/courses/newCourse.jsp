@@ -2,7 +2,7 @@
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<form:form modelAttribute = "course" class="form-horizontal" >
+<form:form modelAttribute = "course" class="form-horizontal" method="POST" >
 	<form:input path = "id" type = "hidden"/>
 	<div class="form-group">
 		<label for="name"  class="col-sm-2 control-label">Name:</label>
@@ -24,8 +24,11 @@
 	</div>
 	<div class="form-group">
 		<label for="duration" class="col-sm-2 control-label">Duration</label>
-		<div class="col-sm-10" >
-			<form:input path="duration" id="duration" class="form-control" />
+		<div class="col-sm-2" >
+			<div class="input-group" >
+			<form:input path="weekDuration" id="duration" class="form-control " />
+			<div class="input-group-addon">weeks</div> 
+			</div>
 		</div>
 	</div>
 	<div class="form-group">
@@ -36,5 +39,10 @@
 				</label>
 			</div>
 		</div>
+	</div>
+	<div class="form-group">
+    	<div class="col-sm-offset-2 col-sm-10">
+      		<button type="submit" class="btn btn-default">add</button>
+    	</div>
 	</div>
 </form:form>>

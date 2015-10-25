@@ -20,6 +20,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -101,6 +102,16 @@ public class Course {
 
 	public void setDuration(Duration duration) {
 		this.duration = duration;
+	}
+	
+	public int getWeekDuration() {
+		if(duration != null)
+			return duration.toStandardDays().getDays()/7;
+		return 0;
+	}
+	
+	public void setWeekDuration(int weeks) {
+		this.duration = new Duration(weeks*7L*24L*60L*60L*1000L);
 	}
 
 	public Set<Module> getModules() {

@@ -3,9 +3,10 @@
 <table class="table">
 	<caption>Courses</caption>
 	<thead>
-		<th>Name</th>
-		<th>Start date</th>
-		<th>Open</th>
+		<th>name</th>
+		<th>start date</th>
+		<th>duratione</th>
+		<th>open</th>
 		<th>direction</th>
 		<th>command</th>
 	</thead>
@@ -14,6 +15,7 @@
 			<tr>
 				<td><c:out value="${course.name}"/></td>
 				<td><joda:format pattern="dd.MM.yyyy" value="${course.startDate}"  /></td>
+				<td>${course.weekDuration} weeks</td>
 				<td>${course.open}</td>
 				<td></td>
 				<td>
