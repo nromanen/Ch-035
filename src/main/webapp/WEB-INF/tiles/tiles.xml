@@ -115,6 +115,8 @@
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/tiles-demo.css" />
 		</put-list-attribute>
+		</definition>
+		
 	<definition name="courseManagmentList" extends="base-template" >
 		<put-attribute name="title" value="courses" />
 		<put-attribute name="content" value="/WEB-INF/view/courses/courseManagmentList.jsp" />
