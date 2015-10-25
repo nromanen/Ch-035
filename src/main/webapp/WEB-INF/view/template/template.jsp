@@ -50,7 +50,10 @@
 
     <!-- header -->
     <header id="header">
-    	<tiles:insertAttribute name="header"></tiles:insertAttribute>
+    	<div class="container">
+    	  <h3><tiles:insertAttribute name="header-title"></tiles:insertAttribute></h3>
+    	  <tiles:insertAttribute name="header"></tiles:insertAttribute>
+    	</div>
 	</header>
     <!-- end header  -->
     
@@ -62,13 +65,17 @@
 
     <!-- content -->
     <main id="main-body">
-        <tiles:insertAttribute name="content"></tiles:insertAttribute>
+    	<div class="container">
+          <tiles:insertAttribute name="content"></tiles:insertAttribute>
+        </div>
     </main>
     <!-- end content -->
 
     <!-- footer -->
     <footer id="footer">
-        <tiles:insertAttribute name="footer"></tiles:insertAttribute>
+    	<div class="container">
+          <tiles:insertAttribute name="footer"></tiles:insertAttribute>
+        </div>
     </footer>
     <!-- end footer -->
 
