@@ -28,9 +28,9 @@ public class ModuleServiceImpl implements ModuleService {
 	private ModuleDao moduleDao;
 
 	@Override
-	public void save(Module module) {
+	public void add(Module module) {
 		logger.info("in moduleService save(Module)");
-		moduleDao.save(module);
+		moduleDao.add(module);
 		logger.info("out moduleService save(Module)");
 	}
 	

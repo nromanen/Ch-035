@@ -27,7 +27,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	private static Logger logger = LogManager.getLogger(ModuleDaoImpl.class);
 
 	@Override
-	public void save(Module module) {
+	public void add(Module module) {
 		try {
 			sessionFactory.getCurrentSession().persist(module);
 		} catch (Exception e) {
