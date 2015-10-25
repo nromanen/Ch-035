@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <form:form modelAttribute = "module" method = "POST" class = "form-horizontal">
-	<form:input path = "id" type = "hidden"/>
+	<form:hidden path = "id"/>
 	
 	<div class="form-group">
 		<c:set var = "moduleName"><spring:message code = "crsms.createmodule.name"/></c:set>
