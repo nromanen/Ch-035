@@ -63,7 +63,7 @@ public class ModuleController {
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
 	public String saveModule(@PathVariable Long courseId, Module module, ModelMap model) {
-		moduleService.save(module);
+		moduleService.add(courseId, module);
 		return redirect(courseId);
 	}	
 	

@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.crsms.dao.CourseDao;
 import com.crsms.dao.ModuleDao;
-import com.crsms.dao.ModuleDaoImpl;
+import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 
 /**
@@ -25,11 +26,16 @@ public class ModuleServiceImpl implements ModuleService {
 	private static Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 	
 	@Autowired
+	private CourseDao courseDao;
+	
+	@Autowired
 	private ModuleDao moduleDao;
 
 	@Override
-	public void add(Module module) {
+	public void add(Long courseId, Module module) {
 		logger.info("in moduleService save(Module)");
+		Course course = courseDao.getCourseById(courseId);
+		module.setCourse(course);
 		moduleDao.add(module);
 		logger.info("out moduleService save(Module)");
 	}
