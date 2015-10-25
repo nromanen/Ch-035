@@ -43,7 +43,11 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public void update(Module module) {
 		logger.info("in moduleService update(Module)");
-		moduleDao.update(module);
+		Module existingModule = moduleDao.getById(module.getId());
+		existingModule.setName(module.getName());
+		existingModule.setDescription(module.getDescription());
+		existingModule.setAvailable(module.getAvailable());
+		moduleDao.update(existingModule);
 		logger.info("out moduleService update(Module)");
 	}
 
