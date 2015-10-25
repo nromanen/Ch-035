@@ -51,8 +51,8 @@
     <!-- header -->
     <header id="header">
     	<div class="container">
-    	  <h3><tiles:insertAttribute name="header-title"></tiles:insertAttribute></h3>
     	  <tiles:insertAttribute name="header"></tiles:insertAttribute>
+    	  <h3><tiles:insertAttribute name="header-title"></tiles:insertAttribute></h3>
     	</div>
 	</header>
     <!-- end header  -->

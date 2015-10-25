@@ -19,6 +19,7 @@
 		<put-list-attribute name="javascripts">
 			<add-attribute value="/webjars/jquery/2.1.4/jquery.min.js" />
 			<add-attribute value="/webjars/bootstrap/3.3.5/js/bootstrap.min.js" />
+			<add-attribute value="/resources/js/template.js" />
 		</put-list-attribute>
 	</definition>
 	
@@ -70,8 +71,25 @@
 	<!-- Resource -->
 	<definition name = "resources" extends = "base-template">
 		<put-attribute name="title" value="Resources" />
-		<put-attribute name="header-title" value="Resources Header Title" />
+		<put-attribute name="header-title" value="Resources List" />
 		<put-attribute name="content" value="/WEB-INF/view/resource/resources.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/resource/resources.css" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/resource/resources.js" />
+		</put-list-attribute>
+	</definition>
+	<definition name = "add" extends = "base-template">
+		<put-attribute name="title" value="Add Resource" />
+		<put-attribute name="header-title" value="Add new resource" />
+		<put-attribute name="content" value="/WEB-INF/view/resource/add.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			
+		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			
+		</put-list-attribute>
 	</definition>
 	
 	<!-- end Resource -->
