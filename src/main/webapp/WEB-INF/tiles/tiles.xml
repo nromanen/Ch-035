@@ -1,7 +1,6 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-
 	<definition name="base-template" template="/WEB-INF/view/template/template.jsp" >
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
@@ -26,7 +25,7 @@
  	    <put-attribute name="title" value="Directions" />
 	    <put-attribute name="content" value="/WEB-INF/view/direction.jsp" />
 	</definition>
-	
+
 	<!-- derived -->
 	<!-- EXMAPLE -->
 	<!-- 
