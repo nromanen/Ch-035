@@ -64,9 +64,25 @@
                 <td align="center">${direction.id}</td>
                 <td>${direction.name}</td>
                 <td>
-                	<form action="/direction/edit">
-                		<input type="text" name="name" /><input type="submit"/>
-                	</form>
+                	<form:form method="POST" commandname="person-entity" action="process-person.html">  
+									<table>  
+									    <tbody><tr>  
+									        <td><form:label path="firstName">Name:</form:label></td>  
+									        <td><form:input path="firstName"></form:input></td>  
+									    </tr>  
+									    <tr>  
+									        <td><form:label path="age">Age:</form:label></td>  
+									        <td><form:input path="age"></form:input></td>  
+									    </tr>  
+									    <tr>  
+									        <td colspan="2">  
+									            <input type="submit" value="Submit">  
+									        </td>  
+									        <td></td>  
+									        <td></td>  
+									    </tr>  
+									</tbody></table>    
+									</form:form>  
                 </td>
                 <td align="center"><a href="<c:url value='/direction/remove/${direction.id}' />">Delete</a></td>
             </tr>
