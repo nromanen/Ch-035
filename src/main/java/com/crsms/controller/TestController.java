@@ -77,7 +77,7 @@ public class TestController {
 		return redirect(courseId, moduleId);
 	}
 
-	// Method from previous controller realization. Don't using yet in JSP pages.
+/*	// Method from previous controller realization. Don't using yet in JSP pages.
 	@RequestMapping(value = "{id}/tests", method = RequestMethod.GET)
 	public String getTestById(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("test", new Test());
@@ -91,7 +91,7 @@ public class TestController {
 			@PathVariable Long moduleId, @ModelAttribute("test") Test test) {
 		testService.deleteTest(test);
 		return redirect(courseId, moduleId);
-	}
+	}*/
 
 	/*
 	 * Method returns redirection path.
