@@ -60,16 +60,16 @@ public class TestDaoImpl implements TestDao {
     public void updateTest(Test test) {
         logger.info("TestDao. Updating test.");
         Session session = sessionFactory.getCurrentSession();
-        logger.info("TestDao. Updating test successfully.");
         session.update(test);
+        logger.info("TestDao. Updating test successfully.");
     }
 
     @Override
     public void deleteTest(Test test) {
         logger.info("TestDao. Deleting test.");
         Session session = sessionFactory.getCurrentSession();
-        logger.info("TestDao. Deleting test successfully.");
         session.delete(test);
+        logger.info("TestDao. Deleting test successfully.");
     }
 
     @Override
