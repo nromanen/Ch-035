@@ -19,12 +19,13 @@
 		<put-list-attribute name="javascripts">
 			<add-attribute value="/webjars/jquery/2.1.4/jquery.min.js" />
 			<add-attribute value="/webjars/bootstrap/3.3.5/js/bootstrap.min.js" />
+			<add-attribute value="/resources/js/template/template.js" />
 		</put-list-attribute>
 	</definition>
 	
-	<definition name = "direction" extends = "base-template">
- 	    <put-attribute name="title" value="Directions" />
-	    <put-attribute name="content" value="/WEB-INF/view/direction.jsp" />
+	<definition name = "area" extends = "base-template">
+ 	    <put-attribute name="title" value="Areas" />
+	    <put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
 	</definition>
 	
 	<!-- derived -->
@@ -90,13 +91,23 @@
 	</definition>
 	<!-- end Module -->
 	
-	<!-- Resource -->
-	<definition name = "resources" extends = "base-template">
-		<put-attribute name="title" value="Resources" />
-		<put-attribute name="header-title" value="Resources Header Title" />
-		<put-attribute name="content" value="/WEB-INF/view/resource/resources.jsp" />
+	<!-- Test -->
+	<definition name = "tests" extends = "base-template">
+		<put-attribute name="title" value="Tests" />
+		<put-attribute name="content" value="/WEB-INF/view/test/tests.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/test/test.css" />
+		</put-list-attribute>
 	</definition>
 	
-	<!-- end Resource -->
+	<definition name = "createtest" extends = "base-template">
+		<put-attribute name="title" value="Create Test" />
+		<put-attribute name="header-title" value="Create Test" />
+		<put-attribute name="content" value="/WEB-INF/view/test/createtest.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/test/test.css" />
+		</put-list-attribute>
+	</definition>
+	<!-- end Test -->
 
 </tiles-definitions>

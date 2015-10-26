@@ -68,7 +68,7 @@ public class Course {
 	@ManyToOne
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name="direction_id")
-	private Direction direction;
+	private Area area;
 	
 	public Course() { }
 
@@ -130,12 +130,12 @@ public class Course {
 		this.open = open;
 	}
 
-	public Direction getDirection() {
-		return direction;
+	public Area getArea() {
+		return area;
 	}
 
-	public void setDirection(Direction direction) {
-		this.direction = direction;
+	public void setDirection(Area area) {
+		this.area = area;
 	}
 
 	public String getDescription() {
