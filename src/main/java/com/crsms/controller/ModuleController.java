@@ -30,8 +30,8 @@ public class ModuleController {
 	
 	//TODO РОЗІБРАТИСЬ ЧОМУ У ВАЛЄРИ АВТОМАТИЧНО ДОДАЄ СЛЕШ '/' В КІНЦІ УРЛА 'crsms/courses/1/modules' А В МЕНЕ НІ
 	// crsms/courses/1/modules - видасть 404
-	// crsms/courses/1/modules/ - працюватиме
-	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
+	// crsms/courses/1/modules/ - працюватиме	
+	@RequestMapping(value = {"/", "/all"}, method = RequestMethod.GET)
 	public String showModules(Model model) {
 		List<Module> modules = moduleService.getAll();
 		model.addAttribute("modules", modules);
