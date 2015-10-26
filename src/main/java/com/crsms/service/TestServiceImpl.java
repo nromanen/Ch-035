@@ -45,7 +45,7 @@ public class TestServiceImpl implements TestService {
     @Override
     @Transactional
     public Test getTestById(Long id) {
-        Test test = null;
+    	Test test = null;
         try {
             logger.info("TestService. Reading test by ID: " + id + ".");
             test = testDao.getTestById(id);

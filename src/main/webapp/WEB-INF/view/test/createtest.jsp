@@ -20,20 +20,6 @@
 		</div>
 
 		<div class="form-group">
-			<c:set var="testModule">
-				<spring:message code="crsms.createtest.testModule" />
-			</c:set>
-			<label for="module" class="col-sm-2 control-label">${testModule}:
-			</label>
-
-			<div class="col-sm-10">
-				<form:select path="module" id="module" class="form-control">
-					<form:options items="${modules}" itemValue="name" itemLabel="name" />
-				</form:select>
-			</div>
-		</div>
-
-		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<div class="checkbox">
 					<label for="available"> <form:checkbox path="available"

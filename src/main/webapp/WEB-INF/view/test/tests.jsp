@@ -1,12 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<div class="container">
-	<table class="table table-bordered">
+	<table class="table table-bordered table-hover">
 		<thead>
 			<tr class="success">
 				<th><spring:message code="crsms.tests.name" /></th>
-				<th><spring:message code="crsms.tests.modulename" /></th>
+				
 				<th colspan="2"><spring:message code="crsms.tests.management" /></th>
 			</tr>
 		</thead>
@@ -14,8 +13,7 @@
 			<c:forEach var="test" items="${tests}">
 				<tr class="active">
 					<td><i class="glyphicon glyphicon-list-alt">&nbsp</i>${test.name}</td>
-					<td><i class="glyphicon glyphicon-education">&nbsp</i>${test.module.name}</td>
-
+					
 					<td>
 						<div align="center">
 							<c:url var="editTest" value="${test.id}/edit" />
@@ -27,7 +25,7 @@
 
 							<c:url var="deleteTest" value="${test.id}/delete" />
 							<a href="${deleteTest}"
-								class="btn btn-danger btn-sm btn-delete-resource"
+								class="btn btn-danger btn-sm"
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.tests.delete" />"
 								value="${test.id}"> <span class="glyphicon glyphicon-remove"
@@ -42,6 +40,5 @@
 	</table>
 
 	<c:url var="createTest" value="add" />
-	<a class="btn btn-success btn-primary pull-left" href="${createTest}"><spring:message
+	<a class="btn btn-success pull-left" href="${createTest}"><spring:message
 			code="crsms.tests.createNew" /></a>
-</div>
