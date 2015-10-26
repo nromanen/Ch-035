@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TestService {
 
-	public void createTest(Test test);
+	public void createTest(Long moduleId, Test test);
 
 	public Test getTestById(Long id);
 

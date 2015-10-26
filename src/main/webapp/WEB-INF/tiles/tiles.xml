@@ -19,6 +19,7 @@
 		<put-list-attribute name="javascripts">
 			<add-attribute value="/webjars/jquery/2.1.4/jquery.min.js" />
 			<add-attribute value="/webjars/bootstrap/3.3.5/js/bootstrap.min.js" />
+			<add-attribute value="/resources/js/template/template.js" />
 		</put-list-attribute>
 	</definition>
 	
@@ -91,14 +92,18 @@
 	<!-- end Module -->
 	
 	<!-- Test -->
-	<definition name = "createtest" extends = "base-template">
-		<put-attribute name="title" value="Create test" />
-		<put-attribute name="content" value="/WEB-INF/view/test/createtest.jsp" />
-	</definition>
-	
 	<definition name = "tests" extends = "base-template">
 		<put-attribute name="title" value="Tests" />
 		<put-attribute name="content" value="/WEB-INF/view/test/tests.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/test/test.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name = "createtest" extends = "base-template">
+		<put-attribute name="title" value="Create Test" />
+		<put-attribute name="header-title" value="Create Test" />
+		<put-attribute name="content" value="/WEB-INF/view/test/createtest.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/test/test.css" />
 		</put-list-attribute>
