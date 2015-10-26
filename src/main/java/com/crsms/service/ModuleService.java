@@ -12,7 +12,7 @@ import com.crsms.domain.Module;
 
 public interface ModuleService {
 	
-	void save(Module module);
+	void add(Long courseId, Module module);
 	
 	void update(Module module);
 	

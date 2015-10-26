@@ -1,24 +1,25 @@
 package com.crsms.service;
 
-import java.util.Set;
-
 import com.crsms.domain.Test;
 
+import java.util.List;
+
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Andriets Petro
  */
 
 public interface TestService {
-	
-	void saveTest(Test test);
-	
-	Set<Test> getAllTest();
-	
-	Test getTestById(Long id);
 
-	void updateTest(Test test);
-	
-	Test getTest(String name);
+	public void createTest(Long moduleId, Test test);
+
+	public Test getTestById(Long id);
+
+	public List<Test> getAllTests();
+
+	public void editTest(Test test);
+
+	public void deleteTest(Test test);
+
+	public void deleteTestById(Long id);
+
 }

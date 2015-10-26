@@ -15,18 +15,18 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="direction")
-public class Direction {
+@Table(name="area")
+public class Area {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "direction_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "area_id_seq", allocationSize = 1)
 	private Long id;
 	
 	@Column(nullable = false)
 	private String name;
 	
-	public Direction() {
+	public Area() {
 		super();
 	}
 	
