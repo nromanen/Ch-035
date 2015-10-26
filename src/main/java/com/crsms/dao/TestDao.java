@@ -1,25 +1,25 @@
 package com.crsms.dao;
 
-import java.util.Set;
-
 import com.crsms.domain.Test;
 
+import java.util.List;
+
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets
  */
 
 public interface TestDao {
 
-	void saveTest(Test test);
-	
-	Set<Test> getAllTest();
-	
-	Test getTestById(Long id);
+    public void saveTest(Test test);
 
-	void updateTest(Test test);
-	
-	Test getTest(String name);
-	
+    public Test getTestById(Long id);
+
+    public List<Test> getAllTests();
+
+    public void updateTest(Test test);
+
+    public void deleteTest(Test test);
+
+    public void deleteTestById(Long id);
+
 }
