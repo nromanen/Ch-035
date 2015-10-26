@@ -18,14 +18,18 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	private static Logger log = LogManager.getLogger(UserDaoImpl.class);
+	private static Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
+	@Override
 	public User saveUser(User user) {
+		logger.debug("Saving user");
+		
 		if (user.getId() == null) {
 			sessionFactory.getCurrentSession().save(user);
 		} else {
 			sessionFactory.getCurrentSession().update(user);
 		}
+		
 		return user;
 	}
 
@@ -38,11 +42,12 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserById(Long id) {
+		logger.debug("Removing user with id " + id);
 		Session session = sessionFactory.getCurrentSession();
 		User user = (User) session.get(User.class, id);
 		return user;
 	}
-	
+
 	@Override
 	public User getUserByEmail(String email) {
 		Query query = sessionFactory.getCurrentSession().createQuery(

@@ -90,6 +90,18 @@
 	</definition>
 	<!-- end Module -->
 	
+	<!-- User -->
+	<definition name = "signUp" extends = "base-template">
+		<put-attribute name="title" value="Create account" />
+		<put-attribute name="content" value="/WEB-INF/view/user/signUp.jsp" />
+	</definition>
+	
+	<definition name = "userProfile" extends = "base-template">
+		<put-attribute name="title" value="Profile" />
+		<put-attribute name="content" value="/WEB-INF/view/user/userProfile.jsp" />
+	</definition>
+	<!-- end User -->
+	
 	<!-- Resource -->
 	<definition name = "resources" extends = "base-template">
 		<put-attribute name="title" value="Resources" />

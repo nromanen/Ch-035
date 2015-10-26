@@ -50,26 +50,53 @@
 </head>
 
 <body>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Change password</h4>
+				</div>
+				<div class="modal-body">
+					<table>
+						<tr>
+							<td>Current Password</td>
+							<td><input type="password" name="currentPassword"></td>
+						</tr>
+						<tr>
+							<td>New password</td>
+							<td><input type="password" name="newPassword"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<h2>Welcome! It's your personal page!</h2>
 	<form action="changePass" name="changePass" id="changePass"
 		method="POST">
 		<input type="hidden" id="id" value="<%=request.getAttribute("id")%>">
-		<input type="hidden" id="password"
-			value="<%=request.getAttribute("password")%>">
-		<div id="dialog-form" title="Change password">
+			<div id="dialog-form" title="Change password">
 			<table id="table">
 				<tr>
 					<td width="*">Current Password<font size="3" color="red">
 							* </font></td>
 					<td width="60%"><input type="password" name="currentPass" required 
-						id="currentPass" size="25"><br></td>
+						id="currentPass" size="25" oninvalid="setCustomValidity('Enter correct password')"><br></td>
 				</tr>
 				<tr>
 					<td width="*">New Password<font size="3" color="red"> *
 					</font></td>
 					<td width="60%"><input type="password" name="nPass"
 						id="nPass" size="25" required
-						pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"><br></td>
+						pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+						oninvalid="setCustomValidity('Enter correct password')"><br></td>
 				</tr>
 			</table>
 		</div>
@@ -98,13 +125,13 @@
 			</tr>
 			<tr>
 				<td width="*"></td>
-				<td width="60%" align="right"><button id="changePass">Change
-						password</button>
-					<br></td>
+				<td width="60%" align="right">
+					<button type="button" class="btn btn-small" data-toggle="modal" data-target=".bs-example-modal-sm">Change password</button>
+				<br></td>
 			</tr>
-			<tr align="right" bgcolor="#29A259">
+			<tr align="right" bgcolor="#2e6da4">
 				<td colspan="2">
-					<!-- <input type="submit" value="Save"> -->
+					<input type="submit" value="Save"> 
 				</td>
 			</tr>
 		</table>

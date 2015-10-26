@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.crsms.domain.UserInfo;
 
 @Repository("userInfoDao")
-public class UserInfoDaoImpl implements UserInfoDao{
-	
+public class UserInfoDaoImpl implements UserInfoDao {
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -25,9 +25,9 @@ public class UserInfoDaoImpl implements UserInfoDao{
 
 	@Override
 	public void delete(Long id) {
-			Query query = sessionFactory.getCurrentSession()
-					.createQuery("DELETE FROM UserInfo uf WHERE uf.user_id=:id");
-			query.setParameter("id", id).executeUpdate();
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"DELETE FROM UserInfo uf WHERE uf.user_id=:id");
+		query.setParameter("id", id).executeUpdate();
 	}
 
 }
