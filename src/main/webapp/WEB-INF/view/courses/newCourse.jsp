@@ -16,6 +16,20 @@
 			<form:textarea path="description" id="description" class="form-control" />
 		</div>
 	</div>
+	
+	<div class="form-group">
+		<label for="direction" class="col-sm-2 control-label">Direction</label>
+		<div class="col-sm-10" >
+			<select id="direction" name="directionId">
+    			<c:forEach var="carentDirection" items="${directions}">
+        			<option value="${carentDirection.id}" >
+        				${carentDirection.name}
+        			</option>
+    			</c:forEach>
+			</select>
+		</div>
+	</div>
+	
 	<div class="form-group">
 		<label for="startDate" class="col-sm-2 control-label">Start date</label>
 		<div class="col-sm-10" >
@@ -45,4 +59,4 @@
       		<button type="submit" class="btn btn-default">add</button>
     	</div>
 	</div>
-</form:form>>
+</form:form>
