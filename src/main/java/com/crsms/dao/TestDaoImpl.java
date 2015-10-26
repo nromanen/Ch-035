@@ -1,9 +1,6 @@
 package com.crsms.dao;
 
-import java.util.Set;
-
-
-
+import com.crsms.domain.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
@@ -12,65 +9,78 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.crsms.domain.Test;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets
  */
-
 
 @Repository("testDao")
 public class TestDaoImpl implements TestDao {
+    private static Logger logger = LogManager.getLogger(TestDaoImpl.class);
 
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	private static Logger log = LogManager.getLogger(TestDaoImpl.class);
-	
-	@Override
-	public void saveTest(Test test) {
-		
-		try {
-			sessionFactory.getCurrentSession().save(test);
-		} catch (Exception e) {
-			log.error("Error saveTest: " + e);
-		}
-	}
+    @Autowired
+    private SessionFactory sessionFactory;
 
-	@Override
-	public Set<Test> getAllTest() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public TestDaoImpl() {
+    }
 
-	@Override
-	public Test getTestById(Long id) {
-		Test test = null;
-		Session session = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-			test = (Test) session.get(Test.class, id);
-		} catch (Exception e) {
-			log.error("Error getTest: " + e);
-		}
-		//lazy initialization for FetchType.LAZY
-		Hibernate.initialize(test.getQuestions());
-		session.clear();
-		return test;
-	}
+    @Override
+    public void saveTest(Test test) {
+        logger.info("TestDao. Creating a new test.");
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(test);
+        logger.info("TestDao. Creating a new test successfully.");
+    }
 
-	@Override
-	public void updateTest(Test test) {
-		// TODO Auto-generated method stub
+    @Override
+    public Test getTestById(Long id) {
+        logger.info("TestDao. Reading test by ID: " + id + ".");
+        Session session = sessionFactory.getCurrentSession();
+        Test test = (Test) session.load(Test.class, new Long(id));
+        Hibernate.initialize(test.getModule());
+        logger.info("TestDao. Reading test by ID: " + id + " successfully.");
+        return test;
+    }
 
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Test> getAllTests() {
+        logger.info("TestDao. Reading all tests.");
+        List<Test> testList = new ArrayList<Test>();
+        String hql = "from Test";
+        Session session = sessionFactory.getCurrentSession();
+        testList = new ArrayList<Test>(session.createQuery(hql).list());
+        logger.info("TestDao. Reading all tests successfully.");
+        return testList;
+    }
 
-	@Override
-	public Test getTest(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void updateTest(Test test) {
+        logger.info("TestDao. Updating test.");
+        Session session = sessionFactory.getCurrentSession();
+        logger.info("TestDao. Updating test successfully.");
+        session.update(test);
+    }
+
+    @Override
+    public void deleteTest(Test test) {
+        logger.info("TestDao. Deleting test.");
+        Session session = sessionFactory.getCurrentSession();
+        logger.info("TestDao. Deleting test successfully.");
+        session.delete(test);
+    }
+
+    @Override
+    public void deleteTestById(Long id) {
+        logger.info("TestDao. Deleting test by ID: " + id + ".");
+        Session session = sessionFactory.getCurrentSession();
+        Test test = (Test) session.load(Test.class, new Long(id));
+        if (test != null) {
+            session.delete(test);
+        }
+        logger.info("TestDao. Deleting test by ID: " + id + " successfully.");
+    }
 
 }
