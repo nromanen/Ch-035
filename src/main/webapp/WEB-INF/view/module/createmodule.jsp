@@ -36,7 +36,7 @@
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<c:set var = "moduleSave"><spring:message code = "crsms.createmodule.save"/></c:set>
-			<input type = "submit" value = "${moduleSave}" class="btn btn-default"/>
+			<input type = "submit" value = "${moduleSave}" class="btn btn-success"/>
 		</div>
 	</div>		
 </form:form>
