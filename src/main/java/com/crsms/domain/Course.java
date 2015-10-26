@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -19,16 +21,22 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
  * @author Valerii Motresku
+ * @author maftey
  *
  */
 
 @Entity
 @Table(name="course")
+@NamedQueries({
+	@NamedQuery(name = Course.GET_BY_NAME, query = "FROM Course c WHERE c.name=:name")
+})
 public class Course {
+	public static final String GET_BY_NAME = "course.getCourseByName";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -38,7 +46,12 @@ public class Course {
 	@Column(nullable = false)
 	private String name;
 	
+	@Column(nullable = false, length = 1024)
+	private String description;
+	
+	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private DateTime startDate;
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
@@ -54,7 +67,7 @@ public class Course {
 	@ManyToOne
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name="direction_id")
-	private Direction direction;
+	private Area area;
 	
 	public Course() { }
 
@@ -106,12 +119,19 @@ public class Course {
 		this.open = open;
 	}
 
-	public Direction getDirection() {
-		return direction;
+	public Area getArea() {
+		return area;
 	}
 
-	public void setDirection(Direction direction) {
-		this.direction = direction;
+	public void setDirection(Area area) {
+		this.area = area;
 	}
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
