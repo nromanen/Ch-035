@@ -13,80 +13,80 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.crsms.domain.Direction;
+import com.crsms.domain.Area;
 
 /**
  * @author Yuri Kucheriavy
  *
  */
 
-@Repository("directionDao")
-public class DirectionDaoImpl implements DirectionDao {
+@Repository("areaDao")
+public class AreaDaoImpl implements AreaDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static Logger logger = LogManager.getLogger(DirectionDaoImpl.class);
+	private static Logger logger = LogManager.getLogger(AreaDaoImpl.class);
 
 	@Override
-	public void saveDirection(Direction direction) {
+	public void saveArea(Area area) {
 		try {
-			sessionFactory.getCurrentSession().save(direction);
+			sessionFactory.getCurrentSession().save(area);
 		} catch (Exception e) {
-			logger.error("Error saveDirection: " + e);
+			logger.error("Error saveArea: " + e);
 		}
 
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Direction> getAllDirections() {
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Direction d ORDER BY d.id");
+	public List<Area> getAllAreas() {
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Area d ORDER BY d.id");
 		return query.list();
 	}
 
 	@Override
-	public Direction getDirectionById(Long id) {
-		Direction direction = null;
+	public Area getAreaById(Long id) {
+		Area area = null;
 		Session session = null;
 		try {
 			session = sessionFactory.getCurrentSession();
-			direction = (Direction) session.get(Direction.class, id);
+			area = (Area) session.get(Area.class, id);
 		} catch (Exception e) {
 			logger.error("Error getTest: " + e);
 		}
 		session.clear();
-		return direction;
+		return area;
 	}
 
 	@Override
-	public void updateDirection(Direction direction) {
+	public void updateArea(Area area) {
 		try {
-			sessionFactory.getCurrentSession().update(direction);
+			sessionFactory.getCurrentSession().update(area);
 		} catch (Exception e) {
-			logger.error("Error updateDirection: " + e);
+			logger.error("Error updateArea: " + e);
 		}
 	}
 	
 	@Override
-	public Direction getDirectionByName(String name) {
-		Direction direction = null;
+	public Area getAreaByName(String name) {
+		Area area = null;
 		Session session = null;
 		try {
 			session = sessionFactory.getCurrentSession();
-			direction = (Direction) session.get(Direction.class, name);
+			area = (Area) session.get(Area.class, name);
 		} catch (Exception e) {
 			logger.error("Error getTest: " + e);
 		}
 		session.clear();
-		return direction;
+		return area;
 		
 	}
 
 	@Override
-	public void deleteDirection(Long id) {
+	public void deleteArea(Long id) {
 		Query query = sessionFactory.getCurrentSession()
-				.createQuery("DELETE FROM Direction d WHERE d.id=:id").setLong("id", id);
+				.createQuery("DELETE FROM Area d WHERE d.id=:id").setLong("id", id);
 		query.executeUpdate();
 	}
 
