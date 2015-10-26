@@ -23,9 +23,9 @@
 		</put-list-attribute>
 	</definition>
 	
-	<definition name = "direction" extends = "base-template">
- 	    <put-attribute name="title" value="Directions" />
-	    <put-attribute name="content" value="/WEB-INF/view/direction.jsp" />
+	<definition name = "area" extends = "base-template">
+ 	    <put-attribute name="title" value="Areas" />
+	    <put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
 	</definition>
 	
 	<!-- derived -->
