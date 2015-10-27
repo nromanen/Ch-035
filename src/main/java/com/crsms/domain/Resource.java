@@ -32,7 +32,8 @@ public class Resource {
 	@Column(nullable = false)
 	private Resource.Type type;
 	
-	private enum Type {
+	// implicitly static
+	public enum Type {
 		FILE, EMBEDDED
 	}
 	

@@ -23,32 +23,32 @@
 		</put-list-attribute>
 	</definition>
 	
+	<!-- derived -->
+	<!-- 
+		 SS students, pay attention, that you must return from
+		 controller the name of definition not jsp page.
+		 But they could be the same, obviously.
+	-->	
+	<definition name="index" extends="base-template" >
+		<put-attribute name="title" value="Hello Title" />
+		<put-attribute name="content" value="/index.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			
+		</put-list-attribute>
+	</definition>
+	<!-- END EXAMPLE -->
+	
+	<!-- Area -->
 	<definition name = "area" extends = "base-template">
  	    <put-attribute name="title" value="Areas" />
 	    <put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
 	</definition>
+	<!-- end Area -->
 	
-	<!-- derived -->
-	<!-- EXMAPLE -->
-	<!-- 
-		 SS students, pay attention, that you must return from
-		 controller the name of definition not jsp page.
-		 That's why, to show you an example, 
-		 I used <definition name="tiles-demo-def"
-		 for tiles-demo.jsp, so the name are different. But they could be
-		 the same, obviously.
-	-->
-	<definition name="tiles-demo-def" extends="base-template" >
-		<put-attribute name="title" value="Title Demo" />
-		<put-attribute name="content" value="/WEB-INF/view/tiles-demo.jsp" />
-		<put-list-attribute name="javascripts" inherit="true">
-			<add-attribute value="/resources/js/tiles-demo.js" />
-		</put-list-attribute>
-		<put-list-attribute name="stylesheets" inherit="true">
-			<add-attribute value="/resources/css/tiles-demo.css" />
-		</put-list-attribute>
-	</definition>
-	
+	<!-- Course -->
 	<definition name="courseManagmentList" extends="base-template" >
 		<put-attribute name="title" value="courses" />
 		<put-attribute name="content" value="/WEB-INF/view/courses/courseManagmentList.jsp" />
@@ -63,18 +63,7 @@
 		<put-attribute name="title" value="edit course" />
 		<put-attribute name="content" value="/WEB-INF/view/courses/newCourse.jsp" />
 	</definition>
-	
-	<definition name="index" extends="base-template" >
-		<put-attribute name="title" value="Hello Title" />
-		<put-attribute name="content" value="/index.jsp" />
-		<put-list-attribute name="javascripts" inherit="true">
-			
-		</put-list-attribute>
-		<put-list-attribute name="stylesheets" inherit="true">
-			
-		</put-list-attribute>
-	</definition>
-	<!-- END EXAMPLE -->
+	<!-- end Course -->
 	
 	<!-- Module -->
 	<definition name = "createmodule" extends = "base-template">
@@ -91,6 +80,44 @@
 	</definition>
 	<!-- end Module -->
 	
+	<!-- Resource -->
+	<definition name = "resources" extends = "base-template">
+		<put-attribute name="title" value="Resources" />
+		<put-attribute name="header-title" value="Resources List" />
+		<put-attribute name="content" value="/WEB-INF/view/resource/resources.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/resource/resources.css" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/resource/resources.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name = "addResource" extends = "base-template">
+		<put-attribute name="title" value="Add Resource" />
+		<put-attribute name="header-title" value="Add new resource" />
+		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			
+		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			
+		</put-list-attribute>
+	</definition>
+	
+	<definition name = "editResource" extends = "base-template">
+		<put-attribute name="title" value="Edit Resource" />
+		<put-attribute name="header-title" value="Edit resource" />
+		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			
+		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			
+		</put-list-attribute>
+	</definition>	
+	<!-- end Resource -->
+
 	<!-- Test -->
 	<definition name = "tests" extends = "base-template">
 		<put-attribute name="title" value="Tests" />

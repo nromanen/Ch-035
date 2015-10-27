@@ -78,7 +78,7 @@ public class ResourceDaoImpl implements ResourceDao {
 	public List<Resource> getAll() {
 
 		List<Resource> results = null;
-		String hql = "* FROM resource ORDER BY id";
+		String hql = "FROM Resource ORDER BY id";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		try {
 			results = (List<Resource>) query.list();
