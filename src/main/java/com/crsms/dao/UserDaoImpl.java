@@ -14,7 +14,11 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.User;
-
+/**
+ * 
+ * @author Roman Romaniuk
+ *
+ */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
 

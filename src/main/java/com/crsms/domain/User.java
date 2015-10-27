@@ -37,8 +37,7 @@ public class User {
 	public static final String DELETE = "User.delete";
 	public static final String ALL_SORTED = "User.getAllSorted";
 	public static final String BY_EMAIL = "User.getByEmail";
-	public static final String SELECT_ID = "SELECT setval('users_id_seq', (SELECT MAX(id) FROM users)+1)";
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq")
