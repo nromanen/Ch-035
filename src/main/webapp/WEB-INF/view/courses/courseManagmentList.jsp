@@ -17,8 +17,9 @@
 				<td><joda:format pattern="dd.MM.yyyy" value="${course.startDate}"  /></td>
 				<td>${course.weekDuration} weeks</td>
 				<td>${course.open}</td>
-				<td>${course.direction.name}</td>
+				<td>${course.area.name}</td>
 				<td>
+					<a class="btn btn-primary btn-xs" href="courses/${course.id}/modules/">modules</a>
 					<a class="btn btn-primary btn-xs" href="courses/${course.id}/edit">edit</a>
 					<a class="btn btn-danger btn-xs" href="courses/${course.id}/delete">delete</a>
 					

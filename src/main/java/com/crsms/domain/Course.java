@@ -67,7 +67,7 @@ public class Course {
 	
 	@ManyToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="direction_id")
+    @JoinColumn(name="area_id")
 	private Area area;
 	
 	public Course() { }

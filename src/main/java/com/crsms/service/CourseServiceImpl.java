@@ -25,7 +25,7 @@ public class CourseServiceImpl implements CourseService {
     private CourseDao courseDao;
 	
 	@Autowired
-	private DirectionService directionService;
+	private AreaService areaService;
 	
 	@Override
 	public void saveCourse(Course course) {
@@ -34,9 +34,9 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public void saveCourse(Course course, long directionId, int sweekDuration) {
+	public void saveCourse(Course course, long areaId, int sweekDuration) {
 		course.setWeekDuration(sweekDuration);
-		course.setDirection(directionService.getDirectionById(directionId));
+		course.setDirection(areaService.getAreaById(areaId));
 		courseDao.saveCourse(course);
 
 	}
@@ -58,9 +58,9 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public void updateCourse(Course course, long directionId, int sweekDuration) {
+	public void updateCourse(Course course, long areaId, int sweekDuration) {
 		course.setWeekDuration(sweekDuration);
-		course.setDirection(directionService.getDirectionById(directionId));
+		course.setDirection(areaService.getAreaById(areaId));
 		courseDao.updateCourse(course);
 
 	}

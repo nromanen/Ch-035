@@ -18,12 +18,12 @@
 	</div>
 	
 	<div class="form-group">
-		<label for="direction" class="col-sm-2 control-label">Direction</label>
+		<label for="area" class="col-sm-2 control-label">Area</label>
 		<div class="col-sm-10" >
-			<select id="direction" name="directionId">
-    			<c:forEach var="carentDirection" items="${directions}">
-        			<option value="${carentDirection.id}" >
-        				${carentDirection.name}
+			<select id="areas" name="areaId">
+    			<c:forEach var="carentArea" items="${areas}">
+        			<option value="${carentArea.id}" >
+        				${carentArea.name}
         			</option>
     			</c:forEach>
 			</select>

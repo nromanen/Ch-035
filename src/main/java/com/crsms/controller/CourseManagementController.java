@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.crsms.domain.Area;
 import com.crsms.domain.Course;
-import com.crsms.domain.Direction;
+import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
-import com.crsms.service.DirectionService;
 
 
 @Controller
@@ -25,7 +25,7 @@ public class CourseManagementController {
 	CourseService courseService;
 	
 	@Autowired
-	private DirectionService directionService;
+	private AreaService areaService;
 	
 	@RequestMapping(value = "courses", method = RequestMethod.GET)
 	public ModelAndView courseManagmentList() {
@@ -56,10 +56,10 @@ public class CourseManagementController {
 	
 		
 		Course course = courseService.getCourseById(courseId); 
-		List<Direction> directions = directionService.getAllDirections();
+		List<Area> areas = areaService.getAllAreas();
 		model.addObject("title", course.getName());
 		model.addObject("course", course);
-		model.addObject("directions", directions);
+		model.addObject("areas", areas);
 		model.setViewName("editCourse");
 		return model;
 	}
@@ -67,22 +67,22 @@ public class CourseManagementController {
 	@RequestMapping(value = "courses/{courseId}/edit", method = RequestMethod.POST)
 	public String editCourseSubmit(
 			@RequestParam("weekDuration") int sweekDuration,
-			@RequestParam("directionId") long directionId, Course course) {
+			@RequestParam("areaId") long areaId, Course course) {
 		
-		courseService.updateCourse(course, directionId, sweekDuration);
+		courseService.updateCourse(course, areaId, sweekDuration);
 		
 		return "redirect:/courses";
 	}
 	
 	@RequestMapping(value = "courses/add", method = RequestMethod.GET)
 	public ModelAndView newCourse() {
-		List<Direction> directions = directionService.getAllDirections();
+		List<Area> areas = areaService.getAllAreas();
 		
 		ModelAndView model = new ModelAndView();
 		
 		model.addObject("title", "new course");
 		model.addObject("course", new Course());
-		model.addObject("directions", directions);
+		model.addObject("areas", areas);
 		model.setViewName("newCourse");
 		return model;
 	}
@@ -90,8 +90,8 @@ public class CourseManagementController {
 	@RequestMapping(value = "courses/add" , method = RequestMethod.POST)
 	public String newCourseSubmit(
 			@RequestParam("weekDuration") int sweekDuration, 
-			@RequestParam("directionId") long directionId, Course course) {
-		courseService.saveCourse(course, directionId, sweekDuration);
+			@RequestParam("areaId") long areaId, Course course) {
+		courseService.saveCourse(course, areaId, sweekDuration);
 		return "redirect:/courses";
 	}
 
