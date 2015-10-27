@@ -20,9 +20,7 @@
     </Appenders>
     
     <Loggers>
-    <Logger name="com.crms.dao" level="debug" additivity="true">
-			<AppenderRef ref="Console" level="debug" />
-		</Logger>
+   
     	<Logger name="com.crms.service" level="warn" additivity="true">
 			<AppenderRef ref="RollingFile" level="warn" />
 		</Logger>

@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			log.debug("saving user: ", user);
 			Role role = roleDao.getRoleById(roleId);
-			user.setRole(role);
+			user.addRole(role);
 		} catch (Exception e) {
 			log.error("Error saving User: " + e);
 		}
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	public User updateUser(User user, Role role) {
 		try {
 			log.debug("updating user: ", user);
-			user.setRole(role);
+			user.addRole(role);
 		} catch (Exception e) {
 			log.error("Error updating User: " + e);
 		}

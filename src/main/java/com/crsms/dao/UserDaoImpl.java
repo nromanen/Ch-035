@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,10 +33,10 @@ public class UserDaoImpl implements UserDao {
 	public User saveUser(User user) {
 		try {
 			if (user.getId() == null) {
-				log.debug("saving user: ", user);
+				log.info("saving user: ", user);
 				sessionFactory.getCurrentSession().save(user);
 			} else {
-				log.debug("updating user: ", user);
+				log.info("updating user: ", user);
 				sessionFactory.getCurrentSession().update(user);
 			}
 		} catch (Exception e) {
@@ -47,7 +48,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void delete(Long id) {
 		try {
-			log.debug("delete " + id);
+			log.info("delete " + id);
 			Query query = sessionFactory.getCurrentSession()
 					.getNamedQuery(User.DELETE).setLong("id", id);
 			query.executeUpdate();
@@ -62,7 +63,8 @@ public class UserDaoImpl implements UserDao {
 		Session session = null;
 		try {
 			session = sessionFactory.getCurrentSession();
-			user = (User) session.get(User.class, id);
+			user = (User) session.load(User.class, id);
+			 user.getRoles().size();
 		} catch (Exception e) {
 			log.error("Error get user by Id: " + id + e);
 		} finally {
@@ -76,7 +78,7 @@ public class UserDaoImpl implements UserDao {
 	public User getUserByEmail(String email) {
 		User user = new User();
 		try {
-			log.debug("getUserById email: ", user);
+			log.info("getUserById email: ", user);
 			Query query = sessionFactory.getCurrentSession()
 					.getNamedQuery(User.BY_EMAIL).setString("email", email);
 			user = (User) query.uniqueResult();
@@ -91,7 +93,7 @@ public class UserDaoImpl implements UserDao {
 	public List<User> getAllUsers() {
 		List <User> users = new ArrayList<>();
 		try{
-			log.debug("get all users");
+			log.info("get all users");
 		Query query = sessionFactory.getCurrentSession().getNamedQuery(
 				User.ALL_SORTED);
 		users = query.list();

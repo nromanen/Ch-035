@@ -1,15 +1,19 @@
 package com.crsms.domain;
 
+import java.util.List;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -53,15 +57,14 @@ public class User {
 	private String password;
 
 	@OneToOne(mappedBy = "user")
-	@Cascade({ CascadeType.SAVE_UPDATE })
+	@Cascade({ CascadeType.ALL })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private UserInfo userInfo;
 
-	@OneToOne
-	@Cascade({ CascadeType.SAVE_UPDATE })
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	@Cascade({ CascadeType.ALL })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	@JoinColumn(name = "role_id")
-	private Role role;
+	private List<Role> roles;
 
 	public User() {
 		super();
@@ -99,21 +102,24 @@ public class User {
 		this.userInfo = userInfo;
 	}
 
-	public Role getRole() {
-		return role;
+	public List<Role> getRoles() {
+		return roles;
 	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-	@Override
 	
+	public void setRole(List<Role> role) {
+		this.roles = role;
+	}
+	public void addRole(Role role) {
+		this.roles.add(role);
+	}
+	
+	@Override
 	public String toString() {
 		return "User{" 
 					+ ", id: " + getId() 
 					+ ", email: " + getEmail()
 					+ ", password: " + getPassword() 
-					+ ", role: " + getRole()
+					+ ", role: " + getRoles()
 					+ ", user info: " + getUserInfo() 
 					+ "}";
 	}
