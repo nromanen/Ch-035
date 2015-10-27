@@ -55,5 +55,10 @@
 	</tbody>
 </table>
 
+<c:set var="backButton">
+	<spring:message code="crsms.createtest.backButton" />
+</c:set>
+	<a class="btn btn-success" role="button" onClick="history.go(-1);return true;">${backButton}</a>
+
 <c:url var = "createModule" value = "add" />
 <a class = "btn btn-success" href = "${createModule}"><spring:message code="crsms.modules.button.create"/></a>
