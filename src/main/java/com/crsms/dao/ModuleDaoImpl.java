@@ -53,6 +53,9 @@ public class ModuleDaoImpl implements ModuleDao {
 		}
 	}
 
+	/**
+	 * Returns Module or null
+	 */
 	@Override
 	public Module getById(Long id) {
 		Module module = null;
