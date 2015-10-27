@@ -20,7 +20,7 @@
 		<put-list-attribute name="javascripts">
 			<add-attribute value="/webjars/jquery/2.1.4/jquery.min.js" />
 			<add-attribute value="/webjars/bootstrap/3.3.5/js/bootstrap.min.js" />
-			<add-attribute value="/resources/js/template/template.js" />
+			<add-attribute value="/resources/js/template.js" />
 		</put-list-attribute>
 	</definition>
 	<!-- derived -->
@@ -110,15 +110,14 @@
 	<!-- Module -->
 	<definition name="createmodule" extends="base-template">
 		<put-attribute name="title" value="Create module" />
-		<put-attribute name="content"
-			value="/WEB-INF/view/modules/createmodule.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/module/createmodule.jsp" />
 	</definition>
 
 	<definition name="modules" extends="base-template">
 		<put-attribute name="title" value="Modules" />
-		<put-attribute name="content" value="/WEB-INF/view/modules/modules.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/module/modules.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
-			<add-attribute value="/resources/css/modules/modules.css" />
+			<add-attribute value="/resources/css/module/modules.css" />
 		</put-list-attribute>
 	</definition>
 	<!-- end Module -->
@@ -181,5 +180,12 @@
 		</put-list-attribute>
 	</definition>
 	<!-- end Test -->
+	
+	<!-- Error page -->
+	<definition name = "errorpage" extends = "base-template">
+		<put-attribute name="title" value="Error" />
+		<put-attribute name="content" value="/WEB-INF/view/errorpage.jsp" />
+	</definition>
+	<!-- end error page -->
 
 </tiles-definitions>
