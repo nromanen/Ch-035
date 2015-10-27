@@ -3,8 +3,8 @@
 
 
 <a href = "areas">don't click there, click here!!!</a>
-
-<a href = "course/1/module">click</a>
+<br>
+<a href = "courses/1/modules/">click</a>
 <BR>
 
 <br>
