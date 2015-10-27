@@ -12,10 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HandlerMapping;
 
 import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
@@ -28,10 +25,11 @@ import com.crsms.service.ResourceService;
  */
 
 @Controller
-@RequestMapping(value = {"/course/{courseId}/module/{moduleId}/resources",
-		"/resources"})
 public class ResourceController {
 	
+	private final String MODULE_CONTEXT_RESOURCE_PATH 
+		= "/course/{courseId}/module/{moduleId}/resources";
+	private final String RESOURCE_PATH = "/resources";
 	private final String STORAGE_PATH = "storage/resources";
 	private final String DELETE_PATH_PATTERN = "\\/\\d+\\/delete$";
 	
@@ -51,8 +49,17 @@ public class ResourceController {
 		model.addAttribute("fileBucket", new FileBucket());
 	}
 	
-	@RequestMapping(value = { "/", "/all" }, method = RequestMethod.GET)
+	@RequestMapping(value = { RESOURCE_PATH + "/", RESOURCE_PATH + "/all" }, 
+			method = RequestMethod.GET)
 	public String showAllResources(Model model) {
+		List<Resource> resources = resourceService.getAll();
+		model.addAttribute("resources", resources);
+		return "resources";
+	}
+	
+	@RequestMapping(value = { MODULE_CONTEXT_RESOURCE_PATH + "/", 
+			MODULE_CONTEXT_RESOURCE_PATH + "/all" }, method = RequestMethod.GET)
+	public String showAllModuleResources(@PathVariable() Long moduleId, Model model) {
 		List<Resource> resources = resourceService.getAll();
 		model.addAttribute("resources", resources);
 		return "resources";
