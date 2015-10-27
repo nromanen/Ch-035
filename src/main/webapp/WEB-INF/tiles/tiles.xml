@@ -48,6 +48,13 @@
 	</definition>
 	<!-- end Area -->
 	
+	<!-- Area -->
+	<definition name = "Carea" extends = "base-template">
+ 	    <put-attribute name="title" value="Areas" />
+	    <put-attribute name="content" value="/WEB-INF/view/area/Carea.jsp" />
+	</definition>
+	<!-- end Area -->
+	
 	<!-- Course -->
 	<definition name="courseManagmentList" extends="base-template" >
 		<put-attribute name="title" value="courses" />

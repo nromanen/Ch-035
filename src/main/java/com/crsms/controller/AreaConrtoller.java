@@ -1,13 +1,21 @@
 package com.crsms.controller;
 
+import java.util.HashMap;
+
+
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.crsms.domain.Area;
 import com.crsms.service.AreaService;
@@ -34,19 +42,27 @@ public class AreaConrtoller {
     }
 	
 	@RequestMapping(value = "/areas/add", method = RequestMethod.POST)
-    public String addArea(@ModelAttribute("area") Area area, BindingResult result) {
+    public String addArea(@ModelAttribute("area") Area area, BindingResult result, final RedirectAttributes redirectAttributes) {
 		//Validation code
 	    validator.validate(area, result);
+	    
+	    //model.addAttribute("errors", "result");
+	    
+	   
 	     
 	    //Check validation errors
 	    if (result.hasErrors()) {
-	        return "redirect:/areas";
+	        
+	    	redirectAttributes.addFlashAttribute("errors", result);
+	    	
+	    	return "redirect:/areas";
 	    }
 	    if(area.getId() == null) {
 	    	areaService.saveArea(area);
 	    } else {
 	    	areaService.updateArea(area);
 	    }
+	   
         return "redirect:/areas";
     }
 

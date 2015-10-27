@@ -12,7 +12,7 @@
 
 
 
-  ${errors}
+ 
 <form:form action="${addAction}" modelAttribute="area">
 	<form:hidden path="id"/>
 	<table>
@@ -45,24 +45,3 @@
 </form:form>
 </div>
 <br>
-<div align="center">
-<h3>Areas List</h3>
-<c:if test="${!empty getAllAreas}">
-    <table class="tg">
-        <tr>
-            <th width="80">Area ID</th>
-            <th width="120">Area Name</th>
-            <th width="60">Edit</th>
-            <th width="60">Delete</th>
-        </tr>
-        <c:forEach items="${getAllAreas}" var="area">
-            <tr>
-                <td align="center">${area.id}</td>
-                <td>${area.name}</td>
-                <td align="center"><a href="<c:url value='/areas/${area.id}/edit' />">Edit</a></td>
-                <td align="center"><a href="<c:url value='/areas/${area.id}/delete' />">Delete</a></td>
-            </tr>
-        </c:forEach>
-    </table>
-</c:if>
-</div>
