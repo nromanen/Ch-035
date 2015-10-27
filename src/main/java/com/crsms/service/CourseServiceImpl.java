@@ -13,6 +13,7 @@ import com.crsms.domain.Course;
 /**
  * 
  * @author Valerii Motresku
+ * @author maftey
  *
  */
 
@@ -23,8 +24,19 @@ public class CourseServiceImpl implements CourseService {
 	@Autowired
     private CourseDao courseDao;
 	
+	@Autowired
+	private AreaService areaService;
+	
 	@Override
 	public void saveCourse(Course course) {
+		courseDao.saveCourse(course);
+
+	}
+	
+	@Override
+	public void saveCourse(Course course, long areaId, int sweekDuration) {
+		course.setWeekDuration(sweekDuration);
+		course.setArea(areaService.getAreaById(areaId));
 		courseDao.saveCourse(course);
 
 	}
@@ -41,6 +53,14 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public void updateCourse(Course course) {
+		courseDao.updateCourse(course);
+
+	}
+	
+	@Override
+	public void updateCourse(Course course, long areaId, int sweekDuration) {
+		course.setWeekDuration(sweekDuration);
+		course.setArea(areaService.getAreaById(areaId));
 		courseDao.updateCourse(course);
 
 	}
