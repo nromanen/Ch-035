@@ -136,5 +136,12 @@
 		</put-list-attribute>
 	</definition>
 	<!-- end Test -->
+	
+	<!-- Error page -->
+	<definition name = "errorpage" extends = "base-template">
+		<put-attribute name="title" value="Error" />
+		<put-attribute name="content" value="/WEB-INF/view/errorpage.jsp" />
+	</definition>
+	<!-- end error page -->
 
 </tiles-definitions>
