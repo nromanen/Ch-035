@@ -2,7 +2,11 @@
 .idea/
 target/
 .project
+<<<<<<< HEAD
 .CLASSPATH
 src/main/java/com/crsms/demo
 .gitignore
+=======
+.classpath
+>>>>>>> master
 *.iml
