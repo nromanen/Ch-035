@@ -12,6 +12,7 @@ import com.crsms.dao.CourseDao;
 import com.crsms.dao.ModuleDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
+import com.crsms.domain.Resource;
 
 /**
  * 
@@ -77,6 +78,13 @@ public class ModuleServiceImpl implements ModuleService {
 		logger.info("in moduleService deleteById(module id)");
 		moduleDao.deleteById(id);
 		logger.info("out moduleService deleteById(module id)");
+	}
+	
+	@Override
+	public void addResource(Long moduleId, Resource resource) {
+		Module module = this.getById(moduleId);
+		module.addResource(resource);
+		this.update(module);
 	}
 
 }
