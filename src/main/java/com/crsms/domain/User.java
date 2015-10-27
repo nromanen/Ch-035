@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -21,8 +24,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -57,14 +58,15 @@ public class User {
 	private String password;
 
 	@OneToOne(mappedBy = "user")
-	@Cascade({ CascadeType.ALL })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private UserInfo userInfo;
 
-	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-	@Cascade({ CascadeType.ALL })
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinTable (name = "user_roles", 
+	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
+	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private List<Role> roles;
+	private Role role;
 
 	public User() {
 		super();
@@ -102,24 +104,21 @@ public class User {
 		this.userInfo = userInfo;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+	public Role getRole() {
+		return role;
 	}
 	
-	public void setRole(List<Role> role) {
-		this.roles = role;
+	public void setRole(Role role) {
+		this.role = role;
 	}
-	public void addRole(Role role) {
-		this.roles.add(role);
-	}
-	
+		
 	@Override
 	public String toString() {
 		return "User{" 
 					+ ", id: " + getId() 
 					+ ", email: " + getEmail()
 					+ ", password: " + getPassword() 
-					+ ", role: " + getRoles()
+					+ ", role: " + getRole()
 					+ ", user info: " + getUserInfo() 
 					+ "}";
 	}

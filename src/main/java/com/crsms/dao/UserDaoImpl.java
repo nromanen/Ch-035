@@ -63,8 +63,7 @@ public class UserDaoImpl implements UserDao {
 		Session session = null;
 		try {
 			session = sessionFactory.getCurrentSession();
-			user = (User) session.load(User.class, id);
-			 user.getRoles().size();
+			user = (User) session.get(User.class, id);
 		} catch (Exception e) {
 			log.error("Error get user by Id: " + id + e);
 		} finally {

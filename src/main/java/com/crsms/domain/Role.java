@@ -1,14 +1,20 @@
 package com.crsms.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,9 +33,12 @@ public class Role {
 	@Column(nullable = false)
 	private String name;
 	
-	@ManyToOne
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_roles",
+	joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+	inverseJoinColumns = {@JoinColumn (name = "user_id", referencedColumnName = "id")})
 	@JoinColumn(name = "user_id")
-	private User user;
+	private List <User> users;
 
 	public Role() {
 		super();
@@ -54,12 +63,12 @@ public class Role {
 	public String toString() {
 		return getName();
 	}
-	public User getUser() {
-		return user;
+	public List<User> getUser() {
+		return users;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void addUser(User user) {
+		this.users.add(user);
 	}
 	
 
