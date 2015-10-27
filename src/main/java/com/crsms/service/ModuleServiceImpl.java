@@ -71,6 +71,13 @@ public class ModuleServiceImpl implements ModuleService {
 		logger.info("trying to get modules");
 		return moduleDao.getAll();
 	}
+	
+	@Override
+	public List<Module> getAllByCourseId(Long courseId) {
+		logger.info("in moduleService getAllByCourseId(courseId)");
+		logger.info("trying to get modules");
+		return moduleDao.getAllByCourseId(courseId);
+	}
 
 	@Override
 	public void deleteById(Long id) {
