@@ -23,18 +23,17 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User saveUser(User user) {
 		logger.debug("Saving user");
-		
 		if (user.getId() == null) {
 			sessionFactory.getCurrentSession().save(user);
 		} else {
 			sessionFactory.getCurrentSession().update(user);
 		}
-		
 		return user;
 	}
 
 	@Override
 	public void delete(Long id) {
+		logger.debug("Removing user with id " + id);
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"DELETE FROM User u WHERE u.id=:id");
 		query.setParameter("id", id).executeUpdate();
@@ -42,7 +41,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserById(Long id) {
-		logger.debug("Removing user with id " + id);
 		Session session = sessionFactory.getCurrentSession();
 		User user = (User) session.get(User.class, id);
 		return user;

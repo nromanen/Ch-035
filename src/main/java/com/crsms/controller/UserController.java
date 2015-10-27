@@ -1,11 +1,15 @@
 package com.crsms.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crsms.domain.Role;
 import com.crsms.domain.User;
@@ -14,6 +18,7 @@ import com.crsms.service.UserInfoService;
 import com.crsms.service.UserService;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
@@ -28,8 +33,8 @@ public class UserController {
 	};
 
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
-	public String submitUser(Model model, @RequestParam("email") String email,
-			@RequestParam("password") String password) {
+	public String submitUser(Model model, HttpSession session,
+			@RequestParam("email") String email, @RequestParam("password") String password) {
 		Role role = new Role();
 		role.setName("ROLE_STUDENT");
 		role.setId((long) 2);
@@ -39,31 +44,45 @@ public class UserController {
 		user.setPassword(password);
 		user.setRole(role);
 		userService.saveUser(user);
-		model.addAttribute("email", email);
-		model.addAttribute("password", password);
-		model.addAttribute("id", user.getId());
+		session.setAttribute("email", email);
 
-		return "userProfile"; ///"login";
+		return "redirect:/userProfile"; ///"login";
 	};
+	
+	@RequestMapping("/userProfile")
+	public String userProfile() {
+		return "userProfile";
+	}
 
 	@RequestMapping(value = "/submitUserInfo", method = RequestMethod.POST)
 	public String submitUserInfo(Model model,
 			@RequestParam("fName") String fName,
-			@RequestParam("sName") String sName, @RequestParam("id") Long id) {
-		User user = userService.getUserById(id);
+			@RequestParam("sName") String sName,
+			@ModelAttribute("email") String email) {
+		User user = userService.getUserByEmail(email);
 
 		UserInfo userInf = new UserInfo();
 		userInf.setFirstName(fName);
 		userInf.setSecondName(sName);
 		userInf.setUser(user);
 		userInfoService.saveUserInfo(userInf);
-		return "logout";
+		return "redirect:/signUp"; //"logout"
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+	public String changePassword(HttpSession session, 
+			@RequestParam("currentPass") String currentPassword, @RequestParam("newPassword") String newPassword) {
+		String email = (String) session.getAttribute("email");
+		User user = userService.getUserByEmail(email);
+		
+		if (!user.getPassword().equals(currentPassword)) {
+			return "Fail";
+		}
+		
+		user.setPassword(newPassword);
+		userService.saveUser(user);
+		return "Success";
 	}
 
-	/*
-	 * public String changePass(Model model, @RequestParam("id") Long id,
-	 * 
-	 * @RequestParam("nPass") Long newPass) { User user =
-	 * userService.getUserById(id); return "userProfile"; }
-	 */
 }

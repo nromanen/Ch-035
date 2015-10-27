@@ -40,7 +40,7 @@ public class User {
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq", allocationSize = 6)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@Column(nullable = false)

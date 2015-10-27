@@ -1,3 +1,4 @@
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -7,46 +8,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Profile page</title>
 
-<link
-	href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-darkness/jquery-ui.min.css"
-	rel="stylesheet">
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script
-	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<script type="text/javascript">
 
-<script>
-		$(function() {
-			var dialog = $("#dialog-form").dialog({
-				autoOpen : false,
-				height : 300,
-				width : 350,
-				modal : true,
-				buttons : {
-					Change : function() {
-						document.changePass.submit();
-					},
-					Cancel : function() {
-						$(this).dialog("close");
-					}
-				},
-			});
-			
-			$('form#changePass').submit(function(){
-				var cPass = $("input#currentPass").val();
-				var pass = $("input#password").val();
-				if(pass==cPass){
-					alert("Incorrect current password");
-					$(this).dialog("close");
-					submit = false;
-				};
-			});
-			
-			$("#changePass").button().on("click", function() {
-				dialog.dialog("open");
-			});
-		});
-	</script>
+	$(document).ready(function() {
+		$("#changePasswordBtn").click(function(){
+			var url = "changePassword?currentPass=" + $("#currentPass").val() 
+					+ "&newPassword=" + $("#newPassword").val()
+					+ "&_csrf=" + $("#csrf").val();
+		    $.ajax({
+	            type: "GET",
+	            url: url,
+	            success : function(response){
+	            	if (response == "Fail") {
+	            		alert("Current password are not valid");
+	            	} else {
+	            		$("#closeModalBtn").click();
+	            	}
+	            },
+	            error : function(){
+	                alert("Failed to submit form");
+	            }
+	        });
+	    });
+	});
+    
+</script>
 </head>
 
 <body>
@@ -57,85 +43,84 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Change password</h4>
+					<h4 class="modal-title" id="myModalLabel"><spring:message code = "crsms.userProfile.changePassword"/></h4>
 				</div>
 				<div class="modal-body">
-					<table>
-						<tr>
-							<td>Current Password</td>
-							<td><input type="password" name="currentPassword"></td>
-						</tr>
-						<tr>
-							<td>New password</td>
-							<td><input type="password" name="newPassword"></td>
-						</tr>
-					</table>
+					<form action="changePassword" id="changePasswordForm" method="POST">
+						<table>
+							<tr>
+								<td><spring:message code = "crsms.userProfile.modCurPass"/></td>
+								<td><input type="password" name="currentPass" required
+									id="currentPass"></td>
+							</tr>
+							<tr>
+								<td><spring:message code = "crsms.userProfile.modNewPass"/></td>
+								<td><input type="password" name="newPassword" 
+									id="newPassword" size="25" required
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"></td>
+							</tr>
+						</table>
+						<input type="hidden" id="csrf" name="${_csrf.parameterName}"
+							value="${_csrf.token}"/>
+					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
+					<button type="button" id="closeModalBtn" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.userProfile.modclose"/></button>
+					<button type="button" id="changePasswordBtn" class="btn btn-primary"><spring:message code = "crsms.userProfile.changePassword"/></button>
+				</div>					
 			</div>
 		</div>
 	</div>
-	<h2>Welcome! It's your personal page!</h2>
-	<form action="changePass" name="changePass" id="changePass"
-		method="POST">
-		<input type="hidden" id="id" value="<%=request.getAttribute("id")%>">
-			<div id="dialog-form" title="Change password">
-			<table id="table">
-				<tr>
-					<td width="*">Current Password<font size="3" color="red">
-							* </font></td>
-					<td width="60%"><input type="password" name="currentPass" required 
-						id="currentPass" size="25" oninvalid="setCustomValidity('Enter correct password')"><br></td>
-				</tr>
-				<tr>
-					<td width="*">New Password<font size="3" color="red"> *
-					</font></td>
-					<td width="60%"><input type="password" name="nPass"
-						id="nPass" size="25" required
-						pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-						oninvalid="setCustomValidity('Enter correct password')"><br></td>
-				</tr>
-			</table>
+
+	<h2><spring:message code = "crsms.userProfile.header"/></h2>
+
+	<div class="container">
+		<div class="row h2">
+			<div class="col-md-4 col-md-offset-0">
+				<spring:message code = "crsms.userProfile.header"/><br>
+				<br>
+			</div>
 		</div>
-	</form>
-	<form action="submitUserInfo" name="userInformation" method="POST">
-	<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" /> 
-	<input type="hidden" name="id"
-		value="<%=request.getAttribute("id")%>">
-		<table id="table">
-			<tr>
-				<td width="*">First Name <font size="3" color="red"> * </font></td>
-				<td width="60%"><input name="fName" id="fName" size="25"
-					required pattern="^[A-Z][a-z]{3,12}$"><br></td>
-			</tr>
-			<tr>
-				<td width="*">Second Name <font size="3" color="red"> *
-				</font></td>
-				<td width="60%"><input name="sName" id="sName" size="25"
-					required pattern="^[A-Z][a-z]{3,12}$"><br></td>
-			</tr>
-			<tr>
-				<td width="*">Email</td>
-				<td width="60%"><input type="email" name="email" id="email"
-					size="25" value=<%=request.getAttribute("email")%> readonly><br></td>
-			</tr>
-			<tr>
-				<td width="*"></td>
-				<td width="60%" align="right">
-					<button type="button" class="btn btn-small" data-toggle="modal" data-target=".bs-example-modal-sm">Change password</button>
-				<br></td>
-			</tr>
-			<tr align="right" bgcolor="#2e6da4">
-				<td colspan="2">
-					<input type="submit" value="Save"> 
-				</td>
-			</tr>
-		</table>
-	</form>
+		<div class="row">
+			<div class="col-md-offset-0">
+				<form id="user-information" action="submitUserInfo"
+					name="userInformation" method="POST" class="form-horizontal">
+					<div class="form-group">
+						<label for="fName" class="col-md-2"><spring:message code = "crsms.userProfile.fName"/></label>
+						<div class="col-md-2">
+							<input type="text" class="form-control" id="fName" name="fName"
+								placeholder="First name" required pattern="^[A-Z][a-z]{3,12}$">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="sName" class="col-md-2"><spring:message code = "crsms.userProfile.sName"/></label>
+						<div class="col-md-2">
+							<input type="text" class="form-control" id="sName" name="sName"
+								placeholder="Second name" required pattern="^[A-Z][a-z]{3,12}$">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email" class="col-md-2"><spring:message code = "crsms.userProfile.email"/></label>
+						<div class="col-md-2">
+							<input type="email" class="form-control" id="email" name="email" value="${ email }" readonly>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-3 col-md-offset-2">
+							<button type="button" class="btn btn-small" data-toggle="modal"
+								data-target=".bs-example-modal-sm"><spring:message code = "crsms.userProfile.changePassword"/></button>
+						</div>
+					</div>
+
+					<div class="col-md-4 col-md-offset-3">
+						<button type="submit" class="btn btn-default"><spring:message code = "crsms.userProfile.save"/></button>
+					</div>
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}"/>
+				</form>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>
