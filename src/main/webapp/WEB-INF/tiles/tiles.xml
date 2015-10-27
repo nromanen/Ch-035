@@ -103,16 +103,33 @@
 			<add-attribute value="/resources/js/resource/resources.js" />
 		</put-list-attribute>
 	</definition>
-	<definition name = "add" extends = "base-template">
+	
+	<definition name = "addResource" extends = "base-template">
 		<put-attribute name="title" value="Add Resource" />
 		<put-attribute name="header-title" value="Add new resource" />
-		<put-attribute name="content" value="/WEB-INF/view/resource/add.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			
 		</put-list-attribute>
 		<put-list-attribute name="javascripts" inherit="true">
 			
 		</put-list-attribute>
+	</definition>
+	
+	<definition name = "editResource" extends = "base-template">
+		<put-attribute name="title" value="Edit Resource" />
+		<put-attribute name="header-title" value="Edit resource" />
+		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			
+		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			
+		</put-list-attribute>
+	</definition>
+	
+	<definition name = "fileUpload"  extends = "base-template">
+		<put-attribute name="content" value="/WEB-INF/view/resource/file_upload.jsp" />
 	</definition>
 	
 	<!-- end Resource -->
