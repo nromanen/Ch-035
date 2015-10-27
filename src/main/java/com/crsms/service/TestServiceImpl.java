@@ -1,6 +1,7 @@
 package com.crsms.service;
 
 import com.crsms.dao.TestDao;
+import com.crsms.domain.Module;
 import com.crsms.domain.Test;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +22,9 @@ public class TestServiceImpl implements TestService {
     
     @Autowired
     private TestDao testDao;
+    
+    @Autowired
+    ModuleService moduleService;
 
     public TestServiceImpl() {
     }
@@ -29,6 +33,8 @@ public class TestServiceImpl implements TestService {
     @Transactional
     public void createTest(Long moduleId, Test test) {
             logger.info("TestService. Creating a new test.");
+            Module module = moduleService.getById(moduleId);
+            test.setModule(module);
             testDao.saveTest(test);
             logger.info("TestService. Creating a new test successfully.");
     }
