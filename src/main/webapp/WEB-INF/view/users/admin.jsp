@@ -8,7 +8,7 @@
 	</c:if>
 </div>
 <br />
-
+<c:if test="${!empty users}">
 <table class="table table-bordered">
 	<caption>List of Users</caption>
 	<thead>
@@ -45,6 +45,7 @@
 		</c:forEach>
 	</tbody>
 </table>
+</c:if>
 <br />
 <c:url var = "createUser" value = "admin/adduser/" />
 <a class = "btn btn-primary btn-lg pull-right" href = "${createUser}"><spring:message code="crsms.admin.createNew"/></a>

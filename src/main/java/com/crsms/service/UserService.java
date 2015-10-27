@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.crsms.domain.Role;
 import com.crsms.domain.User;
 /**
  * 
@@ -14,7 +15,9 @@ public interface UserService {
 
 	User saveUser(User user);
 
-	User updateUser(User user, long roleId);
+	User saveUser(User user, long roleId);
+	
+	User updateUser(User user, Role role);
 	
 	User updateUser(User user);
 
@@ -22,7 +25,7 @@ public interface UserService {
 
 	User getUserByEmail(String email);
 	
-//	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
 	void delete(Long id);
 
 	

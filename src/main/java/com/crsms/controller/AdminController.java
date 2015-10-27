@@ -54,6 +54,7 @@ public class AdminController {
 	public String addUser(ModelMap model) {
 		User user = new User();
 		model.addAttribute("user", user);
+		model.addAttribute("roles", initializeRoles());
 		return "adduser";
 	}
 
@@ -67,11 +68,14 @@ public class AdminController {
 	public String editUser(@PathVariable Long userId, ModelMap model) {
 		User user = userService.getUserById(userId);
 		model.addAttribute("user", user);
+		model.addAttribute("roles", initializeRoles());
 		return "adduser";
 	}
 
 	@RequestMapping(value = "/edit/{userId}", method = RequestMethod.POST)
-	public String updateUser( @PathVariable long userId, @ModelAttribute("user") User user, @ModelAttribute("roles") Role role) {
+	public String updateUser( @PathVariable long userId, 
+								@ModelAttribute("user") User user) {
+		
 		userService.updateUser(user);
 		return "redirect:/admin";
 	}
