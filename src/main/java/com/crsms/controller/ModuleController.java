@@ -25,9 +25,6 @@ public class ModuleController {
 	
 	private final String MODULES_PAGE = "modules";
 	private final String CREATE_MODULE_PAGE = "createmodule";
-	private final String ERROR_PAGE = "errorpage";
-	
-	private final String COURSE_DOESNT_EXISTS_MESSAGE = "Course with that ID doesn't exist: ";
 	
 	@Autowired
 	private ModuleService moduleService;
@@ -40,11 +37,6 @@ public class ModuleController {
 	// crsms/courses/1/modules/ - працюватиме	
 	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
 	public String showModules(@PathVariable Long courseId, Model model) {
-		if (!validateCourseId(courseId)) {
-			model.addAttribute("message", COURSE_DOESNT_EXISTS_MESSAGE + courseId);
-			return ERROR_PAGE;
-		}
-		
 		List<Module> modules = moduleService.getAllByCourseId(courseId);
 		model.addAttribute("modules", modules);
 		return MODULES_PAGE;
