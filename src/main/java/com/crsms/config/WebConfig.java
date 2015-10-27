@@ -1,6 +1,7 @@
 package com.crsms.config;
 
 import java.util.Locale;
+import java.util.Properties;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -12,10 +13,11 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
-
+//@Configuration is turned off for console debug only!!!
 @Configuration
 @ComponentScan
 @EnableWebMvc
@@ -53,7 +55,7 @@ class WebConfig extends WebMvcConfigurationSupport {
     @Bean
 	public LocaleResolver localeResolver() {
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
-		resolver.setDefaultLocale(new Locale("ua"));
+		resolver.setDefaultLocale(new Locale("en"));
 		resolver.setCookieName("localeCookie");
 		resolver.setCookieMaxAge(4800);
 		return resolver;
@@ -62,6 +64,19 @@ class WebConfig extends WebMvcConfigurationSupport {
     @Bean(name = "multipartResolver")
     public StandardServletMultipartResolver resolver() {
         return new StandardServletMultipartResolver();
+    }
+    
+    @Bean(name="simpleMappingExceptionResolver")
+    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
+        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+        
+        /* If u want specific page for specific Exception, use this:
+        Properties mappings = new Properties();
+        mappings.setProperty("ElementNotFoundException", "errorpage");
+        resolver.setExceptionMappings(mappings);*/
+        
+        resolver.setDefaultErrorView("errorpage");
+        return resolver;
     }
  
 }

@@ -53,6 +53,9 @@ public class ModuleDaoImpl implements ModuleDao {
 		}
 	}
 
+	/**
+	 * Returns Module or null
+	 */
 	@Override
 	public Module getById(Long id) {
 		Module module = null;
@@ -69,10 +72,23 @@ public class ModuleDaoImpl implements ModuleDao {
 	public List<Module> getAll() {
 		List<Module> list = new ArrayList<Module>();
 		try {
-			String hql = "from Module m order by m.id asc";
+			String hql = "from Module order by id asc";
 			list = sessionFactory.getCurrentSession().createQuery(hql).list();
 		} catch (Exception e) {
 			logger.error("Error in get all modules: " + e);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<Module> getAllByCourseId(Long courseId) {
+		List<Module> list = new ArrayList<Module>();
+		try {
+			String hql = "from Module where course_id = :id order by id asc";
+			Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", courseId);
+			list = query.list();
+		} catch (Exception e) {
+			logger.error("Error in get all modules by course id: " + e);
 		}
 		return list;
 	}
