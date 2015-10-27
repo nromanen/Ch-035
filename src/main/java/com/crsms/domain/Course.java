@@ -134,7 +134,7 @@ public class Course {
 		return area;
 	}
 
-	public void setDirection(Area area) {
+	public void setArea(Area area) {
 		this.area = area;
 	}
 

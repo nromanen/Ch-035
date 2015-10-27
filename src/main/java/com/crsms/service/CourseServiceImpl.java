@@ -36,7 +36,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void saveCourse(Course course, long areaId, int sweekDuration) {
 		course.setWeekDuration(sweekDuration);
-		course.setDirection(areaService.getAreaById(areaId));
+		course.setArea(areaService.getAreaById(areaId));
 		courseDao.saveCourse(course);
 
 	}
@@ -60,7 +60,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void updateCourse(Course course, long areaId, int sweekDuration) {
 		course.setWeekDuration(sweekDuration);
-		course.setDirection(areaService.getAreaById(areaId));
+		course.setArea(areaService.getAreaById(areaId));
 		courseDao.updateCourse(course);
 
 	}
