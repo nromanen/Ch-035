@@ -20,6 +20,7 @@
     </Appenders>
     
     <Loggers>
+   
     	<Logger name="com.crms.service" level="warn" additivity="true">
 			<AppenderRef ref="RollingFile" level="warn" />
 		</Logger>
