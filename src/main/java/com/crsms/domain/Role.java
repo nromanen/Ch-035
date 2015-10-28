@@ -19,8 +19,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "roles")
 
-@NamedQueries({ @NamedQuery(name = Role.ALL_SORTED, query = "FROM Role r "),
-				@NamedQuery(name = Role.BY_NAME, query = "FROM Role r WHERE r.name= :name")})
+@NamedQueries({ 
+	@NamedQuery(name = Role.ALL_SORTED, query = "FROM Role r "),
+	@NamedQuery(name = Role.BY_NAME, query = "FROM Role r WHERE r.name= :name"
+	)})
 public class Role {
 
 	public static final String ALL_SORTED = "Role.getAll";
@@ -34,12 +36,14 @@ public class Role {
 	@Column(nullable = false)
 	private String name;
 	
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "user_roles",
-//	joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
-//	inverseJoinColumns = {@JoinColumn (name = "user_id", referencedColumnName = "id")})
-//	@JoinColumn(name = "user_id")
-//	private List <User> users;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_roles",
+	joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+	inverseJoinColumns = {@JoinColumn (name = "user_id", referencedColumnName = "id")})
+	@JoinColumn(name = "user_id")
+	private List <User> users;
+
+	
 
 	public Role() {
 		super();
@@ -65,22 +69,13 @@ public class Role {
 		return getName();
 	}
 
-//	public List<User> getUser() {
-//		return users;
-//	}
-//
-//	public void addUser(User user) {
-//		this.users.add(user);
-//	}
+	public List<User> getUser() {
+		return users;
+	}
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 	
-
-//	public List<User> getUser() {
-//		return users;
-//	}
-//
-//	public void addUser(User user) {
-//		this.users.add(user);
-//	}
 	  @Override
 	  public boolean equals(Object obj) {
 

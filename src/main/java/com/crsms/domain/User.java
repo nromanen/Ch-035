@@ -4,10 +4,7 @@ import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-<<<<<<< HEAD
-=======
 import javax.persistence.CascadeType;
->>>>>>> e14daa8f96297defa4b8fcdb882ba1244e04297a
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,27 +53,27 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	@Size(min=5, max=30)
+	@Size(min=5, max=64)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private UserInfo userInfo;
 
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinTable (name = "user_roles", 
-//	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
-//	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
-//	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-//	private Role role;
-	
-	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable (name = "user_roles", 
-	joinColumns = {@JoinColumn(name="user_id")},
-	inverseJoinColumns = {@JoinColumn(name="role_id")})
+	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
+	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private List <Role> role;
+	private Role role;
+	
+//	
+//	@ManyToMany
+//	@JoinTable (name = "user_roles", 
+//	joinColumns = {@JoinColumn(name="user_id")},
+//	inverseJoinColumns = {@JoinColumn(name="role_id")})
+//	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//	private List <Role> role;
 
 	public User() {
 		super();
@@ -114,23 +111,21 @@ public class User {
 		this.userInfo = userInfo;
 	}
 	
-	public List<Role> getRoles() {
-		return role;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.role = roles;
-	}
-	public void addRole( Role role) {
-		this.role.add(role);
-	}
-//	public Role getRole() {
+//	public List<Role> getRole() {
 //		return role;
 //	}
-//	
-//	public void setRole(Role role) {
+//
+//	public void setRole(List<Role> role) {
 //		this.role = role;
 //	}
+
+	public Role getRole() {
+		return role;
+	}
+	
+	public void setRole(Role role) {
+		this.role = role;
+	}
 		
 
 	  @Override
@@ -169,7 +164,7 @@ public class User {
 					+ ", id: " + getId() 
 					+ ", email: " + getEmail()
 					+ ", password: " + getPassword() 
-					+ ", role: " + getRoles()
+					+ ", role: " + getRole()
 					+ ", user info: " + getUserInfo() 
 					+ "}";
 	}

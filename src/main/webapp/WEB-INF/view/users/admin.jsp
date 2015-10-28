@@ -25,14 +25,12 @@
 				<td>${user.email}</td>
 				<td>${user.password}</td>
 				<td>${user.role}</td>
-
 				<td class="managementCell">
 				<c:url var="editUser"	value="admin/edit/${user.id}" /> 
 				<a href="${editUser}">
 				 <span class="glyphicon glyphicon-pencil"></span> 
 						 <spring:message code="crsms.admin.edit"/>
 				</a></td>
-
 				<td class="managementCell">
 				<c:url var="deleteUser"	value="admin/delete/${user.id}" /> 
 				<a href="${deleteUser}">
