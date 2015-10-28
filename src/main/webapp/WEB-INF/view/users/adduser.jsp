@@ -41,7 +41,7 @@
 		</c:set>
 		<label for="role" class="col-sm-2 control-label">${userRole}: </label>
 		<div class="col-sm-10">
-		<form:select path="role" items="${roles}" multiple="true" itemValue="id"
+		<form:select path="role" items="${roles}" multiple="true" size="5" itemValue="id"
  								itemLabel="name" class="form-control input-sm" />
 			<%-- <select id="roles" name="roleId">
 				<c:forEach var="currentRole" items="${roles}" >

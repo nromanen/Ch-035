@@ -18,10 +18,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "roles")
-@NamedQueries({ @NamedQuery(name = Role.ALL_SORTED, query = "FROM Role r ") })
+
+@NamedQueries({ @NamedQuery(name = Role.ALL_SORTED, query = "FROM Role r "),
+				@NamedQuery(name = Role.BY_NAME, query = "FROM Role r WHERE r.name= :name")})
 public class Role {
 
 	public static final String ALL_SORTED = "Role.getAll";
+	public static final String BY_NAME = "Role.getByName";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
