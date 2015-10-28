@@ -11,15 +11,17 @@
 		<div class="col-sm-10">
 			<form:input path = "name" id = "name" 
 						class="form-control" placeholder="${moduleName}"/>
+			<form:errors path = "name" cssClass = "label label-danger" />
 		</div>
 	</div>
 	
 	<div class="form-group">
-		<c:set var = "moduleDescription"><spring:message code = "crsms.createmodule.description"/></c:set>
+		<c:set var = "moduleDescription"><spring:message code = "crsms.text.description"/></c:set>
 		<label for = "description" class="col-sm-2 control-label">${moduleDescription}: </label>
 		<div class="col-sm-10">
 			<form:textarea path = "description" name = "description" 
 							class="form-control" placeholder="${moduleDescription}"/>
+			<form:errors path = "description" cssClass = "label label-danger" />
 		</div>
 	</div>
 	
@@ -35,7 +37,7 @@
 	
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
-			<c:set var = "moduleSave"><spring:message code = "crsms.createmodule.save"/></c:set>
+			<c:set var = "moduleSave"><spring:message code = "crsms.button.save"/></c:set>
 			<input type = "submit" value = "${moduleSave}" class="btn btn-success"/>
 		</div>
 	</div>		

@@ -2,11 +2,11 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <c:url var = "addResourceLink" value = "add" />
-<a class = "btn btn-primary" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
+<a class = "btn btn-success" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
 
-<table class = "table table-bordered">
-	<thead class = "">
-		<tr>
+<table class = "table table-bordered table-hover">
+	<thead>
+		<tr class = "success">
 			<th><spring:message code = "crsms.text.id" /></th>
 			<th><spring:message code = "crsms.text.name" /></th>
 			<th><spring:message code = "crsms.resource.text.type" /></th>
@@ -16,7 +16,7 @@
 	</thead>
 	<tbody>
 		<c:forEach var = "resource" items = "${resources}">
-			<tr>
+			<tr class = "active">
 				<td class="resource-id" >${resource.id}</td>
 				<td class="resource-name" >${resource.name}</td>
 				<td>${resource.type}</td>
@@ -24,7 +24,7 @@
 				<td>
 					<div class="btn-toolbar" role="toolbar">
 					  <c:url var = "editResourceLink" value = "${resource.id}/edit" />
-					  <a href = "${editResourceLink}" class="btn btn-primary btn-sm" 
+					  <a href = "${editResourceLink}" class="btn btn-success btn-sm" 
 					  		data-toggle="tooltip" title="<spring:message code = "crsms.resource.button.edit" />" >
 					    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					  </a>	
@@ -63,6 +63,6 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<a class = "btn btn-primary" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
+<a class = "btn btn-success" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
 
 

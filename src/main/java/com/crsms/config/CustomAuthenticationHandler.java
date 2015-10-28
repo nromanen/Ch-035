@@ -16,8 +16,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomAuthenticationHandler extends
-		SimpleUrlAuthenticationSuccessHandler {
+public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -35,8 +34,7 @@ public class CustomAuthenticationHandler extends
 
 	protected String determineTargetUrl(Authentication authentication) {
 		String url = "";
-		Collection<? extends GrantedAuthority> authorities = authentication
-				.getAuthorities();
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		List<String> roles = new ArrayList<String>();
 		for (GrantedAuthority a : authorities) {
 			roles.add(a.getAuthority());
@@ -52,7 +50,6 @@ public class CustomAuthenticationHandler extends
 		}else {
 			url = "/403";
 		}
-
 		return url;
 	}
 

@@ -26,4 +26,5 @@ public interface CourseService {
 	Course getCourse(String name);
 	
 	void deleteCourse(Course course);
+	List<Course> getAllByAreaId(Long areaId);
 }

@@ -2,7 +2,6 @@ package com.crsms.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +10,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.User;
@@ -73,7 +71,6 @@ public class UserDaoImpl implements UserDao {
 		return user;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public User getUserByEmail(String email) {
 		User user = new User();

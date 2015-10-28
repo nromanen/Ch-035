@@ -28,4 +28,8 @@ public interface ResourceService {
 	List<Resource> getAll();
 
 	void deleteById(Long id);
+	
+	List<Resource> getAllByModuleId(Long moduleId);
+	
+	void save(String name, String path);
 }

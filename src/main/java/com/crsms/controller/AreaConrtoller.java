@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.crsms.domain.Area;
 import com.crsms.service.AreaService;
+import com.crsms.service.CourseService;
 import com.crsms.validator.AreaValidator;
 
 /**
@@ -23,7 +24,9 @@ public class AreaConrtoller {
 	@Autowired
 	private AreaService areaService;
 	@Autowired
-	AreaValidator validator;
+	private CourseService courseService;
+	@Autowired
+	private AreaValidator validator;
 	
 	@RequestMapping(value = {"/areas"}, method = RequestMethod.GET)
 	
@@ -33,20 +36,24 @@ public class AreaConrtoller {
         return "area";
     }
 	
+	@RequestMapping(value = "/areas/add", method = RequestMethod.GET)
+    public String showArea(@ModelAttribute("area") Area area, BindingResult result, Model model) {
+		return "reenter";
+	}
+	
 	@RequestMapping(value = "/areas/add", method = RequestMethod.POST)
-    public String addArea(@ModelAttribute("area") Area area, BindingResult result) {
-		//Validation code
-	    validator.validate(area, result);
-	     
-	    //Check validation errors
+    public String addArea(@ModelAttribute("area") Area area, BindingResult result, Model model) {
+		validator.validate(area, result);
 	    if (result.hasErrors()) {
-	        return "redirect:/areas";
+	        model.addAttribute("errors", "result");
+	    	return "reenter";
 	    }
 	    if(area.getId() == null) {
 	    	areaService.saveArea(area);
 	    } else {
 	    	areaService.updateArea(area);
 	    }
+	   
         return "redirect:/areas";
     }
 
@@ -64,5 +71,9 @@ public class AreaConrtoller {
         return "redirect:/areas";
     }
 
-
+    @RequestMapping("/areas/{id}/courses")
+    public String getAreaCourses(@PathVariable("id") Long id) {
+        courseService.getAllByAreaId(id);
+        return "redirect:/areas";
+    }
 }

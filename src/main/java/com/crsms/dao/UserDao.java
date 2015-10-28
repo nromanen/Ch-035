@@ -13,7 +13,7 @@ import com.crsms.domain.User;
 public interface UserDao {
 
 	User saveUser(User user);
-
+	
 	User getUserById(Long id);
 
 	User getUserByEmail(String email);
