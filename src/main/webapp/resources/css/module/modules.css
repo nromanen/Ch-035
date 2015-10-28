@@ -3,9 +3,13 @@ th, .center {
 }
 
 .managementCell {
-	width: 96px;
+	width: 8%;
 }
 
 .contentCell {
-	width: 182px;
+	width: 16%;
+}
+
+.nameCell {
+	width: 30%;
 }
