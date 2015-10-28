@@ -54,6 +54,20 @@ public class RoleDaoImpl implements RoleDao {
 		}
 		return role;
 	}
+
+	@Override
+	public Role getRoleByName(String name) {
+		Role role = new Role();
+		try {
+			log.info("get role by name: ", role);
+			Query query = sessionFactory.getCurrentSession()
+					.getNamedQuery(Role.BY_NAME).setString("name", name);
+			role = (Role) query.uniqueResult();
+		} catch (Exception e) {
+			log.error("Error get role by email: " + name + e);
+		}
+		return role;
+	}
 	
 	
 	

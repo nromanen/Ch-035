@@ -3,7 +3,6 @@ package com.crsms.domain;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -20,10 +18,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "roles")
-@NamedQueries({ @NamedQuery(name = Role.ALL_SORTED, query = "FROM Role r ") })
+
+@NamedQueries({ @NamedQuery(name = Role.ALL_SORTED, query = "FROM Role r "),
+				@NamedQuery(name = Role.BY_NAME, query = "FROM Role r WHERE r.name= :name")})
 public class Role {
 
 	public static final String ALL_SORTED = "Role.getAll";
+	public static final String BY_NAME = "Role.getByName";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -63,6 +64,7 @@ public class Role {
 	public String toString() {
 		return getName();
 	}
+
 //	public List<User> getUser() {
 //		return users;
 //	}
@@ -72,4 +74,28 @@ public class Role {
 //	}
 	
 
+//	public List<User> getUser() {
+//		return users;
+//	}
+//
+//	public void addUser(User user) {
+//		this.users.add(user);
+//	}
+	  @Override
+	  public boolean equals(Object obj) {
+
+	    if (obj == null)  {
+	      return false;
+	    }
+	    if (!(obj instanceof Role)) {
+	      return false;
+	    }
+	    Role other = (Role) obj;
+	    return this.id.equals(other.id);
+	  }
+
+	  @Override
+	  public int hashCode() {
+	    return (int) ((id == null) ? 0 : id);
+	  }
 }

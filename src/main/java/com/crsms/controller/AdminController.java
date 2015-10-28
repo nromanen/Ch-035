@@ -2,15 +2,23 @@ package com.crsms.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +58,9 @@ public class AdminController {
 		return "redirect:/admin";
 	}
 
+	
+	
+	
 	@RequestMapping(value = { "/adduser" }, method = RequestMethod.GET)
 	public String addUser(ModelMap model) {
 		User user = new User();
@@ -57,9 +68,16 @@ public class AdminController {
 		model.addAttribute("roles", initializeRoles());
 		return "adduser";
 	}
+	
+	
+	
+	
 
 	@RequestMapping(value = { "/adduser" }, method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") User user, ModelMap model) {
+	public String saveUser(@Valid User user, BindingResult result, ModelMap model) {
+		if(result.hasErrors()){
+			return "adduser";
+		}
 		userService.saveUser(user);
 		return "redirect:/admin";
 	}
@@ -74,8 +92,10 @@ public class AdminController {
 
 	@RequestMapping(value = "/edit/{userId}", method = RequestMethod.POST)
 	public String updateUser( @PathVariable long userId, 
-								@ModelAttribute("user") User user) {
-		
+								@Valid User user, BindingResult result) {
+		if(result.hasErrors()){
+			return "adduser";
+		}
 		userService.updateUser(user);
 		return "redirect:/admin";
 	}
@@ -87,6 +107,21 @@ public class AdminController {
 		return roles;
 	}
 
+	@InitBinder
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
+	{	
+	  binder.registerCustomEditor(List.class, "roles", new CustomCollectionEditor(List.class)
+	  {
+	    protected Object convertElement(Object element){
+	    if (element != null) {
+            Long id = new Long((String)element);
+            Role role =  roleService.getRolebyId(id);
+            return role;
+        }
+        return null;
+	    }
+	  });
+	}
 //	private String getPrincipal() {
 //		String userEmail = null;
 //		Object principal = SecurityContextHolder.getContext()

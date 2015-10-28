@@ -13,7 +13,6 @@
 	<caption>List of Users</caption>
 	<thead>
 		<tr class="bg-primary">
-			<th><spring:message code="crsms.admin.id" /></th>
 			<th><spring:message code="crsms.admin.email" /></th>
 			<th><spring:message code="crsms.admin.password" /></th>
 			<th><spring:message code="crsms.admin.role" /></th>
@@ -23,7 +22,6 @@
 	<tbody>
 		<c:forEach items="${users}" var="user">
 			<tr>
-				<td>${user.id}</td>
 				<td>${user.email}</td>
 				<td>${user.password}</td>
 				<td>${user.role}</td>

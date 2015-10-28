@@ -15,6 +15,9 @@
 		<div class="col-sm-10">
 			<form:input path="email" id="email" class="form-control"
 				placeholder="${userEmail}" />
+				<div class="has-error">
+                        <form:errors path="email" class="help-inline"/>
+                    </div>
 		</div>
 	</div>
 
@@ -27,20 +30,30 @@
 		<div class="col-sm-10">
 			<form:input path="password" id="password" class="form-control"
 				placeholder="${userPassword}" />
+				<div class="has-error">
+                        <form:errors path="password" class="help-inline"/>
+                    </div>
 		</div>
 	</div>
 	<div class="form-group">
 		<c:set var="userRole">
 			<spring:message code="crsms.createuser.role" />
 		</c:set>
-		<label for="role" class="col-sm-2 control-label">${userRole}:
-		</label>
+		<label for="role" class="col-sm-2 control-label">${userRole}: </label>
 		<div class="col-sm-10">
-			<form:select path="role" id="role" class="form-control"	placeholder="${userRole}" >
-				 <form:options items="${roles}" />
-				    </form:select>
+		<form:select path="role" items="${roles}" multiple="true" size="5" itemValue="id"
+ 								itemLabel="name" class="form-control input-sm" />
+			<%-- <select id="roles" name="roleId">
+				<c:forEach var="currentRole" items="${roles}" >
+					<option value="${currentRole.id}">${currentRole.name}</option>
+				</c:forEach>
+			</select> --%>
+			<div class="has-error">
+                        <form:errors path="role" class="help-inline"/>
+                    </div>
 		</div>
 	</div>
+
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<c:set var="userSave">
@@ -49,5 +62,5 @@
 			<input type="submit" value="${userSave}" class="btn btn-default" />
 		</div>
 	</div>
-	
+
 </form:form>
