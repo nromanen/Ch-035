@@ -1,24 +1,17 @@
 package com.crsms.controller;
 
-import java.util.HashMap;
-
-
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.crsms.domain.Area;
 import com.crsms.service.AreaService;
+import com.crsms.service.CourseService;
 import com.crsms.validator.AreaValidator;
 
 /**
@@ -31,7 +24,9 @@ public class AreaConrtoller {
 	@Autowired
 	private AreaService areaService;
 	@Autowired
-	AreaValidator validator;
+	private CourseService courseService;
+	@Autowired
+	private AreaValidator validator;
 	
 	@RequestMapping(value = {"/areas"}, method = RequestMethod.GET)
 	
@@ -41,20 +36,16 @@ public class AreaConrtoller {
         return "area";
     }
 	
+	@RequestMapping(value = "/areas/add", method = RequestMethod.GET)
+    public String showArea(@ModelAttribute("area") Area area, BindingResult result, Model model) {
+		return "reenter";
+	}
+	
 	@RequestMapping(value = "/areas/add", method = RequestMethod.POST)
-    public String addArea(@ModelAttribute("area") Area area, BindingResult result, RedirectAttributes redirectAttributes) {
-		//Validation code
-	    validator.validate(area, result);
-	    
-	    //model.addAttribute("errors", "result");
-	    
-	   
-	     
-	    //Check validation errors
+    public String addArea(@ModelAttribute("area") Area area, BindingResult result, Model model) {
+		validator.validate(area, result);
 	    if (result.hasErrors()) {
-	        
-	    	redirectAttributes.addFlashAttribute("errors", result);
-	    	
+	        model.addAttribute("errors", "result");
 	    	return "reenter";
 	    }
 	    if(area.getId() == null) {
@@ -80,5 +71,9 @@ public class AreaConrtoller {
         return "redirect:/areas";
     }
 
-
+    @RequestMapping("/areas/{id}/courses")
+    public String getAreaCourses(@PathVariable("id") Long id) {
+        courseService.getAllByAreaId(id);
+        return "redirect:/areas";
+    }
 }
