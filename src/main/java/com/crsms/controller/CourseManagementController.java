@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.Duration;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.crsms.service.CourseService;
 
 
 @Controller
+@RequestMapping(value = {"/courses/"})
 public class CourseManagementController {
 	//TODO: only for teacher
 	@Autowired
@@ -27,11 +29,14 @@ public class CourseManagementController {
 	@Autowired
 	private AreaService areaService;
 	
-	@RequestMapping(value = "courses", method = RequestMethod.GET)
+	@Autowired
+    private MessageSource messageSource;
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView courseManagmentList() {
 		ModelAndView model = new ModelAndView();
 		List<Course> courses = courseService.getAllCourse(); 
-		model.addObject("title", "Course Management System");
+		//model.addObject("title", "Course Management System");
 		model.addObject("courses", courses);
 		model.setViewName("courseManagmentList");
 		return model;
@@ -40,59 +45,59 @@ public class CourseManagementController {
 	
 	
 	//TODO: only for teacher
-	@RequestMapping(value = "courses/{courseId}/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/{courseId}/delete", method = RequestMethod.GET)
 	public String deleteCourse(@PathVariable("courseId") Long courseId) {
 		Course course = courseService.getCourseById(courseId);
 		//TODO: check permissions
 		courseService.deleteCourse(course);
 		
-		return "redirect:/courses";
+		return "redirect:/courses/";
 
 	}
 	
-	@RequestMapping(value = "courses/{courseId}/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.GET)
 	public ModelAndView editCourse(@PathVariable("courseId") Long courseId) {
 		ModelAndView model = new ModelAndView();
 	
 		
 		Course course = courseService.getCourseById(courseId); 
 		List<Area> areas = areaService.getAllAreas();
-		model.addObject("title", course.getName());
+		//model.addObject("title", "edit " + course.getName());
 		model.addObject("course", course);
 		model.addObject("areas", areas);
-		model.setViewName("courseForm");
+		model.setViewName("editForm");
 		return model;
 	}
 	
-	@RequestMapping(value = "courses/{courseId}/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.POST)
 	public String editCourseSubmit(
 			@RequestParam("weekDuration") int sweekDuration,
 			@RequestParam("areaId") long areaId, Course course) {
 		
 		courseService.updateCourse(course, areaId, sweekDuration);
 		
-		return "redirect:/courses";
+		return "redirect:/courses/";
 	}
 	
-	@RequestMapping(value = "courses/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView newCourse() {
 		List<Area> areas = areaService.getAllAreas();
 		
 		ModelAndView model = new ModelAndView();
 		
-		model.addObject("title", "new course");
+		//model.addObject("title", "New course");
 		model.addObject("course", new Course());
 		model.addObject("areas", areas);
-		model.setViewName("courseForm");
+		model.setViewName("newForm");
 		return model;
 	}
 	
-	@RequestMapping(value = "courses/add" , method = RequestMethod.POST)
+	@RequestMapping(value = "/add" , method = RequestMethod.POST)
 	public String newCourseSubmit(
 			@RequestParam("weekDuration") int sweekDuration, 
 			@RequestParam("areaId") long areaId, Course course) {
 		courseService.saveCourse(course, areaId, sweekDuration);
-		return "redirect:/courses";
+		return "redirect:/courses/";
 	}
 
 }
