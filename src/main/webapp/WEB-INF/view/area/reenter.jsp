@@ -5,7 +5,7 @@
 
 <div align="center">
 <h2>
-    <spring:message code = "crsms.text.error"/>
+    <spring:message code = "crsms.area.add"/>
 </h2>
 
 <c:url var="addAction" value="/areas/add"></c:url>
@@ -16,25 +16,18 @@
 	<table>
         <tr>
             <td>
-            	<form:input path="name" placeholder = "${areaName}"/>
+            	<form:input path="name" placeholder = "${areaName}" class="form-control"/>
             </td>
             <td>
-            	<form:errors path="name" class = "help-inline"/>
+            	<form:errors path="name" class="text-danger" />
             </td>
          </tr>
-         <tr align = "center">
-            <td colspan="2">
-                <c:if test="${!empty area.name}">
-                    <input type="submit"
+         </table>
+</div>         
+         <br>
+<div align = "center">         
+         <input type="submit" class="btn btn-success"
                            value="<spring:message code="crsms.button.save"/>"/>
-                </c:if>
-                <c:if test="${empty area.name}">
-                    <input type="submit"
-                           value="<spring:message code="crsms.button.save"/>"/>
-                </c:if>
-            </td>
-        </tr>
-    </table>
-</form:form>
+         </form:form>
 </div>
 <br>
