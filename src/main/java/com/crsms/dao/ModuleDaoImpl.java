@@ -83,7 +83,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	public List<Module> getAllByCourseId(Long courseId) {
 		List<Module> list = new ArrayList<Module>();
 		try {
-			list = sessionFactory.getCurrentSession().getNamedQuery("getAllByCourseId").list();
+			list = sessionFactory.getCurrentSession().getNamedQuery("getAllByCourseId").setParameter("id", courseId).list();
 		} catch (Exception e) {
 			logger.error("Error in get all modules by course id: " + e);
 		}
