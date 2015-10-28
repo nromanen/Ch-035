@@ -1,23 +1,31 @@
 package com.crsms.domain;
 
+import java.util.List;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
@@ -34,26 +42,30 @@ public class User {
 	public static final String DELETE = "User.delete";
 	public static final String ALL_SORTED = "User.getAllSorted";
 	public static final String BY_EMAIL = "User.getByEmail";
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq")
 	private Long id;
 
 	@Column(nullable = false)
+	@Email 
+	@NotEmpty
 	private String email;
 
 	@Column(nullable = false)
+	@Size(min=5, max=30)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
-	@Cascade({ CascadeType.SAVE_UPDATE })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private UserInfo userInfo;
 
-	@OneToOne
-	@Cascade({ CascadeType.ALL })
-	@JoinColumn(name = "role_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinTable (name = "user_roles", 
+	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
+	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Role role;
 
 	public User() {
@@ -95,16 +107,20 @@ public class User {
 	public Role getRole() {
 		return role;
 	}
-
+	
 	public void setRole(Role role) {
 		this.role = role;
 	}
+		
 	@Override
-	
 	public String toString() {
-		return "User{" + ", id: " + getId() + ", email: " + getEmail()
-				+ ", password: " + getPassword() + ", role: " + getRole()
-				+ ", user info: " + getUserInfo() + "}";
+		return "User{" 
+					+ ", id: " + getId() 
+					+ ", email: " + getEmail()
+					+ ", password: " + getPassword() 
+					+ ", role: " + getRole()
+					+ ", user info: " + getUserInfo() 
+					+ "}";
 	}
 
 }

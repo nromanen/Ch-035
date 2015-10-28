@@ -15,10 +15,10 @@ public interface TestService {
 	public Test getTestById(Long id);
 
 	public List<Test> getAllTests();
+	
+	public List<Test> getAllByModuleId(Long id);
 
 	public void editTest(Test test);
-
-	public void deleteTest(Test test);
 
 	public void deleteTestById(Long id);
 
