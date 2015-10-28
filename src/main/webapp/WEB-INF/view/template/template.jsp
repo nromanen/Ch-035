@@ -3,9 +3,13 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <tiles:importAttribute name="javascripts"/>
 <tiles:importAttribute name="stylesheets"/>
+<tiles:importAttribute name="favicon"/>
+<tiles:importAttribute name="title" toName="pageTitle" />
+<tiles:importAttribute name="header-title" toName="headerTitle" />
 
 <!DOCTYPE html>
 <html>
@@ -20,8 +24,10 @@
     <meta name="description" content="SOME DESC">
     
     <!-- title -->
-    <title><tiles:insertAttribute name="title"></tiles:insertAttribute></title>
+    <title><spring:message code = "${pageTitle}" /></title>
     <!-- end title -->
+    
+    <link rel="shortcut icon" href="<c:url value="${favicon}"/>" type="image/x-icon" />
     
     <!-- stylesheets -->
 	<c:forEach var="css" items="${stylesheets}">
@@ -52,7 +58,7 @@
     <header id="header">
     	<div class="container">
     	  <tiles:insertAttribute name="header"></tiles:insertAttribute>
-    	  <h3><tiles:insertAttribute name="header-title"></tiles:insertAttribute></h3>
+    	  <h3><spring:message code = "${headerTitle}" /></h3>
     	</div>
 	</header>
     <!-- end header  -->

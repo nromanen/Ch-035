@@ -23,4 +23,6 @@ public interface ResourceDao {
 	List<Resource> getAll();
 
 	void deleteById(Long id);
+	
+	List<Resource> getAllByModuleId(Long moduleId);
 }
