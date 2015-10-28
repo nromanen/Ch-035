@@ -2,11 +2,14 @@ package com.crsms.config;
 
 import java.io.File;
 
+import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -56,19 +59,38 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     }
     
     @Override
-    public void onStartup(ServletContext container) {
-        DispatcherServlet dispatcherServlet = new DispatcherServlet(getContext());
-        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-        ServletRegistration.Dynamic registration = container.addServlet("dispatcher", dispatcherServlet);
-        registration.setLoadOnStartup(1);
-        registration.addMapping("/");
-    }
-    
-    private AnnotationConfigWebApplicationContext getContext() {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.setConfigLocation("com.crsms.config");
-        context.scan("com.crsms.controller");
-        return context;
-    }
- 
+    protected void registerDispatcherServlet(ServletContext servletContext) {
+		String servletName = getServletName();
+		Assert.hasLength(servletName, "getServletName() must not return empty or null");
+
+		WebApplicationContext servletAppContext = createServletApplicationContext();
+		Assert.notNull(servletAppContext,
+				"createServletApplicationContext() did not return an application " +
+				"context for servlet [" + servletName + "]");
+
+		DispatcherServlet dispatcherServlet = createDispatcherServlet(servletAppContext);
+		dispatcherServlet.setContextInitializers(getServletApplicationContextInitializers());
+		
+		// the only change in overriden method
+		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+		//
+
+		ServletRegistration.Dynamic registration = servletContext.addServlet(servletName, dispatcherServlet);
+		Assert.notNull(registration,
+				"Failed to register servlet with name '" + servletName + "'." +
+				"Check if there is another servlet registered under the same name.");
+
+		registration.setLoadOnStartup(1);
+		registration.addMapping(getServletMappings());
+		registration.setAsyncSupported(isAsyncSupported());
+
+		Filter[] filters = getServletFilters();
+		if (!ObjectUtils.isEmpty(filters)) {
+			for (Filter filter : filters) {
+				registerServletFilter(servletContext, filter);
+			}
+		}
+
+		customizeRegistration(registration);
+	}
 }
