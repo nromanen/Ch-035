@@ -4,10 +4,11 @@
 	<definition name="base-template" template="/WEB-INF/view/template/template.jsp">
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
-		<put-attribute name="header-title" value="" />
+		<put-attribute name="header-title" value="" cascade="true" />
 		<put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp" />
 		<put-attribute name="content" value="" />
 		<put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
+		<put-attribute name="favicon" value="/resources/images/favicon.ico" />
 		<put-list-attribute name="stylesheets">
 			<add-attribute value="/webjars/bootstrap/3.3.5/css/bootstrap.min.css" />
 			<!-- Font -->
@@ -125,8 +126,8 @@
 	
 	<!-- Resource -->
 	<definition name = "resources" extends = "base-template">
-		<put-attribute name="title" value="Resources" />
-		<put-attribute name="header-title" value="Resources List" />
+		<put-attribute name="title" value="crsms.resource.text.resources.list" />
+		<put-attribute name="header-title" value="crsms.resource.text.resources.list" />
 		<put-attribute name="content" value="/WEB-INF/view/resource/resources.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/resource/resources.css" />
