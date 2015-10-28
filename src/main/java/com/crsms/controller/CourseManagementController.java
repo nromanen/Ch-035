@@ -21,7 +21,7 @@ import com.crsms.service.CourseService;
 
 
 @Controller
-@RequestMapping(value = {"/courses/"})
+@RequestMapping(value = {"/courses"})
 public class CourseManagementController {
 	//TODO: only for teacher
 	@Autowired
