@@ -17,22 +17,16 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-/**
- * 
- * @author Valerii Motresku
- *
- */
-
 @Entity
 @Table(name="user_info")
 public class UserInfo {
 	
 	@Id  
-    @Column(name = "user_id")  
+    @Column(name = "id")  
     @GeneratedValue(generator = "user_info_gen")  
     @GenericGenerator(name = "user_info_gen", strategy = "foreign",   
     parameters = @Parameter(name = "property", value = "user"))  
-	private Long userId;
+	private Long id;
 	
 	@OneToOne  
 	@Cascade({ CascadeType.ALL })
@@ -43,24 +37,22 @@ public class UserInfo {
 	private String firstName;
 	
 	@Column(nullable = false)
-	private String secondName;
+	private String lastName;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@Cascade({CascadeType.ALL})
-
-
 	private Set<Group> groups;
 	
 	public UserInfo() {
 	}
 
 
-	public Long getUserId() {
-		return userId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUserId(Long id) {
+		this.id = id;
 	}
 
 	public User getUser() {
@@ -79,12 +71,12 @@ public class UserInfo {
 		this.firstName = firstName;
 	}
 
-	public String getSecondName() {
-		return secondName;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setSecondName(String secondName) {
-		this.secondName = secondName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public Set<Group> getGroups() {

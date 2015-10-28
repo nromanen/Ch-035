@@ -20,6 +20,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -66,8 +67,8 @@ public class Course {
 	
 	@ManyToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="direction_id")
-	private Direction direction;
+    @JoinColumn(name="area_id")
+	private Area area;
 	
 	public Course() { }
 
@@ -102,6 +103,16 @@ public class Course {
 	public void setDuration(Duration duration) {
 		this.duration = duration;
 	}
+	
+	public int getWeekDuration() {
+		if(duration != null)
+			return duration.toStandardDays().getDays()/7;
+		return 0;
+	}
+	
+	public void setWeekDuration(int weeks) {
+		this.duration = new Duration(weeks*7L*24L*60L*60L*1000L);
+	}
 
 	public Set<Module> getModules() {
 		return modules;
@@ -119,12 +130,12 @@ public class Course {
 		this.open = open;
 	}
 
-	public Direction getDirection() {
-		return direction;
+	public Area getArea() {
+		return area;
 	}
 
-	public void setDirection(Direction direction) {
-		this.direction = direction;
+	public void setArea(Area area) {
+		this.area = area;
 	}
 
 	public String getDescription() {

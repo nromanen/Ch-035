@@ -141,7 +141,7 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		
 		<!-- JodaTime for DateTime -->
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -181,6 +181,7 @@
             <version>${apache.tiles.version}</version>
         </dependency>
         
+        
         <!-- UI: jQuery, Bootstrap -->
         <dependency>
 			<groupId>org.webjars</groupId>
@@ -192,8 +193,6 @@
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.5</version>
 		</dependency>
-		
-
 
 	</dependencies>
 

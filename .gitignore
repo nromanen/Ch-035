@@ -2,7 +2,8 @@
 .idea/
 target/
 .project
-SpingMvcTest.iml
 .CLASSPATH
 src/main/java/com/crsms/demo
 .gitignore
+.classpath
+*.iml

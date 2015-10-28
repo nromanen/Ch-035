@@ -9,24 +9,23 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+
 @Configuration
-//@EnableWebMvc is turned off for console debug only!!!
 @EnableWebMvc
 @ComponentScan(basePackages = "com.crsms")
-@Import({ SecurityConfig.class, HibernateConfig.class})
+@Import({ SecurityConfig.class, HibernateConfig.class })
 public class RootConfig extends WebMvcConfigurerAdapter {
 	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").
-        	addResourceLocations("/resources/");
-        registry.addResourceHandler("/webjars/**").
-        	addResourceLocations("/webjars/");
-    }
-	
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
+	}
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
 		interceptor.setParamName("lang");
 		registry.addInterceptor(interceptor);
 	}
+
 }
