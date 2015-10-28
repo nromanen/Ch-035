@@ -9,10 +9,6 @@
 </h2>
 
 <c:url var="addAction" value="/areas/add"></c:url>
-
-
-
-  ${errors}
 <form:form action="${addAction}" modelAttribute="area">
 	<form:hidden path="id"/>
 	<table>
@@ -28,7 +24,7 @@
             </td>
             <td>
           
-            <form:errors path="name" class = "help-inline"/>
+            <form:errors path="name" />
             </td>
             <td colspan="2">
                 <c:if test="${!empty area.name}">

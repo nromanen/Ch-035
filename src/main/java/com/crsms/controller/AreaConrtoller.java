@@ -42,7 +42,7 @@ public class AreaConrtoller {
     }
 	
 	@RequestMapping(value = "/areas/add", method = RequestMethod.POST)
-    public String addArea(@ModelAttribute("area") Area area, BindingResult result, final RedirectAttributes redirectAttributes) {
+    public String addArea(@ModelAttribute("area") Area area, BindingResult result, RedirectAttributes redirectAttributes) {
 		//Validation code
 	    validator.validate(area, result);
 	    
@@ -55,7 +55,7 @@ public class AreaConrtoller {
 	        
 	    	redirectAttributes.addFlashAttribute("errors", result);
 	    	
-	    	return "redirect:/areas";
+	    	return "notvalid";
 	    }
 	    if(area.getId() == null) {
 	    	areaService.saveArea(area);

@@ -5,7 +5,7 @@
 
 <div align="center">
 <h2>
-    Add Area
+    Something's wrong!
 </h2>
 
 <c:url var="addAction" value="/areas/add"></c:url>
