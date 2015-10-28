@@ -14,6 +14,6 @@ public class ExceptionController {
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public String requestHandlingNoHandlerFound(HttpServletRequest req, NoHandlerFoundException ex) {
-        return "modules";
+        return "404";
     }
 }
