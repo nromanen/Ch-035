@@ -45,7 +45,6 @@
 		</div>
 	</div>
 
-	<h2><spring:message code = "crsms.userProfile.header"/><br><br></h2>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-offset-0">

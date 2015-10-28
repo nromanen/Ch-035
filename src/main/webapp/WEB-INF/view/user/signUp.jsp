@@ -8,7 +8,6 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row h2"><div class="col-md-3 col-md-offset-4"><spring:message code = "crsms.signUp.header"/><br><br></div></div>
 		<div class="row">
 			<div class="col-md-offset-3">
 				<form id="registration-form" action="submitUser" name="registration" method="POST" class="form-horizontal">
