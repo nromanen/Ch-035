@@ -55,7 +55,7 @@ public class AreaConrtoller {
 	        
 	    	redirectAttributes.addFlashAttribute("errors", result);
 	    	
-	    	return "notvalid";
+	    	return "reenter";
 	    }
 	    if(area.getId() == null) {
 	    	areaService.saveArea(area);
