@@ -3,7 +3,6 @@
 target/
 .project
 .CLASSPATH
-src/main/java/com/crsms/demo
 .gitignore
 .classpath
 *.iml
