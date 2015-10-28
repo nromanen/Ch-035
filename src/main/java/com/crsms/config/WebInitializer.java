@@ -3,8 +3,11 @@ package com.crsms.config;
 import java.io.File;
 
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.crsms.config.RootConfig;
@@ -50,6 +53,22 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         }
     	MultipartConfigElement multipartConfigElement = new MultipartConfigElement( dir.getAbsolutePath(), MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
         return multipartConfigElement;
+    }
+    
+    @Override
+    public void onStartup(ServletContext container) {
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(getContext());
+        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+        ServletRegistration.Dynamic registration = container.addServlet("dispatcher", dispatcherServlet);
+        registration.setLoadOnStartup(1);
+        registration.addMapping("/");
+    }
+    
+    private AnnotationConfigWebApplicationContext getContext() {
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        context.setConfigLocation("com.crsms.config");
+        context.scan("com.crsms.controller");
+        return context;
     }
  
 }
