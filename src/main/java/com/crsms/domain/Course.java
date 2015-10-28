@@ -20,7 +20,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.springframework.format.annotation.DateTimeFormat;
 

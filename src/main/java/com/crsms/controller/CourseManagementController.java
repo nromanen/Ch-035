@@ -2,12 +2,8 @@ package com.crsms.controller;
 
 import java.util.List;
 
-import org.joda.time.Duration;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +17,7 @@ import com.crsms.service.CourseService;
 
 
 @Controller
-@RequestMapping(value = {"/courses"})
+@RequestMapping(value = "/courses")
 public class CourseManagementController {
 	//TODO: only for teacher
 	@Autowired
@@ -30,8 +26,6 @@ public class CourseManagementController {
 	@Autowired
 	private AreaService areaService;
 	
-	@Autowired
-    private MessageSource messageSource;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView courseManagmentList() {
