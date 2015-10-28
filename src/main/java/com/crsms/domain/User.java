@@ -112,6 +112,24 @@ public class User {
 		this.role = role;
 	}
 		
+
+	  @Override
+	  public boolean equals(Object obj) {
+
+	    if (obj == null)  {
+	      return false;
+	    }
+	    if (!(obj instanceof User)) {
+	      return false;
+	    }
+	    User other = (User) obj;
+	    return this.id.equals(other.id);
+	  }
+
+	  @Override
+	  public int hashCode() {
+	    return (int) ((id == null) ? 0 : id);
+	  }
 	@Override
 	public String toString() {
 		return "User{" 
