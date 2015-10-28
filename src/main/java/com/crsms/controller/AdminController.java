@@ -3,6 +3,8 @@ package com.crsms.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +62,10 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = { "/adduser" }, method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") User user, ModelMap model) {
+	public String saveUser(@Valid User user, BindingResult result, ModelMap model) {
+		if(result.hasErrors()){
+			return "adduser";
+		}
 		userService.saveUser(user);
 		return "redirect:/admin";
 	}
@@ -74,8 +80,10 @@ public class AdminController {
 
 	@RequestMapping(value = "/edit/{userId}", method = RequestMethod.POST)
 	public String updateUser( @PathVariable long userId, 
-								@ModelAttribute("user") User user) {
-		
+								@Valid User user, BindingResult result) {
+		if(result.hasErrors()){
+			return "adduser";
+		}
 		userService.updateUser(user);
 		return "redirect:/admin";
 	}

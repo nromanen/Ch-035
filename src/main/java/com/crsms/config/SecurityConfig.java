@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,8 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						  	.antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 						  	.antMatchers("/teacher/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_TEACHER')")
 						  	.antMatchers("/student/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_TEACHER') or hasRole('ROLE_STUDENT')")
-						  	.and()
-		.formLogin().loginPage("/login")
+						  	.and();
+	  http
+	  		.formLogin().loginPage("/login")
 						  	.usernameParameter("email")
 						  	.passwordParameter("password")
 						  	.successHandler(customHandler)	// redirects user to his home page accordingly to his role
@@ -51,9 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder;
+	public ShaPasswordEncoder shaPasswordEncoder() {
+		return new ShaPasswordEncoder();
 	}
 
 }
