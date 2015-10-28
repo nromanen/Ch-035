@@ -20,7 +20,7 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	@Override
 	public UserInfo saveUserInfo(UserInfo user) {
 		logger.debug("Saving userInfo");
-		if (user.getUserId() == null) {
+		if (user.getId() == null) {
 			sessionFactory.getCurrentSession().save(user);
 		} else {
 			sessionFactory.getCurrentSession().update(user);

@@ -43,7 +43,7 @@ public class UserController {
 		user.setPassword(password);
 		user.setRole(role);
 		userService.saveUser(user);
-		session.setAttribute("email", email); // add to servise
+		session.setAttribute("email", email); // add to service
 
 		return "redirect:/userProfile"; ///"login";
 	};
@@ -62,7 +62,7 @@ public class UserController {
 
 		UserInfo userInf = new UserInfo();
 		userInf.setFirstName(fName);
-		userInf.setSecondName(sName);
+		userInf.setLastName(sName);
 		userInf.setUser(user);
 		userInfoService.saveUserInfo(userInf);
 		return "redirect:/signUp"; //"logout"
