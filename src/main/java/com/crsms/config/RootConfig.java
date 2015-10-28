@@ -11,17 +11,14 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 
 @Configuration
-// @EnableWebMvc is turned off for console debug only!!!
 @EnableWebMvc
 @ComponentScan(basePackages = "com.crsms")
 @Import({ SecurityConfig.class, HibernateConfig.class })
 public class RootConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations(
-				"/resources/");
-		registry.addResourceHandler("/webjars/**").addResourceLocations(
-				"/webjars/");
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
 	}
 
 	@Override
