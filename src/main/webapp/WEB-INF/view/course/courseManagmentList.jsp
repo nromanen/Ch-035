@@ -37,7 +37,7 @@
 				<td>${course.area.name}</td>
 				<td>
 					<div align="center">
-						<a class="btn btn-primary btn-sm" href="courses/${course.id}/modules/"><spring:message code="crsms.courses.text.modules" /></a>
+						<a class="btn btn-warning btn-sm" href="courses/${course.id}/modules/"><spring:message code="crsms.courses.text.modules" /></a>
 					</div>
 				</td>
 				<td>

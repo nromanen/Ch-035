@@ -61,7 +61,7 @@
 	</div>
 	<div class="form-group">
     	<div class="col-sm-offset-2 col-sm-10">
-      		<button type="submit" class="btn btn-default"><spring:message code="crsms.button.save" /></button>
+      		<button type="submit" class="btn btn-default btn-success"><spring:message code="crsms.button.save" /></button>
     	</div>
 	</div>
 </form:form>
