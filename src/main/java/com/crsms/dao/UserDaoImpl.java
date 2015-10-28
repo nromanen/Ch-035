@@ -28,8 +28,6 @@ public class UserDaoImpl implements UserDao {
 
 	private static Logger log = LogManager.getLogger(UserDaoImpl.class);
 	
-//	SELECT setval('users_id_seq', (SELECT MAX(id) FROM users)+1)
-
 	public User saveUser(User user) {
 		try {
 			if (user.getId() == null) {

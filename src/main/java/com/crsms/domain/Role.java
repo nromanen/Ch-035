@@ -33,12 +33,12 @@ public class Role {
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_roles",
-	joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
-	inverseJoinColumns = {@JoinColumn (name = "user_id", referencedColumnName = "id")})
-	@JoinColumn(name = "user_id")
-	private List <User> users;
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "user_roles",
+//	joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+//	inverseJoinColumns = {@JoinColumn (name = "user_id", referencedColumnName = "id")})
+//	@JoinColumn(name = "user_id")
+//	private List <User> users;
 
 	public Role() {
 		super();
@@ -63,13 +63,13 @@ public class Role {
 	public String toString() {
 		return getName();
 	}
-	public List<User> getUser() {
-		return users;
-	}
-
-	public void addUser(User user) {
-		this.users.add(user);
-	}
+//	public List<User> getUser() {
+//		return users;
+//	}
+//
+//	public void addUser(User user) {
+//		this.users.add(user);
+//	}
 	
 
 }

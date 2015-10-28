@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,9 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -61,12 +59,20 @@ public class User {
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private UserInfo userInfo;
 
-	@OneToOne(cascade = CascadeType.ALL)
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinTable (name = "user_roles", 
+//	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
+//	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
+//	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//	private Role role;
+	
+	
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable (name = "user_roles", 
-	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
-	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
+	joinColumns = {@JoinColumn(name="user_id")},
+	inverseJoinColumns = {@JoinColumn(name="role_id")})
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private Role role;
+	private List <Role> role;
 
 	public User() {
 		super();
@@ -103,14 +109,24 @@ public class User {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-
-	public Role getRole() {
+	
+	public List<Role> getRoles() {
 		return role;
 	}
-	
-	public void setRole(Role role) {
-		this.role = role;
+
+	public void setRoles(List<Role> roles) {
+		this.role = roles;
 	}
+	public void addRole( Role role) {
+		this.role.add(role);
+	}
+//	public Role getRole() {
+//		return role;
+//	}
+//	
+//	public void setRole(Role role) {
+//		this.role = role;
+//	}
 		
 	@Override
 	public String toString() {
@@ -118,7 +134,7 @@ public class User {
 					+ ", id: " + getId() 
 					+ ", email: " + getEmail()
 					+ ", password: " + getPassword() 
-					+ ", role: " + getRole()
+					+ ", role: " + getRoles()
 					+ ", user info: " + getUserInfo() 
 					+ "}";
 	}

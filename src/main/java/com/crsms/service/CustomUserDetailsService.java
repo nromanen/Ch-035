@@ -38,11 +38,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	private List<GrantedAuthority> getGrantedAuthorities(User user) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		Role role = user.getRole();
-		//		 for (Role role : user.getRoles()) { 
+//		Role role = user.getRole();
+				 for (Role role : user.getRoles()) { 
 	
 		authorities.add(new SimpleGrantedAuthority(role.getName()));
-//		 }
+		 }
 		return authorities;
 	}
 }

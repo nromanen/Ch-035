@@ -47,7 +47,6 @@ public class RoleDaoImpl implements RoleDao {
 		try {
 			session = sessionFactory.getCurrentSession();
 			role = (Role) session.get(Role.class, id);
-			 Hibernate.initialize(role.getUser());
 		} catch (Exception e) {
 			log.error("Error get role by Id: " + id + e);
 		} finally {
