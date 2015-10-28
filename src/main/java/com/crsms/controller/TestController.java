@@ -41,8 +41,8 @@ public class TestController {
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	public String updateTest(@PathVariable Long courseId,
-			@PathVariable Long moduleId, @PathVariable Long id,
-			@ModelAttribute("test") Test test) {
+							@PathVariable Long moduleId, @PathVariable Long id,
+							@ModelAttribute("test") Test test) {
 		if (testService.getTestById(id) != null) {
 			testService.editTest(test);
 		}
