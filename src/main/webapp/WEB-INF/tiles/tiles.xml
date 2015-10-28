@@ -84,6 +84,11 @@
  	    <put-attribute name="title" value="Areas" />
 	    <put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
 	</definition>
+	
+	<definition name = "reenter" extends = "base-template">
+ 	    <put-attribute name="title" value="Areas" />
+	    <put-attribute name="content" value="/WEB-INF/view/area/reenter.jsp" />
+	</definition>
 	<!-- end Area -->
 	
 	<!-- Course -->
