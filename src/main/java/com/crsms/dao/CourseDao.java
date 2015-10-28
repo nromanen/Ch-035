@@ -28,4 +28,6 @@ public interface CourseDao {
 	Course getCourse(String name);
 	
 	void deleteCourse(Course course);
+	
+	List<Course> getAllByAreaId(Long areaId);
 }

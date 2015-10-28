@@ -85,7 +85,7 @@ public class ModuleDaoImpl implements ModuleDao {
 		try {
 			list = sessionFactory.getCurrentSession().getNamedQuery("getAllByCourseId").setParameter("id", courseId).list();
 		} catch (Exception e) {
-			logger.error("Error in get all modules by course id: " + e);
+			logger.error("Error in getting all modules by course id: " + e);
 		}
 		return list;
 	}
