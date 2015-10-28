@@ -96,7 +96,6 @@
 	
 	<!-- Course -->
 	<definition name="courseManagmentList" extends="base-template" >
-
 		<put-attribute name="title" value="crsms.courses.text.courses" />
 		<put-attribute name="header-title" value="crsms.courses.text.courses" />
 		<put-attribute name="content"
@@ -106,9 +105,14 @@
 		</put-list-attribute>
 	</definition>
 	
-	<definition name="courseForm" extends="base-template" >
-		<put-attribute name="title" value="crsms.courses.text.courses" />
-		<put-attribute name="header-title" value="crsms.courses.text.courses" />
+	<definition name="editForm" extends="base-template" >
+		<put-attribute name="title" value="crsms.courses.text.title.new"  />
+		<put-attribute name="header-title" value="crsms.courses.text.title.new"  />
+		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
+	</definition>
+	<definition name="newForm" extends="base-template" >
+		<put-attribute name="title" value="crsms.courses.text.title.edit" />
+		<put-attribute name="header-title" value="crsms.courses.text.title.edit" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
 	</definition>
 	<!-- end Course -->
