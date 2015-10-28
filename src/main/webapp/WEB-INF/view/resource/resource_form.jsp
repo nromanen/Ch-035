@@ -76,7 +76,7 @@
 			<div class="form-group">
 				<label for = "type" class="col-sm-1 control-label"><spring:message code = "crsms.resource.text.file" />: </label>
 				<div class="col-sm-4">
-					<form:input type="file" path="file" id="file" class="form-control"/>
+					<form:input type="file" path="file" id="file" class="form-control" style="height: auto;" />
 				</div>
 			</div>
 			<div class="form-group">

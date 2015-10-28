@@ -11,6 +11,7 @@
 		<div class="col-sm-10">
 			<form:input path = "name" id = "name" 
 						class="form-control" placeholder="${moduleName}"/>
+			<form:errors path = "name" cssClass = "label label-danger" />
 		</div>
 	</div>
 	
@@ -20,6 +21,7 @@
 		<div class="col-sm-10">
 			<form:textarea path = "description" name = "description" 
 							class="form-control" placeholder="${moduleDescription}"/>
+			<form:errors path = "description" cssClass = "label label-danger" />
 		</div>
 	</div>
 	

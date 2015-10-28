@@ -75,4 +75,9 @@ public class CourseServiceImpl implements CourseService {
 		courseDao.deleteCourse(course);
 	}
 
+	@Override
+	public List<Course> getAllByAreaId(Long areaId) {
+		return courseDao.getAllByAreaId(areaId);
+	}
+
 }
