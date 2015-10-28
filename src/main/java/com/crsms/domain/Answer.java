@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * 
@@ -29,6 +31,8 @@ public class Answer {
 	private Question question;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 100)
 	private String text;
 	
 	@Column(nullable = false)
