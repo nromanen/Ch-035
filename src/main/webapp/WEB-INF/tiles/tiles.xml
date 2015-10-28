@@ -84,26 +84,27 @@
  	    <put-attribute name="title" value="Areas" />
 	    <put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
 	</definition>
+	
+	<definition name = "reenter" extends = "base-template">
+ 	    <put-attribute name="title" value="Areas" />
+	    <put-attribute name="content" value="/WEB-INF/view/area/reenter.jsp" />
+	</definition>
 	<!-- end Area -->
 	
 	<!-- Course -->
 	<definition name="courseManagmentList" extends="base-template" >
 
-		<put-attribute name="title" value="courses" />
+		<put-attribute name="title" value="course" />
 		<put-attribute name="content"
-			value="/WEB-INF/view/courses/courseManagmentList.jsp" />
+			value="/WEB-INF/view/course/courseManagmentList.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/course/course.css" />
+		</put-list-attribute>
 	</definition>
-
-	<definition name="editCourse" extends="base-template">
+	
+	<definition name="courseForm" extends="base-template" >
 		<put-attribute name="title" value="edit course" />
-		<put-attribute name="content"
-			value="/WEB-INF/view/courses/editCourse.jsp" />
-	</definition>
-
-	<definition name="newCourse" extends="base-template">
-		<put-attribute name="title" value="edit course" />
-		<put-attribute name="content"
-			value="/WEB-INF/view/courses/newCourse.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
 	</definition>
 	<!-- end Course -->
 	

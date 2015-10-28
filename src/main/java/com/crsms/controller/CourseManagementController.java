@@ -60,7 +60,7 @@ public class CourseManagementController {
 		model.addObject("title", course.getName());
 		model.addObject("course", course);
 		model.addObject("areas", areas);
-		model.setViewName("editCourse");
+		model.setViewName("courseForm");
 		return model;
 	}
 	
@@ -83,7 +83,7 @@ public class CourseManagementController {
 		model.addObject("title", "new course");
 		model.addObject("course", new Course());
 		model.addObject("areas", areas);
-		model.setViewName("newCourse");
+		model.setViewName("courseForm");
 		return model;
 	}
 	
