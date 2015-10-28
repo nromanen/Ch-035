@@ -151,8 +151,8 @@
 	</definition>
 	
 	<definition name = "addResource" extends = "base-template">
-		<put-attribute name="title" value="Add Resource" />
-		<put-attribute name="header-title" value="Add new resource" />
+		<put-attribute name="title" value="crsms.resource.text.resource.add" />
+		<put-attribute name="header-title" value="crsms.resource.text.resource.add" />
 		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			
@@ -163,8 +163,8 @@
 	</definition>
 	
 	<definition name = "editResource" extends = "base-template">
-		<put-attribute name="title" value="Edit Resource" />
-		<put-attribute name="header-title" value="Edit resource" />
+		<put-attribute name="title" value="crsms.resource.text.resource.add" />
+		<put-attribute name="header-title" value="crsms.resource.text.resource.add" />
 		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			
