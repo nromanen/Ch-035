@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -64,29 +63,27 @@ public class ModuleDaoImpl implements ModuleDao {
 		} catch (Exception e) {
 			logger.error("Error in get module by id: " + e);
 		}
-		//Hibernate.initialize(module.getCourse());
 		return module;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Module> getAll() {
 		List<Module> list = new ArrayList<Module>();
 		try {
-			String hql = "from Module order by id asc";
-			list = sessionFactory.getCurrentSession().createQuery(hql).list();
+			list = sessionFactory.getCurrentSession().getNamedQuery("getAll").list();
 		} catch (Exception e) {
 			logger.error("Error in get all modules: " + e);
 		}
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Module> getAllByCourseId(Long courseId) {
 		List<Module> list = new ArrayList<Module>();
 		try {
-			String hql = "from Module where course_id = :id order by id asc";
-			Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", courseId);
-			list = query.list();
+			list = sessionFactory.getCurrentSession().getNamedQuery("getAllByCourseId").list();
 		} catch (Exception e) {
 			logger.error("Error in get all modules by course id: " + e);
 		}
@@ -95,10 +92,8 @@ public class ModuleDaoImpl implements ModuleDao {
 
 	@Override
 	public void deleteById(Long id) {
-		String hql = "delete Module where id = :id";
-	    Query qeury = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
 	    try {
-	    	qeury.executeUpdate();
+	    	sessionFactory.getCurrentSession().getNamedQuery("deleteById").setParameter("id", id).executeUpdate();
 		} catch (Exception e) {
 			logger.error("Error in delete module by id: " + e);
 		}
