@@ -10,14 +10,14 @@
 <c:if test="${!empty getAllAreas}">
     <table class="tg">
         <tr>
-            <th width="80" ><spring:message code = "crsms.text.id"/></th>
+            <th width="40" align="center"><spring:message code = "crsms.text.id"/></th>
             <th width="120">${areaName}</th>
             <th width="100" align="center"><spring:message code = "crsms.button.edit"/></th>
             <th width="100" align="center"><spring:message code = "crsms.button.delete"/></th>
         </tr>
         <c:forEach items="${getAllAreas}" var="area">
             <tr>
-                <td align="center">${area.id}</td>
+                <td>${area.id}</td>
                 <td>${area.name}</td>
                 <td align="center"><a href="<c:url value='/areas/${area.id}/edit' />"><spring:message code = "crsms.button.edit"/></a></td>
                 <td align="center"><a href="<c:url value='/areas/${area.id}/delete' />"><spring:message code = "crsms.button.delete"/></a></td>
