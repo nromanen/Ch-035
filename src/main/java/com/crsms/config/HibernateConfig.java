@@ -1,13 +1,12 @@
 package com.crsms.config;
 
 import java.util.Properties;
- 
+
 import javax.sql.DataSource;
- 
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -60,8 +59,8 @@ public class HibernateConfig {
     @Bean
     @Autowired
     public HibernateTransactionManager transactionManager(SessionFactory s) {
-       HibernateTransactionManager txManager = new HibernateTransactionManager();
-       txManager.setSessionFactory(s);
-       return txManager;
+       HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+       transactionManager.setSessionFactory(s);
+       return transactionManager;
     }
 }

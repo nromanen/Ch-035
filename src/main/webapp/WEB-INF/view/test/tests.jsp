@@ -38,7 +38,12 @@
 			</c:forEach>
 		</tbody>
 	</table>
-
+	
+	<c:set var="backButton">
+		<spring:message code="crsms.createtest.backButton" />
+	</c:set>
+	<a class="btn btn-success" role="button" onClick="history.go(-1);return true;">${backButton}</a> 
+	
 	<c:url var="createTest" value="add" />
-	<a class="btn btn-success pull-left" href="${createTest}"><spring:message
+	<a class="btn btn-success" href="${createTest}"><spring:message
 			code="crsms.tests.createNew" /></a>
