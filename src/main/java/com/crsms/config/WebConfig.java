@@ -1,7 +1,6 @@
 package com.crsms.config;
 
 import java.util.Locale;
-import java.util.Properties;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -17,14 +16,13 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
-//@Configuration is turned off for console debug only!!!
+
 @Configuration
 @ComponentScan
 @EnableWebMvc
 class WebConfig extends WebMvcConfigurationSupport {
     
     @Override
-    //TODO check necessarily
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
@@ -45,8 +43,7 @@ class WebConfig extends WebMvcConfigurationSupport {
     
     @Bean
 	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = 
-							new ReloadableResourceBundleMessageSource();
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("/resources/localization/crsms");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
