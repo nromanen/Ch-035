@@ -4,10 +4,11 @@
 	<definition name="base-template" template="/WEB-INF/view/template/template.jsp">
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
-		<put-attribute name="header-title" value="" />
+		<put-attribute name="header-title" value="" cascade="true" />
 		<put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp" />
 		<put-attribute name="content" value="" />
 		<put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
+		<put-attribute name="favicon" value="/resources/images/favicon.ico" />
 		<put-list-attribute name="stylesheets">
 			<add-attribute value="/webjars/bootstrap/3.3.5/css/bootstrap.min.css" />
 			<!-- Font -->
@@ -84,6 +85,11 @@
  	    <put-attribute name="title" value="Areas" />
 	    <put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
 	</definition>
+	
+	<definition name = "reenter" extends = "base-template">
+ 	    <put-attribute name="title" value="Areas" />
+	    <put-attribute name="content" value="/WEB-INF/view/area/reenter.jsp" />
+	</definition>
 	<!-- end Area -->
 	
 	<!-- Course -->
@@ -111,12 +117,19 @@
 	
 	<!-- Module -->
 	<definition name="createmodule" extends="base-template">
-		<put-attribute name="title" value="Create module" />
+		<put-attribute name="title" value="crsms.modules.title.modules.add" />
+		<put-attribute name="header-title" value="crsms.modules.title.modules.add" />
 		<put-attribute name="content" value="/WEB-INF/view/module/createmodule.jsp" />
+	</definition>
+	
+	<definition name="editmodule" extends="createmodule">
+		<put-attribute name="title" value="crsms.modules.title.modules.edit" />
+		<put-attribute name="header-title" value="crsms.modules.title.modules.edit" />
 	</definition>
 
 	<definition name="modules" extends="base-template">
-		<put-attribute name="title" value="Modules" />
+		<put-attribute name="title" value="crsms.modules.title.modules.list" />
+		<put-attribute name="header-title" value="crsms.modules.title.modules.list" />
 		<put-attribute name="content" value="/WEB-INF/view/module/modules.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/module/modules.css" />
@@ -125,10 +138,22 @@
 	<!-- end Module -->
 
 	
+	<!-- User -->
+	<definition name = "signUp" extends = "base-template">
+		<put-attribute name="title" value="Create account" />
+		<put-attribute name="content" value="/WEB-INF/view/user/signUp.jsp" />
+	</definition>
+	
+	<definition name = "userProfile" extends = "base-template">
+		<put-attribute name="title" value="Profile" />
+		<put-attribute name="content" value="/WEB-INF/view/user/userProfile.jsp" />
+	</definition>
+	<!-- end User -->
+	
 	<!-- Resource -->
 	<definition name = "resources" extends = "base-template">
-		<put-attribute name="title" value="Resources" />
-		<put-attribute name="header-title" value="Resources List" />
+		<put-attribute name="title" value="crsms.resource.text.resources.list" />
+		<put-attribute name="header-title" value="crsms.resource.text.resources.list" />
 		<put-attribute name="content" value="/WEB-INF/view/resource/resources.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/resource/resources.css" />
