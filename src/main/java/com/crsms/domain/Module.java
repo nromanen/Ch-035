@@ -17,17 +17,21 @@ import java.util.Set;
 @Entity
 @Table(name="module")
 @NamedQueries({
-	@NamedQuery(name = "getAll", 
+	@NamedQuery(name = Module.GET_ALL, 
 				query = "from Module order by id asc"),
 				
-	@NamedQuery(name = "getAllByCourseId", 
+	@NamedQuery(name = Module.GET_ALL_BY_COURSE_ID, 
 				query = "from Module where course_id = :id order by id asc"),
 				
-	@NamedQuery(name = "deleteById",
+	@NamedQuery(name = Module.DELETE_BY_ID,
 				query = "delete Module where id = :id"
 				)
 })
 public class Module {
+	
+	public static final String GET_ALL = "Module.getAll";
+	public static final String GET_ALL_BY_COURSE_ID = "Module.getAllByCourseId";
+	public static final String DELETE_BY_ID = "Module.deleteById";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
