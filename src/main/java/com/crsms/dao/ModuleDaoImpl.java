@@ -72,7 +72,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	public List<Module> getAll() {
 		List<Module> list = new ArrayList<Module>();
 		try {
-			String hql = "from Module order by id asc";
+			String hql = "from Module order by id asc";//TODO use named query
 			list = sessionFactory.getCurrentSession().createQuery(hql).list();
 		} catch (Exception e) {
 			logger.error("Error in get all modules: " + e);
