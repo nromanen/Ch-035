@@ -65,8 +65,9 @@ public class Course {
 	@Column(nullable = false)
 	private Boolean open = false;
 	
+	//TODO: change
 	@ManyToOne
-	@Cascade({CascadeType.ALL})
+	//@Cascade({CascadeType.ALL})
     @JoinColumn(name="area_id")
 	private Area area;
 	
