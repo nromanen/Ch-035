@@ -43,7 +43,7 @@ public class UserController {
 		user.setPassword(password);
 		user.setRole(role);
 		userService.saveUser(user);
-		session.setAttribute("email", email);
+		session.setAttribute("email", email); // add to servise
 
 		return "redirect:/userProfile"; ///"login";
 	};
@@ -69,7 +69,7 @@ public class UserController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public String changePassword(HttpSession session, 
 			@RequestParam("currentPass") String currentPassword, @RequestParam("newPassword") String newPassword) {
 		String email = (String) session.getAttribute("email");

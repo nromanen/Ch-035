@@ -47,7 +47,7 @@ public class User {
 	private String password;
 
 	@OneToOne(mappedBy = "user")
-	@Cascade({ CascadeType.SAVE_UPDATE })
+	@Cascade({ CascadeType.ALL })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private UserInfo userInfo;
 

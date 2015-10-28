@@ -35,6 +35,7 @@ public class UserInfo {
 	private Long userId;
 	
 	@OneToOne  
+	@Cascade({ CascadeType.ALL })
     @PrimaryKeyJoinColumn
 	private User user;
 	
@@ -51,7 +52,6 @@ public class UserInfo {
 	private Set<Group> groups;
 	
 	public UserInfo() {
-		super();
 	}
 
 

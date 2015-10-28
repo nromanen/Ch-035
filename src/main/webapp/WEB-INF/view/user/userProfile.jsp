@@ -10,27 +10,17 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function() {
-		$("#changePasswordBtn").click(function(){
-			var url = "changePassword?currentPass=" + $("#currentPass").val() 
-					+ "&newPassword=" + $("#newPassword").val()
-					+ "&_csrf=" + $("#csrf").val();
-		    $.ajax({
-	            type: "GET",
-	            url: url,
-	            success : function(response){
-	            	if (response == "Fail") {
-	            		alert("Current password are not valid");
-	            	} else {
-	            		$("#closeModalBtn").click();
-	            	}
-	            },
-	            error : function(){
-	                alert("Failed to submit form");
-	            }
-	        });
-	    });
-	});
+$(document).ready(function() {   
+	$("#changePasswordBtn").click(function(){
+		var url = "changePassword?currentPass=" + $("#currentPass").val() 
+				+ "&newPassword=" + $("#newPassword").val()
+				+ "&_csrf=" + $("#csrf").val();
+	 $.post( url
+			 
+	 );
+	 
+    });
+});
     
 </script>
 </head>
