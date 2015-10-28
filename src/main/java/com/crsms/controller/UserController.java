@@ -18,7 +18,6 @@ import com.crsms.service.UserInfoService;
 import com.crsms.service.UserService;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 
 	@Autowired

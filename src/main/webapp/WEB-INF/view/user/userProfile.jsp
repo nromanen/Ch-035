@@ -56,7 +56,7 @@
 							<tr>
 								<td><spring:message code = "crsms.userProfile.modNewPass"/></td>
 								<td><input type="password" name="newPassword" 
-									id="newPassword" size="25" required
+									id="newPassword" required
 									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"></td>
 							</tr>
 						</table>
@@ -72,15 +72,8 @@
 		</div>
 	</div>
 
-	<h2><spring:message code = "crsms.userProfile.header"/></h2>
-
+	<h2><spring:message code = "crsms.userProfile.header"/><br><br></h2>
 	<div class="container">
-		<div class="row h2">
-			<div class="col-md-4 col-md-offset-0">
-				<spring:message code = "crsms.userProfile.header"/><br>
-				<br>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col-md-offset-0">
 				<form id="user-information" action="submitUserInfo"
