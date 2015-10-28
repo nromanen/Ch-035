@@ -31,7 +31,7 @@
 		 But they could be the same, obviously.
 	-->	
 	<definition name="index" extends="base-template" >
-		<put-attribute name="title" value="Hello Title" />
+		<put-attribute name="title" value="crsms....." />
 		<put-attribute name="content" value="/index.jsp" />
 
 		<put-list-attribute name="javascripts" inherit="true">
@@ -82,20 +82,22 @@
 	
 	<!-- Area -->
 	<definition name = "area" extends = "base-template">
- 	    <put-attribute name="title" value="Areas" />
+ 	    <put-attribute name="title" value="crsms.area.list" />
+		<put-attribute name="header-title" value="crsms.area.list" />
 	    <put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
 	</definition>
 	
 	<definition name = "reenter" extends = "base-template">
- 	    <put-attribute name="title" value="Areas" />
+ 	    <put-attribute name="title" value="crsms.area.list" />
+		<put-attribute name="header-title" value="crsms.area.list" />
 	    <put-attribute name="content" value="/WEB-INF/view/area/reenter.jsp" />
 	</definition>
 	<!-- end Area -->
 	
 	<!-- Course -->
 	<definition name="courseManagmentList" extends="base-template" >
-
-		<put-attribute name="title" value="crsms.courses.text.title.list" />
+		<put-attribute name="title" value="crsms.courses.text.courses" />
+		<put-attribute name="header-title" value="crsms.courses.text.courses" />
 		<put-attribute name="content"
 			value="/WEB-INF/view/course/courseManagmentList.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
@@ -140,12 +142,14 @@
 	
 	<!-- User -->
 	<definition name = "signUp" extends = "base-template">
-		<put-attribute name="title" value="Create account" />
+		<put-attribute name="title" value="crsms.signUp.header" />
+		<put-attribute name="header-title" value="crsms.signUp.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/signUp.jsp" />
 	</definition>
 	
 	<definition name = "userProfile" extends = "base-template">
-		<put-attribute name="title" value="Profile" />
+		<put-attribute name="title" value="crsms.userProfile.header" />
+		<put-attribute name="header-title" value="crsms.userProfile.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/userProfile.jsp" />
 	</definition>
 	<!-- end User -->
@@ -164,8 +168,8 @@
 	</definition>
 	
 	<definition name = "addResource" extends = "base-template">
-		<put-attribute name="title" value="Add Resource" />
-		<put-attribute name="header-title" value="Add new resource" />
+		<put-attribute name="title" value="crsms.resource.text.resource.add" />
+		<put-attribute name="header-title" value="crsms.resource.text.resource.add" />
 		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			
@@ -176,8 +180,8 @@
 	</definition>
 	
 	<definition name = "editResource" extends = "base-template">
-		<put-attribute name="title" value="Edit Resource" />
-		<put-attribute name="header-title" value="Edit resource" />
+		<put-attribute name="title" value="crsms.resource.text.resource.add" />
+		<put-attribute name="header-title" value="crsms.resource.text.resource.add" />
 		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			
@@ -190,7 +194,8 @@
 
 	<!-- Test -->
 	<definition name="tests" extends="base-template">
-		<put-attribute name="title" value="Tests" />
+		<put-attribute name="title" value="crsms.test.text.tests.list" />
+		<put-attribute name="header-title" value="crsms.test.text.tests.list" />
 		<put-attribute name="content" value="/WEB-INF/view/test/tests.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/test/test.css" />
@@ -199,8 +204,8 @@
 
 
 	<definition name="createtest" extends="base-template">
-		<put-attribute name="title" value="Create Test" />
-		<put-attribute name="header-title" value="Create Test" />
+		<put-attribute name="title" value="crsms.test.text.test.create" />
+		<put-attribute name="header-title" value="crsms.test.text.test.create" />
 		<put-attribute name="content" value="/WEB-INF/view/test/createtest.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/test/test.css" />
@@ -210,7 +215,8 @@
 	
 	<!-- Error page -->
 	<definition name = "errorpage" extends = "base-template">
-		<put-attribute name="title" value="Error" />
+		<put-attribute name="title" value="crsms.error.title" />
+		<put-attribute name="header-title" value="crsms.error.title" />
 		<put-attribute name="content" value="/WEB-INF/view/errorpage.jsp" />
 	</definition>
 	<!-- end error page -->

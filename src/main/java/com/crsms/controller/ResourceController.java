@@ -108,6 +108,11 @@ public class ResourceController {
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
 	
+	@RequestMapping(value = {RESOURCE_PATH + "/{id}/json"}, method = RequestMethod.GET, produces = "application/json")
+	public Resource getJsonResource(@PathVariable Long id) {
+		return resourceService.getById(id);
+	}
+	
 	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.GET)
 	public String ShowEditResourceForm(@PathVariable Long id, Model model) {
 
