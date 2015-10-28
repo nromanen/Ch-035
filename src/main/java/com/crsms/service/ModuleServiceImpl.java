@@ -1,5 +1,6 @@
 package com.crsms.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -90,6 +91,17 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public void addResource(Long moduleId, Resource resource) {
 		Module module = this.getById(moduleId);
+		module.addResource(resource);
+		this.update(module);
+	}
+	
+	@Override
+	public void addResource(Long moduleId, String name, String path) {
+		Module module = this.getById(moduleId);
+		Resource resource = new Resource();
+        resource.setName(name);
+        resource.setType(Resource.Type.FILE);
+        resource.setUrl(path + File.separator + name);
 		module.addResource(resource);
 		this.update(module);
 	}

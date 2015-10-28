@@ -29,4 +29,6 @@ public interface ModuleService {
 	
 	void addResource(Long moduleId, Resource resource);
 	
+	void addResource(Long moduleId, String name, String path);
+	
 }

@@ -1,5 +1,6 @@
 package com.crsms.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -67,5 +68,20 @@ public class ResourceServiceImpl implements ResourceService {
 		resourceDao.deleteById(id);
 		logger.info("out resourceService deleteById(resource id)");
 	}
-
+	
+	@Override
+	public List<Resource> getAllByModuleId(Long moduleId) {
+		logger.info("in resourceService getAllByModuleId(Resource)");
+		logger.info("trying to get resources");
+		return resourceDao.getAllByModuleId(moduleId);
+	}
+	
+	@Override
+	public void save(String name, String path) {
+		Resource resource = new Resource();
+        resource.setName(name);
+        resource.setType(Resource.Type.FILE);
+        resource.setUrl(path + File.separator + name);
+        this.save(resource);
+	}
 }

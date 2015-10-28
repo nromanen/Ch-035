@@ -13,9 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
+import com.crsms.service.ModuleService;
+import com.crsms.service.MultipartFileService;
+import com.crsms.service.MultipartFileServiceImpl;
 import com.crsms.service.ResourceService;
 
 /**
@@ -27,19 +32,18 @@ import com.crsms.service.ResourceService;
 @Controller
 public class ResourceController {
 	
-	private final String MODULE_CONTEXT_RESOURCE_PATH 
-		= "/course/{courseId}/module/{moduleId}/resources";
-	private final String RESOURCE_PATH = "/resources";
-	private final String STORAGE_PATH = "storage/resources";
-	private final String DELETE_PATH_PATTERN = "\\/\\d+\\/delete$";
+	private static final String MODULE_CONTEXT_RESOURCE_PATH 
+		= "/courses/{courseId}/modules/{moduleId}/resources";
+	private static final String RESOURCE_PATH = "/resources";
 	
 	@Autowired
 	private ResourceService resourceService;
+	@Autowired
+	private ModuleService moduleService;
 	
-	// returns relative mapping path to controller by removing method mapping part
-	private String getControllerClassPath(String link, String methodPattern) {
-		return link.replaceFirst(methodPattern, "");
-	}
+	@Autowired
+	private MultipartFileService multipartFileService;
+
 	
 	private void addAttributesForSaveResource(Model model) {
 		Resource resource = new Resource();
@@ -48,6 +52,8 @@ public class ResourceController {
 		model.addAttribute("resourceTypeFile", Resource.Type.FILE);
 		model.addAttribute("fileBucket", new FileBucket());
 	}
+	
+	
 	
 	@RequestMapping(value = { RESOURCE_PATH + "/", RESOURCE_PATH + "/all" }, 
 			method = RequestMethod.GET)
@@ -60,78 +66,69 @@ public class ResourceController {
 	@RequestMapping(value = { MODULE_CONTEXT_RESOURCE_PATH + "/", 
 			MODULE_CONTEXT_RESOURCE_PATH + "/all" }, method = RequestMethod.GET)
 	public String showAllModuleResources(@PathVariable() Long moduleId, Model model) {
-		List<Resource> resources = resourceService.getAll();
+		List<Resource> resources = resourceService.getAllByModuleId(moduleId);
 		model.addAttribute("resources", resources);
 		return "resources";
 	}
 	
-	@RequestMapping(value = {"/add"}, method = RequestMethod.GET)
+	@RequestMapping(value = {RESOURCE_PATH + "/add", 
+			MODULE_CONTEXT_RESOURCE_PATH + "/add"}, method = RequestMethod.GET)
 	public String showResourceForm(Model model) {
 		addAttributesForSaveResource(model);
 		return "addResource";
 	}
 	
-	@RequestMapping(value = {"/addembedded"}, method = RequestMethod.POST)
+	@RequestMapping(value = {RESOURCE_PATH + "/addembedded"}, method = RequestMethod.POST)
 	public String saveEmbeddedResource(Resource resource, Model model) {
 		resourceService.save(resource);
-		addAttributesForSaveResource(model);
-		model.addAttribute("success", true);
-		return "addResource";
+		return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = "/addfile", method = RequestMethod.POST)
-    public String saveFileResource(FileBucket fileBucket, Model model) {
- 
+	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/addembedded"}, method = RequestMethod.POST)
+	public String saveModuleEmbeddedResource(@PathVariable Long moduleId, Resource resource, Model model) {
+		moduleService.addResource(moduleId, resource);
+		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
+	}
+	
+	@RequestMapping(value = RESOURCE_PATH + "/addfile", method = RequestMethod.POST)
+	public String saveFileResource(FileBucket fileBucket, Model model) throws IOException {
 		MultipartFile receivedFile = fileBucket.getFile();
-		String originalName = receivedFile.getOriginalFilename();
-		
-		// TODO add this condition and some others to validator
-		if (!receivedFile.isEmpty()) {
-        	
-        	try {
-                // Creating if not exist the directory to store file
-                String rootPath = System.getProperty("catalina.home");
-                File dir = new File(rootPath + File.separator + STORAGE_PATH);
-                if (!dir.exists())
-                    dir.mkdirs();
-                String filePath = dir.getAbsoluteFile() + File.separator + originalName;
-                
-                try {
-                	receivedFile.transferTo(new File(filePath));
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                    return "File uploaded failed:" + originalName;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return "File uploaded failed:" + originalName;
-                }
-                
-                Resource resource = new Resource();
-                resource.setName(originalName);
-                resource.setType(Resource.Type.FILE);
-                resource.setUrl(filePath);
-                resourceService.save(resource);
-        		addAttributesForSaveResource(model);
-        		model.addAttribute("success", true);
-        		return "addResource";
-
-
-            } catch (Exception e) {
-                return "You failed to upload " + originalName + " => " + e.getMessage();
-            }
-        } else {
-            return "You failed to upload " + originalName
-                    + " because the file was empty.";
-        }
+		String originalName = receivedFile.getOriginalFilename();		
+		multipartFileService.uploadFile(receivedFile);		
+		resourceService.save(originalName, multipartFileService.getStoragePath());		
+        return "redirect:" + RESOURCE_PATH + "/all";
+	}
+	
+	@RequestMapping(value = MODULE_CONTEXT_RESOURCE_PATH + "/addfile", method = RequestMethod.POST)
+    public String saveModuleFileResource(@PathVariable Long moduleId, FileBucket fileBucket, Model model) throws IOException {
+		MultipartFile receivedFile = fileBucket.getFile();
+		String originalName = receivedFile.getOriginalFilename();		
+		multipartFileService.uploadFile(receivedFile);		
+        moduleService.addResource(moduleId, originalName, multipartFileService.getStoragePath());		
+		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
 	
-	@RequestMapping(value = {"/{id}/edit"}, method = RequestMethod.GET)
-	public String showEditResourceForm(@PathVariable Long id, Model model) {
-		Resource resource = resourceService.getById(id);
-		model.addAttribute("resource", resource);
-		model.addAttribute("resourceTypeValues", Resource.Type.values());
-		FileBucket fileModel = new FileBucket();
-        model.addAttribute("fileBucket", fileModel);
+	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.GET)
+	public String ShowEditResourceForm(@PathVariable Long id, Model model) {
+
+		return "fileUpload";
+	}
+	
+	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.GET)
+	public String ShowEditModuleResourceForm(@PathVariable Long id, Model model) {
+
+		return "fileUpload";
+	}
+	
+	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
+	public String editResource(@PathVariable Long id, Model model) {
+
+		return "fileUpload";
+	}
+	
+	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
+	public String editModuleResource(@PathVariable Long id, Model model) {
+
 		return "fileUpload";
 	}
 	
