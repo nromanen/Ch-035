@@ -1,3 +1,11 @@
-th, .managementCell {
+th, .center {
 	text-align: center;
+}
+
+.managementCell {
+	width: 96px;
+}
+
+.contentCell {
+	width: 182px;
 }
