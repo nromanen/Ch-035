@@ -1,22 +1,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Sign Up</title>
-<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-<script>
-	$(document).ready(function(e) {
-		$("#registration-form").submit(function(e) {
-			var pass = document.getElementById("password").value;
-			var confPass = document.getElementById("confPassword").value;
-			if (pass != confPass) {
-				alert("Passwords should be identical");
-				e.preventDefault();
-			}
-		});
-		
-	});
-</script>
+<script type="text/javascript" src="<c:url value="/resources/js/user/signUp.js" />"></script>
 </head>
 <body>
 	<div class="container">

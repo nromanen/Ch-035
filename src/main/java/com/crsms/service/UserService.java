@@ -2,8 +2,6 @@ package com.crsms.service;
 
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-
 import com.crsms.domain.Role;
 import com.crsms.domain.User;
 /**
@@ -13,6 +11,8 @@ import com.crsms.domain.User;
  */
 public interface UserService {
 
+	User createUser(String email, String password, long roleId);
+	
 	User saveUser(User user);
 
 	User saveUser(User user, long roleId);
@@ -20,6 +20,8 @@ public interface UserService {
 	User updateUser(User user, Role role);
 	
 	User updateUser(User user);
+	
+	boolean changePassword(String email, String currentPassword, String newPassword);
 
 	User getUserById(Long id);
 
