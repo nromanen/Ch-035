@@ -1,5 +1,6 @@
 package com.crsms.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Course;
+import com.crsms.domain.Module;
 
 /**
  * 
@@ -98,6 +100,19 @@ public class CourseDaoImpl implements CourseDao {
 			logger.error("Error delete: " + e);
 		}
 		
+	}
+
+	@Override
+	public List<Course> getAllByAreaId(Long areaId) {
+		List<Course> list = new ArrayList<Course>();
+		try {
+			String hql = "from Course where area_id = :id order by id asc";
+			Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", areaId);
+			list = query.list();
+		} catch (Exception e) {
+			logger.error("Error in getting all courses by area id: " + e);
+		}
+		return list;
 	}
 
 }

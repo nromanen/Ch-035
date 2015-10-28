@@ -2,5 +2,7 @@
 .idea/
 target/
 .project
+.CLASSPATH
+.gitignore
 .classpath
 *.iml

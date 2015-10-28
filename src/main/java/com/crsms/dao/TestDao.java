@@ -15,6 +15,8 @@ public interface TestDao {
     public Test getTestById(Long id);
 
     public List<Test> getAllTests();
+    
+    public List<Test> getAllByModuleId(Long moduleId);
 
     public void updateTest(Test test);
 

@@ -17,7 +17,15 @@ import java.util.Set;
 @Entity
 @Table(name="module")
 @NamedQueries({
-	@NamedQuery(name = "getModuleById", query = "from Module m where m.id = :id")
+	@NamedQuery(name = "getAll", 
+				query = "from Module order by id asc"),
+				
+	@NamedQuery(name = "getAllByCourseId", 
+				query = "from Module where course_id = :id order by id asc"),
+				
+	@NamedQuery(name = "deleteById",
+				query = "delete Module where id = :id"
+				)
 })
 public class Module {
 	

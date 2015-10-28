@@ -3,59 +3,62 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page session="false" %>
 
-<div align="center">
-<h2>
-    Add Area
-</h2>
+<c:set var = "areaName"><spring:message code = "crsms.text.name"/></c:set>
 
-<c:url var="addAction" value="/areas/add"></c:url>
-
-<form:form action="${addAction}" commandName="area">
-	<form:hidden path="id"/>
-    <table>
-        <tr>
-            <td>
-                <form:label path="name">
-                    <spring:message text="Name"/>
-                </form:label>
-            </td>
-            <td>
-                <form:input path="name"/>
-            </td>
-            <td colspan="2">
-                <c:if test="${!empty area.name}">
-                    <input type="submit"
-                           value="<spring:message text="Edit Area"/>"/>
-                </c:if>
-                <c:if test="${empty area.name}">
-                    <input type="submit"
-                           value="<spring:message text="Add Area"/>"/>
-                </c:if>
-            </td>
-        </tr>
-    </table>
-</form:form>
-</div>
-<br>
 <div align="center">
-<h3>Areas List</h3>
+<h2><spring:message code = "crsms.area.list"/></h2>
 <c:if test="${!empty getAllAreas}">
-    <table class="tg">
-        <tr>
-            <th width="80">Area ID</th>
-            <th width="120">Area Name</th>
-            <th width="60">Edit</th>
-            <th width="60">Delete</th>
+    <table class = "table table-bordered table-hover">
+        <tr class = "success">
+            <th width="1200">${areaName}</th>
+            <th><spring:message code="crsms.courses.text.management" /></th>
         </tr>
         <c:forEach items="${getAllAreas}" var="area">
             <tr>
-                <td align="center">${area.id}</td>
                 <td>${area.name}</td>
-                <td align="center"><a href="<c:url value='/areas/${area.id}/edit' />">Edit</a></td>
-                <td align="center"><a href="<c:url value='/areas/${area.id}/delete' />">Delete</a></td>
+                <td>
+					<div align="center">
+						<a href="areas/${area.id}/edit"
+							class="btn btn-primary btn-sm" 
+							data-toggle="tooltip"
+							title="<spring:message code="crsms.button.edit" />"
+						>
+							<span class="glyphicon glyphicon-pencil" />
+						</a>
+						<a 	href="areas/${area.id}/delete"
+							class="btn btn-danger btn-sm" 
+							data-toggle="tooltip"
+							title="<spring:message code="crsms.button.delete" />"
+						>
+							<span class="glyphicon glyphicon-remove" />		
+						</a>
+					</div>
+				</td>
             </tr>
         </c:forEach>
     </table>
 </c:if>
 </div>
->
+<c:url var="addAction" value="/areas/add"></c:url>
+<form:form action="${addAction}" modelAttribute="area" method="POST">
+	<form:hidden path="id"/>
+	<table>
+        <tr>
+            <td>
+            	<form:input path="name" class="form-control" placeholder = "${areaName}"/>
+            </td>
+            <td width = "20">
+            </td>
+            <td colspan="2" >
+                <c:if test="${!empty area.name}">
+                    <input type="submit" class="btn btn-success"
+                           value="<spring:message code="crsms.area.edit"/>"/>
+                </c:if>
+                <c:if test="${empty area.name}">
+                    <input type="submit" class="btn btn-success"
+                           value="<spring:message code="crsms.area.add"/>"/>
+                </c:if>
+            </td>
+        </tr>
+    </table>
+</form:form>
