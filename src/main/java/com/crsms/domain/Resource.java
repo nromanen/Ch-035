@@ -20,6 +20,10 @@ import javax.validation.constraints.Size;
 @Table(name="resource")
 public class Resource {
 	
+	public static final int NAME_MIN = 1;
+	public static final int NAME_MAX = 100;
+	public static final int URL_MAX = 255;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "resource_id_seq", allocationSize = 1)
@@ -27,12 +31,12 @@ public class Resource {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 2, max = 100)
+	@Size(min = NAME_MIN, max = NAME_MAX)
 	private String name;
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(max = 1000)
+	@Size(max = URL_MAX)
 	private String url;
 	
 	@Column(nullable = false)

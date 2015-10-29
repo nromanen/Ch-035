@@ -4,11 +4,14 @@ package com.crsms.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +23,7 @@ import com.crsms.domain.Resource;
 import com.crsms.service.ModuleService;
 import com.crsms.service.MultipartFileService;
 import com.crsms.service.ResourceService;
+import com.crsms.validator.MultipartFileValidator;
 
 /**
  * 
@@ -36,12 +40,20 @@ public class ResourceController {
 	
 	@Autowired
 	private ResourceService resourceService;
+	
 	@Autowired
 	private ModuleService moduleService;
 	
 	@Autowired
 	private MultipartFileService multipartFileService;
-
+	
+	@Autowired
+    MultipartFileValidator multuipartFileValidator;
+ 
+    @InitBinder("fileBucket")
+    protected void initBinderFileBucket(WebDataBinder binder) {
+        binder.setValidator(multuipartFileValidator);
+    }
 	
 	private void addAttributesForSaveResource(Model model) {
 		Resource resource = new Resource();
@@ -91,7 +103,11 @@ public class ResourceController {
 	}
 	
 	@RequestMapping(value = RESOURCE_PATH + "/addfile", method = RequestMethod.POST)
-	public String saveFileResource(FileBucket fileBucket, Model model) throws IOException {
+	public String saveFileResource(@Validated FileBucket fileBucket, 
+			BindingResult result, Model model) throws IOException, FileUploadException {
+		if (result.hasErrors()) {
+			throw new FileUploadException("FileValidationException");
+        }
 		MultipartFile receivedFile = fileBucket.getFile();
 		String originalName = receivedFile.getOriginalFilename();		
 		multipartFileService.uploadFile(receivedFile);		
@@ -100,7 +116,11 @@ public class ResourceController {
 	}
 	
 	@RequestMapping(value = MODULE_CONTEXT_RESOURCE_PATH + "/addfile", method = RequestMethod.POST)
-    public String saveModuleFileResource(@PathVariable Long moduleId, FileBucket fileBucket, Model model) throws IOException {
+    public String saveModuleFileResource(@PathVariable Long moduleId, 
+    		@Validated FileBucket fileBucket, BindingResult result, Model model) throws IOException, FileUploadException {
+		if (result.hasErrors()) {
+			throw new FileUploadException("FileValidationException");
+        }
 		MultipartFile receivedFile = fileBucket.getFile();
 		String originalName = receivedFile.getOriginalFilename();		
 		multipartFileService.uploadFile(receivedFile);		
@@ -127,14 +147,14 @@ public class ResourceController {
 	}
 	
 	@RequestMapping(value = {RESOURCE_PATH + "/{id}/delete"}, method = RequestMethod.GET)
-	public String deleteResource(@PathVariable Long id, HttpServletRequest request, Model model) {
-		resourceService.deleteById(id);
+	public String deleteResource(@PathVariable Long id, Model model) {
+		model.addAttribute("errorPermission", true);
 		return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
 	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/delete"}, method = RequestMethod.GET)
-	public String deleteModuleResource(@PathVariable Long id, HttpServletRequest request, Model model) {
-		resourceService.deleteById(id);
+	public String deleteModuleResource(@PathVariable Long id, @PathVariable Long moduleId, Model model) {
+		resourceService.delete(id, moduleId);
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	

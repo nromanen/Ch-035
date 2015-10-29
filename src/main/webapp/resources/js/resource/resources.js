@@ -71,6 +71,7 @@ $(document).ready(function(e) {
 					$("#btn-modal-edit-resource").removeClass("hide");
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
+					crsmsResourceHelper.hideModalBodyEls();
 					$("#modal-edit-resource-body-error").removeClass("hide");
 				}
 			});

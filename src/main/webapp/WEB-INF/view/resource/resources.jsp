@@ -8,6 +8,16 @@
 
 <input id="link-base" type="hidden" value="${linkBase}">
 
+<c:choose>
+  <c:when test="${not empty param.errorPermission}">
+    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong><spring:message code = "crsms.text.error" />!</strong> <spring:message code = "crsms.resource.error.permission.denied" />
+    </div>
+  </c:when>
+
+</c:choose>
+
 <a class = "btn btn-success" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
 
 <table class = "table table-bordered table-hover">
