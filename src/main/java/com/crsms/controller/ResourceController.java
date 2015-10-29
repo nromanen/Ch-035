@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
@@ -60,6 +61,7 @@ public class ResourceController {
 	public String showAllResources(Model model) {
 		List<Resource> resources = resourceService.getAll();
 		model.addAttribute("resources", resources);
+		model.addAttribute("resource", new Resource());
 		return "resources";
 	}
 	
@@ -68,6 +70,7 @@ public class ResourceController {
 	public String showAllModuleResources(@PathVariable() Long moduleId, Model model) {
 		List<Resource> resources = resourceService.getAllByModuleId(moduleId);
 		model.addAttribute("resources", resources);
+		model.addAttribute("resource", new Resource());
 		return "resources";
 	}
 	
@@ -108,40 +111,34 @@ public class ResourceController {
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
 	
+	// @ResponseBody to return json in response body
 	@RequestMapping(value = {RESOURCE_PATH + "/{id}/json"}, method = RequestMethod.GET, produces = "application/json")
-	public Resource getJsonResource(@PathVariable Long id) {
+	public @ResponseBody Resource getJsonResource(@PathVariable Long id) {
 		return resourceService.getById(id);
 	}
 	
-	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.GET)
-	public String ShowEditResourceForm(@PathVariable Long id, Model model) {
-
-		return "fileUpload";
-	}
-	
-	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.GET)
-	public String ShowEditModuleResourceForm(@PathVariable Long id, Model model) {
-
-		return "fileUpload";
-	}
-	
 	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
-	public String editResource(@PathVariable Long id, Model model) {
-
-		return "fileUpload";
+	public String editResource(@PathVariable Long id, Resource resource, Model model) {
+		resourceService.update(resource);
+		return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
 	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
-	public String editModuleResource(@PathVariable Long id, Model model) {
-
-		return "fileUpload";
+	public String editModuleResource(@PathVariable Long id, Resource resource, Model model) {
+		resourceService.update(resource);
+		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = {"/{id}/delete"}, method = RequestMethod.GET)
+	@RequestMapping(value = {RESOURCE_PATH + "/{id}/delete"}, method = RequestMethod.GET)
 	public String deleteResource(@PathVariable Long id, HttpServletRequest request, Model model) {
 		resourceService.deleteById(id);
-		return "redirect:" + 
-			this.getControllerClassPath(request.getServletPath(), DELETE_PATH_PATTERN) + "/all";
+		return "redirect:" + RESOURCE_PATH + "/all";
+	}
+	
+	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/delete"}, method = RequestMethod.GET)
+	public String deleteModuleResource(@PathVariable Long id, HttpServletRequest request, Model model) {
+		resourceService.deleteById(id);
+		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	
 	
