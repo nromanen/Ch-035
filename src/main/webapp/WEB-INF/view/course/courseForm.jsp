@@ -46,6 +46,7 @@
 					<i class="glyphicon glyphicon-calendar"></i>
 				</span>
 			</div>
+			<form:errors path = "startDate" cssClass = "label label-danger" />
 		</div>
 	</div>
 	<div class="form-group">
