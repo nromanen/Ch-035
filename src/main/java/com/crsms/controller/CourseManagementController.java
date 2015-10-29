@@ -43,7 +43,6 @@ public class CourseManagementController {
 	public ModelAndView courseManagmentList() {
 		ModelAndView model = new ModelAndView();
 		List<Course> courses = courseService.getAllCourse(); 
-		//model.addObject("title", "Course Management System");
 		model.addObject("courses", courses);
 		model.setViewName("courseManagmentList");
 		return model;
@@ -68,7 +67,6 @@ public class CourseManagementController {
 	
 		Course course = courseService.getCourseById(courseId); 
 		List<Area> areas = areaService.getAllAreas();
-		//model.addObject("title", "edit " + course.getName());
 		model.addObject("course", course);
 		model.addObject("areas", areas);
 		model.setViewName("editFormCourse");
@@ -100,7 +98,6 @@ public class CourseManagementController {
 		
 		ModelAndView model = new ModelAndView();
 		
-		//model.addObject("title", "New course");
 		model.addObject("course", new Course());
 		model.addObject("areas", areas);
 		model.setViewName("newFormCourse");
