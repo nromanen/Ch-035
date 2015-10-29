@@ -26,10 +26,14 @@
          </tr>
          </table>
 </div>         
-         <br>
-<div align = "center">         
-         <input type="submit" class="btn btn-success"
+<br>
+<div align = "center">
+	<c:set var="backButton">
+					<spring:message code="crsms.createtest.backButton" />
+	</c:set>
+	<a class="btn btn-success" role="button"
+					onClick="history.go(-1);return true;">${backButton}</a>         
+    <input type="submit" class="btn btn-success"
                            value="<spring:message code="crsms.button.save"/>"/>
-         
 </div>
 </form:form>
