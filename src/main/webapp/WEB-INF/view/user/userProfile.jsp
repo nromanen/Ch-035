@@ -1,30 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Profile page</title>
-
-<script type="text/javascript">
-
-$(document).ready(function() {   
-	$("#changePasswordBtn").click(function(){
-		var url = "changePassword?currentPass=" + $("#currentPass").val() 
-				+ "&newPassword=" + $("#newPassword").val()
-				+ "&_csrf=" + $("#csrf").val();
-	 $.post( url
-			 
-	 );
-	 
-    });
-});
-    
-</script>
+<script type="text/javascript" src="<c:url value="/resources/js/user/userProfile.js" />"></script>
 </head>
-
 <body>
 	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 		<div class="modal-dialog modal-sm">
@@ -62,7 +45,6 @@ $(document).ready(function() {
 		</div>
 	</div>
 
-	<h2><spring:message code = "crsms.userProfile.header"/><br><br></h2>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-offset-0">
