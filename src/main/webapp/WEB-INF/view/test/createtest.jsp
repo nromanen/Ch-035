@@ -11,6 +11,7 @@
 		<label for="name" class="col-sm-2 control-label">${testName}:</label>
 		<div class="col-sm-10">
 			<form:input path="name" id="name" class="form-control" placeholder="${testName}" />
+			<form:errors path = "name" cssClass = "label label-danger" />
 		</div>
 	</div>
 	<div class="form-group">

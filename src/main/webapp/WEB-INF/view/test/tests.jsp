@@ -19,15 +19,15 @@
 						<c:url var="editTest" value="${test.id}/edit" />
 						<a href="${editTest}" class="btn btn-success btn-sm"
 							data-toggle="tooltip"
-							title="<spring:message code="crsms.tests.edit" />"> <span
-							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							title="<spring:message code="crsms.button.edit" />"> 
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 						</a>
 
 						<c:url var="deleteTest" value="${test.id}/delete" />
 						<a href="${deleteTest}"
 							class="btn btn-danger btn-sm"
 							data-toggle="tooltip"
-							title="<spring:message code="crsms.tests.delete" />"
+							title="<spring:message code="crsms.button.delete" />"
 							value="${test.id}"> <span class="glyphicon glyphicon-remove"
 							aria-hidden="true"></span>
 						</a>

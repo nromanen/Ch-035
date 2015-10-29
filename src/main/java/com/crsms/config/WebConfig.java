@@ -21,7 +21,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @ComponentScan
 @EnableWebMvc
 class WebConfig extends WebMvcConfigurationSupport {
-    
+	
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();

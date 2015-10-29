@@ -4,7 +4,6 @@ import com.crsms.domain.Test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -43,17 +42,15 @@ public class TestDaoImpl implements TestDao {
 
     @Override
     public Test getTestById(Long id) {
-    	if (id != null) {
-            logger.info("TestDao. Reading test by ID: " + id + ".");
-            Session session = sessionFactory.getCurrentSession();
-            Test test = (Test) session.load(Test.class, new Long(id));
-            Hibernate.initialize(test.getModule());
-            logger.info("TestDao. Reading test by ID: " + id + " successfully.");
-            return test;
-    	} else {
-    		logger.error("TestDao. Illegal argument received when test by ID gettting.");
-    		throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID gettting.");	
-    	}
+    	logger.info("TestDao. Reading test by ID: " + id + ".");
+    	Test test = (Test) sessionFactory.getCurrentSession().get(Test.class, id);
+        if (test != null) {
+        	logger.info("TestDao. Reading test by ID: " + id + " successfully.");
+        return test;
+        } else {
+        	logger.error("TestDao. Illegal argument received when test by ID gettting.");
+        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID gettting.");	
+        }
     }
 
     @SuppressWarnings("unchecked")
