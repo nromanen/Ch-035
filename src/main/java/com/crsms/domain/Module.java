@@ -36,6 +36,10 @@ public class Module {
 	public static final String GET_ALL_BY_COURSE_ID = "Module.getAllByCourseId";
 	public static final String DELETE_BY_ID = "Module.deleteById";
 	
+	public static final int MAX_NAME_LENGTH = 30;
+	public static final int MAX_DESCTIPTION_LENGTH = 100;
+
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "module_id_seq", allocationSize = 1)
@@ -43,11 +47,11 @@ public class Module {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 2, max = 100)
+	@Size(max = MAX_NAME_LENGTH)
 	private String name;
 	
 	@Column(nullable = false)
-	@Size(max = 1000)
+	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
 	
 	@ManyToOne
