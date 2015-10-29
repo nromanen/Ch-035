@@ -27,6 +27,9 @@ public class ResourceServiceImpl implements ResourceService {
 	@Autowired
 	private ResourceDao resourceDao;
 	
+	@Autowired
+	private ModuleService moduleService;
+	
 	@Override
 	public void save(Resource resource) {
 		logger.info("in resourceService save(Resource)");
@@ -47,7 +50,15 @@ public class ResourceServiceImpl implements ResourceService {
 		resourceDao.delete(resource);
 		logger.info("out resourceService delete(Resource)");
 	}
-
+	
+	@Override
+	public void delete(Long resourceId, Long moduleId) {
+		logger.info("in resourceService delete(Long resourceId, Long moduleId)");
+		Resource resource = resourceDao.getById(resourceId);
+		moduleService.removeResource(moduleId, resource);
+		logger.info("out resourceService delete(Long resourceId, Long moduleId)");
+	}
+	
 	@Override
 	public Resource getById(Long id) {
 		logger.info("in resourceService getById(resource id)");

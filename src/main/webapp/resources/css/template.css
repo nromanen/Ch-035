@@ -1,5 +1,5 @@
 body {
-	font-family: "Open Sans";
+	font-family: 'Open Sans', sans-serif;
 }
 main {
 	margin-top: 20px;
@@ -8,9 +8,19 @@ footer {
 	text-align: center;
 	margin-top: 20px;
 }
+
+/*already in bootstrap: .text-right etc.*/
 .align-right {
 	text-align: right;
 }
+.align-center {
+	text-align: center;
+}
+.align-left {
+	text-align: left;
+}
+/**/
+
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, 
 .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th { 
 	vertical-align: middle;
