@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.crsms.domain.Module;
 import com.crsms.service.CourseService;
 import com.crsms.service.ModuleService;
-import com.crsms.validator.ModuleFormValidator;
+import com.crsms.validator.ModuleValidator;
 
 /**
  * 
@@ -39,7 +39,7 @@ public class ModuleController {
 	private CourseService courseService;
 	
 	@Autowired
-	private ModuleFormValidator validator;
+	private ModuleValidator validator;
 	
 	@InitBinder
     private void initBinder(WebDataBinder binder) {

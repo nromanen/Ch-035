@@ -8,7 +8,7 @@ import org.springframework.validation.Validator;
 import com.crsms.domain.Module;
 
 @Component
-public class ModuleFormValidator implements Validator {
+public class ModuleValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
