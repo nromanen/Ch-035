@@ -6,6 +6,9 @@ import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import java.util.Set;
 
 /**
@@ -39,9 +42,12 @@ public class Module {
 	private Long id;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 100)
 	private String name;
 	
 	@Column(nullable = false)
+	@Size(max = 1000)
 	private String description;
 	
 	@ManyToOne
