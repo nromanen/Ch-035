@@ -3,13 +3,13 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <c:choose>
-  <c:when test="${not empty success}">
+  <c:when test="${not empty param.success}">
     <div class="alert alert-success alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
       <strong><spring:message code = "crsms.text.success" />!</strong> <spring:message code = "crsms.resource.msg.success.add" />
     </div>
   </c:when>
-  <c:when test="${not empty error}">
+  <c:when test="${not empty param.error}">
     <div class="alert alert-danger alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
       <strong><spring:message code = "crsms.text.error" />!</strong> <spring:message code = "crsms.resource.msg.error.add" />
@@ -77,6 +77,7 @@
 				<label for = "type" class="col-sm-1 control-label"><spring:message code = "crsms.resource.text.file" />: </label>
 				<div class="col-sm-4">
 					<form:input type="file" path="file" id="file" class="form-control" style="height: auto;" />
+					<form:errors path="file" />
 				</div>
 			</div>
 			<div class="form-group">
