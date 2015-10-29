@@ -233,12 +233,19 @@
 		</put-list-attribute>
 	</definition>
 	<!-- end Test -->
-
-	<!-- Error page -->
-	<definition name="errorpage" extends="base-template">
+	
+	<!-- Error pages -->
+	<definition name = "errorpage" extends = "base-template">
 		<put-attribute name="title" value="crsms.error.title" />
 		<put-attribute name="header-title" value="crsms.error.title" />
 		<put-attribute name="content" value="/WEB-INF/view/errorpage.jsp" />
+	</definition>
+	
+	<definition name = "404" extends = "base-template">
+		<put-attribute name="header" value="" />
+		<put-attribute name="title" value="crsms.404.title" />
+		<put-attribute name="header-title" value="crsms.404.title" />
+		<put-attribute name="content" value="/WEB-INF/view/404.jsp" />
 	</definition>
 	<!-- end error page -->
 
