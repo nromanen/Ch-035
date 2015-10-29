@@ -26,8 +26,6 @@ public class UserDaoImpl implements UserDao {
 
 	private static Logger log = LogManager.getLogger(UserDaoImpl.class);
 	
-//	SELECT setval('users_id_seq', (SELECT MAX(id) FROM users)+1)
-
 	public User saveUser(User user) {
 		try {
 			if (user.getId() == null) {
@@ -58,15 +56,18 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getUserById(Long id) {
 		User user = new User();
-		Session session = null;
+	
 		try {
-			session = sessionFactory.getCurrentSession();
-			user = (User) session.get(User.class, id);
+			
+			user = (User) sessionFactory.getCurrentSession().get(User.class, id);
+			if(user!=null){
+				Hibernate.initialize(user.getRole());
+	        }
+			
 		} catch (Exception e) {
 			log.error("Error get user by Id: " + id + e);
-		} finally {
-			session.clear();
-		}
+		} 
+		Hibernate.initialize(user.getRole());
 		return user;
 	}
 
