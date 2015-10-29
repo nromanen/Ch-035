@@ -32,13 +32,11 @@ public class TestServiceImpl implements TestService {
     @Override
     @Transactional
     public void createTest(Long moduleId, Test test) {
-    	if (!test.getName().equals("")) {
-        	logger.info("TestService. Creating a new test.");
-        	Module module = moduleService.getById(moduleId);
-        	test.setModule(module);
-        	testDao.saveTest(test);
-        	logger.info("TestService. Creating a new test successfully.");
-    	} else throw new IllegalArgumentException("Test name field not filled.");
+    	logger.info("TestService. Creating a new test.");
+    	Module module = moduleService.getById(moduleId);
+    	test.setModule(module);
+    	testDao.saveTest(test);
+    	logger.info("TestService. Creating a new test successfully.");
     }
 
     @Override

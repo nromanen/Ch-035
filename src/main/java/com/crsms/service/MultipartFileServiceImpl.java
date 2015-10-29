@@ -15,36 +15,31 @@ public class MultipartFileServiceImpl implements MultipartFileService {
 	public void uploadFile(MultipartFile multipartFile) throws IOException {
 		
 		String originalName = multipartFile.getOriginalFilename();
-		
-		// TODO add this condition and some others to validator
-		if (!multipartFile.isEmpty()) {
         	
-        	try {
-                // Creating if not exist the directory to store file
-                String rootPath = System.getProperty("catalina.home");
-                File dir = new File(rootPath + File.separator + storagePath);
-                if (!dir.exists())
-                    dir.mkdirs();
-                String filePath = dir.getAbsoluteFile() + File.separator + originalName;
-                
-                try {
-                	multipartFile.transferTo(new File(filePath));
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                    throw e;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw e;
-                }
-                
-                
-
-            } catch (Exception e) {
-            	throw new IOException(e);
+    	try {
+            // Creating if not exist the directory to store file
+            String rootPath = System.getProperty("catalina.home");
+            File dir = new File(rootPath + File.separator + storagePath);
+            if (!dir.exists())
+                dir.mkdirs();
+            String filePath = dir.getAbsoluteFile() + File.separator + originalName;
+            
+            try {
+            	multipartFile.transferTo(new File(filePath));
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+                throw e;
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw e;
             }
-        } else {
-            throw new IOException("File is empty");
+            
+            
+
+        } catch (Exception e) {
+        	throw new IOException(e);
         }
+
 	}
 
 	public String getStoragePath() {

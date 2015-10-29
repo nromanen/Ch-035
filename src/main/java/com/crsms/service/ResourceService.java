@@ -23,6 +23,8 @@ public interface ResourceService {
 	
 	void delete(Resource resource);
 	
+	void delete(Long resourceId, Long moduleId);
+	
 	Resource getById(Long id);
 	
 	List<Resource> getAll();

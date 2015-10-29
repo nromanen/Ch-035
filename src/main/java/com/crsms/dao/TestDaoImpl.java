@@ -4,7 +4,6 @@ import com.crsms.domain.Test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,33 +35,36 @@ public class TestDaoImpl implements TestDao {
             session.persist(test);
             logger.info("TestDao. Creating a new test successfully.");
     	} else {
+    		logger.error("TestDao. Illegal argument received when test saving.");
     		throw new IllegalArgumentException("TestDao. Illegal argument received when test saving.");
     	}
     }
 
     @Override
     public Test getTestById(Long id) {
-    	if (id != null) {
-            logger.info("TestDao. Reading test by ID: " + id + ".");
-            Session session = sessionFactory.getCurrentSession();
-            Test test = (Test) session.load(Test.class, new Long(id));
-            Hibernate.initialize(test.getModule());
-            logger.info("TestDao. Reading test by ID: " + id + " successfully.");
-            return test;
-    	} else throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID gettting.");	
+    	logger.info("TestDao. Reading test by ID: " + id + ".");
+    	Test test = (Test) sessionFactory.getCurrentSession().get(Test.class, id);
+        if (test != null) {
+        	logger.info("TestDao. Reading test by ID: " + id + " successfully.");
+        return test;
+        } else {
+        	logger.error("TestDao. Illegal argument received when test by ID gettting.");
+        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID gettting.");	
+        }
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Test> getAllTests() {
     	logger.info("TestDao. Reading all tests.");
         List<Test> testList = new ArrayList<Test>();
-        String hql = "FROM Test";
-        Session session = sessionFactory.getCurrentSession();
-        testList = new ArrayList<Test>(session.createQuery(hql).list());
+        Query query = sessionFactory.getCurrentSession().getNamedQuery(Test.GET_ALL);
+        testList = query.list();
         logger.info("TestDao. Reading all tests successfully.");
         return testList;
     }
     
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Test> getAllByModuleId(Long id) {
 		if (id != null) {
@@ -73,7 +75,10 @@ public class TestDaoImpl implements TestDao {
 	        testList = query.list();
 	        logger.info("TestDao. Reading all tests by ID successfully.");
 			return testList;
-		} else throw new IllegalArgumentException("TestDao. Illegal argument received when test by Module ID gettting.");	
+		} else {
+			logger.error("TestDao. Illegal argument received when test by Module ID gettting.");
+			throw new IllegalArgumentException("TestDao. Illegal argument received when test by Module ID gettting.");	
+		}
 	}
 
     @Override
@@ -83,7 +88,10 @@ public class TestDaoImpl implements TestDao {
             Session session = sessionFactory.getCurrentSession();
             session.update(test);
             logger.info("TestDao. Updating test successfully.");
-    	} else throw new IllegalArgumentException("TestDao. Illegal argument received when test updating.");
+    	} else {
+    		logger.error("TestDao. Illegal argument received when test updating.");
+    		throw new IllegalArgumentException("TestDao. Illegal argument received when test updating.");
+    	}
     }
 
     @Override
@@ -93,7 +101,10 @@ public class TestDaoImpl implements TestDao {
             Session session = sessionFactory.getCurrentSession();
             session.delete(test);
             logger.info("TestDao. Deleting test successfully.");
-    	} else throw new IllegalArgumentException("TestDao. Illegal argument received when test deleting.");
+    	} else {
+    		logger.error("TestDao. Illegal argument received when test deleting.");
+    		throw new IllegalArgumentException("TestDao. Illegal argument received when test deleting.");
+    	}
     }
 
     @Override
@@ -106,7 +117,10 @@ public class TestDaoImpl implements TestDao {
                 session.delete(test);
             }
             logger.info("TestDao. Deleting test by ID: " + id + " successfully.");
-    	} else throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID deleting.");
+    	} else {
+    		logger.error("TestDao. Illegal argument received when test by ID deleting.");
+    		throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID deleting.");
+    	}
     }
 
 }
