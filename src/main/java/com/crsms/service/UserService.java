@@ -22,7 +22,6 @@ public interface UserService {
 
 	User getUserByEmail(String email);
 	
-//	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
 	void delete(Long id);
 
 	
