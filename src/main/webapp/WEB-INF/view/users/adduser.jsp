@@ -15,9 +15,7 @@
 		<div class="col-sm-10">
 			<form:input path="email" id="email" class="form-control"
 				placeholder="${userEmail}" />
-				<div class="has-error">
-                        <form:errors path="email" class="help-inline"/>
-                    </div>
+			<form:errors path="email" cssClass="label label-danger" />
 		</div>
 	</div>
 
@@ -28,24 +26,22 @@
 		<label for="password" class="col-sm-2 control-label">${userPassword}:
 		</label>
 		<div class="col-sm-10">
-			<form:input type="password" path="password" id="password" class="form-control"
-				placeholder="${userPassword}" />
-				<div class="has-error">
-                        <form:errors path="password" class="help-inline"/>
-                    </div>
+			<form:input type="password" path="password" id="password"
+				class="form-control" placeholder="${userPassword}" />
+			<form:errors path="password" cssClass="label label-danger" />
 		</div>
 	</div>
+
 	<div class="form-group">
 		<c:set var="userRole">
 			<spring:message code="crsms.createuser.role" />
 		</c:set>
-		<label for="role" class="col-sm-2 control-label">${userRole}: </label>
+		<label for="role" class="col-sm-2 control-label">${userRole}:
+		</label>
 		<div class="col-sm-10">
-		<form:select path="role" items="${roles}" itemValue="id"
- 								itemLabel="name" class="form-control input-sm" />
-					<div class="has-error">
-                        <form:errors path="role" class="help-inline"/>
-                    </div>
+			<form:select path="role" items="${roles}" itemValue="id"
+				itemLabel="name" class="form-control input-sm" />
+			<form:errors path="role" cssClass="label label-danger" />
 		</div>
 	</div>
 
@@ -57,5 +53,4 @@
 			<input type="submit" value="${userSave}" class="btn btn-default" />
 		</div>
 	</div>
-
 </form:form>

@@ -4,17 +4,12 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,9 +48,6 @@ public class AdminController {
 		userService.delete(userId);
 		return "redirect:/admin";
 	}
-
-	
-	
 	
 	@RequestMapping(value = { "/adduser" }, method = RequestMethod.GET)
 	public String addUser(ModelMap model) {
@@ -99,7 +91,6 @@ public class AdminController {
 	}
 
 	class RoleEditor extends PropertyEditorSupport {
-        
 		@Override
         public void setAsText(String text) {
             Long id = Long.parseLong(text);

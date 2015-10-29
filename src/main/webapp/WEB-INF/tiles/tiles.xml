@@ -25,77 +25,76 @@
 		</put-list-attribute>
 	</definition>
 	<!-- derived -->
-	<!-- 
-		 SS students, pay attention, that you must return from
-		 controller the name of definition not jsp page.
-		 But they could be the same, obviously.
-	-->	
-	<definition name="index" extends="base-template" >
+	<!-- SS students, pay attention, that you must return from controller the 
+		name of definition not jsp page. But they could be the same, obviously. -->
+	<definition name="index" extends="base-template">
 		<put-attribute name="title" value="crsms....." />
 		<put-attribute name="content" value="/index.jsp" />
 
 		<put-list-attribute name="javascripts" inherit="true">
-			
+
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
-			
+
 		</put-list-attribute>
 	</definition>
 	<!-- END EXAMPLE -->
 
-<!-- User pages -->
+	<!-- User pages -->
 	<definition name="403" extends="base-template">
-		<put-attribute name="title" value="access is forbidden" />
+		<put-attribute name="title" value="crsms.403.title.list" />
+		<put-attribute name="header-title" value="crsms.403.title.list" />
 		<put-attribute name="content" value="/WEB-INF/view/403.jsp" />
 	</definition>
 	<definition name="admin" extends="base-template">
-		<put-attribute name="title" value="secured admin area" />
+		<put-attribute name="title" value="crsms.admin.title.list" />
+		<put-attribute name="header-title" value="crsms.admin.title.list" />
 		<put-attribute name="content" value="/WEB-INF/view/users/admin.jsp" />
 	</definition>
 	<definition name="adduser" extends="base-template">
-		<put-attribute name="title" value="new user" />
+		<put-attribute name="title" value="crsms.admin.title.adduser" />
+		<put-attribute name="header-title" value="crsms.admin.title.adduser" />
 		<put-attribute name="content" value="/WEB-INF/view/users/adduser.jsp" />
 	</definition>
 	<definition name="manager" extends="base-template">
-		<put-attribute name="title" value="secured manager area" />
+		<put-attribute name="title" value="crsms.manager.title.list" />
+		<put-attribute name="header-title" value="crsms.manager.title.list" />
 		<put-attribute name="content" value="/WEB-INF/view/users/manager.jsp" />
 	</definition>
 	<definition name="student" extends="base-template">
-		<put-attribute name="title" value="secured student area" />
+		<put-attribute name="title" value="crsms.student.title.list" />
+		<put-attribute name="header-title" value="crsms.student.title.list" />
 		<put-attribute name="content" value="/WEB-INF/view/users/student.jsp" />
 	</definition>
 	<definition name="teacher" extends="base-template">
-		<put-attribute name="title" value="secured teacher area" />
+		<put-attribute name="title" value="crsms.teacher.title.list" />
+		<put-attribute name="header-title" value="crsms.teacher.title.list" />
 		<put-attribute name="content" value="/WEB-INF/view/users/teacher.jsp" />
 	</definition>
-	<definition name="hello" extends="base-template">
-		<put-attribute name="title" value="main page" />
-		<put-attribute name="content" value="/WEB-INF/view/hello.jsp" />
-	</definition>
-
 	<definition name="login" extends="base-template">
-		<put-attribute name="title" value="user login page" />
+		<put-attribute name="title" value="crsms.login.title.list" />
+		<put-attribute name="header-title" value="crsms.login.title.list" />
 		<put-attribute name="content" value="/WEB-INF/view/login.jsp" />
 	</definition>
-<!-- End User pages -->
-	
-	
+	<!-- End User pages -->
+
+
 	<!-- Area -->
-	<definition name = "area" extends = "base-template">
- 	    <put-attribute name="title" value="crsms.area.list" />
+	<definition name="area" extends="base-template">
+		<put-attribute name="title" value="crsms.area.list" />
 		<put-attribute name="header-title" value="crsms.area.list" />
-	    <put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
 	</definition>
-	
-	<definition name = "reenter" extends = "base-template">
- 	    <put-attribute name="title" value="crsms.area.list" />
+
+	<definition name="reenter" extends="base-template">
+		<put-attribute name="title" value="crsms.area.list" />
 		<put-attribute name="header-title" value="crsms.area.list" />
-	    <put-attribute name="content" value="/WEB-INF/view/area/reenter.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/area/reenter.jsp" />
 	</definition>
 	<!-- end Area -->
-	
+
 	<!-- Course -->
-	<definition name="courseManagmentList" extends="base-template" >
+	<definition name="courseManagmentList" extends="base-template">
 
 		<put-attribute name="title" value="crsms.courses.text.courses" />
 		<put-attribute name="header-title" value="crsms.courses.text.courses" />
@@ -105,21 +104,23 @@
 			<add-attribute value="/resources/css/course/course.css" />
 		</put-list-attribute>
 	</definition>
-	
-	<definition name="courseForm" extends="base-template" >
+
+	<definition name="courseForm" extends="base-template">
 		<put-attribute name="title" value="crsms.courses.text.courses" />
 		<put-attribute name="header-title" value="crsms.courses.text.courses" />
-		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/view/course/courseForm.jsp" />
 	</definition>
 	<!-- end Course -->
-	
+
 	<!-- Module -->
 	<definition name="createmodule" extends="base-template">
 		<put-attribute name="title" value="crsms.modules.title.modules.add" />
 		<put-attribute name="header-title" value="crsms.modules.title.modules.add" />
-		<put-attribute name="content" value="/WEB-INF/view/module/createmodule.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/view/module/createmodule.jsp" />
 	</definition>
-	
+
 	<definition name="editmodule" extends="createmodule">
 		<put-attribute name="title" value="crsms.modules.title.modules.edit" />
 		<put-attribute name="header-title" value="crsms.modules.title.modules.edit" />
@@ -135,26 +136,27 @@
 	</definition>
 	<!-- end Module -->
 
-	
+
 	<!-- User -->
-	<definition name = "signUp" extends = "base-template">
+	<definition name="signUp" extends="base-template">
 		<put-attribute name="title" value="crsms.signUp.header" />
 		<put-attribute name="header-title" value="crsms.signUp.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/signUp.jsp" />
 	</definition>
-	
-	<definition name = "userProfile" extends = "base-template">
+
+	<definition name="userProfile" extends="base-template">
 		<put-attribute name="title" value="crsms.userProfile.header" />
 		<put-attribute name="header-title" value="crsms.userProfile.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/userProfile.jsp" />
 	</definition>
 	<!-- end User -->
-	
+
 	<!-- Resource -->
-	<definition name = "resources" extends = "base-template">
+	<definition name="resources" extends="base-template">
 		<put-attribute name="title" value="crsms.resource.text.resources.list" />
 		<put-attribute name="header-title" value="crsms.resource.text.resources.list" />
-		<put-attribute name="content" value="/WEB-INF/view/resource/resources.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/view/resource/resources.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/resource/resources.css" />
 		</put-list-attribute>
@@ -162,30 +164,32 @@
 			<add-attribute value="/resources/js/resource/resources.js" />
 		</put-list-attribute>
 	</definition>
-	
-	<definition name = "addResource" extends = "base-template">
+
+	<definition name="addResource" extends="base-template">
 		<put-attribute name="title" value="crsms.resource.text.resource.add" />
 		<put-attribute name="header-title" value="crsms.resource.text.resource.add" />
-		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/view/resource/resource_form.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
-			
+
 		</put-list-attribute>
 		<put-list-attribute name="javascripts" inherit="true">
-			
+
 		</put-list-attribute>
 	</definition>
-	
-	<definition name = "editResource" extends = "base-template">
+
+	<definition name="editResource" extends="base-template">
 		<put-attribute name="title" value="crsms.resource.text.resource.add" />
 		<put-attribute name="header-title" value="crsms.resource.text.resource.add" />
-		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/view/resource/resource_form.jsp" />
 		<put-list-attribute name="stylesheets" inherit="true">
-			
+
 		</put-list-attribute>
 		<put-list-attribute name="javascripts" inherit="true">
-			
+
 		</put-list-attribute>
-	</definition>	
+	</definition>
 	<!-- end Resource -->
 
 	<!-- Test -->
@@ -208,9 +212,9 @@
 		</put-list-attribute>
 	</definition>
 	<!-- end Test -->
-	
+
 	<!-- Error page -->
-	<definition name = "errorpage" extends = "base-template">
+	<definition name="errorpage" extends="base-template">
 		<put-attribute name="title" value="crsms.error.title" />
 		<put-attribute name="header-title" value="crsms.error.title" />
 		<put-attribute name="content" value="/WEB-INF/view/errorpage.jsp" />
