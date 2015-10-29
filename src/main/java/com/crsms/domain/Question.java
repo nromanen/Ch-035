@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -37,6 +39,8 @@ public class Question {
 	private Test test;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(max = 1000)
 	private String text;
 	
 	@OneToMany(mappedBy="question", fetch = FetchType.LAZY, orphanRemoval = true)

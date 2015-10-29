@@ -15,12 +15,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -45,9 +46,12 @@ public class Course {
 	private Long id;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 5, max = 100)
 	private String name;
 	
 	@Column(nullable = false, length = 1024)
+	@Size(max = 1000)
 	private String description;
 	
 	
@@ -65,8 +69,9 @@ public class Course {
 	@Column(nullable = false)
 	private Boolean open = false;
 	
+	//TODO: change
 	@ManyToOne
-	@Cascade({CascadeType.ALL})
+	//@Cascade({CascadeType.ALL})
     @JoinColumn(name="area_id")
 	private Area area;
 	

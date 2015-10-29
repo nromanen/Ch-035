@@ -14,10 +14,6 @@ import com.crsms.domain.User;
 public interface UserService {
 
 	User saveUser(User user);
-
-	User saveUser(User user, long roleId);
-	
-	User updateUser(User user, Role role);
 	
 	User updateUser(User user);
 
