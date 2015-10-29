@@ -34,7 +34,6 @@ public class CourseDaoImpl implements CourseDao {
 		
 		try {
 			if(course.getId() == null) {
-				//sessionFactory.getCurrentSession().persist(course);
 				sessionFactory.getCurrentSession().save(course);
 				logger.info("DAO:create course:" + course.getName());
 			} else {
