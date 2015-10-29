@@ -15,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "roles")
@@ -34,6 +36,8 @@ public class Role {
 	private Long id;
 
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 20)
 	private String name;
 	
 	@OneToMany(cascade = CascadeType.ALL)

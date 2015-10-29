@@ -1,7 +1,12 @@
 package com.crsms.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Type {
 	private Long id;
+	@NotNull
+	@Size(min = 2, max = 20)
 	private String name;
 	
 	public Type() {
