@@ -38,9 +38,21 @@
 	<div class="form-group">
 		<label for="startDate" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.startDate" /></label>
 		<div class="col-sm-10" >
-			<form:input path="startDate" id="startDate" class="form-control" placeholder="dd/MM/yyyy" />
+			<div class='input-group date' id='datetimepicker1' >
+				<form:input path="startDate" id="startDate" class="form-control" placeholder="dd/MM/yyyy" />
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-calendar"></i>
+				</span>
+			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                	format: 'DD/MM/YYYY'
+                });
+            });
+    </script>
 	<div class="form-group">
 		<label for="duration" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.duration" /></label>
 		<div class="col-sm-2" >

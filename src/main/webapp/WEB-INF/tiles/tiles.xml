@@ -109,11 +109,25 @@
 		<put-attribute name="title" value="crsms.courses.text.title.new"  />
 		<put-attribute name="header-title" value="crsms.courses.text.title.new"  />
 		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/momentjs/2.10.6/min/moment-with-locales.min.js" />
+			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
 	</definition>
 	<definition name="newForm" extends="base-template" >
 		<put-attribute name="title" value="crsms.courses.text.title.edit" />
 		<put-attribute name="header-title" value="crsms.courses.text.title.edit" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/momentjs/2.10.6/min/moment-with-locales.min.js" />
+			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
 	</definition>
 	<!-- end Course -->
 	
