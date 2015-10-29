@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,8 +25,6 @@ public class UserDaoImpl implements UserDao {
 	private SessionFactory sessionFactory;
 
 	private static Logger log = LogManager.getLogger(UserDaoImpl.class);
-	
-//	SELECT setval('users_id_seq', (SELECT MAX(id) FROM users)+1)
 	
 	public User saveUser(User user) {
 		try {
@@ -57,15 +56,18 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getUserById(Long id) {
 		User user = new User();
-		Session session = null;
+	
 		try {
-			session = sessionFactory.getCurrentSession();
-			user = (User) session.get(User.class, id);
+			
+			user = (User) sessionFactory.getCurrentSession().get(User.class, id);
+			if(user!=null){
+				Hibernate.initialize(user.getRole());
+	        }
+			
 		} catch (Exception e) {
 			log.error("Error get user by Id: " + id + e);
-		} finally {
-			session.clear();
-		}
+		} 
+		Hibernate.initialize(user.getRole());
 		return user;
 	}
 

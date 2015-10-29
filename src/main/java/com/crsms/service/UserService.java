@@ -14,10 +14,6 @@ public interface UserService {
 	User createUser(String email, String password, long roleId);
 	
 	User saveUser(User user);
-
-	User saveUser(User user, long roleId);
-	
-	User updateUser(User user, Role role);
 	
 	User updateUser(User user);
 	

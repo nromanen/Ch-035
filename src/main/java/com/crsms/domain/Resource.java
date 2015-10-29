@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * 
@@ -24,9 +26,13 @@ public class Resource {
 	private Long id;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 100)
 	private String name;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(max = 1000)
 	private String url;
 	
 	@Column(nullable = false)
