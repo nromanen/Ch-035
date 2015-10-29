@@ -6,8 +6,3 @@
 		</div>
 	</div>
 </div>
-
-<div class = "hide">
-	<ol id = "breadcrumb" class="breadcrumb">
-	</ol>
-</div>
