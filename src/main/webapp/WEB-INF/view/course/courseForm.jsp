@@ -9,12 +9,14 @@
 		<label for="name"  class="col-sm-2 control-label"><spring:message code="crsms.courses.text.name" /></label>
 		<div class="col-sm-10" >
 			<form:input path="name" id="name" class="form-control" />
+			<form:errors path = "name" cssClass = "label label-danger" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="description" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.description" /></label>
 		<div class="col-sm-10" >
 			<form:textarea path="description" id="description" class="form-control" />
+			<form:errors path = "description" cssClass = "label label-danger" />
 		</div>
 	</div>
 	
@@ -44,6 +46,7 @@
 					<i class="glyphicon glyphicon-calendar"></i>
 				</span>
 			</div>
+			<form:errors path = "startDate" cssClass = "label label-danger" />
 		</div>
 	</div>
 	<div class="form-group">

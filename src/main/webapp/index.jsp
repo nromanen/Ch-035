@@ -1,13 +1,9 @@
-<h2>Hello World!</h2>
+<h2 align="center">Hello Academy!</h2>
 
-
-<a href = "areas">don't click there, click here!!!</a>
+<div align="center">
+<a href = "areas" class="btn btn-success">Areas</a>
 <br>
-<a href = "courses/1/modules/">click</a>
-<BR>
-
+<a href = "courses/">Courses</a>
 <br>
-<a href = "courses/1/modules/1/tests">U need only this link! Click it.</a>
-<br>
-<br>
-<a href = "login">Never, never try to login!</a>
+<a href = "login">Login</a>
+</div>
