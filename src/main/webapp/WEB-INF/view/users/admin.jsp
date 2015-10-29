@@ -3,8 +3,8 @@
 <div align="right">
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
 		<h5>
-			You're logged in as <b>${pageContext.request.userPrincipal.name}</b> 
-			<a href=<c:url value="/logout" />>logout</a>
+			<spring:message code = "crsms.text.login.signedas" /> <b>${pageContext.request.userPrincipal.name}</b> 
+			<a href=<c:url value="/logout" />><spring:message code = "crsms.button.log.out" /></a>
 		</h5>
 	</c:if>
 </div>
