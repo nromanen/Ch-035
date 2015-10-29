@@ -1,12 +1,22 @@
 body {
 	font-family: 'Open Sans', sans-serif;
 }
+#crsms-logo {
+	position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 90px;
+    margin-top: 10px;
+}
 main {
 	margin-top: 20px;
 }
 footer {
 	text-align: center;
 	margin-top: 20px;
+	margin-bottom: 0px !important;
 }
 
 /*already in bootstrap: .text-right etc.*/
