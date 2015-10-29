@@ -47,11 +47,24 @@ public class RoleDaoImpl implements RoleDao {
 		try {
 			session = sessionFactory.getCurrentSession();
 			role = (Role) session.get(Role.class, id);
-			 Hibernate.initialize(role.getUser());
 		} catch (Exception e) {
 			log.error("Error get role by Id: " + id + e);
 		} finally {
 			session.clear();
+		}
+		return role;
+	}
+
+	@Override
+	public Role getRoleByName(String name) {
+		Role role = new Role();
+		try {
+			log.info("get role by name: ", role);
+			Query query = sessionFactory.getCurrentSession()
+					.getNamedQuery(Role.BY_NAME).setString("name", name);
+			role = (Role) query.uniqueResult();
+		} catch (Exception e) {
+			log.error("Error get role by email: " + name + e);
 		}
 		return role;
 	}
