@@ -4,9 +4,9 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.util.Set;
@@ -45,11 +45,12 @@ public class Module {
 	private Long id;
 	
 	@Column(nullable = false)
-	@NotNull
+	@NotEmpty
 	@Size(max = MAX_NAME_LENGTH)
 	private String name;
 	
 	@Column(nullable = false)
+	@NotEmpty
 	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
 	
