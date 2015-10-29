@@ -8,9 +8,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -19,13 +23,17 @@ import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name="user_info")
+@NamedQueries({
+	@NamedQuery(name = UserInfo.DELETE, query = "DELETE FROM UserInfo uf WHERE uf.id=:id")})
 public class UserInfo {
+	
+	public static final String DELETE = "UserInfo.delete";
 	
 	@Id  
     @Column(name = "id")  
     @GeneratedValue(generator = "user_info_gen")  
     @GenericGenerator(name = "user_info_gen", strategy = "foreign",   
-    parameters = @Parameter(name = "property", value = "user"))  
+    parameters = @Parameter(name = "property", value = "user"))
 	private Long id;
 	
 	@OneToOne  
@@ -34,9 +42,13 @@ public class UserInfo {
 	private User user;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 20)
 	private String firstName;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 20)
 	private String lastName;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

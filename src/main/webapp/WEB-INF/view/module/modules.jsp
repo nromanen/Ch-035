@@ -4,7 +4,7 @@
 <table class = "table table-bordered table-hover">
 	<thead>
 		<tr class = "success">
-			<th><spring:message code = "crsms.text.id"/></th>
+			<th class = "hide"><spring:message code = "crsms.text.id"/></th>
 			<th><spring:message code = "crsms.text.name"/></th>
 			<th><spring:message code = "crsms.text.description"/></th>
 			<th><spring:message code = "crsms.modules.text.content"/></th>
@@ -14,25 +14,25 @@
 	<tbody>
 		<c:forEach var = "module" items = "${modules}">
 			<tr class = "active">
-				<th>${module.id}</th>
-				<td>${module.name}</td>
+				<th class = "hide">${module.id}</th>
+				<td class = "nameCell">${module.name}</td>
 				<td>${module.description}</td>
-				<td class = "managementCell">
+				<td class = "contentCell text-center">
 					<c:url var = "showTests" value = "${module.id}/tests/" />
 					<a href = "${showTests}" 
-						class = "btn btn-warning btn-sm">
+						class = "btn btn-success btn-sm">
 						<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 						<spring:message code="crsms.modules.text.tests" />
 					</a>
 					
 					<c:url var = "showResources" value = "${module.id}/resources/" />
 					<a href = "${showResources}" 
-						class = "btn btn-warning btn-sm">
+						class = "btn btn-success btn-sm">
 						<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
 						<spring:message code="crsms.modules.text.resources" />
 					</a>
 				</td>
-				<td class = "managementCell">
+				<td class = "managementCell text-center">
 					<c:url var = "editModule" value = "${module.id}/edit" />
 					<a href = "${editModule}" 
 						class = "btn btn-success btn-sm"

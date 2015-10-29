@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.RoleDao;
 import com.crsms.dao.UserDao;
-import com.crsms.dao.UserDaoImpl;
 import com.crsms.domain.Role;
 import com.crsms.domain.User;
 
@@ -37,6 +36,17 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private RoleDao roleDao;
+	
+	@Override
+	@Transactional
+	public User createUser(String email, String password, long roleId) {
+		User user = new User();
+		user.setEmail(email);
+		user.setPassword(password);
+		user.setRole(roleDao.getRoleById(roleId));
+		
+		return userDao.saveUser(user);
+	}
 
 	@Override
 	@Transactional
@@ -59,6 +69,21 @@ public class UserServiceImpl implements UserService {
 			log.error("Error updating User: " + e);
 		}
 		return userDao.saveUser(user);
+	}
+	
+	@Override
+	@Transactional
+	public boolean changePassword(String email, String currentPassword, String newPassword) {
+		User user = getUserByEmail(email);
+		
+		if (!user.getPassword().equals(currentPassword)) {
+			return false;
+		}
+		
+		user.setPassword(newPassword);
+		updateUser(user);
+		
+		return true;
 	}
 
 	@Override

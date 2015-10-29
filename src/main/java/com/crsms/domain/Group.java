@@ -13,6 +13,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -33,6 +37,8 @@ public class Group {
 	private Long id;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 100)
 	private String name;
 	
 	@OneToOne
@@ -49,6 +55,8 @@ public class Group {
 	private Set<Course> courses;
 	
 	@Column(columnDefinition = "default = 0", nullable = false)
+	@Min(1)
+	@Max(100)
 	private Long maxUserCount;
 	
 	

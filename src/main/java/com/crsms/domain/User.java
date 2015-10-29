@@ -1,13 +1,10 @@
 package com.crsms.domain;
 
-import java.util.List;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +38,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 @SequenceGenerator(name = "user_gen", initialValue = 1)
 public class User {
 	
-	private static final long serialVersionUID = 1L;
 	public static final String DELETE = "User.delete";
 	public static final String ALL_SORTED = "User.getAllSorted";
 	public static final String BY_EMAIL = "User.getByEmail";
@@ -57,7 +53,7 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	@Size(min=5, max=64)
+	@Size(min=5, max=255)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
@@ -70,14 +66,6 @@ public class User {
 	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Role role;
-	
-//	
-//	@ManyToMany
-//	@JoinTable (name = "user_roles", 
-//	joinColumns = {@JoinColumn(name="user_id")},
-//	inverseJoinColumns = {@JoinColumn(name="role_id")})
-//	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-//	private List <Role> role;
 
 	public User() {
 		super();
@@ -114,14 +102,6 @@ public class User {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	
-//	public List<Role> getRole() {
-//		return role;
-//	}
-//
-//	public void setRole(List<Role> role) {
-//		this.role = role;
-//	}
 
 	public Role getRole() {
 		return role;
