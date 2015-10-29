@@ -2,7 +2,6 @@ package com.crsms.service;
 
 import java.util.List;
 
-import com.crsms.domain.Role;
 import com.crsms.domain.User;
 /**
  * 
