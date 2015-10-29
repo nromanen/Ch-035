@@ -104,7 +104,7 @@
 		</put-list-attribute>
 	</definition>
 	
-	<definition name="editForm" extends="base-template" >
+	<definition name="editFormCourse" extends="base-template" >
 		<put-attribute name="title" value="crsms.courses.text.title.new"  />
 		<put-attribute name="header-title" value="crsms.courses.text.title.new"  />
 		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
@@ -118,7 +118,7 @@
 			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css" />
 		</put-list-attribute>
 	</definition>
-	<definition name="newForm" extends="base-template" >
+	<definition name="newFormCourse" extends="base-template" >
 		<put-attribute name="title" value="crsms.courses.text.title.edit" />
 		<put-attribute name="header-title" value="crsms.courses.text.title.edit" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />

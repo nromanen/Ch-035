@@ -40,6 +40,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Course {
 	public static final String GET_BY_NAME = "course.getCourseByName";
 	
+	public static final int MAX_NAME_LENGTH = 255;
+	public static final int MAX_DESCTIPTION_LENGTH = 1024;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "course_id_seq", allocationSize = 1)
@@ -47,11 +50,11 @@ public class Course {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 2, max = 100)
+	@Size(min = 1, max = MAX_NAME_LENGTH)
 	private String name;
 	
-	@Column(nullable = false, length = 1024)
-	@Size(max = 1000)
+	@Column(nullable = false, length = MAX_DESCTIPTION_LENGTH)
+	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
 	
 	

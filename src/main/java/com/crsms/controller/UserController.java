@@ -11,20 +11,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crsms.domain.Role;
-import com.crsms.domain.User;
-import com.crsms.domain.UserInfo;
+import com.crsms.service.RoleService;
 import com.crsms.service.UserInfoService;
 import com.crsms.service.UserService;
 
 @Controller
 public class UserController {
+	
+	private static final long STUDENT_ROLE_ID = 2;
 
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private UserInfoService userInfoService;
+	
+	@Autowired
+	private RoleService roleService;
 
 	@RequestMapping("/signUp")
 	public String signUp(Model model) {
@@ -34,17 +37,8 @@ public class UserController {
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
 	public String submitUser(Model model, HttpSession session,
 			@RequestParam("email") String email, @RequestParam("password") String password) {
-		Role role = new Role();
-		role.setName("ROLE_STUDENT");
-		role.setId((long) 2);
-
-		User user = new User();
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setRole(role);
-		userService.saveUser(user);
-		session.setAttribute("email", email); // add to service
-
+		userService.createUser(email, password, STUDENT_ROLE_ID);
+		session.setAttribute("email", email);
 		return "redirect:/userProfile"; ///"login";
 	};
 	
@@ -58,13 +52,7 @@ public class UserController {
 			@RequestParam("fName") String fName,
 			@RequestParam("sName") String sName,
 			@ModelAttribute("email") String email) {
-		User user = userService.getUserByEmail(email);
-
-		UserInfo userInf = new UserInfo();
-		userInf.setFirstName(fName);
-		userInf.setLastName(sName);
-		userInf.setUser(user);
-		userInfoService.saveUserInfo(userInf);
+		userInfoService.createUserInfo(fName, sName, email);
 		return "redirect:/signUp"; //"logout"
 	}
 	
@@ -73,15 +61,7 @@ public class UserController {
 	public String changePassword(HttpSession session, 
 			@RequestParam("currentPass") String currentPassword, @RequestParam("newPassword") String newPassword) {
 		String email = (String) session.getAttribute("email");
-		User user = userService.getUserByEmail(email);
-		
-		if (!user.getPassword().equals(currentPassword)) {
-			return "Fail";
-		}
-		
-		user.setPassword(newPassword);
-		userService.saveUser(user);
-		return "Success";
+		return userService.changePassword(email, currentPassword, newPassword) ? "Success" : "Fail";
 	}
 
 }
