@@ -7,7 +7,7 @@ $(document).ready(function() {
 					+ $("#csrf").val();
 			$.post(url).done(function(response) {
 				if (response == 'Fail') {
-					alert("Different passwords");
+					alert("Enter correct current password");
 				} else {
 					$("#closeModalBtn").click();
 				}

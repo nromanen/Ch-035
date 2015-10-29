@@ -1,7 +1,5 @@
 package com.crsms.domain;
 
-import java.util.List;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -35,7 +33,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 @SequenceGenerator(name = "user_gen", initialValue = 1)
 public class User {
 	
-	private static final long serialVersionUID = 1L;
 	public static final String DELETE = "User.delete";
 	public static final String ALL_SORTED = "User.getAllSorted";
 	public static final String BY_EMAIL = "User.getByEmail";
