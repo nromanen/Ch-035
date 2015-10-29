@@ -47,7 +47,7 @@ public class Course {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 5, max = 100)
+	@Size(min = 2, max = 100)
 	private String name;
 	
 	@Column(nullable = false, length = 1024)
