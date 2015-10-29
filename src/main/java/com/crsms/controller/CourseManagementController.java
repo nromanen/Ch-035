@@ -67,7 +67,6 @@ public class CourseManagementController {
 	public ModelAndView editCourse(@PathVariable("courseId") Long courseId) {
 		ModelAndView model = new ModelAndView();
 	
-		
 		Course course = courseService.getCourseById(courseId); 
 		List<Area> areas = areaService.getAllAreas();
 		//model.addObject("title", "edit " + course.getName());
@@ -83,11 +82,13 @@ public class CourseManagementController {
 			@RequestParam("areaId") long areaId, @Validated Course course, 
 			BindingResult result) {
 		ModelAndView model = new ModelAndView();
-		List<Area> areas = areaService.getAllAreas();
+		
 		if (result.hasErrors()) {
+			List<Area> areas = areaService.getAllAreas();
 			model.addObject("course", course);
 			model.addObject("areas", areas);
 			model.setViewName("editFormCourse");
+			return model;
 		}
 		courseService.updateCourse(course, areaId, sweekDuration);
 		model.setViewName("redirect:/courses/");
@@ -112,17 +113,16 @@ public class CourseManagementController {
 			@RequestParam("weekDuration") int sweekDuration, 
 			@RequestParam("areaId") long areaId, @Validated Course course, 
 			BindingResult result) {
-		List<Area> areas = areaService.getAllAreas();
 		
 		ModelAndView model = new ModelAndView();
 		if (result.hasErrors()) {
+			List<Area> areas = areaService.getAllAreas();
 			model.addObject("course", course);
 			model.addObject("areas", areas);
 			model.setViewName("newFormCourse");
 			return model;
 		}
 		courseService.saveCourse(course, areaId, sweekDuration);
-		
 		model.setViewName("redirect:/courses/");
 		return model;
 	}
