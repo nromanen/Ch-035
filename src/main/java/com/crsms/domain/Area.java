@@ -27,7 +27,7 @@ public class Area {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 5, max = 100)
+	@Size(min = 2, max = 100)
 	private String name;
 	
 	public Area() {
