@@ -46,13 +46,6 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker({
-                	format: 'DD/MM/YYYY'
-                });
-            });
-    </script>
 	<div class="form-group">
 		<label for="duration" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.duration" /></label>
 		<div class="col-sm-2" >

@@ -112,6 +112,7 @@
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/momentjs/2.10.6/min/moment-with-locales.min.js" />
 			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute value="/resources/js/course/courseForm.js" />
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" />
@@ -124,6 +125,7 @@
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/momentjs/2.10.6/min/moment-with-locales.min.js" />
 			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute value="/resources/js/course/courseForm.js" />
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" />
