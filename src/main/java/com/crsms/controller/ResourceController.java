@@ -4,7 +4,6 @@ package com.crsms.controller;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -104,9 +103,9 @@ public class ResourceController {
 	
 	@RequestMapping(value = RESOURCE_PATH + "/addfile", method = RequestMethod.POST)
 	public String saveFileResource(@Validated FileBucket fileBucket, 
-			BindingResult result, Model model) throws IOException, FileUploadException {
+			BindingResult result, Model model) throws IOException {
 		if (result.hasErrors()) {
-			throw new FileUploadException("FileValidationException");
+			throw new IOException("FileValidationException");
         }
 		MultipartFile receivedFile = fileBucket.getFile();
 		String originalName = receivedFile.getOriginalFilename();		
@@ -117,9 +116,9 @@ public class ResourceController {
 	
 	@RequestMapping(value = MODULE_CONTEXT_RESOURCE_PATH + "/addfile", method = RequestMethod.POST)
     public String saveModuleFileResource(@PathVariable Long moduleId, 
-    		@Validated FileBucket fileBucket, BindingResult result, Model model) throws IOException, FileUploadException {
+    		@Validated FileBucket fileBucket, BindingResult result, Model model) throws IOException {
 		if (result.hasErrors()) {
-			throw new FileUploadException("FileValidationException");
+			throw new IOException("FileValidationException");
         }
 		MultipartFile receivedFile = fileBucket.getFile();
 		String originalName = receivedFile.getOriginalFilename();		
