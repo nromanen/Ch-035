@@ -24,8 +24,14 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class MainController {
+	
+	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
+	public String homePage(){
+		return "index";
+	}
+	
 
-	@RequestMapping(value = { "/", "/hello" }, method = RequestMethod.GET)
+	@RequestMapping(value = {"/hello" }, method = RequestMethod.GET)
 	public String helloPage(ModelMap model) {
 		model.addAttribute("title", "Course Management System");
 		model.addAttribute("message", "This is default page for all users!");

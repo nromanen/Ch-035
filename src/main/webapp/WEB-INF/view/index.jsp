@@ -11,3 +11,5 @@
 <br>
 <br>
 <a href = "login">Never, never try to login!</a>
+
+<div><input type = "button" id = "button" class = "btn btn-success" value = "click"></div>
