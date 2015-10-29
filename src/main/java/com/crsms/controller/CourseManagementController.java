@@ -4,6 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +19,7 @@ import com.crsms.domain.Area;
 import com.crsms.domain.Course;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
+import com.crsms.validator.CourseValidator;
 
 
 @Controller
@@ -26,6 +32,13 @@ public class CourseManagementController {
 	@Autowired
 	private AreaService areaService;
 	
+	@Autowired
+	private CourseValidator validator;
+	
+	@InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(validator);
+    }
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView courseManagmentList() {
@@ -60,18 +73,25 @@ public class CourseManagementController {
 		//model.addObject("title", "edit " + course.getName());
 		model.addObject("course", course);
 		model.addObject("areas", areas);
-		model.setViewName("editForm");
+		model.setViewName("editFormCourse");
 		return model;
 	}
 	
 	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.POST)
-	public String editCourseSubmit(
+	public ModelAndView editCourseSubmit(
 			@RequestParam("weekDuration") int sweekDuration,
-			@RequestParam("areaId") long areaId, Course course) {
-		
+			@RequestParam("areaId") long areaId, @Validated Course course, 
+			BindingResult result) {
+		ModelAndView model = new ModelAndView();
+		List<Area> areas = areaService.getAllAreas();
+		if (result.hasErrors()) {
+			model.addObject("course", course);
+			model.addObject("areas", areas);
+			model.setViewName("editFormCourse");
+		}
 		courseService.updateCourse(course, areaId, sweekDuration);
-		
-		return "redirect:/courses/";
+		model.setViewName("redirect:/courses/");
+		return model;
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -83,16 +103,28 @@ public class CourseManagementController {
 		//model.addObject("title", "New course");
 		model.addObject("course", new Course());
 		model.addObject("areas", areas);
-		model.setViewName("newForm");
+		model.setViewName("newFormCourse");
 		return model;
 	}
 	
 	@RequestMapping(value = "/add" , method = RequestMethod.POST)
-	public String newCourseSubmit(
+	public ModelAndView newCourseSubmit(
 			@RequestParam("weekDuration") int sweekDuration, 
-			@RequestParam("areaId") long areaId, Course course) {
+			@RequestParam("areaId") long areaId, @Validated Course course, 
+			BindingResult result) {
+		List<Area> areas = areaService.getAllAreas();
+		
+		ModelAndView model = new ModelAndView();
+		if (result.hasErrors()) {
+			model.addObject("course", course);
+			model.addObject("areas", areas);
+			model.setViewName("newFormCourse");
+			return model;
+		}
 		courseService.saveCourse(course, areaId, sweekDuration);
-		return "redirect:/courses/";
+		
+		model.setViewName("redirect:/courses/");
+		return model;
 	}
 	
 }
