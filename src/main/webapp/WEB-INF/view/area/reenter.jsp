@@ -7,11 +7,13 @@
 <h2>
     <spring:message code = "crsms.area.add"/>
 </h2>
+</div>
 
 <c:url var="addAction" value="/areas/add"></c:url>
 <c:set var = "areaName"><spring:message code = "crsms.text.name"/></c:set>
 
 <form:form action="${addAction}" modelAttribute="area">
+<div align="center">
 	<form:hidden path="id"/>
 	<table>
         <tr>
@@ -28,6 +30,6 @@
 <div align = "center">         
          <input type="submit" class="btn btn-success"
                            value="<spring:message code="crsms.button.save"/>"/>
-         </form:form>
+         
 </div>
-<br>
+</form:form>
