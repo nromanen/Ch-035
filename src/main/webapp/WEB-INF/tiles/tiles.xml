@@ -2,6 +2,7 @@
 
 <tiles-definitions>
 	<definition name="base-template" template="/WEB-INF/view/template/template.jsp">
+		<put-attribute name="logo" value="/resources/images/logo.png" />
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
 		<put-attribute name="header-title" value="" cascade="true" />
