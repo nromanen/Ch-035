@@ -19,6 +19,8 @@ public class CourseValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "crsms.error.name.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "crsms.error.description.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "crsms.error.date.required");
+		
 		
 		Course course = (Course) target;
 		
