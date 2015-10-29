@@ -110,12 +110,13 @@
 		<put-attribute name="header-title" value="crsms.courses.text.title.new"  />
 		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
-			<add-attribute value="/webjars/momentjs/2.10.6/min/moment-with-locales.min.js" />
-			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute value="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js" />
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js" />
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.uk.min.js" />
 			<add-attribute value="/resources/js/course/courseForm.js" />
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
-			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" />
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css" />
 		</put-list-attribute>
 	</definition>
 	<definition name="newForm" extends="base-template" >
@@ -123,12 +124,13 @@
 		<put-attribute name="header-title" value="crsms.courses.text.title.edit" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
-			<add-attribute value="/webjars/momentjs/2.10.6/min/moment-with-locales.min.js" />
-			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute value="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js" />
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js" />
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.uk.min.js" />
 			<add-attribute value="/resources/js/course/courseForm.js" />
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
-			<add-attribute value="/webjars/Eonasdan-bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" />
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css" />
 		</put-list-attribute>
 	</definition>
 	<!-- end Course -->
