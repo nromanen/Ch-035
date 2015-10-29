@@ -49,7 +49,7 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	@Size(min=5, max=64)
+	@Size(min=5, max=255)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
@@ -62,14 +62,6 @@ public class User {
 	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Role role;
-	
-//	
-//	@ManyToMany
-//	@JoinTable (name = "user_roles", 
-//	joinColumns = {@JoinColumn(name="user_id")},
-//	inverseJoinColumns = {@JoinColumn(name="role_id")})
-//	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-//	private List <Role> role;
 
 	public User() {
 		super();
@@ -106,14 +98,6 @@ public class User {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	
-//	public List<Role> getRole() {
-//		return role;
-//	}
-//
-//	public void setRole(List<Role> role) {
-//		this.role = role;
-//	}
 
 	public Role getRole() {
 		return role;
