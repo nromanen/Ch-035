@@ -51,7 +51,8 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         if (!dir.exists()) {
         	dir.mkdirs();
         }
-    	MultipartConfigElement multipartConfigElement = new MultipartConfigElement( dir.getAbsolutePath(), MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
+    	MultipartConfigElement multipartConfigElement = new MultipartConfigElement(dir.getAbsolutePath(), MAX_FILE_SIZE, 
+    																			   MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
         return multipartConfigElement;
     }
     
@@ -59,7 +60,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     protected void registerDispatcherServlet(ServletContext servletContext) {
 		String servletName = getServletName();
 		Assert.hasLength(servletName, "getServletName() must not return empty or null");
-
 		WebApplicationContext servletAppContext = createServletApplicationContext();
 		Assert.notNull(servletAppContext,
 				"createServletApplicationContext() did not return an application " +
@@ -67,9 +67,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 		DispatcherServlet dispatcherServlet = createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setContextInitializers(getServletApplicationContextInitializers());
-		
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-
 		ServletRegistration.Dynamic registration = servletContext.addServlet(servletName, dispatcherServlet);
 		Assert.notNull(registration,
 				"Failed to register servlet with name '" + servletName + "'." +
@@ -85,7 +83,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 				registerServletFilter(servletContext, filter);
 			}
 		}
-
 		customizeRegistration(registration);
 	}
 }
