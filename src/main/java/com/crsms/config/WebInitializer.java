@@ -68,9 +68,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		DispatcherServlet dispatcherServlet = createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setContextInitializers(getServletApplicationContextInitializers());
 		
-		// the only change in overriden method
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-		//
 
 		ServletRegistration.Dynamic registration = servletContext.addServlet(servletName, dispatcherServlet);
 		Assert.notNull(registration,
