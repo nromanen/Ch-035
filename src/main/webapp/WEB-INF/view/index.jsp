@@ -1,9 +1,9 @@
-<h2 align="center">Hello Academy!</h2>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<h2 align="center"><spring:message code = "crsms.index.text"/></h2>
 
 <div align="center">
-<a href = "areas" class="btn btn-success">Areas</a>
-<br>
-<a href = "courses/">Courses</a>
-<br>
-<a href = "login">Login</a>
+<a href = "areas" class="btn btn-success"><spring:message code = "crsms.area.list"/></a>
+<a href = "courses/" class="btn btn-success"><spring:message code = "crsms.courses.text.courses"/></a>
+<a href = "login" class="btn btn-success"><spring:message code = "crsms.index.login"/></a>
 </div>
