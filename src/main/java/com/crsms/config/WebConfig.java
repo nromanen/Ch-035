@@ -65,12 +65,6 @@ class WebConfig extends WebMvcConfigurationSupport {
     @Bean(name="simpleMappingExceptionResolver")
     public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
         SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
-        
-        /* If u want specific page for specific Exception, use this:
-        Properties mappings = new Properties();
-        mappings.setProperty("ElementNotFoundException", "errorpage");
-        resolver.setExceptionMappings(mappings);*/
-        
         resolver.setDefaultErrorView("errorpage");
         return resolver;
     }
