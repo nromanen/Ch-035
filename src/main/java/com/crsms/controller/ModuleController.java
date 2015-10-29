@@ -62,7 +62,7 @@ public class ModuleController {
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
 	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, 
-								@Validated Module module, BindingResult result, Model model) {
+								@Validated Module module, BindingResult result) {
 		if (result.hasErrors()) {
 			return EDIT_MODULE_VIEW;
 		}
@@ -73,7 +73,7 @@ public class ModuleController {
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/delete"}, method = RequestMethod.GET)
-	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId, Model model) {
+	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId) {
 		moduleService.deleteById(moduleId);
 		return redirect(courseId);
 	}
@@ -86,8 +86,7 @@ public class ModuleController {
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
-	public String saveModule(@PathVariable Long courseId, @Validated Module module,
-								BindingResult result, Model model) {
+	public String saveModule(@PathVariable Long courseId, @Validated Module module, BindingResult result) {
 		if (result.hasErrors()) {
 			return ADD_MODULE_VIEW;
 		}
