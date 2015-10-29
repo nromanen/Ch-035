@@ -13,7 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+/**
+ * @author Roman Romaniuk
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -42,15 +44,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						  	.antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 						  	.antMatchers("/teacher/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_TEACHER')")
 						  	.antMatchers("/student/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_TEACHER') or hasRole('ROLE_STUDENT')")
-						  	.and();
-	  http
+						  	.and() 
 	  		.formLogin().loginPage("/login")
 						  	.usernameParameter("email")
 						  	.passwordParameter("password")
-						  	.successHandler(customHandler)	// redirects user to his home page accordingly to his role
-//						  	.defaultSuccessUrl("/", false)	// HINT! redirects user after registration to page, from he came to register
-						  	.and().csrf()
-						  	.and().exceptionHandling().accessDeniedPage("/403");
+						  	.successHandler(customHandler)	// redirects user accordingly to his role
+						  	.and()
+						  .logout().logoutSuccessUrl("/login?logout")
+						  .and().csrf()
+						  .and().exceptionHandling().accessDeniedPage("/403");
 	}
 	
 	 @Bean
