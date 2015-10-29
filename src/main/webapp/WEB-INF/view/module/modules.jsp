@@ -20,14 +20,14 @@
 				<td class = "contentCell center">
 					<c:url var = "showTests" value = "${module.id}/tests/" />
 					<a href = "${showTests}" 
-						class = "btn btn-warning btn-sm">
+						class = "btn btn-success btn-sm">
 						<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 						<spring:message code="crsms.modules.text.tests" />
 					</a>
 					
 					<c:url var = "showResources" value = "${module.id}/resources/" />
 					<a href = "${showResources}" 
-						class = "btn btn-warning btn-sm">
+						class = "btn btn-success btn-sm">
 						<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
 						<spring:message code="crsms.modules.text.resources" />
 					</a>
