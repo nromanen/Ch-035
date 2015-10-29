@@ -29,8 +29,9 @@ import com.crsms.validator.ModuleFormValidator;
 @RequestMapping(value = {"/courses/{courseId}/modules"})
 public class ModuleController {
 	
-	private final String MODULES_PAGE = "modules";
-	private final String CREATE_MODULE_PAGE = "createmodule";
+	private final String MODULES_VIEW = "modules";
+	private final String ADD_MODULE_VIEW = "createmodule";
+	private final String EDIT_MODULE_VIEW = "editmodule";
 	
 	@Autowired
 	private ModuleService moduleService;
@@ -51,7 +52,7 @@ public class ModuleController {
 		this.validateCourseId(courseId);
 		List<Module> modules = moduleService.getAllByCourseId(courseId);
 		model.addAttribute("modules", modules);
-		return MODULES_PAGE;
+		return MODULES_VIEW;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.GET)
@@ -60,14 +61,14 @@ public class ModuleController {
 		this.validateModuleId(moduleId);
 		Module module = moduleService.getById(moduleId);
 		model.addAttribute("module", module);
-		return CREATE_MODULE_PAGE;
+		return EDIT_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
 	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, 
 								@Validated Module module, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return CREATE_MODULE_PAGE;
+			return EDIT_MODULE_VIEW;
 		}
 		if (moduleService.getById(moduleId) != null) {
 			moduleService.update(module);
@@ -88,14 +89,14 @@ public class ModuleController {
 		this.validateCourseId(courseId);
 		Module module = new Module();
 		model.addAttribute("module", module);
-		return CREATE_MODULE_PAGE;
+		return ADD_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
 	public String saveModule(@PathVariable Long courseId, @Validated Module module,
 								BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return CREATE_MODULE_PAGE;
+			return ADD_MODULE_VIEW;
 		}
 		moduleService.add(courseId, module);
 		return redirect(courseId);

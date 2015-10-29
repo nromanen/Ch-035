@@ -23,14 +23,14 @@
 							data-toggle="tooltip"
 							title="<spring:message code="crsms.button.edit" />"
 						>
-							<span class="glyphicon glyphicon-pencil" />
+							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 						<a 	href="areas/${area.id}/delete"
 							class="btn btn-danger btn-sm" 
 							data-toggle="tooltip"
 							title="<spring:message code="crsms.button.delete" />"
 						>
-							<span class="glyphicon glyphicon-remove" />		
+							<span class="glyphicon glyphicon-remove"></span>		
 						</a>
 					</div>
 				</td>

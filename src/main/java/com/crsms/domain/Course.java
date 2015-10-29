@@ -22,7 +22,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -70,8 +69,9 @@ public class Course {
 	@Column(nullable = false)
 	private Boolean open = false;
 	
+	//TODO: change
 	@ManyToOne
-	@Cascade({CascadeType.ALL})
+	//@Cascade({CascadeType.ALL})
     @JoinColumn(name="area_id")
 	private Area area;
 	

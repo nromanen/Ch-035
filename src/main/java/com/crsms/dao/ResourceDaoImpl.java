@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
 import com.crsms.domain.Resource;
 
 /**
@@ -101,6 +102,24 @@ public class ResourceDaoImpl implements ResourceDao {
 		} catch (Exception e) {
 			logger.error("Error deleteById resource with id=" + id + ": " + e);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Resource> getAllByModuleId(Long moduleId) {
+		
+		List<Resource> results = null;
+
+		String hql = "select mr from Module m join m.resources mr where m.id = :moduleId";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("moduleId", moduleId);
+		try {
+			results = (List<Resource>) query.list();
+		} catch (Exception e) {
+			logger.error("Error getAll resources:" + e);
+		}
+		return results;
+		
 	}
 
 }

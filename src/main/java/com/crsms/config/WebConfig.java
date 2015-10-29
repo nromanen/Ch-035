@@ -54,7 +54,6 @@ class WebConfig extends WebMvcConfigurationSupport {
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
 		resolver.setDefaultLocale(new Locale("en"));
 		resolver.setCookieName("localeCookie");
-		resolver.setCookieMaxAge(4800);
 		return resolver;
 	}
     

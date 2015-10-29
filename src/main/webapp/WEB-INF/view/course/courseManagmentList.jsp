@@ -18,7 +18,7 @@
 			<tr>
 				<td><c:out value="${course.name}"/></td>
 				<td><joda:format pattern="dd.MM.yyyy" value="${course.startDate}"  /></td>
-				<td>${course.weekDuration} weeks</td>
+				<td>${course.weekDuration} <spring:message code="crsms.courses.text.weeks" /></td>
 				<td align="center">
 					<c:choose> 
 						<c:when test="${course.open == 'true'}">
@@ -37,25 +37,24 @@
 				<td>${course.area.name}</td>
 				<td>
 					<div align="center">
-						<a class="btn btn-warning btn-sm" href="courses/${course.id}/modules/"><spring:message code="crsms.courses.text.modules" /></a>
+						<a class="btn btn-success btn-sm" href="${course.id}/modules/"><spring:message code="crsms.courses.text.modules" /></a>
 					</div>
 				</td>
 				<td>
 					<div align="center">
-						<a href="courses/${course.id}/edit"
-							class="btn btn-primary btn-sm" 
+						<a href="${course.id}/edit"
+							class="btn btn-success btn-sm" 
 							data-toggle="tooltip"
 							title="<spring:message code="crsms.button.edit" />"
 						>
-							<span class="glyphicon glyphicon-pencil" />
+							<span class="glyphicon glyphicon-pencil" ></span>
 						</a>
-						<a 	href="courses/${course.id}/delete"
+						<a 	href="${course.id}/delete"
 							class="btn btn-danger btn-sm" 
 							data-toggle="tooltip"
 							title="<spring:message code="crsms.button.delete" />"
 						>
-							<span class="glyphicon glyphicon-remove" />
-							
+							<span class="glyphicon glyphicon-remove" ></span>
 						</a>
 					</div>
 				</td>
@@ -63,4 +62,4 @@
 		</c:forEach>
 	</tbody>
 </table>
-<a class="btn btn-success pull-left" href="courses/add"><spring:message code="crsms.courses.button.create_new_course" /></a>
+<a class="btn btn-success pull-left" href="add"><spring:message code="crsms.courses.button.create_new_course" /></a>
