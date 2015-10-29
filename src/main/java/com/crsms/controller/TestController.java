@@ -5,17 +5,21 @@ import java.util.List;
 
 import com.crsms.domain.Test;
 import com.crsms.service.TestService;
+import com.crsms.validator.TestFormValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * @author Adriets Petro, Roman Stefankiv
+ * @author Adriets Petro, St. Roman
  */
 
 @Controller
@@ -24,11 +28,23 @@ public class TestController {
 
 	@Autowired(required = true)
 	private TestService testService;
+	
+	@Autowired
+	private TestFormValidator formValidator;
+	
+	@InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(formValidator);
+    }
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addTest(@PathVariable Long courseId,
-			@PathVariable Long moduleId, @ModelAttribute("test") Test test) {
-		testService.createTest(moduleId, test);
+	public String addTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
+						  @Validated Test test, BindingResult result) {
+		if (result.hasErrors()) {
+			return "createtest";
+		} else {
+			testService.createTest(moduleId, test);
+		}
 		return redirect(courseId, moduleId);
 	}
 
@@ -40,13 +56,15 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-	public String updateTest(@PathVariable Long courseId,
-							@PathVariable Long moduleId, @PathVariable Long id,
-							@ModelAttribute("test") Test test) {
-		if (testService.getTestById(id) != null) {
+	public String updateTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
+							 @PathVariable Long id, @Validated Test test, BindingResult result) {
+		if (result.hasErrors()) {
+			return "createtest";
+		} else if (testService.getTestById(id) != null) {
 			testService.editTest(test);
 		}
 		return redirect(courseId, moduleId);
+
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
@@ -56,7 +74,6 @@ public class TestController {
 		return "createtest";
 	}
 	
-	// TODO Need to resolve problem with / forwarding.
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAllTestsByModuleId(@PathVariable Long moduleId, Model model) {
 		List<Test> tests = testService.getAllByModuleId(moduleId);
@@ -65,8 +82,8 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-	public String deleteTestById(@PathVariable Long courseId,
-			@PathVariable Long moduleId, @PathVariable("id") Long id) {
+	public String deleteTestById(@PathVariable Long courseId, @PathVariable Long moduleId, 
+								 @PathVariable("id") Long id) {
 		testService.deleteTestById(id);
 		return redirect(courseId, moduleId);
 	}
@@ -75,8 +92,7 @@ public class TestController {
 	 * Method returns path redirection.
 	 */
 	private String redirect(Long courseId, Long moduleId) {
-		return "redirect:/courses/" + courseId + "/modules/" + moduleId
-				+ "/tests/";
+		return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/";
 	}
 
 }

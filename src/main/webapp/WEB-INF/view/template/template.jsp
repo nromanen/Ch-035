@@ -8,6 +8,7 @@
 <tiles:importAttribute name="javascripts"/>
 <tiles:importAttribute name="stylesheets"/>
 <tiles:importAttribute name="favicon"/>
+<tiles:importAttribute name="logo"/>
 <tiles:importAttribute name="title" toName="pageTitle" />
 <tiles:importAttribute name="header-title" toName="headerTitle" />
 
@@ -54,6 +55,10 @@
         </p>
     <![endif]-->
 
+    <!-- logo -->
+    <img id="crsms-logo" src="<c:url value="${logo}"/>" />
+    <!-- end logo -->
+    
     <!-- header -->
     <header id="header">
     	<div class="container">
@@ -78,7 +83,7 @@
     <!-- end content -->
 
     <!-- footer -->
-    <footer id="footer">
+    <footer id="footer" class="well" >
     	<div class="container">
           <tiles:insertAttribute name="footer"></tiles:insertAttribute>
         </div>

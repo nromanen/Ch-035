@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
+
 import com.crsms.domain.Resource;
 
 /**
@@ -61,6 +62,20 @@ public class ResourceDaoImpl implements ResourceDao {
 		}
 
 	}
+	
+	@Override
+	public void deleteById(Long id) {
+		
+		String hql = " DELETE Resource"  + 
+	             	 " WHERE id = :resource_id";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("resource_id", id);
+		try {
+			query.executeUpdate();
+		} catch (Exception e) {
+			logger.error("Error deleteById resource with id=" + id + ": " + e);
+		}
+	}
 
 	@Override
 	public Resource getById(Long id) {
@@ -88,20 +103,6 @@ public class ResourceDaoImpl implements ResourceDao {
 		}
 		return results;
 		
-	}
-
-	@Override
-	public void deleteById(Long id) {
-		
-		String hql = " DELETE Resource"  + 
-	             	 " WHERE id = :resource_id";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		query.setParameter("resource_id", id);
-		try {
-			query.executeUpdate();
-		} catch (Exception e) {
-			logger.error("Error deleteById resource with id=" + id + ": " + e);
-		}
 	}
 	
 	@SuppressWarnings("unchecked")
