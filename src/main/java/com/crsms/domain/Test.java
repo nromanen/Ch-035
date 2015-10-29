@@ -19,7 +19,7 @@ import java.util.Set;
 @NamedQueries(@NamedQuery(name = Test.GET_ALL, query = "FROM Test"))
 public class Test {
 	public static final String GET_ALL = "Test.getAll";
-	public static final int MAX_NAME_LENGTH = 30;
+	public static final int MAX_NAME_LENGTH = 100;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -28,7 +28,7 @@ public class Test {
 
     @Column(nullable = true)
     @NotNull
-	@Size(max = 30)
+	@Size(max = 100)
     private String name;
 
     @ManyToOne
