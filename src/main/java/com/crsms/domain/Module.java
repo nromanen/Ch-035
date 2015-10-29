@@ -115,6 +115,10 @@ public class Module {
 	public void setResources(Set<Resource> resources) {
 		this.resources = resources;
 	}
+	
+	public void removeResource(Resource resource) {
+		this.resources.remove(resource);
+	}
 
 	public Set<Test> getTests() {
 		return tests;

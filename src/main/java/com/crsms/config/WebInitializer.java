@@ -18,13 +18,10 @@ import com.crsms.config.RootConfig;
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	// Temporary location where files will be stored.
 	private static final String LOCATION = "temp";
-	
 	// 5MB : Max file size.
 	private static final long MAX_FILE_SIZE = 5242880;
-	
 	// 20MB : Total request size containing Multi part.
 	private static final long MAX_REQUEST_SIZE = 20971520;
-	
 	// Size threshold after which files will be written to disk.
 	private static final int FILE_SIZE_THRESHOLD = 0;
 	
@@ -54,7 +51,8 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         if (!dir.exists()) {
         	dir.mkdirs();
         }
-    	MultipartConfigElement multipartConfigElement = new MultipartConfigElement( dir.getAbsolutePath(), MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
+    	MultipartConfigElement multipartConfigElement = new MultipartConfigElement(dir.getAbsolutePath(), MAX_FILE_SIZE, 
+    																			   MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
         return multipartConfigElement;
     }
     
@@ -62,7 +60,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     protected void registerDispatcherServlet(ServletContext servletContext) {
 		String servletName = getServletName();
 		Assert.hasLength(servletName, "getServletName() must not return empty or null");
-
 		WebApplicationContext servletAppContext = createServletApplicationContext();
 		Assert.notNull(servletAppContext,
 				"createServletApplicationContext() did not return an application " +
@@ -70,9 +67,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 		DispatcherServlet dispatcherServlet = createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setContextInitializers(getServletApplicationContextInitializers());
-		
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-
 		ServletRegistration.Dynamic registration = servletContext.addServlet(servletName, dispatcherServlet);
 		Assert.notNull(registration,
 				"Failed to register servlet with name '" + servletName + "'." +
@@ -88,7 +83,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 				registerServletFilter(servletContext, filter);
 			}
 		}
-
 		customizeRegistration(registration);
 	}
 }

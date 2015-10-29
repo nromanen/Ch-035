@@ -127,5 +127,12 @@ public class ModuleServiceImpl implements ModuleService {
 		module.addResource(resource);
 		this.update(module);
 	}
+	
+	@Override
+	public void removeResource(Long moduleId, Resource resource) {
+		Module module = moduleDao.getById(moduleId);
+		module.removeResource(resource);
+		moduleDao.update(module);
+	}
 
 }

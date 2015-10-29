@@ -31,4 +31,6 @@ public interface ModuleService {
 	
 	void addResource(Long moduleId, String name, String path);
 	
+	void removeResource(Long moduleId, Resource resource);
+	
 }

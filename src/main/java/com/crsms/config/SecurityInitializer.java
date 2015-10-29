@@ -7,6 +7,7 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 public class SecurityInitializer extends AbstractSecurityWebApplicationInitializer {
+	
 	@Override
 	protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {
 		FilterRegistration.Dynamic characterEncodingFilter = 

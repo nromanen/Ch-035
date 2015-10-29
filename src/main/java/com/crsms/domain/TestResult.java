@@ -34,8 +34,6 @@ public class TestResult {
 	
 	
 	private Boolean complete = false;
-	
-	// TODO field Result. How to calculate.
 	// private Type Result;
 	
 	@OneToOne

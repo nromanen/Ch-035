@@ -2,7 +2,6 @@ package com.crsms.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Course;
-import com.crsms.domain.Module;
 
 /**
  * 
@@ -34,7 +32,6 @@ public class CourseDaoImpl implements CourseDao {
 		
 		try {
 			if(course.getId() == null) {
-				//sessionFactory.getCurrentSession().persist(course);
 				sessionFactory.getCurrentSession().save(course);
 				logger.info("DAO:create course:" + course.getName());
 			} else {

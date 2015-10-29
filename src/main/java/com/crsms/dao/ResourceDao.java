@@ -18,11 +18,11 @@ public interface ResourceDao {
 	
 	void delete(Resource resource);
 	
+	void deleteById(Long id);
+	
 	Resource getById(Long id);
 	
 	List<Resource> getAll();
-
-	void deleteById(Long id);
 	
 	List<Resource> getAllByModuleId(Long moduleId);
 }
