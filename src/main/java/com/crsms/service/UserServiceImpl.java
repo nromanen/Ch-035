@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	public boolean changePassword(String email, String currentPassword, String newPassword) {
 		User user = getUserByEmail(email);
 		
-		if (!user.getPassword().equals(passwordEncoder.encode(currentPassword))) {
+		if (!user.getPassword().equals(currentPassword)) {
 			return false;
 		}
 		
