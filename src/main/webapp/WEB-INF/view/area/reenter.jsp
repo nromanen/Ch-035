@@ -21,7 +21,7 @@
             	<form:input path="name" placeholder = "${areaName}" class="form-control"/>
             </td>
             <td>
-            	<form:errors path="name" class="text-danger" />
+            	<form:errors path="name" class="label label-danger" />
             </td>
          </tr>
          </table>
