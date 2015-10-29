@@ -71,7 +71,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	public List<Module> getAll() {
 		List<Module> list = new ArrayList<Module>();
 		try {
-			list = sessionFactory.getCurrentSession().getNamedQuery("getAll").list();
+			list = sessionFactory.getCurrentSession().getNamedQuery(Module.GET_ALL).list();
 		} catch (Exception e) {
 			logger.error("Error in get all modules: " + e);
 		}
@@ -83,7 +83,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	public List<Module> getAllByCourseId(Long courseId) {
 		List<Module> list = new ArrayList<Module>();
 		try {
-			list = sessionFactory.getCurrentSession().getNamedQuery("getAllByCourseId").setParameter("id", courseId).list();
+			list = sessionFactory.getCurrentSession().getNamedQuery(Module.GET_ALL_BY_COURSE_ID).setParameter("id", courseId).list();
 		} catch (Exception e) {
 			logger.error("Error in getting all modules by course id: " + e);
 		}
@@ -93,7 +93,7 @@ public class ModuleDaoImpl implements ModuleDao {
 	@Override
 	public void deleteById(Long id) {
 	    try {
-	    	sessionFactory.getCurrentSession().getNamedQuery("deleteById").setParameter("id", id).executeUpdate();
+	    	sessionFactory.getCurrentSession().getNamedQuery(Module.DELETE_BY_ID).setParameter("id", id).executeUpdate();
 		} catch (Exception e) {
 			logger.error("Error in delete module by id: " + e);
 		}

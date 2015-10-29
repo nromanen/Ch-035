@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.crsms.domain.Module;
-import com.crsms.exception.ElementNotFoundException;
 import com.crsms.service.CourseService;
 import com.crsms.service.ModuleService;
 import com.crsms.validator.ModuleFormValidator;
@@ -29,8 +28,9 @@ import com.crsms.validator.ModuleFormValidator;
 @RequestMapping(value = {"/courses/{courseId}/modules"})
 public class ModuleController {
 	
-	private final String MODULES_PAGE = "modules";
-	private final String CREATE_MODULE_PAGE = "createmodule";
+	private final String MODULES_VIEW = "modules";
+	private final String ADD_MODULE_VIEW = "createmodule";
+	private final String EDIT_MODULE_VIEW = "editmodule";
 	
 	@Autowired
 	private ModuleService moduleService;
@@ -48,26 +48,23 @@ public class ModuleController {
 	
 	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
 	public String showModules(@PathVariable Long courseId, Model model) {
-		this.validateCourseId(courseId);
 		List<Module> modules = moduleService.getAllByCourseId(courseId);
 		model.addAttribute("modules", modules);
-		return MODULES_PAGE;
+		return MODULES_VIEW;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.GET)
 	public String editModule(@PathVariable Long courseId, @PathVariable Long moduleId, Model model) {
-		this.validateCourseId(courseId);
-		this.validateModuleId(moduleId);
 		Module module = moduleService.getById(moduleId);
 		model.addAttribute("module", module);
-		return CREATE_MODULE_PAGE;
+		return EDIT_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
 	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, 
 								@Validated Module module, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return CREATE_MODULE_PAGE;
+			return EDIT_MODULE_VIEW;
 		}
 		if (moduleService.getById(moduleId) != null) {
 			moduleService.update(module);
@@ -77,25 +74,22 @@ public class ModuleController {
 	
 	@RequestMapping(value = {"/{moduleId}/delete"}, method = RequestMethod.GET)
 	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId, Model model) {
-		this.validateCourseId(courseId);
-		this.validateModuleId(moduleId);
 		moduleService.deleteById(moduleId);
 		return redirect(courseId);
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.GET)
 	public String newModule(@PathVariable Long courseId, Model model) {
-		this.validateCourseId(courseId);
 		Module module = new Module();
 		model.addAttribute("module", module);
-		return CREATE_MODULE_PAGE;
+		return ADD_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
 	public String saveModule(@PathVariable Long courseId, @Validated Module module,
 								BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return CREATE_MODULE_PAGE;
+			return ADD_MODULE_VIEW;
 		}
 		moduleService.add(courseId, module);
 		return redirect(courseId);
@@ -109,24 +103,5 @@ public class ModuleController {
 	private String redirect(Long courseId) {
 		return "redirect:/courses/" + courseId + "/modules/";
 	}
-	
-	/**
-	 * Throws ElementNotFoundException if course with id = courseId doesn't exist in the database.
-	 * @param courseId
-	 */
-	private void validateCourseId(Long courseId) {
-		if (courseService.getCourseById(courseId) == null) {
-			throw new ElementNotFoundException("Course with id = " + courseId + " doesn't exist.");
-		}
-	}
-	
-	/**
-	 * Throws ElementNotFoundException if module with id = moduleId doesn't exist in the database.
-	 * @param courseId
-	 */
-	private void validateModuleId(Long moduleId) {
-		if (moduleService.getById(moduleId) == null) {
-			throw new ElementNotFoundException("Course with id = " + moduleId + " doesn't exist.");
-		}
-	}
+
 }

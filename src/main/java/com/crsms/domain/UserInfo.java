@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -34,9 +36,13 @@ public class UserInfo {
 	private User user;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 20)
 	private String firstName;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 2, max = 20)
 	private String lastName;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

@@ -4,8 +4,9 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import java.util.Set;
 
@@ -25,6 +26,8 @@ public class Test {
     private Long id;
 
     @Column(nullable = true)
+    @NotNull
+	@Size(min = 2, max = 100)
     private String name;
 
     @ManyToOne
