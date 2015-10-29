@@ -14,6 +14,7 @@ import com.crsms.dao.ModuleDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.Resource;
+import com.crsms.exception.ElementNotFoundException;
 
 /**
  * 
@@ -64,7 +65,14 @@ public class ModuleServiceImpl implements ModuleService {
 	public Module getById(Long id) {
 		logger.info("in moduleService getById(module id)");
 		logger.info("trying to get module");
-		return moduleDao.getById(id);
+		
+		Module module = moduleDao.getById(id);
+		if (module == null) {
+			throw new ElementNotFoundException();
+		}
+		
+		logger.info("out moduleService getById(module id)");
+		return module;
 	}
 
 	@Override
@@ -77,13 +85,27 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public List<Module> getAllByCourseId(Long courseId) {
 		logger.info("in moduleService getAllByCourseId(courseId)");
+		logger.info("checking course id");
+		if (courseDao.getCourseById(courseId) == null) {
+			throw new ElementNotFoundException();
+		}
+		
 		logger.info("trying to get modules");
-		return moduleDao.getAllByCourseId(courseId);
+		List<Module> modules = moduleDao.getAllByCourseId(courseId);
+		
+		logger.info("out moduleService getAllByCourseId(courseId)");
+		return modules;
 	}
 
 	@Override
 	public void deleteById(Long id) {
 		logger.info("in moduleService deleteById(module id)");
+		logger.info("checking module id");
+		if (moduleDao.getById(id) == null) {
+			throw new ElementNotFoundException();
+		}
+		
+		logger.info("trying to delete module");
 		moduleDao.deleteById(id);
 		logger.info("out moduleService deleteById(module id)");
 	}
