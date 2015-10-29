@@ -17,7 +17,7 @@
 				<th class = "hide">${module.id}</th>
 				<td class = "nameCell">${module.name}</td>
 				<td>${module.description}</td>
-				<td class = "contentCell center">
+				<td class = "contentCell text-center">
 					<c:url var = "showTests" value = "${module.id}/tests/" />
 					<a href = "${showTests}" 
 						class = "btn btn-success btn-sm">
@@ -32,7 +32,7 @@
 						<spring:message code="crsms.modules.text.resources" />
 					</a>
 				</td>
-				<td class = "managementCell center">
+				<td class = "managementCell text-center">
 					<c:url var = "editModule" value = "${module.id}/edit" />
 					<a href = "${editModule}" 
 						class = "btn btn-success btn-sm"
