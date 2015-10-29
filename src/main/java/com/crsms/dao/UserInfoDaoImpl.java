@@ -6,7 +6,6 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.crsms.domain.UserInfo;
 
 @Repository("userInfoDao")
@@ -19,21 +18,27 @@ public class UserInfoDaoImpl implements UserInfoDao {
 
 	@Override
 	public UserInfo saveUserInfo(UserInfo user) {
-		logger.debug("Saving userInfo");
-		if (user.getId() == null) {
-			sessionFactory.getCurrentSession().save(user);
-		} else {
-			sessionFactory.getCurrentSession().update(user);
+		try {
+			if (user.getId() == null) {
+				sessionFactory.getCurrentSession().save(user);
+			} else {
+				sessionFactory.getCurrentSession().update(user);
+			}
+		} catch (Exception e) {
+			logger.debug("Error with saving userInfo" + e);
 		}
 		return user;
 	}
-
+	
 	@Override
 	public void delete(Long id) {
-		logger.debug("Removing userInfo with id " + id);
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"DELETE FROM UserInfo uf WHERE uf.user_id=:id");
-		query.setParameter("id", id).executeUpdate();
+		try {
+			Query query = sessionFactory.getCurrentSession()
+					.getNamedQuery(UserInfo.DELETE).setLong("id", id);
+			query.executeUpdate();
+		} catch (Exception e) {
+			logger.debug("Error wirh deleting userInfo by Id: " + id + e);
+		}
 	}
 
 }
