@@ -2,8 +2,11 @@ package com.crsms.domain;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 import javax.persistence.*;
+
 import java.util.Set;
 
 /**
@@ -12,7 +15,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "test")
+@NamedQueries(@NamedQuery(name = Test.GET_ALL, query = "FROM Test"))
 public class Test {
+	public static final String GET_ALL = "Test.getAll";
+	
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
     @SequenceGenerator(name = "crsms_gen", sequenceName = "test_id_seq", allocationSize = 1)
@@ -73,12 +79,6 @@ public class Test {
 
     public void setModule(Module module) {
         this.module = module;
-    }
-
-    @Override
-    public String toString() {
-        return "ID: " + id + "Title: " + name + "Module: " + module + "Available: " + getAvailable()
-                + "Questions: " + getQuestions();
     }
 
 }

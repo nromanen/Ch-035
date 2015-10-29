@@ -26,8 +26,8 @@ public class TestController {
 	private TestService testService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addTest(@PathVariable Long courseId,
-			@PathVariable Long moduleId, @ModelAttribute("test") Test test) {
+	public String addTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
+						  @ModelAttribute("test") Test test) {
 		testService.createTest(moduleId, test);
 		return redirect(courseId, moduleId);
 	}
@@ -40,9 +40,8 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-	public String updateTest(@PathVariable Long courseId,
-							@PathVariable Long moduleId, @PathVariable Long id,
-							@ModelAttribute("test") Test test) {
+	public String updateTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
+							 @PathVariable Long id, @ModelAttribute("test") Test test) {
 		if (testService.getTestById(id) != null) {
 			testService.editTest(test);
 		}
@@ -56,7 +55,6 @@ public class TestController {
 		return "createtest";
 	}
 	
-	// TODO Need to resolve problem with / forwarding.
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAllTestsByModuleId(@PathVariable Long moduleId, Model model) {
 		List<Test> tests = testService.getAllByModuleId(moduleId);
@@ -65,8 +63,8 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-	public String deleteTestById(@PathVariable Long courseId,
-			@PathVariable Long moduleId, @PathVariable("id") Long id) {
+	public String deleteTestById(@PathVariable Long courseId, @PathVariable Long moduleId, 
+								 @PathVariable("id") Long id) {
 		testService.deleteTestById(id);
 		return redirect(courseId, moduleId);
 	}
@@ -75,8 +73,7 @@ public class TestController {
 	 * Method returns path redirection.
 	 */
 	private String redirect(Long courseId, Long moduleId) {
-		return "redirect:/courses/" + courseId + "/modules/" + moduleId
-				+ "/tests/";
+		return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/";
 	}
 
 }

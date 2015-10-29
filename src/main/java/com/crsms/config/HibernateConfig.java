@@ -28,7 +28,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "com.crsms.domain" });
+        sessionFactory.setPackagesToScan(new String[] {"com.crsms.domain"});
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
      }
@@ -58,9 +58,9 @@ public class HibernateConfig {
      
     @Bean
     @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory s) {
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-       transactionManager.setSessionFactory(s);
+       transactionManager.setSessionFactory(sessionFactory);
        return transactionManager;
     }
 }

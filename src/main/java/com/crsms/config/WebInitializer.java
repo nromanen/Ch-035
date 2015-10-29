@@ -12,13 +12,10 @@ import com.crsms.config.RootConfig;
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	// Temporary location where files will be stored.
 	private static final String LOCATION = "temp";
-	
 	// 5MB : Max file size.
 	private static final long MAX_FILE_SIZE = 5242880;
-	
 	// 20MB : Total request size containing Multi part.
 	private static final long MAX_REQUEST_SIZE = 20971520;
-	
 	// Size threshold after which files will be written to disk.
 	private static final int FILE_SIZE_THRESHOLD = 0;
 	
