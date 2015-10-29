@@ -7,8 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 
@@ -26,7 +27,7 @@ public class Area {
 	private Long id;
 	
 	@Column(nullable = false)
-	@NotNull
+	@NotEmpty
 	@Size(min = 2, max = 100)
 	private String name;
 	
