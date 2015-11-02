@@ -4,12 +4,11 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -57,7 +56,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = { "/adduser" }, method = RequestMethod.POST)
-	public String saveUser(@Valid User user, BindingResult result,
+	public String saveUser(@Validated User user, BindingResult result,
 			ModelMap model) {
 		if (result.hasErrors()) {
 			return "adduser";
@@ -75,7 +74,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/edit/{userId}", method = RequestMethod.POST)
 	public String updateUser(@PathVariable long userId, 
-								@Valid User user, BindingResult result) {
+								@Validated User user, BindingResult result) {
 		if (result.hasErrors()) {
 			return "adduser";
 		}

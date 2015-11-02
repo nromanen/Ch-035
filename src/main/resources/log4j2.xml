@@ -24,9 +24,6 @@
     	<Logger name="com.crms.service" level="warn" additivity="true">
 			<AppenderRef ref="RollingFile" level="warn" />
 		</Logger>
-		<Logger name="org.springframework.security.web.FilterChainProxy" level="debug" additivity="true">
-			<AppenderRef ref="Console" level="debug" />
-		</Logger>
 		<Logger name="com.crms.dao" level="warn" additivity="true">
 			<AppenderRef ref="RollingFile" level="warn" />
 		</Logger>

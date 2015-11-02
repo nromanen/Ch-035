@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -65,11 +66,10 @@ public class User {
 	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Role role;
-
-	public User() {
-		super();
-	}
-
+	
+	@Column (nullable = false)
+	private boolean isEnabled;
+	 
 	public Long getId() {
 		return id;
 	}
@@ -111,7 +111,15 @@ public class User {
 	}
 		
 
-	  @Override
+	  public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

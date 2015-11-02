@@ -1,5 +1,7 @@
 package com.crsms.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 /**
  * @author Roman Romaniuk
  */
@@ -27,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	CustomAuthenticationHandler customHandler;
+	
+	@Autowired
+	private DataSource dataSource;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth)
@@ -49,7 +56,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  		.formLogin().loginPage("/login")
 						  	.usernameParameter("email")
 						  	.passwordParameter("password")
-						  	.successHandler(customHandler)	// redirects user accordingly to his role
+						  	.successHandler(customHandler)
+						  	.and()
+						  	.rememberMe().rememberMeParameter("remember-me")
+						  	.tokenRepository(persistentTokenRepository())
+						  	.tokenValiditySeconds(86400)
 						  	.and()
 						  .logout().logoutSuccessUrl("/login?logout")
 						  .and().csrf()
@@ -68,5 +79,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+        tokenRepositoryImpl.setDataSource(dataSource);
+        return tokenRepositoryImpl;
+    }
 
 }

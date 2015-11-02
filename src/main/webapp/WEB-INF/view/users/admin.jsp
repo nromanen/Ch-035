@@ -32,7 +32,7 @@
 				<td>${user.role}</td>
 				<td class="managementCell">
 				<c:url var="editUser"	value="admin/edit/${user.id}" /> 
-				<a href="${editUser}">
+				<a href="${editUser}"
 				 class = "btn btn-success btn-sm"
 						data-toggle = "tooltip"
 						title="<spring:message code="crsms.button.edit" />" >
