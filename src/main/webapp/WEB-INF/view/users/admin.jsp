@@ -16,6 +16,7 @@
 	</caption>
 	<thead>
 		<tr class="success">
+		<th class = "hide"><spring:message code = "crsms.text.id"/></th>
 			<th><spring:message code="crsms.admin.email" /></th>
 			<th><spring:message code="crsms.admin.password" /></th>
 			<th><spring:message code="crsms.admin.role" /></th>
@@ -24,21 +25,27 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${users}" var="user">
-			<tr>
+			<tr class = "active">
+			<th class = "hide">${user.id}</th>
 				<td>${user.email}</td>
 				<td>${user.password}</td>
 				<td>${user.role}</td>
 				<td class="managementCell">
 				<c:url var="editUser"	value="admin/edit/${user.id}" /> 
 				<a href="${editUser}">
-				 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 
-						 <spring:message code="crsms.admin.edit"/>
+				 class = "btn btn-success btn-sm"
+						data-toggle = "tooltip"
+						title="<spring:message code="crsms.button.edit" />" >
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 				</a></td>
 				<td class="managementCell">
 				<c:url var="deleteUser"	value="admin/delete/${user.id}" /> 
-				<a href="${deleteUser}">
+				<a href="${deleteUser}"
+				class = "btn btn-danger btn-sm"
+						data-toggle = "tooltip"
+						title="<spring:message code="crsms.button.delete" />" >
 				 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
-						 <spring:message code="crsms.admin.delete" />
+						 
 				</a></td>
 			</tr>
 		</c:forEach>
