@@ -79,7 +79,7 @@ public class AdminController {
 		if (result.hasErrors()) {
 			return "adduser";
 		}
-		userService.updateUser(user);
+		userService.saveUser(user);
 		return "redirect:/admin";
 	}
 	
