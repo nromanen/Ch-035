@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -35,7 +34,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 		@NamedQuery(name = User.BY_EMAIL, query = "FROM User u WHERE u.email= :email"),
 		@NamedQuery(name = User.ALL_SORTED, query = "FROM User u ORDER BY u.id"), })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@SequenceGenerator(name = "user_gen", initialValue = 1)
 public class User {
 	public static final int MIN_PASSWORD_LENGTH = 5;
 	public static final int MAX_PASSWORD_LENGTH = 255;
@@ -58,14 +56,12 @@ public class User {
 	private String password;
 
 	@OneToOne(mappedBy = "user")
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private UserInfo userInfo;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable (name = "user_roles", 
 	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
 	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Role role;
 	
 	@Column (nullable = false)
