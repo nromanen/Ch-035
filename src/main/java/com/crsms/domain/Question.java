@@ -8,8 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -33,10 +31,6 @@ public class Question {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "question_id_seq", allocationSize = 1)
 	private Long id;
-	
-	@ManyToOne
-	@JoinColumn(name = "test_id")
-	private Test test;
 	
 	@Column(nullable = false)
 	@NotNull
@@ -73,13 +67,4 @@ public class Question {
 	public void setAnswers(Set<Answer> answers) {
 		this.answers = answers;
 	}
-
-	public Test getTest() {
-		return test;
-	}
-
-	public void setTest(Test test) {
-		this.test = test;
-	}
-
 }

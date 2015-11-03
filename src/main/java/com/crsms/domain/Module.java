@@ -53,11 +53,7 @@ public class Module {
 	@NotEmpty
 	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
-	
-	@ManyToOne
-	@JoinColumn(name = "course_id")
-	private Course course;
-	
+		
 	@ManyToMany(fetch = FetchType.LAZY)
 	@Cascade({CascadeType.ALL})
 	private Set<Resource> resources;
@@ -88,14 +84,6 @@ public class Module {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Course getCourse() {
-		return course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
 	}
 
 	public String getDescription() {

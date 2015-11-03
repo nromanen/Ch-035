@@ -31,10 +31,6 @@ public class Test {
 	@Size(max = 100)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "module_id")
-    private Module module;
-
     @Column(nullable = false)
     private Boolean available = false;
 
@@ -75,13 +71,4 @@ public class Test {
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
     }
-
-    public Module getModule() {
-        return module;
-    }
-
-    public void setModule(Module module) {
-        this.module = module;
-    }
-
 }
