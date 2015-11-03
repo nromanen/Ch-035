@@ -37,7 +37,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @SequenceGenerator(name = "user_gen", initialValue = 1)
 public class User {
-	
+	public static final int MIN_PASSWORD_LENGTH = 5;
+	public static final int MAX_PASSWORD_LENGTH = 255;
 	public static final String DELETE = "User.delete";
 	public static final String ALL_SORTED = "User.getAllSorted";
 	public static final String BY_EMAIL = "User.getByEmail";
@@ -53,7 +54,7 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	@Size(min=5, max=255)
+	@Size(min=5, max=MAX_PASSWORD_LENGTH)
 	private String password;
 
 	@OneToOne(mappedBy = "user")

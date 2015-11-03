@@ -20,6 +20,7 @@ import com.crsms.domain.Role;
 import com.crsms.domain.User;
 import com.crsms.service.RoleService;
 import com.crsms.service.UserService;
+import com.crsms.validator.AdminValidator;
 /**
  * 
  * @author Roman Romaniuk
@@ -34,6 +35,9 @@ public class AdminController {
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private AdminValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllUsers(ModelMap model) {
@@ -58,6 +62,7 @@ public class AdminController {
 	@RequestMapping(value = { "/adduser" }, method = RequestMethod.POST)
 	public String saveUser(@Validated User user, BindingResult result,
 			ModelMap model) {
+		validator.validate(user, result);
 		if (result.hasErrors()) {
 			return "adduser";
 		}
@@ -75,6 +80,7 @@ public class AdminController {
 	@RequestMapping(value = "/edit/{userId}", method = RequestMethod.POST)
 	public String updateUser(@PathVariable long userId, 
 								@Validated User user, BindingResult result) {
+		validator.validate(user, result);
 		if (result.hasErrors()) {
 			return "adduser";
 		}

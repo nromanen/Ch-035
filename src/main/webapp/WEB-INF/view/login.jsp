@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page session="true"%>
 
 <h3>
@@ -28,11 +29,10 @@
 			placeholder="Password">
 	</div>
 	<div class="input-group input-sm">
-		<label for="rememberme"><spring:message
-				code="crsms.text.rememberme" /></label>
 		<div class="checkbox">
-			<label><input type="checkbox" id="rememberme"
-				name="remember-me" placeholder="Rememberme"></label>
+			<label for="rememberme"><input type="checkbox" id="rememberme"
+				name="remember-me" placeholder="Rememberme"><spring:message
+				code="crsms.text.rememberme" /></label>
 		</div>
 	</div>
 
