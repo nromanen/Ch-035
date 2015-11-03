@@ -62,9 +62,7 @@ public class Group {
 	
 	private Boolean recruited;
 	
-	public Group() {
-		
-	}
+	public Group() { }
 
 	public Long getId() {
 		return id;

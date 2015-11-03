@@ -42,8 +42,7 @@ public class Test {
     @Cascade({CascadeType.ALL})
     private Set<Question> questions;
 
-    public Test() {
-    }
+    public Test() { }
 
     public Long getId() {
         return id;

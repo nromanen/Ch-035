@@ -40,7 +40,7 @@ public class Answer {
 	
 	
 	
-	public Answer() {}
+	public Answer() { }
 
 	public Long getId() {
 		return id;

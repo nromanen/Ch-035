@@ -48,7 +48,7 @@ public class Question {
 	private Set<Answer> answers;
 	
 	
-	public Question() {}
+	public Question() { }
 
 	public Long getId() {
 		return id;

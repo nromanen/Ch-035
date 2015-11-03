@@ -31,9 +31,7 @@ public class Area {
 	@Size(min = 2, max = 100)
 	private String name;
 	
-	public Area() {
-		super();
-	}
+	public Area() { }
 	
 	public Long getId() {
 		return id;

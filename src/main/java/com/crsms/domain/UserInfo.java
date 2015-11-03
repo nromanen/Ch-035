@@ -52,8 +52,7 @@ public class UserInfo {
 	@Cascade({CascadeType.ALL})
 	private Set<Group> groups;
 	
-	public UserInfo() {
-	}
+	public UserInfo() {	}
 
 
 	public Long getId() {

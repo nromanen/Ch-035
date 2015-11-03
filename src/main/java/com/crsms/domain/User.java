@@ -66,6 +66,8 @@ public class User {
 	
 	@Column (nullable = false)
 	private boolean isEnabled;
+	
+	public User() { }
 	 
 	public Long getId() {
 		return id;

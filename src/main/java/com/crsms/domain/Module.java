@@ -72,9 +72,7 @@ public class Module {
 	@Column(name = "order_position", nullable = true)
 	private Long orderPosition;
 	
-	public Module() {
-		super();
-	}
+	public Module() { }
 
 	public Long getId() {
 		return id;
