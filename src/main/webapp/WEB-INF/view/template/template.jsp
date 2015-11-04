@@ -11,7 +11,6 @@
 <tiles:importAttribute name="logo"/>
 <tiles:importAttribute name="title" toName="pageTitle" />
 <tiles:importAttribute name="header-title" toName="headerTitle" />
-<tiles:importAttribute name="val-messages"/>
 
 <!DOCTYPE html>
 <html>
@@ -79,7 +78,6 @@
     <main id="main-body">
     	<div class="container">
           <tiles:insertAttribute name="content"></tiles:insertAttribute>
-          <tiles:insertAttribute name="val-messages"></tiles:insertAttribute>
         </div>
     </main>
     <!-- end content -->
