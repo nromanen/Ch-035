@@ -1,13 +1,16 @@
 package com.crsms.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -17,8 +20,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -64,8 +65,7 @@ public class Course {
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
 	private Duration duration;
 	
-	@OneToMany
-	@Cascade({CascadeType.ALL})
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Module> modules;
 	
 	@Column(nullable = false)
@@ -74,6 +74,9 @@ public class Course {
 	@ManyToOne
     @JoinColumn(name="area_id")
 	private Area area;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	private Set<User> users = new HashSet<User>();
 	
 	public Course() { }
 
@@ -153,5 +156,17 @@ public class Course {
 	
 	public void addModule(Module module) {
 		this.modules.add(module);
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+	
+	public void addUser(User user) {
+		this.users.add(user);
 	}
 }
