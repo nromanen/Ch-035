@@ -11,19 +11,19 @@ import com.googlecode.jmapper.JMapper;
 public class DtoServiceImpl implements DtoService {
 
 	@Override
-	public <D, S> D getDto(S source, Class<D> destinationType, Class<S> sourceType) {
+	public <D, S> D convert(S source, Class<D> destinationType, Class<S> sourceType) {
 		JMapper<D, S> mapper = new JMapper<>(destinationType, sourceType);
-		D dto = mapper.getDestination(source);
-		return dto;
+		D destination = mapper.getDestination(source);
+		return destination;
 	}
 
 	@Override
-	public <D, S> List<D> getDtos(List<S> sources, Class<D> destinationType, Class<S> sourceType) {
-		List<D> dtos = new ArrayList<>();
+	public <D, S> List<D> convert(List<S> sources, Class<D> destinationType, Class<S> sourceType) {
+		List<D> destinations = new ArrayList<>();
 		for (S source : sources) {
-			dtos.add(this.getDto(source, destinationType, sourceType));
+			destinations.add(this.convert(source, destinationType, sourceType));
 		}
-		return dtos;
+		return destinations;
 	}	
 
 }
