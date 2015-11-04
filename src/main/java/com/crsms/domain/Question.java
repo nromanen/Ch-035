@@ -1,34 +1,19 @@
 package com.crsms.domain;
 
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import java.util.Set;
 
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets, Valerii Motresku
  */
 
 @Entity
 @Table(name="question")
 public class Question {
-	
+	public static final int MAX_TEXT_LENGTH = 1000;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "question_id_seq", allocationSize = 1)
@@ -37,17 +22,15 @@ public class Question {
 	@ManyToOne
 	@JoinColumn(name = "test_id")
 	private Test test;
-	
-	@Column(nullable = false)
+
 	@NotNull
 	@Size(max = 1000)
 	private String text;
 	
-	@OneToMany(mappedBy="question", fetch = FetchType.LAZY, orphanRemoval = true)
-	@Cascade({CascadeType.ALL})
+	@OneToMany(mappedBy="question", fetch = FetchType.LAZY) //, orphanRemoval = true
+	//@Cascade({CascadeType.ALL})
 	private Set<Answer> answers;
-	
-	
+
 	public Question() {}
 
 	public Long getId() {
