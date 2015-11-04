@@ -32,7 +32,7 @@ import com.crsms.validator.AdminValidator;
 @Controller
 @RequestMapping(value = { "/admin" })
 public class AdminController {
-	public static final int ITEMSPERPAGE = 4;
+	public static final int ITEMSPERPAGE = 5;
 	@Autowired
 	private UserService userService;
 	
@@ -43,17 +43,22 @@ public class AdminController {
 	private AdminValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getAllUsers(@RequestParam (value = "page", required = false, defaultValue = "1") int page, ModelMap model, HttpSession session) {
+	public String getAllUsers(@RequestParam (value = "pagenumber", required = false, defaultValue = "1") int pageNumber, ModelMap model, HttpSession session) {
 
 		long rowsCount = userService.getRowsCount();
-		long totalPages = (int) Math.ceil(rowsCount / ITEMSPERPAGE);
-		System.out.println(totalPages);
-		List<User> users = userService.getPagingUsers(page, ITEMSPERPAGE);
-		model.addAttribute("totalpages", totalPages);
-		model.addAttribute("page", page);
+		int lastPageNumber = (int)((rowsCount/ITEMSPERPAGE)+1);
+		int startPosition = (pageNumber - 1) * ITEMSPERPAGE;
+		System.out.println(lastPageNumber);
+//		System.out.println(lastPageNumber);
+		System.out.println(startPosition);
+		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE);
+		model.addAttribute("lastpagenumber", lastPageNumber);
+		model.addAttribute("pagenumber", pageNumber);
 		model.addAttribute("users", users);
 		return "admin";
 	}
+//	
+	
 	
 	@RequestMapping(value = { "/delete/{userId}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable long userId) {

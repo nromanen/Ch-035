@@ -120,12 +120,13 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getPagingUsers(int page, int itemsPerPage) {
+	public List<User> getPagingUsers(int startPosition, int itemsPerPage) {
 		List<User> users = new ArrayList<>();
+		
 		try {
 			Criteria criteria = sessionFactory.getCurrentSession()
 					.createCriteria(User.class);
-			criteria.setFirstResult((page -1) * itemsPerPage);
+			criteria.setFirstResult(startPosition);
 			criteria.setMaxResults(itemsPerPage);
 			users.addAll(criteria.list());
 		} catch (Exception e) {

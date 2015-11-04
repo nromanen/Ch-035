@@ -28,7 +28,7 @@
 		<tbody>
 			<c:forEach items="${users}" var="user">
 				<tr class="active">
-					<th >${user.id}</th>
+					<th class="hide">${user.id}</th>
 					<td>${user.email}</td>
 					<td>${user.password}</td>
 					<td>${user.role}</td>
@@ -51,20 +51,16 @@
 	</table>
 </c:if>
 <!-- Paging block -->
-<div class="pagination">
-	
-		<c:if test="${page == 1}">
-			<a href="<c:url value="#"/>">«</a>
-		</c:if>
-		<c:if test="${page > 1}">
-			<a href="<c:url value="/admin?page=${page-1}"/>">«</a>
-		</c:if>
-		<c:forEach var="i" begin="1" end="${totalpages}">
-			<a href="<c:url value="/admin?page=${i}"/>"><c:out value="${i}" /></a>
-		</c:forEach>
-		<c:if test="${page < totalpages}">
-			<a href="<c:url value="/admin?page=${page+1}"/>">»</a>
-		</c:if>
+<div class="paginationlogic">
+	<c:if test="${pagenumber > 1}">
+		<a href="<c:url value="/admin?pagenumber=${pagenumber - 1}"/>">«</a>
+	</c:if>
+	<c:forEach var="p" begin="1" end="${lastpagenumber}">
+		<a href="<c:url value="/admin?pagenumber=${p}"/>"><c:out value="${p}" /></a>
+	</c:forEach>
+	<c:if test="${pagenumber < lastpagenumber}">
+		<a href="<c:url value="/admin?pagenumber=${pagenumber + 1}"/>">»</a>
+	</c:if>
 </div>
 <!-- End Paging block -->
 <br />
