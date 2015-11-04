@@ -13,9 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets, Valerii Motresku
  */
 
 @Entity
@@ -32,13 +30,11 @@ public class Answer {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 2, max = 100)
+	@Size(min = 2, max = 200)
 	private String text;
 	
 	@Column(nullable = false)
 	private Boolean correct = false;
-	
-	
 	
 	public Answer() {}
 

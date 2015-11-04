@@ -26,7 +26,6 @@ public class Test {
     @SequenceGenerator(name = "crsms_gen", sequenceName = "test_id_seq", allocationSize = 1)
     private Long id;
 
-    @Column(nullable = true)
     @NotNull
 	@Size(max = 100)
     private String name;
@@ -42,8 +41,7 @@ public class Test {
     @Cascade({CascadeType.ALL})
     private Set<Question> questions;
 
-    public Test() {
-    }
+    public Test() {}
 
     public Long getId() {
         return id;

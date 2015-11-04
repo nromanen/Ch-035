@@ -26,8 +26,7 @@ public class TestServiceImpl implements TestService {
     @Autowired
     ModuleService moduleService;
 
-    public TestServiceImpl() {
-    }
+    public TestServiceImpl() {}
 
     @Override
     @Transactional

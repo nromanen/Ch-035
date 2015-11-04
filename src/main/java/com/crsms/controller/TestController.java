@@ -1,12 +1,9 @@
 package com.crsms.controller;
 
 
-import java.util.List;
-
 import com.crsms.domain.Test;
 import com.crsms.service.TestService;
 import com.crsms.validator.TestFormValidator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 /**
  * @author Adriets Petro, St. Roman
  */
@@ -25,23 +24,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests")
 public class TestController {
+	private final String TESTS_PAGE = "tests";
+	private final String CREATE_TEST_PAGE = "createtest";
 
 	@Autowired(required = true)
 	private TestService testService;
 	
 	@Autowired
 	private TestFormValidator formValidator;
+
+	public TestController() {}
 	
 	@InitBinder
     private void initBinder(WebDataBinder binder) {
-        binder.setValidator(formValidator);
+		binder.setValidator(formValidator);
     }
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
 						  @Validated Test test, BindingResult result) {
 		if (result.hasErrors()) {
-			return "createtest";
+			return CREATE_TEST_PAGE;
 		} else {
 			testService.createTest(moduleId, test);
 		}
@@ -52,14 +55,14 @@ public class TestController {
 	public String newTest(Model model) {
 		Test test = new Test();
 		model.addAttribute("test", test);
-		return "createtest";
+		return CREATE_TEST_PAGE;
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	public String updateTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
 							 @PathVariable Long id, @Validated Test test, BindingResult result) {
 		if (result.hasErrors()) {
-			return "createtest";
+			return CREATE_TEST_PAGE;
 		} else if (testService.getTestById(id) != null) {
 			testService.editTest(test);
 		}
@@ -71,14 +74,14 @@ public class TestController {
 	public String editTest(@PathVariable("id") Long id, Model model) {
 		Test tempTest = testService.getTestById(id);
 		model.addAttribute("test", tempTest);
-		return "createtest";
+		return CREATE_TEST_PAGE;
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAllTestsByModuleId(@PathVariable Long moduleId, Model model) {
 		List<Test> tests = testService.getAllByModuleId(moduleId);
 		model.addAttribute("tests", tests);
-		return "tests";
+		return TESTS_PAGE;
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)

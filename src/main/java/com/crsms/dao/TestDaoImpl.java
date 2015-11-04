@@ -24,8 +24,7 @@ public class TestDaoImpl implements TestDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public TestDaoImpl() {
-    }
+    public TestDaoImpl() {}
 
     @Override
     public void saveTest(Test test) {
@@ -48,8 +47,8 @@ public class TestDaoImpl implements TestDao {
         	logger.info("TestDao. Reading test by ID: " + id + " successfully.");
         return test;
         } else {
-        	logger.error("TestDao. Illegal argument received when test by ID gettting.");
-        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID gettting.");	
+        	logger.error("TestDao. Illegal argument received when test by ID getting.");
+        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID getting.");
         }
     }
 
@@ -68,16 +67,16 @@ public class TestDaoImpl implements TestDao {
 	@Override
 	public List<Test> getAllByModuleId(Long id) {
 		if (id != null) {
-			logger.info("TestDao. Reading all tests by Module ID.");
-			List<Test> testList = new ArrayList<Test>();
-			String hql = "FROM Test WHERE module_id = :id order by id asc";
-	        Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
-	        testList = query.list();
-	        logger.info("TestDao. Reading all tests by ID successfully.");
-			return testList;
+            logger.info("TestDao. Reading all tests by Module ID.");
+            List<Test> testList = new ArrayList<Test>();
+            String hql = "FROM Test WHERE module_id = :id order by id asc";
+            Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
+            testList = query.list();
+            logger.info("TestDao. Reading all tests by Module ID successfully.");
+            return testList;
 		} else {
-			logger.error("TestDao. Illegal argument received when test by Module ID gettting.");
-			throw new IllegalArgumentException("TestDao. Illegal argument received when test by Module ID gettting.");	
+			logger.error("TestDao. Illegal argument received when test by Module ID getting.");
+			throw new IllegalArgumentException("TestDao. Illegal argument received when test by Module ID getting.");
 		}
 	}
 

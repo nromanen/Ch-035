@@ -1,0 +1,11 @@
+.table {
+	margin: 20px 0px;
+}
+.modal-resource-body {
+	font-size: 15px; 
+	font-weight: 600;
+}
+.resource-form-control-disabled {
+	border: none;
+    box-shadow: none;
+}
