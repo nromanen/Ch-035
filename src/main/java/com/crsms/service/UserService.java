@@ -24,6 +24,9 @@ public interface UserService {
 	
 	void delete(Long id);
 
-	
 	List<User> getAllUsers();
+	
+	long getRowsCount();
+	
+	List<User> getPagingUsers(int page, int itemsPerPage);
 }

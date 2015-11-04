@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
-
+	
 	@Override
 	public User getUserById(Long id) {
 		return userDao.getUserById(id);
@@ -119,6 +121,16 @@ public class UserServiceImpl implements UserService {
 			log.error("Error get all users " + e);
 		}
 		return users;
+	}
+
+	@Override
+	public long getRowsCount() {
+		return userDao.getRowsCount();
+	}
+
+	@Override
+	public List<User> getPagingUsers(int currentPos, int itemsPerPage) {
+		return userDao.getPagingUsers(currentPos, itemsPerPage);
 	}
 
 }

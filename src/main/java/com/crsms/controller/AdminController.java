@@ -4,6 +4,8 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crsms.domain.Role;
 import com.crsms.domain.User;
@@ -29,7 +32,7 @@ import com.crsms.validator.AdminValidator;
 @Controller
 @RequestMapping(value = { "/admin" })
 public class AdminController {
-	
+	public static final int ITEMSPERPAGE = 4;
 	@Autowired
 	private UserService userService;
 	
@@ -40,12 +43,18 @@ public class AdminController {
 	private AdminValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getAllUsers(ModelMap model) {
-		List<User> users = userService.getAllUsers();
+	public String getAllUsers(@RequestParam (value = "page", required = false, defaultValue = "1") int page, ModelMap model, HttpSession session) {
+
+		long rowsCount = userService.getRowsCount();
+		long totalPages = (int) Math.ceil(rowsCount / ITEMSPERPAGE);
+		System.out.println(totalPages);
+		List<User> users = userService.getPagingUsers(page, ITEMSPERPAGE);
+		model.addAttribute("totalpages", totalPages);
+		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		return "admin";
 	}
-
+	
 	@RequestMapping(value = { "/delete/{userId}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable long userId) {
 		userService.delete(userId);
