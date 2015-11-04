@@ -38,7 +38,7 @@ public class ModuleServiceImpl implements ModuleService {
 	public void add(Long courseId, Module module) {
 		logger.info("in moduleService save(Module)");
 		Course course = courseDao.getCourseById(courseId);
-		module.setCourse(course);
+		course.addModule(module);
 		moduleDao.add(module);
 		logger.info("out moduleService save(Module)");
 	}
