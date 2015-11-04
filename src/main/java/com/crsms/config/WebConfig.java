@@ -58,7 +58,7 @@ class WebConfig extends WebMvcConfigurationSupport {
 	}
     
     @Bean(name = "multipartResolver")
-    public StandardServletMultipartResolver resolver() {
+    public StandardServletMultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
     }
     
@@ -68,5 +68,7 @@ class WebConfig extends WebMvcConfigurationSupport {
         resolver.setDefaultErrorView("errorpage");
         return resolver;
     }
+    
+    
  
 }
