@@ -8,6 +8,7 @@
 		<put-attribute name="header-title" value="" cascade="true" />
 		<put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp" />
 		<put-attribute name="content" value="" />
+		<put-attribute name="val-messages" value="" />
 		<put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
 		<put-attribute name="favicon" value="/resources/images/favicon.ico" />
 		<put-list-attribute name="stylesheets">
@@ -86,6 +87,11 @@
 		<put-attribute name="title" value="crsms.area.list" />
 		<put-attribute name="header-title" value="crsms.area.list" />
 		<put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
+		<put-attribute name="val-messages" value="/WEB-INF/view/jqueryvalidationmessages.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/area/area.js" />
+		</put-list-attribute>
 	</definition>
 
 	<definition name="reenter" extends="base-template">
