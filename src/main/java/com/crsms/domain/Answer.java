@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -24,6 +26,10 @@ public class Answer {
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "answer_id_seq",  allocationSize = 1)
 	private Long id;
 	
+	@ManyToOne
+	@JoinColumn(name = "question_id")
+	private Question question;
+	
 	@Column(nullable = false)
 	@NotNull
 	@Size(min = 2, max = 100)
@@ -40,6 +46,14 @@ public class Answer {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public String getText() {

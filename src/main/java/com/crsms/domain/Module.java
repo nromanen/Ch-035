@@ -24,7 +24,7 @@ import java.util.Set;
 				query = "from Module order by id asc"),
 				
 	@NamedQuery(name = Module.GET_ALL_BY_COURSE_ID, 
-				query = "select m from Course c join c.modules m where course_id = :id order by m.id asc"),
+				query = "from Module where course_id = :id order by id asc"),
 				
 	@NamedQuery(name = Module.DELETE_BY_ID,
 				query = "delete Module where id = :id"
@@ -53,12 +53,16 @@ public class Module {
 	@NotEmpty
 	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
+	
+	@ManyToOne
+	@JoinColumn(name = "course_id")
+	private Course course;
 		
 	@ManyToMany(fetch = FetchType.LAZY)
 	@Cascade({CascadeType.ALL})
 	private Set<Resource> resources;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "module")
 	@Cascade({CascadeType.ALL})
 	private Set<Test> tests;
 	
@@ -92,6 +96,14 @@ public class Module {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public Course getCourse() {
+		return course;
+	}
+		
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 	public Set<Resource> getResources() {

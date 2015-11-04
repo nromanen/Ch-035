@@ -30,11 +30,15 @@ public class Test {
     @NotNull
 	@Size(max = 100)
     private String name;
+    
+    @ManyToOne
+    @JoinColumn(name = "module_id")
+    private Module module;
 
     @Column(nullable = false)
     private Boolean available = false;
 
-    @OneToMany
+    @OneToMany(mappedBy = "test")
     @Cascade({CascadeType.ALL})
     private Set<Question> questions;
 
@@ -54,6 +58,14 @@ public class Test {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public Module getModule() {
+    	return module;
+    }
+
+    public void setModule(Module module) {
+    	this.module = module;
     }
 
     public Boolean getAvailable() {

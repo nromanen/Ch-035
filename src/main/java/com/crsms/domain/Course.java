@@ -65,7 +65,7 @@ public class Course {
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
 	private Duration duration;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="course", cascade = CascadeType.ALL)
 	private Set<Module> modules;
 	
 	@Column(nullable = false)

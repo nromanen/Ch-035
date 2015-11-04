@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -31,12 +33,16 @@ public class Question {
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "question_id_seq", allocationSize = 1)
 	private Long id;
 	
+	@ManyToOne
+	@JoinColumn(name = "test_id")
+	private Test test;
+	
 	@Column(nullable = false)
 	@NotNull
 	@Size(max = 1000)
 	private String text;
 	
-	@OneToMany(orphanRemoval = true)
+	@OneToMany(mappedBy="question", orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	private Set<Answer> answers;
 	
@@ -49,6 +55,14 @@ public class Question {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Test getTest() {
+		return test;
+	}
+
+	public void setTest(Test test) {
+		this.test = test;
 	}
 
 	public String getText() {
