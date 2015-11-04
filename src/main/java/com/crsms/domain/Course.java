@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,7 +64,7 @@ public class Course {
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
 	private Duration duration;
 	
-	@OneToMany(mappedBy="course", fetch = FetchType.LAZY)
+	@OneToMany
 	@Cascade({CascadeType.ALL})
 	private Set<Module> modules;
 	
@@ -150,5 +149,9 @@ public class Course {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public void addModule(Module module) {
+		this.modules.add(module);
 	}
 }

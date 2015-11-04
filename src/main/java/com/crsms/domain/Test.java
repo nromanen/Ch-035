@@ -34,7 +34,7 @@ public class Test {
     @Column(nullable = false)
     private Boolean available = false;
 
-    @OneToMany(mappedBy = "test")
+    @OneToMany
     @Cascade({CascadeType.ALL})
     private Set<Question> questions;
 

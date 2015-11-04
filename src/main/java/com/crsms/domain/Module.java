@@ -24,7 +24,7 @@ import java.util.Set;
 				query = "from Module order by id asc"),
 				
 	@NamedQuery(name = Module.GET_ALL_BY_COURSE_ID, 
-				query = "from Module where course_id = :id order by id asc"),
+				query = "select m from Course c join c.modules m where course_id = :id order by m.id asc"),
 				
 	@NamedQuery(name = Module.DELETE_BY_ID,
 				query = "delete Module where id = :id"
@@ -58,7 +58,7 @@ public class Module {
 	@Cascade({CascadeType.ALL})
 	private Set<Resource> resources;
 	
-	@OneToMany(mappedBy = "module",fetch = FetchType.LAZY)
+	@OneToMany
 	@Cascade({CascadeType.ALL})
 	private Set<Test> tests;
 	

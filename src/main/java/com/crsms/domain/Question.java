@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +36,7 @@ public class Question {
 	@Size(max = 1000)
 	private String text;
 	
-	@OneToMany(mappedBy="question", fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	private Set<Answer> answers;
 	
