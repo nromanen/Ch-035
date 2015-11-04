@@ -2,12 +2,15 @@ package com.crsms.service;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.CourseDao;
+import com.crsms.dao.UserDao;
 import com.crsms.domain.Course;
+import com.crsms.domain.User;
 
 /**
  * 
@@ -22,6 +25,9 @@ public class CourseServiceImpl implements CourseService {
 	
 	@Autowired
     private CourseDao courseDao;
+	
+	@Autowired
+	private UserDao userDao;
 	
 	@Autowired
 	private AreaService areaService;
@@ -83,5 +89,39 @@ public class CourseServiceImpl implements CourseService {
 	public List<Course> getAllByAreaId(Long areaId) {
 		return courseDao.getAllByAreaId(areaId);
 	}
-
+	
+	@Override
+	public void subscribe(Long courseId, Long userId) {
+		Course course = courseDao.getCourseById(courseId);
+		User user = userDao.getUserById(userId);
+		
+		course.addUser(user);
+		user.addCourse(course);
+		
+		courseDao.updateCourse(course);
+	}
+	
+	@Override
+	public void unsubscribe(Long courseId, Long userId) {
+		Course course = courseDao.getCourseById(courseId);
+		User user = userDao.getUserById(userId);
+		
+		if (course.getUsers().contains(user)) {
+			course.getUsers().remove(user);
+		}
+		
+		if (user.getCourses().contains(course)) {
+			user.getCourses().remove(course);
+		}
+		
+		courseDao.updateCourse(course);
+	}
+	
+	public List<Course> getAllWithInitializedUsers() {
+		List<Course> courses = courseDao.getAllCourse();
+		for (Course course : courses) {
+			Hibernate.initialize(course.getUsers());
+		}
+		return courses;
+	}
 }
