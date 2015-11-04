@@ -49,7 +49,7 @@ public class Module {
 	@Size(max = MAX_NAME_LENGTH)
 	private String name;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = MAX_DESCTIPTION_LENGTH)
 	@NotEmpty
 	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
