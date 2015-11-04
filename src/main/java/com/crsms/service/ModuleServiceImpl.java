@@ -2,6 +2,7 @@ package com.crsms.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,8 +39,13 @@ public class ModuleServiceImpl implements ModuleService {
 	public void add(Long courseId, Module module) {
 		logger.info("in moduleService save(Module)");
 		Course course = courseDao.getCourseById(courseId);
-		course.addModule(module);
-		moduleDao.add(module);
+		if (this.isNameUnique(module.getName(), course.getModules())) {
+			course.addModule(module);
+			moduleDao.add(module);
+		} else {
+			throw new ElementNotFoundException("Not unique name");
+		}
+		
 		logger.info("out moduleService save(Module)");
 	}
 	
@@ -133,6 +139,15 @@ public class ModuleServiceImpl implements ModuleService {
 		Module module = moduleDao.getById(moduleId);
 		module.removeResource(resource);
 		moduleDao.update(module);
+	}
+	
+	private boolean isNameUnique(String name, Set<Module> modules) {
+		for (Module module : modules) {
+			if (module.getName().equalsIgnoreCase(name)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
