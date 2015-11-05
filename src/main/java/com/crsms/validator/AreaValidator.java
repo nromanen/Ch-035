@@ -17,7 +17,7 @@ public class AreaValidator implements Validator {
 	@Override
 	public void validate(Object obj, Errors e) {
 		//ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
-	    Area a= (Area) obj;
+	    Area a = (Area) obj;
 	    if (a.getName().length() == 0) {
 	        e.rejectValue("name", "crsms.area.empty");
 	    } else if (a.getName().length() > 100) {
