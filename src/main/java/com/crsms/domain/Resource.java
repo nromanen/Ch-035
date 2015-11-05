@@ -47,9 +47,7 @@ public class Resource {
 		FILE, EMBEDDED
 	}
 	
-	public Resource() {
-		super();
-	}
+	public Resource() {	}
 	
 	public Long getId() {
 		return id;

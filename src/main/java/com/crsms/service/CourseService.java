@@ -36,4 +36,10 @@ public interface CourseService {
 	
 	List<Course> getAllByAreaId(Long areaId);
 	
+	void subscribe(Long courseId, Long userId);
+	
+	void unsubscribe(Long courseId, Long userId);
+	
+	List<Course> getAllWithInitializedUsers();
+
 }

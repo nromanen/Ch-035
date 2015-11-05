@@ -42,7 +42,7 @@ public class UserAnswer {
     @JoinColumn(name="test_result_id")
 	private TestResult testResult;
 	
-	public UserAnswer() {}
+	public UserAnswer() { }
 
 	public Long getId() {
 		return id;

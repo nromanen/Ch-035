@@ -31,7 +31,9 @@ public class Area {
 	@NotEmpty
 	@Size(min = 2, max = 100)
 	private String name;
-	
+
+	public Area() { }
+
 	public Long getId() {
 		return id;
 	}
