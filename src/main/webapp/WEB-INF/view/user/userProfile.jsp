@@ -1,14 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Profile page</title>
-<script type="text/javascript" src="<c:url value="/resources/js/user/userProfile.js" />"></script>
-</head>
-<body>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
@@ -48,20 +42,21 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-offset-0">
-				<form id="user-information" action="submitUserInfo"
-					name="userInformation" method="POST" class="form-horizontal">
+				<form:form modelAttribute="userInfo" id="user-information" action="submitUserInfo" name="userInformation" method="POST" class="form-horizontal">
 					<div class="form-group">
-						<label for="fName" class="col-md-2"><spring:message code = "crsms.userProfile.fName"/></label>
+						<label for="firstName" class="col-md-2"><spring:message code = "crsms.userProfile.fName"/></label>
 						<div class="col-md-2">
-							<input type="text" class="form-control" id="fName" name="fName"
-								placeholder="First name" required pattern="^[A-Z][a-z]{3,12}$">
+							<form:input path="firstName" type="text" class="form-control" id="firstName" name="firstName"
+								placeholder="First name" required="true" pattern="^[A-Z][a-z]*"  />
+							<form:errors path = "firstName" cssClass = "label label-danger" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="sName" class="col-md-2"><spring:message code = "crsms.userProfile.sName"/></label>
+						<label for="lastName" class="col-md-2"><spring:message code = "crsms.userProfile.lName"/></label>
 						<div class="col-md-2">
-							<input type="text" class="form-control" id="sName" name="sName"
-								placeholder="Second name" required pattern="^[A-Z][a-z]{3,12}$">
+							<form:input path="lastName" type="text" class="form-control" id="lastName" name="lastName"
+								placeholder="Last name" required="true" pattern="^[A-Z][a-z]*"  />
+							<form:errors path = "lastName" cssClass = "label label-danger" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -82,10 +77,7 @@
 					</div>
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}"/>
-				</form>
+				</form:form>
 			</div>
 		</div>
 	</div>
-
-</body>
-</html>

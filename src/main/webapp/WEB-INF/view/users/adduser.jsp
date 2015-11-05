@@ -50,7 +50,7 @@
 			<c:set var="userSave">
 				<spring:message code="crsms.createuser.save" />
 			</c:set>
-			<input type="submit" value="${userSave}" class="btn btn-default" />
+			<input type="submit" value="${userSave}" class="btn btn-success" />
 		</div>
 	</div>
 </form:form>

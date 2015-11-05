@@ -41,7 +41,8 @@ public class AreaDaoImpl implements AreaDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Area> getAllAreas() {
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Area d ORDER BY d.id");
+		Query query = sessionFactory.getCurrentSession()
+		        .createQuery("FROM Area d ORDER BY d.id");
 		return query.list();
 	}
 
@@ -86,7 +87,8 @@ public class AreaDaoImpl implements AreaDao {
 	@Override
 	public void deleteArea(Long id) {
 		Query query = sessionFactory.getCurrentSession()
-				.createQuery("DELETE FROM Area d WHERE d.id=:id").setLong("id", id);
+				.createQuery("DELETE FROM Area d WHERE d.id=:id")
+				.setLong("id", id);
 		query.executeUpdate();
 	}
 

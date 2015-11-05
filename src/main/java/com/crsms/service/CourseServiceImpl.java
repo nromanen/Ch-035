@@ -44,6 +44,11 @@ public class CourseServiceImpl implements CourseService {
 	public List<Course> getAllCourse() {
 		return courseDao.getAllCourse();
 	}
+	
+	@Override
+	public List<Course> getAllInitialized() {
+		return courseDao.getAllInitialized();
+	}
 
 	@Override
 	public Course getCourseById(Long id) {

@@ -34,9 +34,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 		@NamedQuery(name = User.BY_EMAIL, query = "FROM User u WHERE u.email= :email"),
 		@NamedQuery(name = User.ALL_SORTED, query = "FROM User u ORDER BY u.id"), })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@SequenceGenerator(name = "user_gen", initialValue = 1)
 public class User {
-	
+	public static final int MIN_PASSWORD_LENGTH = 5;
+	public static final int MAX_PASSWORD_LENGTH = 255;
 	public static final String DELETE = "User.delete";
 	public static final String ALL_SORTED = "User.getAllSorted";
 	public static final String BY_EMAIL = "User.getByEmail";
@@ -52,24 +52,21 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	@Size(min=5, max=255)
+	@Size(min=5, max=MAX_PASSWORD_LENGTH)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private UserInfo userInfo;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable (name = "user_roles", 
 	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
 	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Role role;
-
-	public User() {
-		super();
-	}
-
+	
+	@Column (nullable = false)
+	private boolean isEnabled;
+	 
 	public Long getId() {
 		return id;
 	}
@@ -111,7 +108,15 @@ public class User {
 	}
 		
 
-	  @Override
+	  public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
