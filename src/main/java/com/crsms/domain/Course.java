@@ -33,7 +33,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 
 @Entity
-@Table(name="course")
+@Table(name = "course")
 @NamedQueries({
 	@NamedQuery(name = Course.GET_BY_NAME, query = "FROM Course c WHERE c.name=:name")
 })
@@ -58,21 +58,21 @@ public class Course {
 	private String description;
 	
 	
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private DateTime startDate;
 	
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
 	private Duration duration;
 	
-	@OneToMany(mappedBy="course", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Module> modules;
 	
 	@Column(nullable = false)
 	private Boolean open = false;
 	
 	@ManyToOne
-    @JoinColumn(name="area_id")
+    @JoinColumn(name = "area_id")
 	private Area area;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -113,13 +113,13 @@ public class Course {
 	}
 	
 	public int getWeekDuration() {
-		if(duration != null)
-			return duration.toStandardDays().getDays()/7;
+		if (duration != null)
+			return duration.toStandardDays().getDays() / 7;
 		return 0;
 	}
 	
 	public void setWeekDuration(int weeks) {
-		this.duration = new Duration(weeks*7L*24L*60L*60L*1000L);
+		this.duration = new Duration(weeks * 7L * 24L * 60L * 60L * 1000L);
 	}
 
 	public Set<Module> getModules() {
@@ -154,8 +154,15 @@ public class Course {
 		this.description = description;
 	}
 	
-	public void addModule(Module module) {
-		this.modules.add(module);
+	public boolean addModule(Module module) {
+		return this.modules.add(module);
+	}
+	
+	public boolean delete(Module module) {
+		if (this.modules.contains(module)) {
+			return this.modules.remove(module);
+		}
+		return false;
 	}
 
 	public Set<User> getUsers() {

@@ -1,14 +1,21 @@
 package com.crsms.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
-import javax.persistence.*;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import java.util.Set;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 /**
  * @author Petro Andriets, Valerii Motresku
@@ -28,18 +35,13 @@ public class Test {
 
     @Column(nullable = true)
     @NotNull
-	@Size(max = 100)
+	@Size(max = MAX_NAME_LENGTH)
     private String name;
-    
-    @ManyToOne
-    @JoinColumn(name = "module_id")
-    private Module module;
 
     @Column(nullable = false)
     private Boolean available = false;
 
-    @OneToMany(mappedBy = "test")
-    @Cascade({CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Question> questions;
 
     public Test() { }
@@ -58,14 +60,6 @@ public class Test {
 
     public void setName(String name) {
         this.name = name;
-    }
-    
-    public Module getModule() {
-    	return module;
-    }
-
-    public void setModule(Module module) {
-    	this.module = module;
     }
 
     public Boolean getAvailable() {

@@ -2,6 +2,7 @@ package com.crsms.domain;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,9 +19,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 /**
  * 
  * @author Valerii Motresku
@@ -28,7 +26,7 @@ import org.hibernate.annotations.CascadeType;
  */
 
 @Entity
-@Table(name="group_entity")
+@Table(name = "groups")
 public class Group {
 	
 	@Id
@@ -41,20 +39,17 @@ public class Group {
 	@Size(min = 2, max = 100)
 	private String name;
 	
-	@OneToOne
-	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="type_id")
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "type_id")
 	private GroupType groupType;
 	
-	@ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
-	@Cascade({CascadeType.ALL})
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "groups", fetch = FetchType.LAZY)
 	private Set<UserInfo> users;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@Cascade({CascadeType.ALL})
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Course> courses;
 	
-	@Column(columnDefinition = "default = 0", nullable = false)
+	@Column(nullable = false)
 	@Min(1)
 	@Max(100)
 	private Long maxUserCount;
