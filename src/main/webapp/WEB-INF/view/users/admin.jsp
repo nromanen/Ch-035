@@ -50,19 +50,50 @@
 		</tbody>
 	</table>
 </c:if>
+
 <!-- Paging block -->
 <div class="paginationlogic">
-	<c:if test="${pagenumber > 1}">
-		<a href="<c:url value="/admin?pagenumber=${pagenumber - 1}"/>">«</a>
-	</c:if>
-	<c:forEach var="p" begin="1" end="${lastpagenumber}">
-		<a href="<c:url value="/admin?pagenumber=${p}"/>"><c:out value="${p}" /></a>
-	</c:forEach>
-	<c:if test="${pagenumber < lastpagenumber}">
-		<a href="<c:url value="/admin?pagenumber=${pagenumber + 1}"/>">»</a>
-	</c:if>
+	<ul class="pagination">
+		<c:if test="${pagenumber == 1}">
+			<li class="disabled"><a href="<c:url value="#"/>"> 
+				<spring:message	code="crsms.paginationlogic.navigation.previous" />
+			</a></li>
+		</c:if>
+		<c:if test="${pagenumber > 1}">
+			<li><a	href="<c:url value="/admin?pagenumber=${pagenumber - 1}"/>"> 
+				<spring:message	code="crsms.paginationlogic.navigation.previous" />
+			</a></li>
+		</c:if>
+		<c:forEach var="p" begin="1" end="${lastpagenumber}">
+			<c:choose>
+				<c:when test="${p == pagenumber}">
+				<li class = "active">
+				</c:when>
+				<c:otherwise><li></c:otherwise>
+			</c:choose>
+			<a href="<c:url value="/admin?pagenumber=${p}"/>">
+			<c:out	value="${p}" /></a></li>
+			
+			
+		</c:forEach>
+
+		<c:if test="${pagenumber == lastpagenumber}">
+			<li class="disabled"><a
+				href="<c:url value="/admin?pagenumber=${pagenumber}"/>"
+				class="disabled"> <spring:message
+						code="crsms.paginationlogic.navigation.next" />
+			</a></li>
+		</c:if>
+		<c:if test="${pagenumber < lastpagenumber}">
+			<li><a
+				href="<c:url value="/admin?pagenumber=${pagenumber + 1}"/>"> <spring:message
+						code="crsms.paginationlogic.navigation.next" />
+			</a></li>
+		</c:if>
+	</ul>
 </div>
 <!-- End Paging block -->
+
 <br />
 <c:url var="createUser" value="admin/adduser/" />
 <a class="btn btn-success" href="${createUser}"><spring:message
