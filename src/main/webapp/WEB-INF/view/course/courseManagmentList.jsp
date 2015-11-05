@@ -20,19 +20,19 @@
 				<td><joda:format pattern="dd.MM.yyyy" value="${course.startDate}"  /></td>
 				<td>${course.weekDuration} <spring:message code="crsms.courses.text.weeks" /></td>
 				<td align="center">
-					<c:choose> 
+					<c:choose>
 						<c:when test="${course.open == 'true'}">
-					    	<span 	class="glyphicon glyphicon-ok-circle text-success" data-toggle="tooltip" 
+					    	<span 	class="glyphicon glyphicon-ok-circle text-success" data-toggle="tooltip"
 					    			title="<spring:message code="crsms.text.true" />" >
 			    			</span>
 						</c:when>
 						<c:otherwise>
-					    	<span 	class="glyphicon glyphicon-ban-circle text-danger" data-toggle="tooltip" 
+					    	<span 	class="glyphicon glyphicon-ban-circle text-danger" data-toggle="tooltip"
 					    			title="<spring:message code="crsms.text.false" />" >
 			    			</span>
 						</c:otherwise>
 					</c:choose>
-				
+
 				</td>
 				<td>${course.area.name}</td>
 				<td>
@@ -43,14 +43,14 @@
 				<td>
 					<div align="center">
 						<a href="${course.id}/edit"
-							class="btn btn-success btn-sm" 
+							class="btn btn-success btn-sm"
 							data-toggle="tooltip"
 							title="<spring:message code="crsms.button.edit" />"
 						>
 							<span class="glyphicon glyphicon-pencil" ></span>
 						</a>
 						<a 	href="${course.id}/delete"
-							class="btn btn-danger btn-sm" 
+							class="btn btn-danger btn-sm"
 							data-toggle="tooltip"
 							title="<spring:message code="crsms.button.delete" />"
 						>
