@@ -11,7 +11,7 @@ import com.crsms.dto.ModuleFormDto;
 import com.crsms.service.CourseService;
 
 @Component
-public class ModuleValidator implements Validator {
+public class ModuleFormValidator implements Validator {
 	
 	@Autowired
 	private CourseService courseService;
@@ -28,8 +28,12 @@ public class ModuleValidator implements Validator {
 		
 		ModuleFormDto moduleFormDto = (ModuleFormDto) target;
 		
+		Long id = moduleFormDto.getId();
+		String name = moduleFormDto.getName();
+		
 		for (Module module : courseService.getCourseById(moduleFormDto.getCourseId()).getModules()) {
-			if (module.getName().equalsIgnoreCase(moduleFormDto.getName())) {
+			//second condition allows you to edit other fields without "name already exists" error
+			if (module.getName().equalsIgnoreCase(name) && (!module.getId().equals(id))) {
 				errors.rejectValue("name", "crsms.error.not.unique.name");
 				break;
 			}

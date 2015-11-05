@@ -18,7 +18,7 @@ import com.crsms.dto.ModuleFormDto;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
 import com.crsms.service.ModuleService;
-import com.crsms.validator.ModuleValidator;
+import com.crsms.validator.ModuleFormValidator;
 
 /**
  * 
@@ -44,7 +44,7 @@ public class ModuleController {
 	private DtoService dtoService;;
 	
 	@Autowired
-	private ModuleValidator validator;
+	private ModuleFormValidator validator;
 	
 	@InitBinder
     private void initBinder(WebDataBinder binder) {
