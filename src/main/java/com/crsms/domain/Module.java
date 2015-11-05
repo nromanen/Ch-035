@@ -1,30 +1,38 @@
 package com.crsms.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-
-import java.util.Set;
-
 /**
  * 
- * @author Valerii Motresku
+ * @author Valerii Motresku, St. Roman
  *
  */
 
 @Entity
-@Table(name="module")
+@Table(name = "module")
 @NamedQueries({
 	@NamedQuery(name = Module.GET_ALL, 
 				query = "from Module order by id asc"),
 				
 	@NamedQuery(name = Module.GET_ALL_BY_COURSE_ID, 
-				query = "from Module where course_id = :id order by id asc"),
+				query = "select m from Course c join c.modules m"
+					 + " where course_id = :id order by m.id asc"),
 				
 	@NamedQuery(name = Module.DELETE_BY_ID,
 				query = "delete Module where id = :id"
@@ -49,21 +57,15 @@ public class Module {
 	@Size(max = MAX_NAME_LENGTH)
 	private String name;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = MAX_DESCTIPTION_LENGTH)
 	@NotEmpty
 	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
-	
-	@ManyToOne
-	@JoinColumn(name = "course_id")
-	private Course course;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@Cascade({CascadeType.ALL})
+		
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<Resource> resources;
 	
-	@OneToMany(mappedBy = "module",fetch = FetchType.LAZY)
-	@Cascade({CascadeType.ALL})
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Test> tests;
 	
 	@Column(nullable = false)
@@ -72,9 +74,7 @@ public class Module {
 	@Column(name = "order_position", nullable = true)
 	private Long orderPosition;
 	
-	public Module() {
-		super();
-	}
+	public Module() { }
 
 	public Long getId() {
 		return id;
@@ -92,14 +92,6 @@ public class Module {
 		this.name = name;
 	}
 
-	public Course getCourse() {
-		return course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -107,7 +99,7 @@ public class Module {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 	public Set<Resource> getResources() {
 		return resources;
 	}
