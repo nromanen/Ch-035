@@ -1,12 +1,11 @@
 package com.crsms.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -14,61 +13,50 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name="question")
+@Table(name = "question")
 @NamedQueries(@NamedQuery(name = Question.GET_BY_TEST_ID, query = "FROM Question WHERE test_id = :id order by id asc"))
+
 public class Question {
-	public static final String GET_BY_TEST_ID = "Question.getByTestId";
-	public static final int MAX_TEXT_LENGTH = 1000;
+    public static final String GET_BY_TEST_ID = "Question.getByTestId";
+    public static final int MAX_TEXT_LENGTH = 1000;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "question_id_seq", allocationSize = 1)
-	private Long id;
-	
-	@ManyToOne
-	@JoinColumn(name = "test_id")
-	private Test test;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+    @SequenceGenerator(name = "crsms_gen", sequenceName = "question_id_seq", allocationSize = 1)
+    private Long id;
 
-	@NotNull
-	@Size(max = 1000)
-	private String text;
-	
-	@OneToMany(mappedBy="question", fetch = FetchType.LAZY) //, orphanRemoval = true
-	//@Cascade({CascadeType.ALL})
-	private Set<Answer> answers;
+    @Column(nullable = false)
+    @NotNull
+    @Size(max = 1000)
+    private String text;
 
-	public Question() {}
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //, orphanRemoval = true
+    private Set<Answer> answers;
 
-	public Long getId() {
-		return id;
-	}
+    public Question() {
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setText(String question) {
-		this.text = question;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public Set<Answer> getAnswers() {
-		return answers;
-	}
+    public void setText(String question) {
+        this.text = question;
+    }
 
-	public void setAnswers(Set<Answer> answers) {
-		this.answers = answers;
-	}
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
 
-	public Test getTest() {
-		return test;
-	}
-
-	public void setTest(Test test) {
-		this.test = test;
-	}
-
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
 }

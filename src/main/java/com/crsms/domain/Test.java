@@ -1,13 +1,11 @@
 package com.crsms.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import java.util.Set;
 
 /**
@@ -30,18 +28,13 @@ public class Test {
     private Long id;
 
     @NotNull
-	@Size(max = 100)
+	@Size(max = MAX_NAME_LENGTH)
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "module_id")
-    private Module module;
 
     @Column(nullable = false)
     private Boolean available = false;
 
-    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER)
-    @Cascade({CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Question> questions;
 
     public Test() {}
@@ -77,13 +70,4 @@ public class Test {
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
     }
-
-    public Module getModule() {
-        return module;
-    }
-
-    public void setModule(Module module) {
-        this.module = module;
-    }
-
 }
