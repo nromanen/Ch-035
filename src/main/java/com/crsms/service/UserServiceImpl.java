@@ -113,16 +113,6 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void subscribe(Long userId, Long courseId) {
-		courseService.subscribe(courseId, userId);
-	}
-	
-	@Override
-	public void unsubscribe(Long userId, Long courseId) {
-		courseService.unsubscribe(courseId, userId);
-	}
-	
-	@Override
 	public List<User> getAllWithInitializedCourses() {
 		List<User> users = new ArrayList<>();
 		try {
