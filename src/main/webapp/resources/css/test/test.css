@@ -1,3 +1,11 @@
 th, .managementCell {
 	text-align: center;
 }
+
+div .greenQuote {
+	border-left: 4px solid #5cb85c !important;
+}
+
+p, .panelHeaderText {
+	font-size: 15px;
+}

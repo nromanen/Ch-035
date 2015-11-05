@@ -1,7 +1,6 @@
 package com.crsms.dao;
 
 import com.crsms.domain.Test;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
@@ -39,7 +38,8 @@ public class TestDaoImpl implements TestDao {
     	}
     }
 
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     public Test getTestById(Long id) {
     	logger.info("TestDao. Reading test by ID: " + id + ".");
     	Test test = (Test) sessionFactory.getCurrentSession().get(Test.class, id);
@@ -69,9 +69,9 @@ public class TestDaoImpl implements TestDao {
 		if (id != null) {
             logger.info("TestDao. Reading all tests by Module ID.");
             List<Test> testList = new ArrayList<Test>();
-            String hql = "FROM Test WHERE module_id = :id order by id asc";
-            Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
-            testList = query.list();
+/*            String hql = "FROM Test WHERE module_id = :id order by id asc";
+            Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);*/
+            testList = sessionFactory.getCurrentSession().getNamedQuery(Test.GET_BY_MODULE_ID).setParameter("id", id).list();
             logger.info("TestDao. Reading all tests by Module ID successfully.");
             return testList;
 		} else {

@@ -3,6 +3,10 @@ package com.crsms.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 import java.util.Set;
 
 /**
@@ -11,7 +15,9 @@ import java.util.Set;
 
 @Entity
 @Table(name="question")
+@NamedQueries(@NamedQuery(name = Question.GET_BY_TEST_ID, query = "FROM Question WHERE test_id = :id order by id asc"))
 public class Question {
+	public static final String GET_BY_TEST_ID = "Question.getByTestId";
 	public static final int MAX_TEXT_LENGTH = 1000;
 
 	@Id

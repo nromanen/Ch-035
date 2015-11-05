@@ -16,9 +16,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "test")
-@NamedQueries(@NamedQuery(name = Test.GET_ALL, query = "FROM Test"))
+@NamedQueries({ @NamedQuery(name = Test.GET_ALL, query = "FROM Test"),
+			  	@NamedQuery(name = Test.GET_BY_MODULE_ID, query = "FROM Test WHERE module_id = :id order by id asc")
+				})
 public class Test {
 	public static final String GET_ALL = "Test.getAll";
+	public static final String GET_BY_MODULE_ID = "Test.getByModuleId";
 	public static final int MAX_NAME_LENGTH = 100;
 	
     @Id
@@ -37,7 +40,7 @@ public class Test {
     @Column(nullable = false)
     private Boolean available = false;
 
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER)
     @Cascade({CascadeType.ALL})
     private Set<Question> questions;
 

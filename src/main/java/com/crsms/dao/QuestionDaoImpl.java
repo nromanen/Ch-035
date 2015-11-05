@@ -1,6 +1,7 @@
 package com.crsms.dao;
 
 import com.crsms.domain.Question;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
@@ -51,14 +52,15 @@ public class QuestionDaoImpl implements QuestionDao {
         }
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Question> getAllByTestId(Long id) {
         if (id != null) {
             logger.info("QuestionDao. Reading all questions by Test ID.");
             List<Question> questionList = new ArrayList<Question>();
-            String hql = "FROM Question WHERE test_id = :id order by id asc";
-            Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
-            questionList = query.list();
+/*            String hql = "FROM Question WHERE test_id = :id order by id asc";
+            Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);*/
+            questionList = sessionFactory.getCurrentSession().getNamedQuery(Question.GET_BY_TEST_ID).setParameter("id", id).list();
             logger.info("QuestionDao. Reading all questions by Test ID successfully.");
             return questionList;
         } else {
