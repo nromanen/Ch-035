@@ -25,9 +25,5 @@ public interface UserService {
 	
 	List<User> getAllUsers();
 	
-	void subscribe(Long userId, Long courseId);
-	
-	void unsubscribe(Long userId, Long courseId);
-	
 	List<User> getAllWithInitializedCourses();
 }
