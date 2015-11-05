@@ -94,10 +94,7 @@ public class CourseServiceImpl implements CourseService {
 	public void subscribe(Long courseId, Long userId) {
 		Course course = courseDao.getCourseById(courseId);
 		User user = userDao.getUserById(userId);
-		
 		course.addUser(user);
-		user.addCourse(course);
-		
 		courseDao.updateCourse(course);
 	}
 	
@@ -105,15 +102,7 @@ public class CourseServiceImpl implements CourseService {
 	public void unsubscribe(Long courseId, Long userId) {
 		Course course = courseDao.getCourseById(courseId);
 		User user = userDao.getUserById(userId);
-		
-		if (course.getUsers().contains(user)) {
-			course.getUsers().remove(user);
-		}
-		
-		if (user.getCourses().contains(course)) {
-			user.getCourses().remove(course);
-		}
-		
+		course.deleteUser(user);
 		courseDao.updateCourse(course);
 	}
 	

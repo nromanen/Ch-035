@@ -166,7 +166,14 @@ public class Course {
 		this.users = users;
 	}
 	
-	public void addUser(User user) {
-		this.users.add(user);
+	public boolean addUser(User user) {
+		return this.users.add(user);
+	}
+	
+	public boolean deleteUser(User user) {
+		if (this.users.contains(user)) {
+			return this.users.remove(user);
+		}
+		return false;
 	}
 }
