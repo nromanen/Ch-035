@@ -57,44 +57,48 @@
 		<c:if test="${pagenumber == 1}">
 			<li class="disabled"><a href="<c:url value="#"/>"> 
 				<spring:message	code="crsms.paginationlogic.navigation.previous" />
-			</a></li>
+			</a>
+			</li>
 		</c:if>
+
 		<c:if test="${pagenumber > 1}">
 			<li><a	href="<c:url value="/admin?pagenumber=${pagenumber - 1}"/>"> 
-				<spring:message	code="crsms.paginationlogic.navigation.previous" />
-			</a></li>
+					<spring:message	code="crsms.paginationlogic.navigation.previous" />
+				</a>
+			</li>
 		</c:if>
+
 		<c:forEach var="p" begin="1" end="${lastpagenumber}">
-			<c:choose>
-				<c:when test="${p == pagenumber}">
-				<li class = "active">
-				</c:when>
-				<c:otherwise><li></c:otherwise>
-			</c:choose>
-			<a href="<c:url value="/admin?pagenumber=${p}"/>">
-			<c:out	value="${p}" /></a></li>
-			
-			
+			<li	<c:choose>
+					<c:when test="${p == pagenumber}"> 
+						class = "active"
+					</c:when>
+				</c:choose>>
+				<a href="<c:url value="/admin?pagenumber=${p}"/>">
+				<c:out	value="${p}" />
+				</a>
+			</li>			
 		</c:forEach>
 
 		<c:if test="${pagenumber == lastpagenumber}">
-			<li class="disabled"><a
-				href="<c:url value="/admin?pagenumber=${pagenumber}"/>"
-				class="disabled"> <spring:message
-						code="crsms.paginationlogic.navigation.next" />
-			</a></li>
+			<li class="disabled">
+				<a	href="<c:url value="/admin?pagenumber=${pagenumber}"/>"> 
+						<spring:message	code="crsms.paginationlogic.navigation.next" />
+				</a>
+			</li>
 		</c:if>
+		
 		<c:if test="${pagenumber < lastpagenumber}">
-			<li><a
-				href="<c:url value="/admin?pagenumber=${pagenumber + 1}"/>"> <spring:message
-						code="crsms.paginationlogic.navigation.next" />
-			</a></li>
+			<li>
+				<a	href="<c:url value="/admin?pagenumber=${pagenumber + 1}"/>"> 
+						<spring:message	code="crsms.paginationlogic.navigation.next" />
+				</a>
+			</li>
 		</c:if>
 	</ul>
 </div>
 <!-- End Paging block -->
 
-<br />
 <c:url var="createUser" value="admin/adduser/" />
 <a class="btn btn-success" href="${createUser}"><spring:message
 		code="crsms.admin.createNew" /></a>
