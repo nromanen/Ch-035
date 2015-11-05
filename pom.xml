@@ -22,6 +22,7 @@
 		<spring-security.version>4.0.2.RELEASE</spring-security.version>
 		<servletapi.version>2.5</servletapi.version>
 		<apache.tiles.version>3.0.5</apache.tiles.version>
+		<jackson.version>2.6.3</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -185,8 +186,22 @@
         <dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.6.3</version>
+			<version>${jackson.version}</version>
 		</dependency>
+        <dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		
+		<!-- Mapper for DTO -->
+        <dependency>
+			<groupId>com.googlecode.jmapper-framework</groupId>
+			<artifactId>jmapper-core</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+        
+        
         
         <!-- UI: jQuery, Bootstrap -->
         <dependency>
@@ -208,6 +223,11 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery-cookie</artifactId>
 			<version>1.4.1-1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-validation</artifactId>
+			<version>1.14.0-1</version>
 		</dependency>
 		
 

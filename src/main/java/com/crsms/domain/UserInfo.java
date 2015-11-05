@@ -13,7 +13,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
@@ -25,8 +24,10 @@ import org.hibernate.annotations.Parameter;
 @Table(name="user_info")
 @NamedQueries({
 	@NamedQuery(name = UserInfo.DELETE, query = "DELETE FROM UserInfo uf WHERE uf.id=:id")})
+@PrimaryKeyJoinColumn
 public class UserInfo {
 	
+	public static final int MAX_NAME_LENGTH = 20;
 	public static final String DELETE = "UserInfo.delete";
 	
 	@Id  
@@ -38,17 +39,14 @@ public class UserInfo {
 	
 	@OneToOne  
 	@Cascade({ CascadeType.ALL })
-    @PrimaryKeyJoinColumn
 	private User user;
 	
-	@Column(nullable = false)
-	@NotNull
-	@Size(min = 2, max = 20)
+	@Column
+	@Size(max = 20)
 	private String firstName;
 	
-	@Column(nullable = false)
-	@NotNull
-	@Size(min = 2, max = 20)
+	@Column
+	@Size(max = 20)
 	private String lastName;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

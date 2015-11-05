@@ -28,6 +28,23 @@
 	<!-- derived -->
 	<!-- SS students, pay attention, that you must return from controller the 
 		name of definition not jsp page. But they could be the same, obviously. -->
+	
+	<!-- DEBUG TILES -->
+	<definition name="restapi" extends="base-template">
+		<put-attribute name="title" value="crsms.index.title" />
+		<put-attribute name="header-title" value="crsms.index.title" />
+		<put-attribute name="content" value="/WEB-INF/view/debug/restapi.jsp" />
+
+		<put-list-attribute name="javascripts" inherit="true">
+
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+
+		</put-list-attribute>
+	</definition>
+	<!-- END DEBUG -->
+	
+	<!-- INDEX -->
 	<definition name="index" extends="base-template">
 		<put-attribute name="title" value="crsms.index.title" />
 		<put-attribute name="header-title" value="crsms.index.title" />
@@ -40,8 +57,8 @@
 
 		</put-list-attribute>
 	</definition>
-	<!-- END EXAMPLE -->
-
+	<!-- end INDEX -->
+	
 	<!-- User pages -->
 	<definition name="403" extends="base-template">
 		<put-attribute name="title" value="crsms.403.title.list" />
@@ -86,12 +103,22 @@
 		<put-attribute name="title" value="crsms.area.list" />
 		<put-attribute name="header-title" value="crsms.area.list" />
 		<put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/area/area.js" />
+		</put-list-attribute>
 	</definition>
 
 	<definition name="reenter" extends="base-template">
 		<put-attribute name="title" value="crsms.area.list" />
 		<put-attribute name="header-title" value="crsms.area.list" />
 		<put-attribute name="content" value="/WEB-INF/view/area/reenter.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/area/area.js" />
+		</put-list-attribute>
 	</definition>
 	<!-- end Area -->
 
@@ -165,12 +192,18 @@
 		<put-attribute name="title" value="crsms.signUp.header" />
 		<put-attribute name="header-title" value="crsms.signUp.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/signUp.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/user/signUp.js" />
+		</put-list-attribute>
 	</definition>
-
+	
 	<definition name="userProfile" extends="base-template">
 		<put-attribute name="title" value="crsms.userProfile.header" />
 		<put-attribute name="header-title" value="crsms.userProfile.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/userProfile.jsp" />
+				<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/user/userProfile.js" />
+		</put-list-attribute>
 	</definition>
 	<!-- end User -->
 
