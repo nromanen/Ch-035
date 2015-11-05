@@ -107,4 +107,16 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
+	@Override
+	public boolean isEmailExists(String email) {
+		try {
+			if(!userDao.getUserByEmail(email).equals(email)){
+				return true;
+			}
+		} catch (Exception e) {
+			log.error("Email " + email + " exists " + e);
+		}
+		return false;
+	}
+
 }

@@ -43,7 +43,7 @@ public class UserController {
 	@Autowired
 	private UserInfoValidator userInfoValidator;
 	
-	@InitBinder("user")
+	@InitBinder("userRegistr")
     private void initUserBinder(WebDataBinder binder) {
 		binder.setValidator(userValidator);
     }
@@ -77,7 +77,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/submitUserInfo", method = RequestMethod.POST)
-	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo userInfo, BindingResult result, @ModelAttribute("email") String email) {
+	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo userInfo, 
+			BindingResult result, @ModelAttribute("email") String email) {
 		userInfo.setUser(userService.getUserByEmail(email));
 		if (result.hasErrors()) {
 			return "userProfile";

@@ -1,8 +1,5 @@
 package com.crsms.validator;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -14,7 +11,7 @@ import com.crsms.domain.UserInfo;
 public class UserInfoValidator implements Validator{
 
 	@Override
-	public boolean supports(Class clazz) {
+	public boolean supports(Class<?> clazz) {
 		return UserInfo.class.equals(clazz);
 	}
 

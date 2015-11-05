@@ -1,19 +1,27 @@
 package com.crsms.validator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.crsms.domain.User;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.crsms.service.UserService;
 
 @Component
 public class UserValidator implements Validator {
+	
+	@Autowired
+	private UserService userService;
+	
+	final static String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*\\.[A-Za-z]{2,}$";
 
 	@Override
-	public boolean supports(Class clazz) {
+	public boolean supports(Class<?> clazz) {
 		return User.class.equals(clazz);
 	}
 
@@ -24,18 +32,19 @@ public class UserValidator implements Validator {
 		
 		User user = (User) obj;
 		
-		Matcher matcher;
-		final String EMAIL_PATTERN = 
-				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-		Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-				matcher = pattern.matcher(user.getEmail());
+		Matcher matcher = Pattern.compile(EMAIL_PATTERN).matcher(user.getEmail());
 		
-		if(!matcher.matches()){
+		if(user.getEmail() != null && !"".equals(user.getEmail().trim()) && !matcher.matches()){
 			errors.rejectValue("email", "crsms.error.email.invalid",
 					new Object[] { User.BY_EMAIL },
 					"Incorrect Email format");
 		};
+		
+		if(userService.isEmailExists(user.getEmail())){
+			errors.rejectValue("email", "crsms.error.email.exists",
+					new Object[] { User.BY_EMAIL },
+					"Email exists");
+		}
 
 		if (user.getPassword().length() > User.MAX_PASSWORD_LENGTH) {
 			errors.rejectValue("password", "crsms.error.too.long",
