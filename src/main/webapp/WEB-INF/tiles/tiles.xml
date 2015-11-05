@@ -165,12 +165,18 @@
 		<put-attribute name="title" value="crsms.signUp.header" />
 		<put-attribute name="header-title" value="crsms.signUp.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/signUp.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/user/signUp.js" />
+		</put-list-attribute>
 	</definition>
-
+	
 	<definition name="userProfile" extends="base-template">
 		<put-attribute name="title" value="crsms.userProfile.header" />
 		<put-attribute name="header-title" value="crsms.userProfile.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/userProfile.jsp" />
+				<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/user/userProfile.js" />
+		</put-list-attribute>
 	</definition>
 	<!-- end User -->
 
