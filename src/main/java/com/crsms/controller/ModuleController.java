@@ -62,20 +62,20 @@ public class ModuleController {
 	public String newModule(@PathVariable Long courseId, Model model) {
 		Module module = new Module();
 		
-		ModuleForm moduleFormDto = dtoService.convert(module, ModuleForm.class, Module.class);
-		moduleFormDto.setCourseId(courseId);
+		ModuleForm moduleForm = dtoService.convert(module, ModuleForm.class, Module.class);
+		moduleForm.setCourseId(courseId);
 		
-		model.addAttribute("moduleFormDto", moduleFormDto);
+		model.addAttribute("moduleForm", moduleForm);
 		return ADD_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
 	public String saveModule(@PathVariable Long courseId, 
-							@Validated ModuleForm moduleFormDto, BindingResult result) {
+							@Validated ModuleForm moduleForm, BindingResult result) {
 		if (result.hasErrors()) {
 			return ADD_MODULE_VIEW;
 		}
-		Module module = dtoService.convert(moduleFormDto, Module.class, ModuleForm.class);
+		Module module = dtoService.convert(moduleForm, Module.class, ModuleForm.class);
 		moduleService.add(courseId, module);
 		return redirect(courseId);
 	}	
@@ -86,21 +86,21 @@ public class ModuleController {
 		
 		Module module = moduleService.getById(moduleId);
 		
-		ModuleForm moduleFormDto = dtoService.convert(module, ModuleForm.class, Module.class);
-		moduleFormDto.setCourseId(courseId);
+		ModuleForm moduleForm = dtoService.convert(module, ModuleForm.class, Module.class);
+		moduleForm.setCourseId(courseId);
 		
-		model.addAttribute("moduleFormDto", moduleFormDto);
+		model.addAttribute("moduleForm", moduleForm);
 		return EDIT_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
 	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, 
-								@Validated ModuleForm moduleFormDto, BindingResult result) {
+								@Validated ModuleForm moduleForm, BindingResult result) {
 		if (result.hasErrors()) {
 			return EDIT_MODULE_VIEW;
 		}
 
-		Module module = dtoService.convert(moduleFormDto, Module.class, ModuleForm.class);
+		Module module = dtoService.convert(moduleForm, Module.class, ModuleForm.class);
 		moduleService.update(module);
 
 		return redirect(courseId);
