@@ -41,17 +41,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public User createUser(String email, String password, long roleId) {
-		User user = new User();
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setRole(roleDao.getRoleById(roleId));
-		
-		return userDao.saveUser(user);
-	}
-
-	@Override
-	@Transactional
 	public User saveUser(User user) {
 		try {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -65,11 +54,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User updateUser(User user) {
-		try {
-			log.debug("updating user: ", user);
-		} catch (Exception e) {
-			log.error("Error updating User: " + e);
-		}
+		log.debug("updating user: ", user);
+
 		return userDao.saveUser(user);
 	}
 	
@@ -78,11 +64,11 @@ public class UserServiceImpl implements UserService {
 	public boolean changePassword(String email, String currentPassword, String newPassword) {
 		User user = getUserByEmail(email);
 		
-		if (!user.getPassword().equals(currentPassword)) {
+		if (!this.passwordEncoder.matches(currentPassword, user.getPassword())) {
 			return false;
 		}
 		
-		user.setPassword(newPassword);
+		user.setPassword(this.passwordEncoder.encode(newPassword));
 		updateUser(user);
 		
 		return true;

@@ -103,12 +103,22 @@
 		<put-attribute name="title" value="crsms.area.list" />
 		<put-attribute name="header-title" value="crsms.area.list" />
 		<put-attribute name="content" value="/WEB-INF/view/area/area.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/area/area.js" />
+		</put-list-attribute>
 	</definition>
 
 	<definition name="reenter" extends="base-template">
 		<put-attribute name="title" value="crsms.area.list" />
 		<put-attribute name="header-title" value="crsms.area.list" />
 		<put-attribute name="content" value="/WEB-INF/view/area/reenter.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/area/area.js" />
+		</put-list-attribute>
 	</definition>
 	<!-- end Area -->
 
@@ -182,12 +192,18 @@
 		<put-attribute name="title" value="crsms.signUp.header" />
 		<put-attribute name="header-title" value="crsms.signUp.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/signUp.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/user/signUp.js" />
+		</put-list-attribute>
 	</definition>
-
+	
 	<definition name="userProfile" extends="base-template">
 		<put-attribute name="title" value="crsms.userProfile.header" />
 		<put-attribute name="header-title" value="crsms.userProfile.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/userProfile.jsp" />
+				<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/user/userProfile.js" />
+		</put-list-attribute>
 	</definition>
 	<!-- end User -->
 

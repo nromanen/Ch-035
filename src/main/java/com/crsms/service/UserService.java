@@ -10,8 +10,6 @@ import com.crsms.domain.User;
  */
 public interface UserService {
 
-	User createUser(String email, String password, long roleId);
-	
 	User saveUser(User user);
 	
 	User updateUser(User user);

@@ -1,7 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ page session="false" %>
+
+<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
 <div align="center">
 <h2>
@@ -12,7 +15,7 @@
 <c:url var="addAction" value="/areas/add"></c:url>
 <c:set var = "areaName"><spring:message code = "crsms.text.name"/></c:set>
 
-<form:form action="${addAction}" modelAttribute="area">
+<form:form id="saveArea" action="${addAction}" modelAttribute="area">
 <div align="center">
 	<form:hidden path="id"/>
 	<table>
