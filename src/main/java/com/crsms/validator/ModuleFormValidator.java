@@ -1,5 +1,7 @@
 package com.crsms.validator;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -7,7 +9,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.crsms.domain.Module;
-import com.crsms.dto.ModuleFormDto;
+import com.crsms.dto.ModuleForm;
 import com.crsms.service.CourseService;
 
 @Component
@@ -18,35 +20,45 @@ public class ModuleFormValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return ModuleFormDto.class.equals(clazz);
+		return ModuleForm.class.equals(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "crsms.modules.error.name.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "crsms.error.description.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", 
+													"crsms.modules.error.name.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description",
+													"crsms.error.description.required");
 		
-		ModuleFormDto moduleFormDto = (ModuleFormDto) target;
+		ModuleForm moduleFormDto = (ModuleForm) target;
 		
-		Long id = moduleFormDto.getId();
+		Long moduleId = moduleFormDto.getId();
+		Long courseId = moduleFormDto.getCourseId();
+		
 		String name = moduleFormDto.getName();
 		
-		for (Module module : courseService.getCourseById(moduleFormDto.getCourseId()).getModules()) {
+		Set<Module> modules = courseService.getCourseById(courseId).getModules();
+		
+		for (Module module : modules) {
 			//second condition allows you to edit other fields without "name already exists" error
-			if (module.getName().equalsIgnoreCase(name) && (!module.getId().equals(id))) {
+			if (module.getName().equalsIgnoreCase(name) && (!module.getId().equals(moduleId))) {
 				errors.rejectValue("name", "crsms.error.not.unique.name");
 				break;
 			}
 		}
 		
-		if (moduleFormDto.getName().length() > Module.MAX_NAME_LENGTH) {
+		if (name.length() > Module.MAX_NAME_LENGTH) {
 			errors.rejectValue("name", "crsms.error.too.long", 
-								new Object[]{Module.MAX_NAME_LENGTH}, "name is too long");
+								new Object[]{Module.MAX_NAME_LENGTH},
+								"name is too long");
 		}
 		
-		if (moduleFormDto.getDescription().length() > Module.MAX_DESCTIPTION_LENGTH) {
+		String description = moduleFormDto.getDescription();
+		
+		if (description.length() > Module.MAX_DESCTIPTION_LENGTH) {
 			errors.rejectValue("description", "crsms.error.too.long", 
-								new Object[]{Module.MAX_DESCTIPTION_LENGTH}, "description is too long");
+								new Object[]{Module.MAX_DESCTIPTION_LENGTH},
+								"description is too long");
 		}
 	}
 }
