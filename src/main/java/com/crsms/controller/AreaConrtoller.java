@@ -37,18 +37,20 @@ public class AreaConrtoller {
     }
 	
 	@RequestMapping(value = "/areas/add", method = RequestMethod.GET)
-    public String showArea(@ModelAttribute("area") Area area, BindingResult result, Model model) {
+    public String showArea(@ModelAttribute("area") Area area,
+                          BindingResult result, Model model) {
 		return "reenter";
 	}
 	
 	@RequestMapping(value = "/areas/add", method = RequestMethod.POST)
-    public String addArea(@ModelAttribute("area") Area area, BindingResult result, Model model) {
+    public String addArea(@ModelAttribute("area") Area area,
+                          BindingResult result, Model model) {
 		validator.validate(area, result);
 	    if (result.hasErrors()) {
 	        model.addAttribute("errors", "result");
 	    	return "reenter";
 	    }
-	    if(area.getId() == null) {
+	    if (area.getId() == null) {
 	    	areaService.saveArea(area);
 	    } else {
 	    	areaService.updateArea(area);

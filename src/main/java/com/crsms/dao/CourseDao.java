@@ -17,6 +17,8 @@ public interface CourseDao {
 	
 	List<Course> getAllCourse();
 	
+	List<Course> getAllInitialized();
+	
 	/**
 	 * @return a Course instance or null
 	 */

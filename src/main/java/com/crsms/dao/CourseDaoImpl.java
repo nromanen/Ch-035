@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -54,16 +55,36 @@ public class CourseDaoImpl implements CourseDao {
 		
 		return null;
 	}
+	
+	@Override
+	public List<Course> getAllInitialized() {
+		try {
+			List<Course> courses = null;
+			courses = (List<Course>)sessionFactory.getCurrentSession().createQuery("FROM Course").list();
+			for (Course course : courses) {
+				Hibernate.initialize(course.getModules());
+			}
+			return courses;
+
+		} catch (HibernateException e) {
+			logger.error("Error getAllCourse: " + e);
+			throw e;
+		}
+		
+	}
 
 	@Override
 	public Course getCourseById(Long id) {
+		Course course = null;
 		try {
-			return (Course)sessionFactory.getCurrentSession().
+			course = (Course)sessionFactory.getCurrentSession().
 					get(Course.class, id);
+			Hibernate.initialize(course.getModules());
+			return course;
 		} catch (HibernateException e) {
 			logger.error("Error getCourseById: " + e);
 		}
-		return null;
+		return course;
 	}
 
 	@Override
