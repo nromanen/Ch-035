@@ -54,20 +54,19 @@
 <!-- Paging block -->
 <div class="paginationlogic">
 	<ul class="pagination">
-		<c:if test="${pagenumber == 1}">
+	<c:choose>
+		<c:when test="${pagenumber == 1}">
 			<li class="disabled"><a href="<c:url value="#"/>"> 
 				<spring:message	code="crsms.paginationlogic.navigation.previous" />
 			</a>
 			</li>
-		</c:if>
-
-		<c:if test="${pagenumber > 1}">
+		</c:when>
+		<c:when test="${pagenumber > 1}">
 			<li><a	href="<c:url value="/admin?pagenumber=${pagenumber - 1}"/>"> 
 					<spring:message	code="crsms.paginationlogic.navigation.previous" />
 				</a>
 			</li>
-		</c:if>
-
+		</c:when>
 		<c:forEach var="p" begin="1" end="${lastpagenumber}">
 			<li	<c:choose>
 					<c:when test="${p == pagenumber}"> 
@@ -79,22 +78,21 @@
 				</a>
 			</li>			
 		</c:forEach>
-
-		<c:if test="${pagenumber == lastpagenumber}">
+		<c:when test="${pagenumber == lastpagenumber}">
 			<li class="disabled">
 				<a	href="<c:url value="/admin?pagenumber=${pagenumber}"/>"> 
 						<spring:message	code="crsms.paginationlogic.navigation.next" />
 				</a>
 			</li>
-		</c:if>
-		
-		<c:if test="${pagenumber < lastpagenumber}">
+		</c:when>		
+		<c:when test="${pagenumber < lastpagenumber}">
 			<li>
 				<a	href="<c:url value="/admin?pagenumber=${pagenumber + 1}"/>"> 
 						<spring:message	code="crsms.paginationlogic.navigation.next" />
 				</a>
 			</li>
-		</c:if>
+		</c:when>
+		</c:choose>
 	</ul>
 </div>
 <!-- End Paging block -->
