@@ -43,15 +43,19 @@ public class AdminController {
 	private AdminValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getAllUsers(@RequestParam (value = "pagenumber", required = false, defaultValue = "1") int pageNumber, ModelMap model, HttpSession session) {
-
+	public String getAllUsers(
+						@RequestParam (value = "pagenumber", required = false, defaultValue = "1") int pageNumber,
+						@RequestParam (value = "sortby", required = false, defaultValue = "email") String sortBy,
+						ModelMap model, HttpSession session) {
 		long rowsCount = userService.getRowsCount();
 		int lastPageNumber = (int)((rowsCount/ITEMSPERPAGE)+1);
 		int startPosition = (pageNumber - 1) * ITEMSPERPAGE;
-		System.out.println(lastPageNumber);
-//		System.out.println(lastPageNumber);
-		System.out.println(startPosition);
-		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE);
+		sortBy =(String) session.getAttribute("personsort");
+		if (sortBy == null) {
+			session.setAttribute("sortby", sortBy);
+			sortBy = (String) session.getAttribute("sortby");
+		}	
+		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortBy);
 		model.addAttribute("lastpagenumber", lastPageNumber);
 		model.addAttribute("pagenumber", pageNumber);
 		model.addAttribute("users", users);

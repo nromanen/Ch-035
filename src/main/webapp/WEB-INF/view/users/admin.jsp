@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <div align="right">
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
 		<h5>
@@ -12,16 +13,33 @@
 </div>
 <br />
 <c:if test="${!empty users}">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+       <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Find</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Rows<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">5</a></li>
+            <li><a href="#">10</a></li>
+            <li><a href="#">15</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+</nav>
 	<table class="table table-bordered table-hover">
-		<caption>
-			<spring:message code="crsms.admin.caption" />
-		</caption>
 		<thead>
 			<tr class="success">
 				<th class="hide"><spring:message code="crsms.text.id" /></th>
-				<th><spring:message code="crsms.admin.email" /></th>
+				<th><spring:message code="crsms.admin.email" /><a href="<c:url value="?sortby=email"/>"><span class="glyphicon glyphicon-sort"></span></a></th>
 				<th><spring:message code="crsms.admin.password" /></th>
-				<th><spring:message code="crsms.admin.role" /></th>
+				<th><spring:message code="crsms.admin.role" /><a href="<c:url value="?sortby=role"/>"><span class="glyphicon glyphicon-sort"></span></a></th>
 				<th colspan="2"><spring:message code="crsms.admin.management" /></th>
 			</tr>
 		</thead>
@@ -60,14 +78,12 @@
 			</a>
 			</li>
 		</c:if>
-
 		<c:if test="${pagenumber > 1}">
 			<li><a	href="<c:url value="/admin?pagenumber=${pagenumber - 1}"/>"> 
 					<spring:message	code="crsms.paginationlogic.navigation.previous" />
 				</a>
 			</li>
 		</c:if>
-
 		<c:forEach var="p" begin="1" end="${lastpagenumber}">
 			<li	<c:choose>
 					<c:when test="${p == pagenumber}"> 
@@ -79,7 +95,6 @@
 				</a>
 			</li>			
 		</c:forEach>
-
 		<c:if test="${pagenumber == lastpagenumber}">
 			<li class="disabled">
 				<a	href="<c:url value="/admin?pagenumber=${pagenumber}"/>"> 
@@ -87,7 +102,6 @@
 				</a>
 			</li>
 		</c:if>
-		
 		<c:if test="${pagenumber < lastpagenumber}">
 			<li>
 				<a	href="<c:url value="/admin?pagenumber=${pagenumber + 1}"/>"> 

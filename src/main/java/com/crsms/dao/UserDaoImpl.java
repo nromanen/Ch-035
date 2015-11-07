@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,12 +121,13 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getPagingUsers(int startPosition, int itemsPerPage) {
+	public List<User> getPagingUsers(int startPosition, int itemsPerPage,
+			String sortBy) {
 		List<User> users = new ArrayList<>();
-		
 		try {
 			Criteria criteria = sessionFactory.getCurrentSession()
 					.createCriteria(User.class);
+			criteria.addOrder(Order.asc(sortBy).ignoreCase());
 			criteria.setFirstResult(startPosition);
 			criteria.setMaxResults(itemsPerPage);
 			users.addAll(criteria.list());
