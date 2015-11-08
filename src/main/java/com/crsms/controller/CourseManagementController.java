@@ -75,8 +75,8 @@ public class CourseManagementController {
 	
 	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.POST)
 	public ModelAndView editCourseSubmit(
-			@RequestParam("weekDuration") int sweekDuration,
-			@RequestParam("areaId") long areaId, @Validated Course course, 
+			@RequestParam("weekDuration") Integer sweekDuration,
+			@RequestParam("areaId") Long areaId, @Validated Course course, 
 			BindingResult result) {
 		ModelAndView model = new ModelAndView();
 		
@@ -106,8 +106,8 @@ public class CourseManagementController {
 	
 	@RequestMapping(value = "/add" , method = RequestMethod.POST)
 	public ModelAndView newCourseSubmit(
-			@RequestParam("weekDuration") int sweekDuration, 
-			@RequestParam("areaId") long areaId, @Validated Course course, 
+			@RequestParam("weekDuration") Integer sweekDuration, 
+			@RequestParam("areaId") Long areaId, @Validated Course course, 
 			BindingResult result) {
 		
 		ModelAndView model = new ModelAndView();

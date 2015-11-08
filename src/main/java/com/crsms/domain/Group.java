@@ -54,7 +54,7 @@ public class Group {
 	@Cascade({CascadeType.ALL})
 	private Set<Course> courses;
 	
-	@Column(columnDefinition = "default = 0", nullable = false)
+	@Column(nullable = false)
 	@Min(1)
 	@Max(100)
 	private Long maxUserCount;
