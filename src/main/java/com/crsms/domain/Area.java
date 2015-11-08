@@ -13,28 +13,27 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 
- * @author Valerii Motresku
+ * @author Valerii Motresku, Yuri Kucheriavy
  *
  */
 
 @Entity
-@Table(name="area")
+@Table(name = "area")
 public class Area {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "area_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "crsms_gen", sequenceName =
+	                    "area_id_seq", allocationSize = 1)
 	private Long id;
 	
 	@Column(nullable = false)
 	@NotEmpty
 	@Size(min = 2, max = 100)
 	private String name;
-	
-	public Area() {
-		super();
-	}
-	
+
+	public Area() { }
+
 	public Long getId() {
 		return id;
 	}

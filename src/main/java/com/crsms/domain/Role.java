@@ -49,9 +49,7 @@ public class Role {
 
 	
 
-	public Role() {
-		super();
-	}
+	public Role() {	}
 
 	public Long getId() {
 		return id;
