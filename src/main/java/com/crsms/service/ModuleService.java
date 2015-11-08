@@ -25,7 +25,7 @@ public interface ModuleService {
 	
 	List<Module> getAllByCourseId(Long courseId);
 	
-	void deleteById(Long id);
+	void deleteById(Long moduleId);
 	
 	void addResource(Long moduleId, Resource resource);
 	

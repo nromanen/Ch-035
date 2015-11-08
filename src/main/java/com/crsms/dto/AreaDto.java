@@ -1,15 +1,14 @@
-package com.crsms.domain;
+package com.crsms.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import com.googlecode.jmapper.annotations.JMap;
 
-public class Type {
-	private Long id;
-	@NotNull
-	@Size(min = 2, max = 20)
-	private String name;
+public class AreaDto {
 	
-	public Type() { }
+	@JMap
+	private Long id;
+	
+	@JMap
+	private String name;
 
 	public Long getId() {
 		return id;
@@ -26,6 +25,5 @@ public class Type {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	
 }
