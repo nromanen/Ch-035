@@ -24,5 +24,5 @@ public interface UserDao {
 	
 	long getRowsCount();
 	
-	List<User> getPagingUsers(int page, int itemsPerPage, String sortBy);
+	List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, Boolean order);
 }

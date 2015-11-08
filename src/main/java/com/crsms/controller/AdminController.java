@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.style.DefaultValueStyler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,9 +31,9 @@ import com.crsms.validator.AdminValidator;
  *
  */
 @Controller
-@RequestMapping(value = { "/admin" })
+@RequestMapping(value = "/admin")
 public class AdminController {
-	public static final int ITEMSPERPAGE = 5;
+	public static final int ITEMSPERPAGE = 4;
 	@Autowired
 	private UserService userService;
 	
@@ -42,35 +43,64 @@ public class AdminController {
 	@Autowired
 	private AdminValidator validator;
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAllUsers(
 						@RequestParam (value = "pagenumber", required = false, defaultValue = "1") int pageNumber,
 						@RequestParam (value = "sortby", required = false, defaultValue = "email") String sortBy,
-						ModelMap model, HttpSession session) {
+						@RequestParam (value = "direction", required = false, defaultValue = "false") Boolean direction,
+						HttpSession session, ModelMap model) {
+		
+		if (session.getAttribute("orderType") == null) {
+			session.setAttribute("orderType", direction);
+		}
+//		
+		Boolean orderType = (Boolean) session.getAttribute("orderType");
+		System.out.println("ordertype: " + orderType);
+		if (session.getAttribute("columnsorting") != null && 
+				session.getAttribute("columnsorting").toString().equals(sortBy)) {
+			orderType = direction;
+			session.setAttribute("orderType", orderType);
+			System.out.println("ordertype: " + orderType);
+		}
+		
+		String sortingField = (String) session.getAttribute("columnsorting");
+		if (sortingField == null) {
+			session.setAttribute("columnsorting", sortBy);
+			sortingField = (String) session.getAttribute("columnsorting");
+		} 
+		if (!sortBy.equals("email")) {
+			session.setAttribute("columnsorting", sortBy);
+			sortingField = (String) session.getAttribute("columnsorting");
+		}
+		
 		long rowsCount = userService.getRowsCount();
-		int lastPageNumber = (int)((rowsCount/ITEMSPERPAGE)+1);
+		int lastPageNumber = (int)((rowsCount/ITEMSPERPAGE));
+		if(rowsCount > (lastPageNumber * ITEMSPERPAGE))
+		{
+			lastPageNumber++;
+		}
 		int startPosition = (pageNumber - 1) * ITEMSPERPAGE;
-		sortBy =(String) session.getAttribute("personsort");
-		if (sortBy == null) {
-			session.setAttribute("sortby", sortBy);
-			sortBy = (String) session.getAttribute("sortby");
-		}	
-		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortBy);
+		
+		System.out.println("startposition: " + startPosition);
+		System.out.println("sortingField controller: " + sortingField);
+		System.out.println("order: " + orderType);
+
+		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortingField, orderType);
 		model.addAttribute("lastpagenumber", lastPageNumber);
 		model.addAttribute("pagenumber", pageNumber);
 		model.addAttribute("users", users);
 		return "admin";
+		
+		
 	}
-//	
-	
 	
 	@RequestMapping(value = { "/delete/{userId}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable long userId) {
 		userService.delete(userId);
-		return "redirect:/admin";
+		return "redirect:/admin/";
 	}
 	
-	@RequestMapping(value = { "/adduser" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "admin/adduser" }, method = RequestMethod.GET)
 	public String addUser(ModelMap model) {
 		User user = new User();
 		model.addAttribute("user", user);
@@ -85,7 +115,7 @@ public class AdminController {
 			return "adduser";
 		}
 		userService.saveUser(user);
-		return "redirect:/admin";
+		return "redirect:/admin/";
 	}
 
 	@RequestMapping(value = { "/edit/{userId}" }, method = RequestMethod.GET)
@@ -103,7 +133,7 @@ public class AdminController {
 			return "adduser";
 		}
 		userService.saveUser(user);
-		return "redirect:/admin";
+		return "redirect:/admin/";
 	}
 	
 	@ModelAttribute("roles")

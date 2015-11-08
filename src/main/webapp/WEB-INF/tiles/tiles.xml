@@ -73,10 +73,10 @@
 		<put-attribute name="header-title" value="crsms.teacher.title.list" />
 		<put-attribute name="content" value="/WEB-INF/view/users/teacher.jsp" />
 	</definition>
-	<definition name="login" extends="base-template">
+	<definition name="signin" extends="base-template">
 		<put-attribute name="title" value="crsms.login.title.list" />
 		<put-attribute name="header-title" value="crsms.login.title.list" />
-		<put-attribute name="content" value="/WEB-INF/view/login.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/signin.jsp" />
 	</definition>
 	<!-- End User pages -->
 
