@@ -21,9 +21,9 @@ public class AreaValidator implements Validator {
 	    if (a.getName().length() == 0) {
 	        e.rejectValue("name", "crsms.error.field.required");
 	    } else if (a.getName().length() > 100) {
-	        e.rejectValue("name", "crsms.error.too.longer");
+	        e.rejectValue("name", "crsms.error.field.too.long");
 	    } else if (a.getName().length() < 2) {
-	    	e.rejectValue("name", "crsms.error.too.shorter");
+	    	e.rejectValue("name", "crsms.error.too.short");
 	    }
 	}
 
