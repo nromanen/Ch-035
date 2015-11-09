@@ -8,7 +8,6 @@
 <tiles:importAttribute name="javascripts"/>
 <tiles:importAttribute name="stylesheets"/>
 <tiles:importAttribute name="favicon"/>
-<tiles:importAttribute name="logo"/>
 <tiles:importAttribute name="title" toName="pageTitle" />
 <tiles:importAttribute name="header-title" toName="headerTitle" />
 
@@ -55,15 +54,11 @@
         </p>
     <![endif]-->
 
-    <!-- logo -->
-    <img id="crsms-logo" src="<c:url value="${logo}"/>" />
-    <!-- end logo -->
     
     <!-- header -->
     <header id="header">
     	<div class="container">
     	  <tiles:insertAttribute name="header"></tiles:insertAttribute>
-    	  <h3><spring:message code = "${headerTitle}" /></h3>
     	</div>
 	</header>
     <!-- end header  -->
@@ -76,19 +71,24 @@
 
     <!-- content -->
     <main id="main-body">
-    	<div class="container">
+    	<div id="page-title"><spring:message code = "${headerTitle}" /></div>
+    	<div id="main-container" class="<tiles:insertAttribute name="content-container-class"></tiles:insertAttribute>">
           <tiles:insertAttribute name="content"></tiles:insertAttribute>
         </div>
     </main>
     <!-- end content -->
 
     <!-- footer -->
-    <footer id="footer" class="well" >
+    <footer id="footer" class="" >
     	<div class="container">
           <tiles:insertAttribute name="footer"></tiles:insertAttribute>
         </div>
     </footer>
     <!-- end footer -->
-
+    
+    <!-- Scroll To Top -->
+    <button id="scroll-to-top" class="btn btn-warning"><i class="fa fa-chevron-up"></i></button>
+    <!-- end Scroll To Top -->
+	
 </body>
 </html>

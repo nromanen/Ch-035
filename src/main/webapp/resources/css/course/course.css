@@ -1,3 +1,39 @@
 th {
 	text-align: center;
 }
+
+.course-grid {
+	
+}
+
+.course-grid {
+    padding: 5px;
+}
+.course-inner-wrapper {
+	padding: 1px 20px 10px;
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	-webkit-box-shadow: 0px 0px 1px 0px rgba(179,179,179,1);
+	-moz-box-shadow: 0px 0px 1px 0px rgba(179,179,179,1);
+	box-shadow: 0px 0px 1px 0px rgba(179,179,179,1);
+}
+.course-inner-wrapper:hover {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(9, 4, 3, 0.86);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(9, 4, 3, 0.86);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(9, 4, 3, 0.86);
+}
+.course-title a {
+	text-decoration: none;
+}
+.course-date {
+	margin-bottom: 5px;
+}
+.course-info {
+	height: 240px;
+}
+.course-control {
+	position: relative;
+}
+.course-add .fa {
+	font-size: 50px;
+}

@@ -1,6 +1,4 @@
 
-<div class="">
-  <div class="">
-    Open Source under MIT license. Softserve IT Academy CrsMS. 2015
-  </div>
+<div id="footer-copyright">
+     &copy; 2015 Open Source under MIT license. Softserve IT Academy CrsMS.
 </div>
