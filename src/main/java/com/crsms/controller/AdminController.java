@@ -4,6 +4,8 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crsms.domain.Role;
 import com.crsms.domain.User;
@@ -27,9 +30,9 @@ import com.crsms.validator.AdminValidator;
  *
  */
 @Controller
-@RequestMapping(value = { "/admin" })
+@RequestMapping(value = "/admin")
 public class AdminController {
-	
+	public static final int ITEMSPERPAGE = 4;
 	@Autowired
 	private UserService userService;
 	
@@ -40,16 +43,73 @@ public class AdminController {
 	private AdminValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getAllUsers(ModelMap model) {
-		List<User> users = userService.getAllUsers();
+	public String getAllUsers(
+						@RequestParam (value = "page", required = false, defaultValue = "1") int page,
+						@RequestParam (value = "sortby", required = false, defaultValue = "email") String sortBy,
+						@RequestParam (value = "direction", required = false, defaultValue = "asc") String direction,
+						HttpSession session, ModelMap model) {
+		
+		if (session.getAttribute("ordertype") == null) {
+			session.setAttribute("ordertype", direction);
+		}
+//		
+		String orderType = (String) session.getAttribute("ordertype");
+		System.out.println("ordertype before setattribute: " + orderType);
+		if (session.getAttribute("columnsorting") != null && 
+				session.getAttribute("columnsorting").toString().equals(sortBy)) {
+			orderType = direction;
+			session.setAttribute("ordertype", orderType);
+			System.out.println("ordertype after setattribute: " + session.getAttribute("ordertype"));
+		}
+		
+//		
+//		 if (session.getAttribute("orderType") != null && ) {
+//	        	orderType = Sorting.DESC;
+//	        } else if (session.getAttribute("orderType") != null) {
+//	        	orderType = Sorting.ASC;
+//	        } 
+//	        
+//		
+//		
+		
+		
+		String sortingField = (String) session.getAttribute("columnsorting");
+		System.out.println("sortingField start: " + sortingField);
+		if (sortingField == null) {
+			session.setAttribute("columnsorting", sortBy);
+			System.out.println("sortingField set if null: " + sortingField);
+			sortingField = (String) session.getAttribute("columnsorting");
+		} else {
+			session.setAttribute("columnsorting", sortBy);
+			System.out.println("sortingField set if not null: " + sortingField);
+			sortingField = (String) session.getAttribute("columnsorting");
+		}
+		
+		long rowsCount = userService.getRowsCount();
+		int lastpage = (int)((rowsCount/ITEMSPERPAGE));
+		if(rowsCount > (lastpage * ITEMSPERPAGE))
+		{
+			lastpage++;
+		}
+		int startPosition = (page - 1) * ITEMSPERPAGE;
+		
+		System.out.println("startposition in getPagingUsers: " + startPosition);
+		System.out.println("sortingField in getPagingUsers: " + sortingField);
+		System.out.println("order in getPagingUsers: " + orderType);
+
+		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortingField, orderType);
+		model.addAttribute("lastpage", lastpage);
+		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		return "admin";
+		
+		
 	}
-
+	
 	@RequestMapping(value = { "/delete/{userId}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable long userId) {
 		userService.delete(userId);
-		return "redirect:/admin";
+		return "redirect:/admin/";
 	}
 	
 	@RequestMapping(value = { "/adduser" }, method = RequestMethod.GET)
@@ -67,7 +127,7 @@ public class AdminController {
 			return "adduser";
 		}
 		userService.saveUser(user);
-		return "redirect:/admin";
+		return "redirect:/admin/";
 	}
 
 	@RequestMapping(value = { "/edit/{userId}" }, method = RequestMethod.GET)
@@ -85,7 +145,7 @@ public class AdminController {
 			return "adduser";
 		}
 		userService.saveUser(user);
-		return "redirect:/admin";
+		return "redirect:/admin/";
 	}
 	
 	@ModelAttribute("roles")
