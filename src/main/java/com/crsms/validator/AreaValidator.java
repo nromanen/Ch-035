@@ -19,11 +19,11 @@ public class AreaValidator implements Validator {
 		//ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
 	    Area a = (Area) obj;
 	    if (a.getName().length() == 0) {
-	        e.rejectValue("name", "crsms.area.empty");
+	        e.rejectValue("name", "crsms.error.field.required");
 	    } else if (a.getName().length() > 100) {
-	        e.rejectValue("name", "crsms.area.long");
+	        e.rejectValue("name", "crsms.error.field.too.long");
 	    } else if (a.getName().length() < 2) {
-	    	e.rejectValue("name", "crsms.area.short");
+	    	e.rejectValue("name", "crsms.error.too.short");
 	    }
 	}
 
