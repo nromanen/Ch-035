@@ -44,6 +44,7 @@ public class CourseDaoImpl implements CourseDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAll() {
 		try {
@@ -55,7 +56,8 @@ public class CourseDaoImpl implements CourseDao {
 		
 		return null;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAllInitialized() {
 		try {
@@ -120,6 +122,7 @@ public class CourseDaoImpl implements CourseDao {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAllByAreaId(Long areaId) {
 		List<Course> list = new ArrayList<Course>();
