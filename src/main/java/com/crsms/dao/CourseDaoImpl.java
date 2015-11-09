@@ -44,8 +44,9 @@ public class CourseDaoImpl implements CourseDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Course> getAllCourse() {
+	public List<Course> getAll() {
 		try {
 			return (List<Course>)sessionFactory.getCurrentSession().createQuery("FROM Course").list();
 
@@ -55,7 +56,8 @@ public class CourseDaoImpl implements CourseDao {
 		
 		return null;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAllInitialized() {
 		try {
@@ -120,6 +122,7 @@ public class CourseDaoImpl implements CourseDao {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAllByAreaId(Long areaId) {
 		List<Course> list = new ArrayList<Course>();

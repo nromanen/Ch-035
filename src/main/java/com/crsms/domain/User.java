@@ -1,3 +1,4 @@
+
 package com.crsms.domain;
 
 import java.util.HashSet;
@@ -21,8 +22,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 /**
@@ -37,7 +36,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 		@NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
 		@NamedQuery(name = User.BY_EMAIL, query = "FROM User u WHERE u.email= :email"),
 		@NamedQuery(name = User.ALL_SORTED, query = "FROM User u ORDER BY u.id"), })
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User {
 	public static final int MIN_PASSWORD_LENGTH = 5;
 	public static final int MAX_PASSWORD_LENGTH = 255;
@@ -47,7 +45,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq", allocationSize = 6)
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq", allocationSize = 1000)
 	private Long id;
 
 	@Column(nullable = false, unique = true)
@@ -69,7 +67,7 @@ public class User {
 	private Role role;
 	
 	@Column (nullable = false)
-	private boolean isEnabled;
+	private boolean isEnabled = true;
 	
 	@ManyToMany(mappedBy = "users")
 	private Set<Course> courses = new HashSet<Course>();
