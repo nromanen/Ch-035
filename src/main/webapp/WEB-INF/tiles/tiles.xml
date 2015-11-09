@@ -115,6 +115,9 @@
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
 			<add-attribute value="/resources/js/area/area.js" />
 		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/area/area.css" />
+		</put-list-attribute>
 	</definition>
 
 	<definition name="reenter" extends="base-template">
