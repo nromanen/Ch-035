@@ -69,8 +69,6 @@ public class TestDaoImpl implements TestDao {
 		if (id != null) {
             logger.info("TestDao. Reading all tests by Module ID.");
             List<Test> testList = new ArrayList<Test>();
-/*            String hql = "FROM Test WHERE module_id = :id order by id asc";
-            Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);*/
             testList = sessionFactory.getCurrentSession().getNamedQuery(Test.GET_BY_MODULE_ID).setParameter("id", id).list();
             logger.info("TestDao. Reading all tests by Module ID successfully.");
             return testList;

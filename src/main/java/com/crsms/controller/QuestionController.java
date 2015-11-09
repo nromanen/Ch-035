@@ -3,6 +3,7 @@ package com.crsms.controller;
 import com.crsms.domain.Question;
 import com.crsms.service.QuestionService;
 import com.crsms.validator.QuestionFormValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -57,6 +59,21 @@ public class QuestionController {
         }
         return redirect(courseId, moduleId, testId);
     }
+    
+
+    @RequestMapping(value = "/add/json", method = RequestMethod.POST, headers = {"Content-type=application/json"})
+    @ResponseBody
+    public Question addQuestionJson(@PathVariable Long courseId, @PathVariable Long moduleId,
+                              @PathVariable Long testId, @Validated Question question, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException("QuestionController. add json error.");
+        } else {
+            questionService.createQuestion(testId, question);
+        }
+        return question;
+    }
+    
+    
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editQuestion(@PathVariable("id") Long id, Model model) {

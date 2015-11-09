@@ -3,9 +3,11 @@ package com.crsms.service;
 import com.crsms.dao.AnswerDao;
 import com.crsms.domain.Answer;
 import com.crsms.domain.Question;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
  * @author Andriets Petro
  */
 
+@Service("answerService")
 public class AnswerServiceImpl implements AnswerService {
     private static Logger logger = LogManager.getLogger(AnswerServiceImpl.class);
 
@@ -30,7 +33,7 @@ public class AnswerServiceImpl implements AnswerService {
     public void createAnswer(Long questionId, Answer answer) {
         logger.info("AnswerService. Creating a new answer.");
         Question question = questionService.getQuestionById(questionId);
-        answer.setQuestion(question);
+        question.addAnswer(answer);
         answerDao.saveAnswer(answer);
         logger.info("AnswerService. Creating a new answer successfully.");
     }

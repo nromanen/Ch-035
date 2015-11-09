@@ -32,7 +32,7 @@ public class QuestionServiceImpl implements QuestionService{
     public void createQuestion(Long testId, Question question) {
         logger.info("QuestionService. Creating a new question.");
         Test test = testService.getTestById(testId);
-        question.setTest(test);
+        test.addQuestion(question);
         questionDao.saveQuestion(question);
         logger.info("QuestionService. Creating a new question successfully.");
     }

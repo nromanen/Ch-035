@@ -1,13 +1,13 @@
 package com.crsms.dao;
 
 import com.crsms.domain.Answer;
-import com.crsms.domain.Test;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
  * @author Petro Andriets
  */
 
+@Repository("answerDao")
 public class AnswerDaoImpl implements AnswerDao{
     private static Logger logger = LogManager.getLogger(AnswerDaoImpl.class);
 
@@ -50,14 +51,13 @@ public class AnswerDaoImpl implements AnswerDao{
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Answer> getAnswersByQuestionId(Long id) {
         if (id != null) {
             logger.info("AnswerDao. Reading all answers by Question ID.");
             List<Answer> answerList = new ArrayList<Answer>();
-            String hql = "FROM Answer WHERE question_id = :id order by id asc";
-            Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
-            answerList = query.list();
+            answerList = sessionFactory.getCurrentSession().getNamedQuery(Answer.GET_BY_QUESTION_ID).setParameter("id", id).list();
             logger.info("AnswerDao. Reading all answers by Question ID successfully.");
             return answerList;
         } else {

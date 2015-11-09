@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <table class="table table-bordered table-hover">
 	<thead>
@@ -11,7 +12,7 @@
 	<tbody>
 		<c:forEach var="test" items="${tests}">
 			<tr data-toggle="collapse" data-target=#${test.id}>
-				<td><a href="#"><i class="glyphicon glyphicon-list-alt">&nbsp</i><strong>${test.name}</strong></a>
+				<td><div class="hover-div"><i class="glyphicon glyphicon-list-alt">&nbsp</i><strong>${test.name}</strong></div>
 					<div id=${test.id} class="collapse">
 						<br>
 						<blockquote class="greenQuote">
@@ -19,20 +20,28 @@
 								<p class="panelHeaderText">
 									Test questions
 								<a role="button" class="text-success pull-right"><i class="glyphicon glyphicon-chevron-up"></i>Close</a>
-								<a role="button" class="text-success pull-right" data-toggle="modal" data-target="#myModal">
+								<a value="${test.id}" role="button" class="text-success pull-right question-add" data-toggle="modal" data-target="#my-modal">
 									<i class="glyphicon glyphicon-plus"></i>Add&nbsp
 								</a>
 								</p>
 							</div>
 							<div class="panel-body">
-						<c:forEach var="question" items="${test.questions}">
-						<ul class="list-group">
-							<div class="list-group-item list-group-item-warning">
-								<i class="glyphicon glyphicon-question-sign">&nbsp</i>${question.text}
-							</div>
-						</ul>
-						</c:forEach>
+								<c:forEach var="question" items="${test.questions}">
+								<div id="info">
+									<ul class="list-group">
+										<li class="list-group-item list-group-item-warning">
+										<c:url var="questionById" value="${test.id}/questions/${question.id}/" />
+										<a href="${questionById}" class="list-group-item-warning">
+											${question.text}
+											&nbsp
+											<a href="#" class="nonUnderlineDelete pull-right"><i class="glyphicon glyphicon-trash"></i></a>
+											<a href="#" class="nonUnderlineEdit pull-right"><i class="glyphicon glyphicon-pencil"></i>&nbsp</a>								
+										</a>
+										</li>
+									</ul>
 								</div>
+								</c:forEach>
+							</div>
 						</blockquote>
 					</div>
 				</td>
@@ -70,20 +79,37 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Add question</h4>
 			</div>
-			<div class="modal-body">
-				I wanna add a new questions!
+			<div class="modal-body">	
+			
+				<form:form modelAttribute="question" method="POST" class="form-horizontal" id="modalForm">
+				  <form:input path="id" id ="id" type="hidden" />
+				  <div class="form-group">
+				    <c:set var="questionTitle">
+				      <spring:message code="crsms.question.title" />
+				    </c:set>
+				    <label for="text" class="col-sm-2 control-label">${questionTitle}:</label>
+				    <div class="col-sm-10">
+				      <form:textarea rows="3" path="text" id="text" class="form-control" placeholder="${questionTitle}" />
+				      <form:errors path="text" cssClass = "label label-danger" />
+				    </div>
+				  </div>
+				
+				  <div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <button class="btn btn-success" id="modal-form-submit"><spring:message code="crsms.button.save" /></button>
+				    </div>
+				  </div>
+				</form:form>
+				
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-success">Save</button>
-			</div>
+
 		</div>
 	</div>
 </div>
