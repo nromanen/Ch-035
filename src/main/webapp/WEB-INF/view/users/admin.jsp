@@ -1,28 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<div class = "secprincipal" align="right">
-	<c:choose>
-	<c:when test="${pageContext.request.userPrincipal.name != null}">
-		<h5> <spring:message code="crsms.text.login.signedas" />
-			<b>${pageContext.request.userPrincipal.name}</b>
-			<a	href=<c:url value="/signout" />>
-				<spring:message	code="crsms.button.signout" />
-			</a>
-		</h5>
-	</c:when>
-	<c:otherwise>
-	<h5> <spring:message code="crsms.text.login.unsigned" /></h5>
-	<a	href=<c:url value="/signin" />>
-				<spring:message	code="crsms.button.signin" />
-			</a>
-	</c:otherwise>
-	</c:choose>
-</div>
+
 <br />
 <c:set var="order" value="" />
-<c:if test="${orderType == null || orderType == false}">
-	<c:set var="order" value="true" />
+<c:if test="${orderType == null || orderType == asc}">
+	<c:set var="order" value="desc" />
 </c:if>
 
 <c:if test="${!empty users}">
@@ -37,9 +20,10 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Rows<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
+          	aria-haspopup="true" aria-expanded="false"> Rows<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">5</a></li>
+            <li ><a href="#">5</a></li>
             <li><a href="#">10</a></li>
             <li><a href="#">15</a></li>
           </ul>
@@ -51,9 +35,17 @@
 		<thead>
 			<tr class="success">
 				<th ><spring:message code="crsms.text.id" /></th>
-				<th><spring:message code="crsms.admin.email" /><a href="<c:url value="?sortby=email&direction=${order}"/>"><span class="glyphicon glyphicon-sort"></span></a></th>
+				<th> <spring:message code="crsms.admin.email" />
+					<a href="<c:url value="?sortby=email&direction=${order}"/>">
+					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+					</a>
+				</th>
 				<th><spring:message code="crsms.admin.password" /></th>
-				<th><spring:message code="crsms.admin.role" /><a href="<c:url value="?sortby=role&direction=${order}"/>"><span class="glyphicon glyphicon-sort"></span></a></th>
+				<th><spring:message code="crsms.admin.role" />
+					<a href="<c:url value="?sortby=role&direction=${order}"/>">
+					<i class="glyphicon glyphicon-sort"></i>
+					</a>
+				</th>
 				<th colspan="2"><spring:message code="crsms.admin.management" /></th>
 			</tr>
 		</thead>
@@ -64,19 +56,23 @@
 					<td>${user.email}</td>
 					<td>${user.password}</td>
 					<td>${user.role}</td>
-					<td class="managementCell"><c:url var="editUser"
-							value="admin/edit/${user.id}" /> <a href="${editUser}"
-						class="btn btn-success btn-sm" data-toggle="tooltip"
-						title="<spring:message code="crsms.button.edit" />"> <span
-							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					</a></td>
-					<td class="managementCell"><c:url var="deleteUser"
-							value="admin/delete/${user.id}" /> <a href="${deleteUser}"
-						class="btn btn-danger btn-sm" data-toggle="tooltip"
-						title="<spring:message code="crsms.button.delete" />"> <span
-							class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-
-					</a></td>
+					<td class="managementCell">
+						<c:url var="editUser"	value="edit/${user.id}" /> 
+							<a href="${editUser}" class="btn btn-success btn-sm" 
+								data-toggle="tooltip"
+								title="<spring:message code="crsms.button.edit" />">
+								<span	class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							</a>
+					</td>
+					<td class="managementCell">
+						<c:url var="deleteUser"	value="delete/${user.id}" /> 
+							<a href="${deleteUser}"
+								class="btn btn-danger btn-sm" 
+								data-toggle="tooltip"
+								title="<spring:message code="crsms.button.delete" />"> 
+								<span	class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -89,14 +85,29 @@
 		<c:choose>
 			<c:when test="${pagenumber == 1}">
 				<li class="disabled">
-					<a href="<c:url value="#"/>"> 
+					<a href="<c:url value="#"/>" data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.first" />"> 
+						<spring:message	code="crsms.paginationlogic.navigation.first" />
+					</a>
+				</li>
+				<li class="disabled">
+					<a href="<c:url value="#"/>" data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.previous" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.previous" />
 					</a>
 				</li>
 			</c:when>
 			<c:when test="${pagenumber > 1}">
 				<li>
-					<a	href="<c:url value="/admin/?pagenumber=${pagenumber - 1}"/>"> 
+					<a href="<c:url value="/admin?pagenumber=${1}"/>" data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.first" />"> 
+						<spring:message	code="crsms.paginationlogic.navigation.first" />
+					</a>
+				</li>
+				<li>
+					<a	href="<c:url value="/admin?pagenumber=${pagenumber - 1}"/>"
+						data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.previous" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.previous" />
 					</a>
 				</li>
@@ -108,7 +119,7 @@
 							class = "active"
 						</c:when>
 					</c:choose>>
-					<a href="<c:url value="/admin/?pagenumber=${p}"/>">
+					<a href="<c:url value="/admin?pagenumber=${p}"/>">
 						<c:out	value="${p}" />
 					</a>
 				</li>			
@@ -116,15 +127,30 @@
 			<c:choose>
 			<c:when test="${pagenumber == lastpagenumber}">
 				<li class="disabled">
-					<a	href="<c:url value="/admin/?pagenumber=${pagenumber}"/>"> 
-							<spring:message	code="crsms.paginationlogic.navigation.next" />
+					<a	href="<c:url value="#"/>"	data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.next" />"> 
+						<spring:message	code="crsms.paginationlogic.navigation.next" />
+					</a>
+				</li>
+				<li class="disabled">
+					<a href="<c:url value="#"/>" data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.last" />"> 
+						<spring:message	code="crsms.paginationlogic.navigation.last" />
 					</a>
 				</li>
 			</c:when>		
 			<c:when test="${pagenumber < lastpagenumber}">
 				<li>
-					<a	href="<c:url value="/admin/?pagenumber=${pagenumber + 1}"/>"> 
-						<spring:message	code="crsms.paginationlogic.navigation.next" />
+					<a	href="<c:url value="/${pageContext.request.contextPath}?pagenumber=${pagenumber + 1}"/>"
+						data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.next" />">
+					 	<spring:message	code="crsms.paginationlogic.navigation.next" />
+					</a>
+				</li>
+				<li>
+					<a href="<c:url value="/admin?pagenumber=${lastpagenumber}"/>" data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.last" />"> 
+						<spring:message	code="crsms.paginationlogic.navigation.last" />
 					</a>
 				</li>
 			</c:when>
@@ -133,8 +159,9 @@
 </div>
 <!-- End Paging block -->
 
-<c:url var="createUser" value="admin/adduser/" />
-<a class="btn btn-success" href="${createUser}"><spring:message
+<c:url var="createUser" value="adduser" />
+<a class="btn btn-success" href="${pageContext.request.contextPath}/signUp"><spring:message
 		code="crsms.admin.createNew" /></a>
+		
 
 

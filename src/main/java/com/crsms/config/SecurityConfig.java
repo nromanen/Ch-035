@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						  	.antMatchers("/student/**").access("hasAnyRole ('ROLE_ADMIN', 'ROLE_STUDENT')")
 						  	.and();
 	  http
-	  		.formLogin().loginPage("/login")
+	  		.formLogin().loginPage("/signin")
 						  	.usernameParameter("email")
 						  	.passwordParameter("password")
 						  	.successHandler(customHandler)
@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						  	.tokenRepository(persistentTokenRepository())
 						  	.tokenValiditySeconds(86400)
 						  	.and()
-						  .logout().logoutSuccessUrl("/login?logout")
+						  .logout().logoutSuccessUrl("/signin?signout")
 						  .and().csrf()
 						  .and().exceptionHandling().accessDeniedPage("/403");
 	}

@@ -6,14 +6,15 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-7">
+		<div class="col-sm-6 col-md-4 col-md-offset-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<strong class="">Login</strong>
+					<strong class=""><spring:message code="crsms.signin.formheader"/></strong>
 
 				</div>
 				<div class="panel-body">
-					<form class="form-horizontal" role="form" action="<c:url value="/login" />" method="POST" >
+					<form class="form-horizontal" role="form"
+						action="<c:url value="/signin" />" method="POST">
 						<div class="form-group">
 							<label for="email" class="col-sm-3 control-label"> <spring:message
 									code="crsms.text.email" />
@@ -21,6 +22,7 @@
 							<div class="col-sm-9">
 								<input type="email" class="form-control" id="email" name="email"
 									placeholder="Email" required autofocus>
+								<form:errors path="email" cssClass="label label-danger" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -28,7 +30,8 @@
 									code="crsms.text.password" /></label>
 							<div class="col-sm-9">
 								<input type="password" class="form-control" id="password"
-									name="password" placeholder="Password" required="">
+									name="password" placeholder="Password">
+								<form:errors path="password" cssClass="label label-danger" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -36,7 +39,7 @@
 								<div class="checkbox">
 									<label for="rememberme"> <input type="checkbox"
 										id="rememberme" name="remember-me" placeholder="Rememberme">
-										<spring:message code="crsms.login.rememberme" />
+										<spring:message code="crsms.signin.rememberme" />
 									</label>
 								</div>
 							</div>
@@ -46,7 +49,9 @@
 								<button type="submit" class="btn btn-success btn-sm">
 									<spring:message code="crsms.button.signin" />
 								</button>
-								<button type="reset" class="btn btn-default btn-sm"><spring:message code="crsms.button.reset" /></button>
+								<button type="reset" class="btn btn-default btn-sm">
+									<spring:message code="crsms.button.reset" />
+								</button>
 								<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />
 							</div>
@@ -54,9 +59,9 @@
 					</form>
 				</div>
 				<div class="panel-footer">
-					<spring:message code="crsms.login.notregistered" />
-					<a href="#" class="">
-						<spring:message code="crsms.login.register" />
+					<spring:message code="crsms.signin.notregistered" />
+					<a href="${pageContext.request.contextPath}/signUp" class=""> <spring:message
+							code="crsms.signin.register" />
 					</a>
 				</div>
 			</div>

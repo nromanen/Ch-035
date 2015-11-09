@@ -122,17 +122,16 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getPagingUsers(int startPosition, int itemsPerPage,
-			String sortingField, Boolean order) {
+			String sortingField, String order) {
 		List<User> users = new ArrayList<>();
 		
 		try {
 			Criteria criteria = sessionFactory.getCurrentSession()
 					.createCriteria(User.class);
-			if (sortingField!= null && order){
-				criteria.addOrder(Order.asc(sortingField).ignoreCase());
-			}
-			if (sortingField!= null && !order){
-				criteria.addOrder(Order.desc(sortingField).ignoreCase());
+			if (sortingField!= null && order.equals("asc")){
+				criteria.addOrder(Order.asc(sortingField));
+			} else	{
+				criteria.addOrder(Order.desc(sortingField));
 			}
 			criteria.setFirstResult(startPosition);
 			criteria.setMaxResults(itemsPerPage);
