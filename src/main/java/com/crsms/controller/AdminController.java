@@ -44,22 +44,22 @@ public class AdminController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllUsers(
-						@RequestParam (value = "pagenumber", required = false, defaultValue = "1") int pageNumber,
+						@RequestParam (value = "page", required = false, defaultValue = "1") int page,
 						@RequestParam (value = "sortby", required = false, defaultValue = "email") String sortBy,
 						@RequestParam (value = "direction", required = false, defaultValue = "asc") String direction,
 						HttpSession session, ModelMap model) {
 		
-		if (session.getAttribute("orderType") == null) {
-			session.setAttribute("orderType", direction);
+		if (session.getAttribute("ordertype") == null) {
+			session.setAttribute("ordertype", direction);
 		}
 //		
-		String orderType = (String) session.getAttribute("orderType");
-		System.out.println("ordertype defore setattribute: " + orderType);
+		String orderType = (String) session.getAttribute("ordertype");
+		System.out.println("ordertype before setattribute: " + orderType);
 		if (session.getAttribute("columnsorting") != null && 
 				session.getAttribute("columnsorting").toString().equals(sortBy)) {
 			orderType = direction;
-			session.setAttribute("orderType", orderType);
-			System.out.println("ordertype after setattribute: " + orderType);
+			session.setAttribute("ordertype", orderType);
+			System.out.println("ordertype after setattribute: " + session.getAttribute("ordertype"));
 		}
 		
 //		
@@ -86,20 +86,20 @@ public class AdminController {
 		}
 		
 		long rowsCount = userService.getRowsCount();
-		int lastPageNumber = (int)((rowsCount/ITEMSPERPAGE));
-		if(rowsCount > (lastPageNumber * ITEMSPERPAGE))
+		int lastpage = (int)((rowsCount/ITEMSPERPAGE));
+		if(rowsCount > (lastpage * ITEMSPERPAGE))
 		{
-			lastPageNumber++;
+			lastpage++;
 		}
-		int startPosition = (pageNumber - 1) * ITEMSPERPAGE;
+		int startPosition = (page - 1) * ITEMSPERPAGE;
 		
 		System.out.println("startposition in getPagingUsers: " + startPosition);
 		System.out.println("sortingField in getPagingUsers: " + sortingField);
 		System.out.println("order in getPagingUsers: " + orderType);
 
 		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortingField, orderType);
-		model.addAttribute("lastpagenumber", lastPageNumber);
-		model.addAttribute("pagenumber", pageNumber);
+		model.addAttribute("lastpage", lastpage);
+		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		return "admin";
 		
