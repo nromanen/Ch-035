@@ -45,7 +45,7 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public List<Course> getAllCourse() {
+	public List<Course> getAll() {
 		try {
 			return (List<Course>)sessionFactory.getCurrentSession().createQuery("FROM Course").list();
 
