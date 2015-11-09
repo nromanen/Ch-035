@@ -107,7 +107,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	public List<Course> getAllWithInitializedUsers() {
-		List<Course> courses = courseDao.getAllCourse();
+		List<Course> courses = courseDao.getAll();
 		for (Course course : courses) {
 			Hibernate.initialize(course.getUsers());
 		}
