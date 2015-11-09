@@ -15,7 +15,7 @@ public interface CourseDao {
 	
 	void saveCourse(Course course);
 	
-	List<Course> getAllCourse();
+	List<Course> getAll();
 	
 	List<Course> getAllInitialized();
 	

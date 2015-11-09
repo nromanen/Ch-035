@@ -2,12 +2,14 @@
 
 <tiles-definitions>
 	<definition name="base-template" template="/WEB-INF/view/template/template.jsp">
-		<put-attribute name="logo" value="/resources/images/logo.png" />
+		<put-attribute name="logo" value="/resources/images/logo.png" cascade="true" />
+		<put-attribute name="app-title" value="crsms.text.app.title" cascade="true" />
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
 		<put-attribute name="header-title" value="" cascade="true" />
 		<put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp" />
 		<put-attribute name="content" value="" />
+		<put-attribute name="content-container-class" value="container" />
 		<put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
 		<put-attribute name="favicon" value="/resources/images/favicon.ico" />
 		<put-list-attribute name="stylesheets">
@@ -17,12 +19,14 @@
 				of & -->
 			<add-attribute
 				value="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,400italic,700italic,800italic,600italic&amp;subset=latin,cyrillic-ext" />
-			<add-attribute value="/resources/css/template.css" />
+			<add-attribute value="/resources/css/template/template.css" />
+			<add-attribute value="/resources/css/template//font-awesome/css/font-awesome.min.css" />
 		</put-list-attribute>
 		<put-list-attribute name="javascripts">
 			<add-attribute value="/webjars/jquery/2.1.4/jquery.min.js" />
 			<add-attribute value="/webjars/bootstrap/3.3.5/js/bootstrap.min.js" />
-			<add-attribute value="/resources/js/template.js" />
+			<add-attribute value="/resources/js/template/template.js" />
+			<add-attribute value="/resources/js/template/animation/animatescroll.min.js" />
 		</put-list-attribute>
 	</definition>
 	<!-- derived -->
@@ -126,20 +130,21 @@
 	<!-- end Area -->
 
 	<!-- Course -->
-	<definition name="courseManagmentList" extends="base-template" >
+	<definition name="courses" extends="base-template" >
 		<put-attribute name="title" value="crsms.courses.text.courses" />
 		<put-attribute name="header-title" value="crsms.courses.text.courses" />
 		<put-attribute name="content"
-			value="/WEB-INF/view/course/courseManagmentList.jsp" />
+			value="/WEB-INF/view/course/courses.jsp" />
+		<put-attribute name="content-container-class" value="container-fluid" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/course/course.css" />
 		</put-list-attribute>
 	</definition>
 	
 	<definition name="editFormCourse" extends="base-template" >
-		<put-attribute name="title" value="crsms.courses.text.title.new"  />
-		<put-attribute name="header-title" value="crsms.courses.text.title.new"  />
-		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
+		<put-attribute name="title" value="crsms.courses.text.title.edit"  />
+		<put-attribute name="header-title" value="crsms.courses.text.title.edit"  />
+		<put-attribute name="content" value="/WEB-INF/view/course/course_form.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js" />
 			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js" />
@@ -151,9 +156,9 @@
 		</put-list-attribute>
 	</definition>
 	<definition name="newFormCourse" extends="base-template" >
-		<put-attribute name="title" value="crsms.courses.text.title.edit" />
-		<put-attribute name="header-title" value="crsms.courses.text.title.edit" />
-		<put-attribute name="content" value="/WEB-INF/view/course/courseForm.jsp" />
+		<put-attribute name="title" value="crsms.courses.text.title.new" />
+		<put-attribute name="header-title" value="crsms.courses.text.title.new" />
+		<put-attribute name="content" value="/WEB-INF/view/course/course_form.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js" />
 			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js" />
@@ -280,7 +285,6 @@
 	</definition>
 	
 	<definition name = "404" extends = "base-template">
-		<put-attribute name="header" value="" />
 		<put-attribute name="title" value="crsms.404.title" />
 		<put-attribute name="header-title" value="crsms.404.title" />
 		<put-attribute name="content" value="/WEB-INF/view/404.jsp" />
