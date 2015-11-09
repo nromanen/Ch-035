@@ -28,7 +28,7 @@ public class AreaConrtoller {
 	@Autowired
 	private AreaValidator validator;
 	
-	@RequestMapping(value = {"/areas"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/areas/"}, method = RequestMethod.GET)
 	
 	public String getAllAreas(Model model) {
         model.addAttribute("area", new Area());
@@ -56,7 +56,7 @@ public class AreaConrtoller {
 	    	areaService.updateArea(area);
 	    }
 	   
-        return "redirect:/areas";
+        return "redirect:/areas/";
     }
 
 	@RequestMapping(value = "/areas/{id}/edit", method = RequestMethod.GET)
@@ -70,12 +70,12 @@ public class AreaConrtoller {
     @RequestMapping("/areas/{id}/delete")
     public String deleteAreaById(@PathVariable("id") Long id) {
         areaService.deleteArea(id);
-        return "redirect:/areas";
+        return "redirect:/areas/";
     }
 
     @RequestMapping("/areas/{id}/courses")
     public String getAreaCourses(@PathVariable("id") Long id) {
         courseService.getAllByAreaId(id);
-        return "redirect:/areas";
+        return "redirect:/areas/";
     }
 }
