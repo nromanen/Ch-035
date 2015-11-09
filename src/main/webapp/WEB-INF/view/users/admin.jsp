@@ -4,10 +4,14 @@
 
 <br />
 <c:set var="order" value="" />
-<c:if test="${orderType == null || orderType == asc}">
+<c:choose>
+<c:when test="${ordertype == null || ordertype == asc}">
 	<c:set var="order" value="desc" />
-</c:if>
-
+</c:when>
+<c:otherwise>
+<c:set var="order" value="desc" />
+</c:otherwise>
+</c:choose>
 <c:if test="${!empty users}">
 
 <nav class="navbar navbar-default">
@@ -99,6 +103,7 @@
 			</c:when>
 			<c:when test="${page > 1}">
 				<li>
+				
 					<a href="<c:url value="/admin?page=${1}"/>" data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.first" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.first" />
