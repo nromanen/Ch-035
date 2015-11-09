@@ -42,13 +42,13 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 			roles.add(a.getAuthority());
 		}
 		if (isAdmin(roles)) {
-			url = "/admin";
+			url = "/admin/";
 		} else if (isManager(roles)) {
-			url = "/manager";
+			url = "/manager/";
 		} else if (isTeacher(roles)) {
-			url = "/teacher";
+			url = "/teacher/";
 		} else if (isStudent(roles)) {
-			url = "/student";
+			url = "/student/";
 		}else {
 			url = "/403";
 		}

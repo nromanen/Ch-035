@@ -1,3 +1,4 @@
+
 package com.crsms.service;
 
 import java.util.List;
@@ -10,8 +11,6 @@ import com.crsms.domain.User;
  */
 public interface UserService {
 
-	User createUser(String email, String password, long roleId);
-	
 	User saveUser(User user);
 	
 	User updateUser(User user);
@@ -24,6 +23,12 @@ public interface UserService {
 	
 	void delete(Long id);
 
-	
 	List<User> getAllUsers();
+	
+	long getRowsCount();
+	
+	List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order);
+
+	List<User> getAllWithInitializedCourses();
+
 }

@@ -9,9 +9,7 @@ public class Type {
 	@Size(min = 2, max = 20)
 	private String name;
 	
-	public Type() {
-		super();
-	}
+	public Type() { }
 
 	public Long getId() {
 		return id;

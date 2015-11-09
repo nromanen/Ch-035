@@ -1,3 +1,4 @@
+
 package com.crsms.service;
 
 import java.util.ArrayList;
@@ -5,7 +6,10 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,17 +39,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RoleDao roleDao;
 	
-	@Override
-	@Transactional
-	public User createUser(String email, String password, long roleId) {
-		User user = new User();
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setRole(roleDao.getRoleById(roleId));
-		
-		return userDao.saveUser(user);
-	}
-
+	@Autowired
+	private CourseService courseService;
+	
 	@Override
 	@Transactional
 	public User saveUser(User user) {
@@ -61,11 +57,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User updateUser(User user) {
-		try {
-			log.debug("updating user: ", user);
-		} catch (Exception e) {
-			log.error("Error updating User: " + e);
-		}
+		log.debug("updating user: ", user);
+
 		return userDao.saveUser(user);
 	}
 	
@@ -74,19 +67,20 @@ public class UserServiceImpl implements UserService {
 	public boolean changePassword(String email, String currentPassword, String newPassword) {
 		User user = getUserByEmail(email);
 		
-		if (!user.getPassword().equals(currentPassword)) {
+		if (!this.passwordEncoder.matches(currentPassword, user.getPassword())) {
 			return false;
 		}
 		
-		user.setPassword(newPassword);
+		user.setPassword(this.passwordEncoder.encode(newPassword));
 		updateUser(user);
 		
 		return true;
 	}
-
+	
 	@Override
 	public User getUserById(Long id) {
-		return userDao.getUserById(id);
+		User user = userDao.getUserById(id);
+		return user;
 	}
 
 	@Override
@@ -121,4 +115,27 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
+	@Override
+	public long getRowsCount() {
+		return userDao.getRowsCount();
+	}
+
+	@Override
+	public List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order) {
+		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
+	}
+	
+	@Override
+	public List<User> getAllWithInitializedCourses() {
+		List<User> users = new ArrayList<>();
+		try {
+			users = userDao.getAllUsers();
+			for (User user : users) {
+				Hibernate.initialize(user.getCourses());
+			}
+		} catch (Exception e) {
+			log.error("Error in get all users with initialized courses " + e);
+		}
+		return users;
+	}
 }
