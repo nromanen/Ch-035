@@ -10,19 +10,19 @@ import com.crsms.domain.Area;
 public class AreaValidator implements Validator {
 
 	@Override
-	public boolean supports(Class clazz) {
+	public boolean supports(Class<?> clazz) {
 		return Area.class.equals(clazz);
 	}
 
 	@Override
 	public void validate(Object obj, Errors e) {
 		//ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
-	    Area a= (Area) obj;
+	    Area a = (Area) obj;
 	    if (a.getName().length() == 0) {
 	        e.rejectValue("name", "crsms.area.empty");
-	    } else if (a.getName().length() > 50) {
+	    } else if (a.getName().length() > 100) {
 	        e.rejectValue("name", "crsms.area.long");
-	    } else if (a.getName().length() < 5) {
+	    } else if (a.getName().length() < 2) {
 	    	e.rejectValue("name", "crsms.area.short");
 	    }
 	}

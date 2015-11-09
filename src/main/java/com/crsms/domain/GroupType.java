@@ -30,9 +30,7 @@ public class GroupType {
 	@Size(min = 2, max = 100)
 	private String name;
 	
-	public GroupType() {
-		super();
-	}
+	public GroupType() { }
 
 	public Long getId() {
 		return id;

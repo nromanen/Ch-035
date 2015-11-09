@@ -1,0 +1,16 @@
+th {
+	text-align: center;
+}
+
+.managementCell {
+	width: 8%;
+	text-align: center
+}
+
+.contentCell {
+	width: 16%;
+}
+
+.nameCell {
+	width: 30%;
+}

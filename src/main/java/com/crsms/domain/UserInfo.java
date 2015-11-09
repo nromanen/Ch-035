@@ -27,6 +27,7 @@ import org.hibernate.annotations.Parameter;
 @PrimaryKeyJoinColumn
 public class UserInfo {
 	
+	public static final int MAX_NAME_LENGTH = 20;
 	public static final String DELETE = "UserInfo.delete";
 	
 	@Id  
@@ -52,8 +53,7 @@ public class UserInfo {
 	@Cascade({CascadeType.ALL})
 	private Set<Group> groups;
 	
-	public UserInfo() {
-	}
+	public UserInfo() {	}
 
 
 	public Long getId() {
