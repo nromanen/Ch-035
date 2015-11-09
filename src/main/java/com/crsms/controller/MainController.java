@@ -56,19 +56,19 @@ public class MainController {
 		return "teacher";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)
 	public String loginPage(
 			@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout,
+			@RequestParam(value = "signout", required = false) String signout,
 			HttpServletRequest request, ModelMap model) {
 		if (error != null) {
 			model.addAttribute("error",
 					getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
-		if (logout != null) {
+		if (signout != null) {
 			model.addAttribute("msg", "You've been logged out successfully.");
 		}
-		return "login";
+		return "signin";
 	}
 
 	private String getErrorMessage(HttpServletRequest request, String key) {
@@ -82,12 +82,12 @@ public class MainController {
 		} else if (exception instanceof LockedException) {
 			error = exception.getMessage();
 		} else {
-			error = "Invalid username or password!";
+			error = "account is locked!";
 		}
 		return error;
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/signout", method = RequestMethod.GET)
 	public String logoutPage(HttpServletRequest request,
 			HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext()
@@ -95,7 +95,7 @@ public class MainController {
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
-		return "redirect:/login?logout";
+		return "redirect:/signin?signout";
 	}
 
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
