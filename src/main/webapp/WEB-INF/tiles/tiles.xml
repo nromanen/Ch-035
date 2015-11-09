@@ -167,8 +167,7 @@
 	<definition name="createmodule" extends="base-template">
 		<put-attribute name="title" value="crsms.modules.title.modules.add" />
 		<put-attribute name="header-title" value="crsms.modules.title.modules.add" />
-		<put-attribute name="content"
-			value="/WEB-INF/view/module/createmodule.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/module/createmodule.jsp" />
 	</definition>
 
 	<definition name="editmodule" extends="createmodule">
