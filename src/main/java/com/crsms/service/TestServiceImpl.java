@@ -33,7 +33,7 @@ public class TestServiceImpl implements TestService {
     public void createTest(Long moduleId, Test test) {
     	logger.info("TestService. Creating a new test.");
     	Module module = moduleService.getById(moduleId);
-    	test.setModule(module);
+    	module.addTest(test);
     	testDao.saveTest(test);
     	logger.info("TestService. Creating a new test successfully.");
     }

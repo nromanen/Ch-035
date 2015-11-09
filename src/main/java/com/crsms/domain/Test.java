@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "test")
 @NamedQueries({ @NamedQuery(name = Test.GET_ALL, query = "FROM Test"),
-			  	@NamedQuery(name = Test.GET_BY_MODULE_ID, query = "FROM Test WHERE module_id = :id order by id asc")
+			  	@NamedQuery(name = Test.GET_BY_MODULE_ID, query = "SELECT tests FROM Module m WHERE m.id = :id")
 				})
 public class Test {
 	public static final String GET_ALL = "Test.getAll";
@@ -69,5 +69,9 @@ public class Test {
 
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
+    }
+
+    public void addQuestion(Question question) {
+        this.questions.add(question);
     }
 }

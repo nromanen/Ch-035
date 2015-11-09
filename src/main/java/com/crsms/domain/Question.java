@@ -14,8 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "question")
-@NamedQueries(@NamedQuery(name = Question.GET_BY_TEST_ID, query = "FROM Question WHERE test_id = :id order by id asc"))
-
+@NamedQueries(@NamedQuery(name = Question.GET_BY_TEST_ID, query = "SELECT questions FROM Test t WHERE t.id = :id"))
 public class Question {
     public static final String GET_BY_TEST_ID = "Question.getByTestId";
     public static final int MAX_TEXT_LENGTH = 1000;
@@ -58,5 +57,9 @@ public class Question {
 
     public void setAnswers(Set<Answer> answers) {
         this.answers = answers;
+    }
+
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
     }
 }

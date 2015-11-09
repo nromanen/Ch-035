@@ -1,9 +1,11 @@
 package com.crsms.controller;
 
 
+import com.crsms.domain.Question;
 import com.crsms.domain.Test;
 import com.crsms.service.TestService;
 import com.crsms.validator.TestFormValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +37,7 @@ public class TestController {
 
 	public TestController() {}
 	
-	@InitBinder
+	@InitBinder(value="test")
     private void initBinder(WebDataBinder binder) {
 		binder.setValidator(formValidator);
     }
@@ -81,6 +83,7 @@ public class TestController {
 	public String getAllTestsByModuleId(@PathVariable Long moduleId, Model model) {
 		List<Test> tests = testService.getAllByModuleId(moduleId);
 		model.addAttribute("tests", tests);
+		model.addAttribute("question", new Question());
 		return TESTS_PAGE;
 	}
 
@@ -90,6 +93,8 @@ public class TestController {
 		testService.deleteTestById(id);
 		return redirect(courseId, moduleId);
 	}
+	
+	
 
 	/*
 	 * Method returns path redirection.
