@@ -1,19 +1,16 @@
 package com.crsms.config;
 
-import java.io.File;
-
-import javax.servlet.Filter;
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration;
-
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.crsms.config.RootConfig;
+import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
+import java.io.File;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	// Temporary location where files will be stored.
@@ -84,5 +81,11 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 			}
 		}
 		customizeRegistration(registration);
+	}
+
+	@Override
+	protected Filter[] getServletFilters() {
+		Filter [] singleton = { new CORSFilter() };
+		return singleton;
 	}
 }
