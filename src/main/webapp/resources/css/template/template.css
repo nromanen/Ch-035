@@ -1,23 +1,75 @@
 body {
 	font-family: 'Open Sans', sans-serif;
 }
-#crsms-logo {
-	position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    height: 90px;
-    margin-top: 10px;
+#header {
+	background: #DDECF7;
+	min-height: 50px;
 }
-main {
-	margin-top: 20px;
+#page-title {
+	text-align: center;
+    background: #1F89CA;
+    color: #fff;
+    padding: 3px 0;
+    font-weight: 600;
+    font-size: 25px;
+}
+#logo a {
+    text-decoration: none;
+}
+#logo a:hover #logo-img {
+	-moz-transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-o-transform: rotate(360deg);
+	-ms-transform: rotate(360deg);
+	transform: rotate(360deg);
+}
+#logo-img {
+    height: 90px;
+    margin: 10px 0;
+}
+#logo-app-title {
+	padding-left: 5px;
+    font-size: 15px;
+    font-weight: 700;
+}
+#logo-img, #logo-app-title {
+    -webkit-transition: all 1000ms ease-in-out;
+	-moz-transition: all 1000ms ease-in-out;
+	-ms-transition: all 1000ms ease-in-out;
+	-o-transition: all 1000ms ease-in-out;
+	transition: all 1000ms ease-in-out;
+}
+#main-container {
+	margin-top: 30px;
 }
 footer {
+	background: #1F89CA;
+	color: #fff;
+	min-height: 50px;
 	text-align: center;
 	margin-top: 20px;
 	margin-bottom: 0px !important;
 }
+#footer-copyright {
+	padding: 20px 0;
+	font-weight: 600;
+}
+#scroll-to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    font-size: 25px;
+    padding: 2px 8px;
+    display: none;
+}
+/*GENERAL classes*/
+.vertical-horizontal-middle {
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/*END GENERAL classes*/
 
 /*already in bootstrap: .text-right etc.*/
 .align-right {
@@ -31,7 +83,123 @@ footer {
 }
 /**/
 
+/*GENERAL style*/
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, 
 .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th { 
 	vertical-align: middle;
 }
+/*END GENERAL style*/
+
+/*Ribbon*/
+.ribbon-corner {
+  position: absolute;
+  right: 0px; top: 0px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon-corner span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  box shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon-corner span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+}
+.ribbon-corner span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+}
+.ribbon-corner-blue span {
+	background: #1e5799;
+  	background: linear-gradient(#2989d8 0%, #1e5799 100%);
+}
+.ribbon-corner-blue span::before {
+	border-left: 3px solid #1e5799;
+	border-top: 3px solid #1e5799;
+}
+.ribbon-corner-blue span::after {
+	border-right: 3px solid #1e5799;
+	border-top: 3px solid #1e5799;
+}
+.ribbon-corner-grey span {
+	background: #808080;
+  	background: linear-gradient(#B6BAC9 0%, #808080 100%);
+}
+.ribbon-corner-grey span::before {
+	border-left: 3px solid #808080;
+	border-top: 3px solid #808080;
+}
+.ribbon-corner-grey span::after {
+	border-right: 3px solid #808080;
+	border-top: 3px solid #808080;
+}
+.ribbon-corner-red span {
+	background: #8F0808;
+  	background: linear-gradient(#F70505 0%, #8F0808 100%);
+}
+.ribbon-corner-red span::before {
+	border-left: 3px solid #8F0808;
+	border-top: 3px solid #8F0808;
+}
+.ribbon-corner-red span::after {
+	border-right: 3px solid #8F0808;
+	border-top: 3px solid #8F0808;
+}
+.ribbon-corner-green span {
+	background: #79A70A;
+  	background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+}
+.ribbon-corner-green span::before {
+	border-left: 3px solid #79A70A;
+	border-top: 3px solid #79A70A;
+}
+.ribbon-corner-green span::after {
+	border-right: 3px solid #79A70A;
+	border-top: 3px solid #79A70A;
+}
+
+.ribbon-left {
+	display: inline-block;
+	clear: both;
+	position: relative;
+	color: #fff;
+	background: #cc0000;
+	margin: 0 0 10px -27px;
+	padding: 5px 15px;
+	-moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+.ribbon-left:before {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	position: absolute;
+	top: -7px;
+	left: 0;
+	z-index: -1;
+	border-bottom: 7px solid maroon;
+	border-left: 7px solid transparent;
+	background: transparent;
+}
+/*END Ribbon*/
