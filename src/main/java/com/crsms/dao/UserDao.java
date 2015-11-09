@@ -21,4 +21,8 @@ public interface UserDao {
 	void delete(Long id);
 
 	List<User> getAllUsers();
+	
+	long getRowsCount();
+	
+	List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order);
 }

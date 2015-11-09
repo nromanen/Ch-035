@@ -1,3 +1,4 @@
+
 package com.crsms.service;
 
 import java.util.List;
@@ -22,6 +23,12 @@ public interface UserService {
 	
 	void delete(Long id);
 
-	
 	List<User> getAllUsers();
+	
+	long getRowsCount();
+	
+	List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order);
+
+	List<User> getAllWithInitializedCourses();
+
 }

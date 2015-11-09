@@ -1,4 +1,8 @@
+
 package com.crsms.domain;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -10,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -17,8 +22,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 /**
@@ -33,7 +36,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 		@NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
 		@NamedQuery(name = User.BY_EMAIL, query = "FROM User u WHERE u.email= :email"),
 		@NamedQuery(name = User.ALL_SORTED, query = "FROM User u ORDER BY u.id"), })
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User {
 	public static final int MIN_PASSWORD_LENGTH = 5;
 	public static final int MAX_PASSWORD_LENGTH = 255;
@@ -43,7 +45,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq", allocationSize = 6)
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_id_seq", allocationSize = 1000)
 	private Long id;
 
 	@Column(nullable = false, unique = true)
@@ -65,7 +67,12 @@ public class User {
 	private Role role;
 	
 	@Column (nullable = false)
-	private boolean isEnabled;
+	private boolean isEnabled = true;
+	
+	@ManyToMany(mappedBy = "users")
+	private Set<Course> courses = new HashSet<Course>();
+	
+	public User() { }
 	 
 	public Long getId() {
 		return id;
@@ -155,6 +162,18 @@ public class User {
 					+ ", role: " + getRole()
 					+ ", user info: " + getUserInfo() 
 					+ "}";
+	}
+
+	public Set<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
+	}
+	
+	public void addCourse(Course course) {
+		this.courses.add(course);
 	}
 
 }

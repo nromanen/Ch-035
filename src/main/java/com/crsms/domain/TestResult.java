@@ -41,7 +41,7 @@ public class TestResult {
     @JoinColumn(name="user_id")
 	private User user;
 	
-	public TestResult() {}
+	public TestResult() { }
 
 	public Long getId() {
 		return id;
