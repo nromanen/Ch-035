@@ -20,7 +20,7 @@
 			<add-attribute
 				value="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,400italic,700italic,800italic,600italic&amp;subset=latin,cyrillic-ext" />
 			<add-attribute value="/resources/css/template/template.css" />
-			<add-attribute value="/resources/css/template//font-awesome/css/font-awesome.min.css" />
+			<add-attribute value="/webjars/font-awesome/4.4.0/css/font-awesome.min.css" />
 		</put-list-attribute>
 		<put-list-attribute name="javascripts">
 			<add-attribute value="/webjars/jquery/2.1.4/jquery.min.js" />
