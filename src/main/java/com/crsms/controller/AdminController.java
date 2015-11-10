@@ -53,13 +53,10 @@ public class AdminController {
 			session.setAttribute("direction", direction);
 		}
 		String order = (String) session.getAttribute("direction");
-		if (session.getAttribute("direction") != null && (session.getAttribute("direction").toString().equals("asc"))) {
-			order = "desc";
+		if (session.getAttribute("sortparam") != null ) {
+			order = direction;
 			session.setAttribute("direction", order);
-		} else {
-			order = "asc";
-			session.setAttribute("direction", order);
-		}
+		} 
 		
 		String sortingField = (String) session.getAttribute("sortparam");
 		if (sortingField == null) {
