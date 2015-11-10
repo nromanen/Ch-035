@@ -32,7 +32,8 @@
 					<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name != null}">
 						<div class="text-left course-enroll pull-left">
-						<button class="btn btn-default"><strong><spring:message code="crsms.courses.button.enroll" /></strong></button>
+						<button class="${course.open ? 'btn btn-default' : 'btn btn-default disabled'}">
+						<strong><spring:message code="crsms.courses.button.enroll" /></strong></button>
 					</div>
 					</c:when>
 					<c:otherwise>
