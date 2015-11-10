@@ -2,7 +2,9 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<c:if test="${sessionScope['direction'] == null || sessionScope['direction'] == asc}">
+<c:set var = "order"/>
+<c:if test="${sessionScope['direction'] == null || sessionScope['direction'] == 'asc'}">
+<c:set var = "order" value = "desc"/>
 </c:if>
 <c:if test="${!empty users}">
 
@@ -17,7 +19,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
-          	aria-haspopup="true" aria-expanded="false">${sessionScope['direction']}<span class="caret"></span></a>
+          	aria-haspopup="true" aria-expanded="false">${order}<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ><a href="#">5</a></li>
             <li><a href="#">10</a></li>
@@ -32,13 +34,13 @@
 			<tr class="success">
 				<th ><spring:message code="crsms.text.id" /></th>
 				<th> <spring:message code="crsms.admin.email" />
-					<a href="<c:url value="?page=${page}&sortparam=email&direction=${sessionScope['direction']}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=email&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
 				<th><spring:message code="crsms.admin.password" /></th>
 				<th><spring:message code="crsms.admin.role" />
-					<a href="<c:url value="?page=${page}&sortparam=role&direction=${sessionScope['direction']}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=role&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
@@ -51,7 +53,7 @@
 					<th >${user.id}</th>
 					<td>${user.email}</td>
 					<td>${user.password}</td>
-					<td>${user.role.id}</td>
+					<td>${user.role.name}</td>
 					<td class="managementCell">
 						<c:url var="editUser"	value="edit/${user.id}" /> 
 							<a href="${editUser}" class="btn btn-success btn-sm" 
