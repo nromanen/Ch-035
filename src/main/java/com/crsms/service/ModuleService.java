@@ -17,7 +17,7 @@ public interface ModuleService {
 	
 	void update(Module module);
 	
-	void delete(Module module);
+	void delete(Long courseId, Module module);
 	
 	Module getById(Long id);
 	
@@ -25,7 +25,7 @@ public interface ModuleService {
 	
 	List<Module> getAllByCourseId(Long courseId);
 	
-	void deleteById(Long moduleId);
+	void deleteById(Long courseId, Long moduleId);
 	
 	void addResource(Long moduleId, Resource resource);
 	

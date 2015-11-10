@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('#saveArea').validate({
-        rules: {
+        errorClass: "error",
+		rules: {
         	"name": {
                 required: true,
                 minlength: 2,
