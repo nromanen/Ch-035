@@ -1,3 +1,36 @@
 th, .managementCell {
 	text-align: center;
 }
+
+div .greenQuote {
+	border-left: 4px solid #5cb85c !important;
+}
+
+.hover-div:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+p, .panelHeaderText {
+	font-size: 15px;
+}
+
+.nonUnderlineEdit {
+	text-decoration: none;
+	color: #5cb85c;
+}
+
+.nonUnderlineDelete {
+	text-decoration: none;
+	color: #d9534f;
+}
+
+.nonUnderlineEdit:hover {
+	text-decoration: none;
+	color: green;
+}
+
+.nonUnderlineDelete:hover {
+	text-decoration: none;
+	color: red;
+}

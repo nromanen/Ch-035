@@ -18,15 +18,29 @@ import com.crsms.domain.Area;
 import com.crsms.domain.Course;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
+import com.crsms.util.StringUtil;
 import com.crsms.validator.CourseValidator;
 
+/**
+ * 
+ * @author maftey
+ * @author Valerii Motresku
+ *
+ */
 
 @Controller
 @RequestMapping(value = "/courses")
-public class CourseManagementController {
+public class CourseController {
+	
+	private static final int COURSE_DESC_LENGTH = 300;
+	private static final int COURSE_TITLE_LENGTH = 40;
+	
+	@Autowired
+	private StringUtil stringUtil;
+	
 	//TODO: only for teacher
 	@Autowired
-	CourseService courseService;
+	private CourseService courseService;
 	
 	@Autowired
 	private AreaService areaService;
@@ -40,11 +54,15 @@ public class CourseManagementController {
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView courseManagmentList() {
+	public ModelAndView showCourses() {
 		ModelAndView model = new ModelAndView();
-		List<Course> courses = courseService.getAllCourse(); 
+		List<Course> courses = courseService.getAllCourse();
+		for (Course course : courses) {
+			course.setDescription(stringUtil.trimString(course.getDescription(), COURSE_DESC_LENGTH, true));
+			course.setName(stringUtil.trimString(course.getName(), COURSE_TITLE_LENGTH, true));
+		}
 		model.addObject("courses", courses);
-		model.setViewName("courseManagmentList");
+		model.setViewName("courses");
 		return model;
 	}
 	

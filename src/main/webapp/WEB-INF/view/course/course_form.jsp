@@ -19,24 +19,24 @@
 			<form:errors path = "description" cssClass = "label label-danger" />
 		</div>
 	</div>
-	
+
 	<div class="form-group">
 		<label for="area" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.area" /></label>
 		<div class="col-sm-10" >
 			<select id="areas" name="areaId">
-    			<c:forEach var="carentArea" items="${areas}">
-        			<option value="${carentArea.id}" 
-        				<c:if test="${course.area.id == carentArea.id}">
-   							<c:out value="selected"/>
-						</c:if>
-        			>
-        				${carentArea.name}
-        			</option>
-    			</c:forEach>
+				<c:forEach var="carentArea" items="${areas}">
+					<option value="${carentArea.id}"
+							<c:if test="${course.area.id == carentArea.id}">
+								<c:out value="selected"/>
+							</c:if>
+							>
+							${carentArea.name}
+					</option>
+				</c:forEach>
 			</select>
 		</div>
 	</div>
-	
+
 	<div class="form-group">
 		<label for="startDate" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.startDate" /></label>
 		<div class="col-sm-10" >
@@ -53,8 +53,8 @@
 		<label for="duration" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.duration" /></label>
 		<div class="col-sm-2" >
 			<div class="input-group" >
-			<form:input path="weekDuration" id="duration" class="form-control " />
-			<div class="input-group-addon"><spring:message code="crsms.courses.text.weeks" /></div> 
+				<form:input path="weekDuration" id="duration" class="form-control " />
+				<div class="input-group-addon"><spring:message code="crsms.courses.text.weeks" /></div>
 			</div>
 		</div>
 	</div>
@@ -68,8 +68,8 @@
 		</div>
 	</div>
 	<div class="form-group">
-    	<div class="col-sm-offset-2 col-sm-10">
-      		<button type="submit" class="btn btn-default btn-success"><spring:message code="crsms.button.save" /></button>
-    	</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-default btn-success"><spring:message code="crsms.button.save" /></button>
+		</div>
 	</div>
 </form:form>

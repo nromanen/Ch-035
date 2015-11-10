@@ -7,6 +7,10 @@ import org.springframework.validation.Validator;
 
 import com.crsms.domain.Test;
 
+/**
+ * @author Petro Andriets
+ */
+
 @Component
 public class TestFormValidator implements Validator {
 
