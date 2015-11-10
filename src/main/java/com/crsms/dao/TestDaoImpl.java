@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,5 +120,20 @@ public class TestDaoImpl implements TestDao {
     		throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID deleting.");
     	}
     }
+
+	@Override
+	public boolean hasTestResults(Long testId) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				"SELECT COUNT(*) FROM test_result "
+				+ "WHERE test_result.test_id = :test_id LIMIT 1"
+		).setParameter("test_id", testId);
+		
+		long count = ((BigInteger) query.uniqueResult()).longValue();
+		if(count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
