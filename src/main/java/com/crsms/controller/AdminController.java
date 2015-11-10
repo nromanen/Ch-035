@@ -45,49 +45,34 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllUsers(
 						@RequestParam (value = "page", required = false, defaultValue = "1") int page,
-						@RequestParam (value = "sortby", required = false, defaultValue = "email") String sortBy,
+						@RequestParam (value = "sortparam", required = false, defaultValue = "email") String sortParam,
 						@RequestParam (value = "direction", required = false, defaultValue = "asc") String direction,
 						HttpSession session, ModelMap model) {
 		
-		if (session.getAttribute("ordertype") == null) {
-			session.setAttribute("ordertype", direction);
+		if (session.getAttribute("direction") == null) {
+			session.setAttribute("direction", direction);
 		}
-//		
-		String orderType = (String) session.getAttribute("ordertype");
-		System.out.println("ordertype before setattribute: " + orderType);
-		if (session.getAttribute("columnsorting") != null && 
-				session.getAttribute("columnsorting").toString().equals(sortBy)) {
-			orderType = direction;
-			session.setAttribute("ordertype", orderType);
-			System.out.println("ordertype after setattribute: " + session.getAttribute("ordertype"));
-		}
-		
-//		
-//		 if (session.getAttribute("orderType") != null && ) {
-//	        	orderType = Sorting.DESC;
-//	        } else if (session.getAttribute("orderType") != null) {
-//	        	orderType = Sorting.ASC;
-//	        } 
-//	        
-//		
-//		
-		
-		
-		String sortingField = (String) session.getAttribute("columnsorting");
-		System.out.println("sortingField start: " + sortingField);
-		if (sortingField == null) {
-			session.setAttribute("columnsorting", sortBy);
-			System.out.println("sortingField set if null: " + sortingField);
-			sortingField = (String) session.getAttribute("columnsorting");
+		String order = (String) session.getAttribute("direction");
+		if (session.getAttribute("direction") != null && (session.getAttribute("direction").toString().equals("asc"))) {
+			order = "desc";
+			session.setAttribute("direction", order);
 		} else {
-			session.setAttribute("columnsorting", sortBy);
-			System.out.println("sortingField set if not null: " + sortingField);
-			sortingField = (String) session.getAttribute("columnsorting");
+			order = "asc";
+			session.setAttribute("direction", order);
+		}
+		
+		String sortingField = (String) session.getAttribute("sortparam");
+		if (sortingField == null) {
+			session.setAttribute("sortparam", sortParam);
+			sortingField = (String) session.getAttribute("sortparam");
+		} else {
+			session.setAttribute("sortparam", sortParam);
+			sortingField = (String) session.getAttribute("sortparam");
 		}
 		
 		long rowsCount = userService.getRowsCount();
-		int lastpage = (int)((rowsCount/ITEMSPERPAGE));
-		if(rowsCount > (lastpage * ITEMSPERPAGE))
+		int lastpage = (int) ((rowsCount / ITEMSPERPAGE));
+		if (rowsCount > (lastpage * ITEMSPERPAGE))
 		{
 			lastpage++;
 		}
@@ -95,9 +80,9 @@ public class AdminController {
 		
 		System.out.println("startposition in getPagingUsers: " + startPosition);
 		System.out.println("sortingField in getPagingUsers: " + sortingField);
-		System.out.println("order in getPagingUsers: " + orderType);
+		System.out.println("order in getPagingUsers: " + order);
 
-		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortingField, orderType);
+		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortingField, order);
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);

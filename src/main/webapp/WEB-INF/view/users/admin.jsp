@@ -2,16 +2,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<br />
-<c:set var="order" value="" />
-<c:choose>
-<c:when test="${ordertype == null || ordertype == asc}">
-	<c:set var="order" value="desc" />
-</c:when>
-<c:otherwise>
-<c:set var="order" value="desc" />
-</c:otherwise>
-</c:choose>
+<c:if test="${sessionScope['direction'] == null || sessionScope['direction'] == asc}">
+</c:if>
 <c:if test="${!empty users}">
 
 <nav class="navbar navbar-default">
@@ -25,7 +17,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
-          	aria-haspopup="true" aria-expanded="false"> ${orderType}<span class="caret"></span></a>
+          	aria-haspopup="true" aria-expanded="false">${sessionScope['direction']}<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ><a href="#">5</a></li>
             <li><a href="#">10</a></li>
@@ -40,14 +32,14 @@
 			<tr class="success">
 				<th ><spring:message code="crsms.text.id" /></th>
 				<th> <spring:message code="crsms.admin.email" />
-					<a href="<c:url value="?page=${page}&sortby=email&direction=${order}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=email&direction=${sessionScope['direction']}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
 				<th><spring:message code="crsms.admin.password" /></th>
 				<th><spring:message code="crsms.admin.role" />
-					<a href="<c:url value="?page=${page}&sortby=role&direction=${order}"/>">
-					<i class="glyphicon glyphicon-sort"></i>
+					<a href="<c:url value="?page=${page}&sortparam=role&direction=${sessionScope['direction']}"/>">
+					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
 				<th colspan="2"><spring:message code="crsms.admin.management" /></th>
@@ -89,28 +81,32 @@
 		<c:choose>
 			<c:when test="${page == 1}">
 				<li class="disabled">
-					<a href="<c:url value="#"/>" data-toggle="tooltip"
+					<a href="<c:url value="#"/>" 
+						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.first" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.first" />
 					</a>
 				</li>
 				<li class="disabled">
-					<a href="<c:url value="#"/>" data-toggle="tooltip"
+					<a href="<c:url value="#"/>" 
+						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.previous" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.previous" />
 					</a>
 				</li>
 			</c:when>
 			<c:when test="${page > 1}">
-				<li>
-				
-					<a href="<c:url value="/admin?page=${1}"/>" data-toggle="tooltip"
+				<li>				
+					<a href="<c:url value="/admin?page=${1}&sortparam=${sessionScope['sortparam']}
+											&direction=${sessionScope['direction']}"/>" 
+						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.first" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.first" />
 					</a>
 				</li>
 				<li>
-					<a	href="<c:url value="/admin?page=${page - 1}"/>"
+					<a	href="<c:url value="/admin?page=${page - 1}&sortparam=${sessionScope['sortparam']}
+											&direction=${sessionScope['direction']}"/>" 
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.previous" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.previous" />
@@ -124,21 +120,24 @@
 							class = "active"
 						</c:when>
 					</c:choose>>
-					<a href="<c:url value="/admin?page=${p}"/>">
-						<c:out	value="${p}" />
+					<a href="<c:url value="/admin?page=${p}&sortparam=${sessionScope['sortparam']}
+											&direction=${sessionScope['direction']}"/>">
+						<c:out	value="${p}"/>
 					</a>
 				</li>			
 			</c:forEach>
 			<c:choose>
 			<c:when test="${page == lastpage}">
 				<li class="disabled">
-					<a	href="<c:url value="#"/>"	data-toggle="tooltip"
+					<a	href="<c:url value="#"/>"	
+						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.next" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.next" />
 					</a>
 				</li>
 				<li class="disabled">
-					<a href="<c:url value="#"/>" data-toggle="tooltip"
+					<a href="<c:url value="#"/>" 
+						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.last" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.last" />
 					</a>
@@ -146,14 +145,17 @@
 			</c:when>		
 			<c:when test="${page < lastpage}">
 				<li>
-					<a	href="<c:url value="/${pageContext.request.contextPath}?page=${page + 1}"/>"
+					<a	href="<c:url value="/admin?page=${page + 1}&sortparam=${sessionScope['sortparam']}
+											&direction=${sessionScope['direction']}"/>" 
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.next" />">
 					 	<spring:message	code="crsms.paginationlogic.navigation.next" />
 					</a>
 				</li>
 				<li>
-					<a href="<c:url value="/admin?page=${lastpage}"/>" data-toggle="tooltip"
+					<a href="<c:url value="/admin?page=${lastpage}&sortparam=${sessionScope['sortparam']}
+											&direction=${sessionScope['direction']}"/>"  
+						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.last" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.last" />
 					</a>
