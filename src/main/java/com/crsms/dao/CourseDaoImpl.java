@@ -135,5 +135,32 @@ public class CourseDaoImpl implements CourseDao {
 		}
 		return list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllByUserId(Long userId) {
+		List<Course> list = new ArrayList<Course>();
+		try {
+			list = sessionFactory.getCurrentSession()
+								 .getNamedQuery(Course.GET_BY_USER_ID)
+							 	 .setParameter("userId", userId).list();
+		} catch (Exception e) {
+			logger.error("Error in getting all courses by user id: " + e);
+		}
+		return list;
+	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllByUserEmail(String email) {
+		List<Course> list = new ArrayList<Course>();
+		try {
+			list = sessionFactory.getCurrentSession()
+								 .getNamedQuery(Course.GET_BY_USER_EMAIL)
+							 	 .setParameter("email", email).list();
+		} catch (Exception e) {
+			logger.error("Error in getting all courses by user email: " + e);
+		}
+		return list;
+	}
 }

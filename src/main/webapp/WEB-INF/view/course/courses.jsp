@@ -3,7 +3,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<sec:authorize access="!hasAnyRole('STUDENT')">
+<sec:authorize access="isAuthenticated()">
+	<div id = "navigation" class = "pull-left">
+		<ul class="nav nav-pills nav-stacked">
+		  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }"><a href="?show=all">All</a></li>
+		  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }"><a href="?show=my">My</a></li>
+		</ul>
+	</div>
+</sec:authorize>
+
+<sec:authorize access="isAuthenticated() and !hasAnyRole('STUDENT')">
 	<div>
 		<a class="course-add" href="add" >
 			<i class="fa fa-plus-square-o" data-toggle="tooltip" 
@@ -31,9 +40,22 @@
 				</div>
 			</div>			
 			<div class="course-control">
-				<div class="text-left course-enroll pull-left">
-					<button class="btn btn-default"><strong><spring:message code="crsms.courses.button.enroll" /></strong></button>
-				</div>
+				<sec:authorize access="hasAnyRole('STUDENT')">
+					<div class="text-left course-enroll pull-left">
+						<c:choose>
+							<c:when test="${userCoursesId.contains(course.id)}">
+								<a href = "${course.id}/unsubscribe" class="btn btn-default" >
+									<strong><spring:message code="crsms.courses.button.unsubscribe" /></strong>
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a href = "${course.id}/enroll" class="btn btn-default" >
+									<strong><spring:message code="crsms.courses.button.enroll" /></strong>
+								</a>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</sec:authorize>
 				<div class="text-right course-detailed">
 					<a href="${course.id}" class="btn btn-default"><strong><spring:message code="crsms.button.detailed" /></strong></a>
 				</div>

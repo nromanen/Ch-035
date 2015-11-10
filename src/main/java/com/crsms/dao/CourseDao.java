@@ -31,4 +31,8 @@ public interface CourseDao {
 	void deleteCourse(Course course);
 	
 	List<Course> getAllByAreaId(Long areaId);
+	
+	List<Course> getAllByUserId(Long userId);
+
+	List<Course> getAllByUserEmail(String email);
 }

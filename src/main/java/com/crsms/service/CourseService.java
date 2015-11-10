@@ -36,10 +36,12 @@ public interface CourseService {
 	
 	List<Course> getAllByAreaId(Long areaId);
 	
-	void subscribe(Long courseId, Long userId);
+	void subscribe(Long courseId, String email);
 	
-	void unsubscribe(Long courseId, Long userId);
+	void unsubscribe(Long courseId, String email);
 	
-	List<Course> getAllWithInitializedUsers();
+	List<Course> getAllByUserId(Long userId);
+	
+	List<Course> getAllByUserEmail(String email);
 
 }

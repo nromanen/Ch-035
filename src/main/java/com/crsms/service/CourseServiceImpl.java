@@ -2,7 +2,6 @@ package com.crsms.service;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,26 +90,28 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public void subscribe(Long courseId, Long userId) {
+	public void subscribe(Long courseId, String email) {
 		Course course = courseDao.getCourseById(courseId);
-		User user = userDao.getUserById(userId);
+		User user = userDao.getUserByEmail(email);
 		course.addUser(user);
 		courseDao.updateCourse(course);
 	}
 	
 	@Override
-	public void unsubscribe(Long courseId, Long userId) {
+	public void unsubscribe(Long courseId, String email) {
 		Course course = courseDao.getCourseById(courseId);
-		User user = userDao.getUserById(userId);
+		User user = userDao.getUserByEmail(email);
 		course.deleteUser(user);
 		courseDao.updateCourse(course);
 	}
 	
-	public List<Course> getAllWithInitializedUsers() {
-		List<Course> courses = courseDao.getAll();
-		for (Course course : courses) {
-			Hibernate.initialize(course.getUsers());
-		}
-		return courses;
+	@Override
+	public List<Course> getAllByUserId(Long userId) {
+		return courseDao.getAllByUserId(userId);
+	}
+	
+	@Override
+	public List<Course> getAllByUserEmail(String email) {
+		return courseDao.getAllByUserEmail(email);		
 	}
 }
