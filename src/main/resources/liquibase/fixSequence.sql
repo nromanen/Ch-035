@@ -1,0 +1,13 @@
+SELECT setval('answer_id_seq', (SELECT MAX(id) FROM answer)); 
+SELECT setval('area_id_seq', (SELECT MAX(id) FROM area)); 
+SELECT setval('course_id_seq', (SELECT MAX(id) FROM course)); 
+SELECT setval('group_id_seq', (SELECT MAX(id) FROM groups)); 
+SELECT setval('group_type_id_seq', (SELECT MAX(id) FROM group_type)); 
+SELECT setval('module_id_seq', (SELECT MAX(id) FROM module)); 
+SELECT setval('question_id_seq', (SELECT MAX(id) FROM question)); 
+SELECT setval('resource_id_seq', (SELECT MAX(id) FROM resource)); 
+SELECT setval('role_id_seq', (SELECT MAX(id) FROM roles)); 
+SELECT setval('test_id_seq', (SELECT MAX(id) FROM test)); 
+SELECT setval('test_result_id_seq', (SELECT MAX(id) FROM test_result)); 
+SELECT setval('user_answer_id_seq', (SELECT MAX(id) FROM user_answer)); 
+SELECT setval('user_id_seq', (SELECT MAX(id) FROM users)); 
