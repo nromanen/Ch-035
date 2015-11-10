@@ -23,5 +23,6 @@ public interface TestDao {
     public void deleteTest(Test test);
 
     public void deleteTestById(Long id);
-
+    
+    boolean hasTestResults(Long testId);
 }

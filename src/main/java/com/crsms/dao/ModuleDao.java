@@ -26,4 +26,6 @@ public interface ModuleDao {
 
 	void deleteById(Long id);
 	
+	boolean hasTestResults(Long moduleId);
+	
 }
