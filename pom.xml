@@ -22,6 +22,7 @@
 		<spring-security.version>4.0.2.RELEASE</spring-security.version>
 		<servletapi.version>2.5</servletapi.version>
 		<apache.tiles.version>3.0.5</apache.tiles.version>
+		<liquibase.version>3.4.1</liquibase.version>
 		<jackson.version>2.6.3</jackson.version>
 	</properties>
 
@@ -225,22 +226,39 @@
 			<artifactId>jquery-cookie</artifactId>
 			<version>1.4.1-1</version>
 		</dependency>
+
+		<!-- Liquibase -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery-validation</artifactId>
 			<version>1.14.0-1</version>
 		</dependency>
+
 		<dependency>
 		    <groupId>org.webjars</groupId>
 		    <artifactId>font-awesome</artifactId>
 		    <version>4.4.0</version>
 		</dependency>
-		
 
 	</dependencies>
 
 	<build>
 		<finalName>crsms</finalName>
+		<filters>
+			<filter>src/main/resources/application.properties</filter>
+		</filters>
+		<resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -266,6 +284,33 @@
 					</includes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-resources-plugin</artifactId>
+        		<version>2.7</version>
+        		<configuration>
+          			<encoding>UTF-8</encoding>
+        		</configuration>
+      		</plugin>
+			<!-- TODO:replase value -->
+			<plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                	<propertyFileWillOverride>true</propertyFileWillOverride>
+                    <!-- <propertyFile>src/main/resources/liquibase.properties</propertyFile> -->
+                    <propertyFile>target/classes/liquibase.properties</propertyFile>
+                </configuration>
+                <executions>
+                	<execution>
+                    	<phase>resources:resources</phase>
+                    	<goals>
+                        	<goal>update</goal>
+                    	</goals>
+                	</execution>
+            	</executions>
+            </plugin>
 		</plugins>
 	</build>
 

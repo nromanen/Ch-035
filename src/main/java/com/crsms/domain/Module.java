@@ -62,6 +62,9 @@ public class Module {
 	@Column(name = "order_position", nullable = true)
 	private Long orderPosition;
 	
+	@Column(nullable = false)
+	private Boolean disable = false;
+	
 	public Module() { }
 
 	public Long getId() {
@@ -128,7 +131,16 @@ public class Module {
 		this.resources.add(resource);
 	}
 
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+		
 	public void addTest(Test test) {
 		this.tests.add(test);
 	}
+
 }

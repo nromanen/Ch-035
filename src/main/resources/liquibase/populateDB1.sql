@@ -1,7 +1,6 @@
 DELETE FROM user_roles;
 DELETE FROM roles;
 DELETE FROM users;
-DROP TABLE IF EXISTS persistent_logins
 
 INSERT INTO users (id, email, password, isEnabled) VALUES (1, 'admin@gmail.com', '$2a$10$Euu810RqjaZAR1fkGfe2uOFjqvb397Ar9w9N5shQb1VQDp/wi99AS', true);
 INSERT INTO users (id, email, password, isEnabled) VALUES (2, 'student@gmail.com', '$2a$10$KQaLIU4HZcwL6K3KYq/VXOMk2k8YzENro0RZ5y4x15okS/PMIOz8u', true);
@@ -51,5 +50,3 @@ INSERT INTO user_roles (user_id, role_id) VALUES (17,3);
 INSERT INTO user_roles (user_id, role_id) VALUES (18,2);
 INSERT INTO user_roles (user_id, role_id) VALUES (19,2);
 INSERT INTO user_roles (user_id, role_id) VALUES (20,2);
-
-CREATE TABLE persistent_logins (username VARCHAR(64) NOT NULL, series VARCHAR(64) NOT NULL, token VARCHAR(64) NOT NULL, last_used TIMESTAMP NOT NULL,  PRIMARY KEY (series));
