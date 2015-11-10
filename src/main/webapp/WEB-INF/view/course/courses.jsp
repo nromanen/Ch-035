@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div>
 	<a class="course-add" href="add" >
@@ -27,9 +28,23 @@
 				</div>
 			</div>			
 			<div class="course-control">
-				<div class="text-left course-enroll pull-left">
-					<button class="btn btn-default"><strong><spring:message code="crsms.courses.button.enroll" /></strong></button>
-				</div>
+				<sec:authorize access="hasAnyRole('ROLE_STUDENT', 'ROLE_ANONYMOUS')">
+					<c:choose>
+					<c:when test="${pageContext.request.userPrincipal.name != null}">
+						<div class="text-left course-enroll pull-left">
+						<button class="${course.open ? 'btn btn-default' : 'btn btn-default disabled'}">
+						<strong><spring:message code="crsms.courses.button.enroll" /></strong></button>
+					</div>
+					</c:when>
+					<c:otherwise>
+						<div class="text-left course-enroll pull-left">
+						<button class="btn btn-default disabled" data-toggle="tooltip" data-placement="bottom"
+						title="<spring:message code="crsms.text.signin.unsigned" />">
+						<strong><spring:message code="crsms.courses.button.enroll" /> </strong></button>
+					</div>
+					</c:otherwise>
+					</c:choose>
+				</sec:authorize>
 				<div class="text-right course-detailed">
 					<a href="${course.id}" class="btn btn-default"><strong><spring:message code="crsms.button.detailed" /></strong></a>
 				</div>
