@@ -115,6 +115,9 @@
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
 			<add-attribute value="/resources/js/area/area.js" />
 		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/area/area.css" />
+		</put-list-attribute>
 	</definition>
 
 	<definition name="reenter" extends="base-template">
@@ -264,8 +267,10 @@
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/test/test.css" />
 		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/test/test.js" />
+		</put-list-attribute>
 	</definition>
-
 
 	<definition name="createtest" extends="base-template">
 		<put-attribute name="title" value="crsms.test.text.test.create" />
@@ -276,6 +281,26 @@
 		</put-list-attribute>
 	</definition>
 	<!-- end Test -->
+
+	<!-- Question -->
+	<definition name="questions" extends="base-template">
+		<put-attribute name="title" value="crsms.question.text.questions.list" />
+		<put-attribute name="header-title" value="crsms.question.text.questions.list" />
+		<put-attribute name="content" value="/WEB-INF/view/question/questions.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/question/question.css" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="createquestion" extends="base-template">
+		<put-attribute name="title" value="crsms.question.text.create" />
+		<put-attribute name="header-title" value="crsms.question.text.create" />
+		<put-attribute name="content" value="/WEB-INF/view/question/createquestion.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/question/question.css" />
+		</put-list-attribute>
+	</definition>
+	<!-- end Question -->
 	
 	<!-- Error pages -->
 	<definition name = "errorpage" extends = "base-template">

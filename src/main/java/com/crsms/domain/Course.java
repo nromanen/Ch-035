@@ -84,6 +84,9 @@ public class Course {
     @JoinColumn(name = "area_id")
 	private Area area;
 	
+	@Column(nullable = false)
+	private Boolean disable = false;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> users = new HashSet<User>();
 	
@@ -171,7 +174,7 @@ public class Course {
 		return this.modules.add(module);
 	}
 	
-	public boolean delete(Module module) {
+	public boolean deleteModule(Module module) {
 		if (this.modules.contains(module)) {
 			return this.modules.remove(module);
 		}
@@ -196,4 +199,13 @@ public class Course {
 		}
 		return false;
 	}
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+	
 }

@@ -1,7 +1,6 @@
 package com.crsms.dao;
 
 import com.crsms.domain.Test;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
@@ -10,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +24,7 @@ public class TestDaoImpl implements TestDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public TestDaoImpl() {
-    }
+    public TestDaoImpl() {}
 
     @Override
     public void saveTest(Test test) {
@@ -40,7 +39,8 @@ public class TestDaoImpl implements TestDao {
     	}
     }
 
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     public Test getTestById(Long id) {
     	logger.info("TestDao. Reading test by ID: " + id + ".");
     	Test test = (Test) sessionFactory.getCurrentSession().get(Test.class, id);
@@ -48,8 +48,8 @@ public class TestDaoImpl implements TestDao {
         	logger.info("TestDao. Reading test by ID: " + id + " successfully.");
         return test;
         } else {
-        	logger.error("TestDao. Illegal argument received when test by ID gettting.");
-        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID gettting.");	
+        	logger.error("TestDao. Illegal argument received when test by ID getting.");
+        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID getting.");
         }
     }
 
@@ -68,16 +68,14 @@ public class TestDaoImpl implements TestDao {
 	@Override
 	public List<Test> getAllByModuleId(Long id) {
 		if (id != null) {
-			logger.info("TestDao. Reading all tests by Module ID.");
-			List<Test> testList = new ArrayList<Test>();
-			String hql = "FROM Test WHERE module_id = :id order by id asc";
-	        Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
-	        testList = query.list();
-	        logger.info("TestDao. Reading all tests by ID successfully.");
-			return testList;
+            logger.info("TestDao. Reading all tests by Module ID.");
+            List<Test> testList = new ArrayList<Test>();
+            testList = sessionFactory.getCurrentSession().getNamedQuery(Test.GET_BY_MODULE_ID).setParameter("id", id).list();
+            logger.info("TestDao. Reading all tests by Module ID successfully.");
+            return testList;
 		} else {
-			logger.error("TestDao. Illegal argument received when test by Module ID gettting.");
-			throw new IllegalArgumentException("TestDao. Illegal argument received when test by Module ID gettting.");	
+			logger.error("TestDao. Illegal argument received when test by Module ID getting.");
+			throw new IllegalArgumentException("TestDao. Illegal argument received when test by Module ID getting.");
 		}
 	}
 
@@ -122,5 +120,20 @@ public class TestDaoImpl implements TestDao {
     		throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID deleting.");
     	}
     }
+
+	@Override
+	public boolean hasTestResults(Long testId) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				"SELECT COUNT(*) FROM test_result "
+				+ "WHERE test_result.test_id = :test_id LIMIT 1"
+		).setParameter("test_id", testId);
+		
+		long count = ((BigInteger) query.uniqueResult()).longValue();
+		if(count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

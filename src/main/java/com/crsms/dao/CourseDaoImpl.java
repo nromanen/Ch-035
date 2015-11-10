@@ -1,5 +1,6 @@
 package com.crsms.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class CourseDaoImpl implements CourseDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAll() {
 		try {
@@ -55,7 +57,8 @@ public class CourseDaoImpl implements CourseDao {
 		
 		return null;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAllInitialized() {
 		try {
@@ -120,6 +123,7 @@ public class CourseDaoImpl implements CourseDao {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAllByAreaId(Long areaId) {
 		List<Course> list = new ArrayList<Course>();
@@ -131,6 +135,49 @@ public class CourseDaoImpl implements CourseDao {
 			logger.error("Error in getting all courses by area id: " + e);
 		}
 		return list;
+	}
+
+	@Override
+	public boolean hasSubscribedUsers(Long courseId) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+			"SELECT COUNT(*) as count FROM course_users WHERE courses_id = :courses_id LIMIT 1"
+		).setParameter("courses_id", courseId);
+		long count = ((BigInteger) query.uniqueResult()).longValue();
+		if(count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
+	@Override
+	public boolean hasTestResults(Long courseId) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+			"SELECT COUNT(*) FROM test_result "
+			+ "JOIN test ON test.id = test_result.test_id "
+			+ "JOIN module_test ON test.id = module_test.tests_id "
+			+ "JOIN module ON module.id = module_test.module_id "
+			+ "JOIN course_module ON module.id = course_module.modules_id "
+			//+ "JOIN course ON course.id = course_module.course_id "
+			+ "WHERE course_module.course_id = :course_id LIMIT 1"
+		).setParameter("course_id", courseId);
+		
+		/*
+		Query query = sessionFactory.getCurrentSession().createQuery(
+			"SELECT COUNT(*) FROM TestResult test_result, Course course"
+			+ "JOIN course.modules modules "
+			+ "JOIN modules.tests test "
+			+ "JOIN module"
+			+ "WHERE test_result.test.id = test.id course.id = :courses_id LIMIT 1"
+		).setParameter("courses_id", 2); 
+		*/
+		long count = ((BigInteger) query.uniqueResult()).longValue();
+		if(count > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

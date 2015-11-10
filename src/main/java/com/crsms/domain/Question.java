@@ -1,66 +1,65 @@
 package com.crsms.domain;
 
-import java.util.Set;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets, Valerii Motresku
  */
 
 @Entity
 @Table(name = "question")
+@NamedQueries(@NamedQuery(name = Question.GET_BY_TEST_ID, query = "SELECT questions FROM Test t WHERE t.id = :id"))
 public class Question {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "question_id_seq", allocationSize = 1)
-	private Long id;
-	
-	@Column(nullable = false)
-	@NotNull
-	@Size(max = 1000)
-	private String text;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Answer> answers;
-	
-	
-	public Question() { }
+    public static final String GET_BY_TEST_ID = "Question.getByTestId";
+    public static final int MAX_TEXT_LENGTH = 1000;
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+    @SequenceGenerator(name = "crsms_gen", sequenceName = "question_id_seq", allocationSize = 1)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getText() {
-		return text;
-	}
+    @Column(nullable = false)
+    @NotNull
+    @Size(max = 1000)
+    private String text;
 
-	public void setText(String question) {
-		this.text = question;
-	}
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //, orphanRemoval = true
+    private Set<Answer> answers;
 
-	public Set<Answer> getAnswers() {
-		return answers;
-	}
+    public Question() {
+    }
 
-	public void setAnswers(Set<Answer> answers) {
-		this.answers = answers;
-	}
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String question) {
+        this.text = question;
+    }
+
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
+    }
 }
