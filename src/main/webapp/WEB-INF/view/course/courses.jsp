@@ -1,13 +1,17 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<div>
-	<a class="course-add" href="add" >
-		<i class="fa fa-plus-square-o" data-toggle="tooltip" 
-			title="<spring:message code = "crsms.courses.button.create_new_course" />"></i>
-	</a>
-</div>
+<sec:authorize access="!hasAnyRole('STUDENT')">
+	<div>
+		<a class="course-add" href="add" >
+			<i class="fa fa-plus-square-o" data-toggle="tooltip" 
+				title="<spring:message code = "crsms.courses.button.create_new_course" />"></i>
+		</a>
+	</div>
+</sec:authorize>
+
 <div class="container">
 <c:forEach var="course" items="${courses}">
 	<div class="course-grid col-lg-4 col-md-4 col-sm-6 col-xs-12">
