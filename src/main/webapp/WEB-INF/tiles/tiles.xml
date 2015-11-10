@@ -315,11 +315,5 @@
 		<put-attribute name="content" value="/WEB-INF/view/404.jsp" />
 	</definition>
 	<!-- end error page -->
-	
-	<definition name = "qwe" extends = "base-template">
-		<put-attribute name="title" value="crsms.login.title.list" />
-		<put-attribute name="header-title" value="crsms.login.title.list" />
-		<put-attribute name="content" value="/WEB-INF/view/qwe.jsp" />
-	</definition>
 
 </tiles-definitions>
