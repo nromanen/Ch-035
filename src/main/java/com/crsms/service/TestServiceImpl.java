@@ -33,8 +33,8 @@ public class TestServiceImpl implements TestService {
     @Transactional
     public void createTest(Long moduleId, Test test) {
     	logger.info("TestService. Creating a new test.");
-    	Module module = moduleService.getById(moduleId);
-    	test.setModule(module);
+    	//Module module = moduleService.getById(moduleId);
+    	//test.setModule(module);
     	testDao.saveTest(test);
     	logger.info("TestService. Creating a new test successfully.");
     }

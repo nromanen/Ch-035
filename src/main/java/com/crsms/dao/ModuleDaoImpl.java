@@ -1,10 +1,12 @@
 package com.crsms.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -96,6 +98,23 @@ public class ModuleDaoImpl implements ModuleDao {
 	    	sessionFactory.getCurrentSession().getNamedQuery(Module.DELETE_BY_ID).setParameter("id", id).executeUpdate();
 		} catch (Exception e) {
 			logger.error("Error in delete module by id: " + e);
+		}
+	}
+
+	@Override
+	public boolean hasTestResults(Long moduleId) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				"SELECT COUNT(*) FROM test_result "
+				+ "JOIN test ON test.id = test_result.test_id "
+				+ "JOIN module_test ON test.id = module_test.tests_id "
+				+ "WHERE module_test.module_id = :module_id LIMIT 1"
+		).setParameter("module_id", moduleId);
+		
+		long count = ((BigInteger) query.uniqueResult()).longValue();
+		if(count > 0) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -25,4 +25,6 @@ public interface ResourceDao {
 	List<Resource> getAll();
 	
 	List<Resource> getAllByModuleId(Long moduleId);
+	
+	public boolean onlyForModule(Long moduleId);
 }
