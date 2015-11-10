@@ -5,13 +5,18 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.User;
+
 /**
  * 
  * @author Roman Romaniuk
@@ -24,7 +29,7 @@ public class UserDaoImpl implements UserDao {
 	private SessionFactory sessionFactory;
 
 	private static Logger log = LogManager.getLogger(UserDaoImpl.class);
-	
+
 	public User saveUser(User user) {
 		try {
 			if (user.getId() == null) {
@@ -55,17 +60,18 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getUserById(Long id) {
 		User user = new User();
-	
+
 		try {
-			
-			user = (User) sessionFactory.getCurrentSession().get(User.class, id);
-			if(user!=null){
+
+			user = (User) sessionFactory.getCurrentSession()
+					.get(User.class, id);
+			if (user != null) {
 				Hibernate.initialize(user.getRole());
-	        }
-			
+			}
+
 		} catch (Exception e) {
 			log.error("Error get user by Id: " + id + e);
-		} 
+		}
 		Hibernate.initialize(user.getRole());
 		return user;
 	}
@@ -87,15 +93,53 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAllUsers() {
-		List <User> users = new ArrayList<>();
-		try{
+		List<User> users = new ArrayList<>();
+		try {
 			log.info("get all users");
-		Query query = sessionFactory.getCurrentSession().getNamedQuery(
-				User.ALL_SORTED);
-		users = query.list();
-		}catch (Exception e) {
+			Query query = sessionFactory.getCurrentSession().getNamedQuery(
+					User.ALL_SORTED);
+			users = query.list();
+		} catch (Exception e) {
 			log.error("Error get all users " + e);
 		}
 		return users;
 	}
+
+	@Override
+	public long getRowsCount() {
+		long rowsCount = 0;
+		try {
+			rowsCount = (long) sessionFactory.getCurrentSession()
+					.createCriteria(User.class)
+					.setProjection(Projections.rowCount()).uniqueResult();
+		} catch (Exception e) {
+			log.error("Error get rowsCount " + e);
+		}
+
+		return rowsCount;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getPagingUsers(int startPosition, int itemsPerPage,
+			String sortingField, String order) {
+		List<User> users = new ArrayList<>();
+		
+		try {
+			Criteria criteria = sessionFactory.getCurrentSession()
+					.createCriteria(User.class);
+			if (sortingField!= null && order.equals("asc")){
+				criteria.addOrder(Order.asc(sortingField));
+			} else	{
+				criteria.addOrder(Order.desc(sortingField));
+			}
+			criteria.setFirstResult(startPosition);
+			criteria.setMaxResults(itemsPerPage);
+			users.addAll(criteria.list());
+		} catch (Exception e) {
+			log.error("Error getPagingUsers " + e);
+		}
+		return users;
+	}
+
 }

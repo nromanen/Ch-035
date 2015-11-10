@@ -26,15 +26,14 @@ public class TestServiceImpl implements TestService {
     @Autowired
     ModuleService moduleService;
 
-    public TestServiceImpl() {
-    }
+    public TestServiceImpl() {}
 
     @Override
     @Transactional
     public void createTest(Long moduleId, Test test) {
     	logger.info("TestService. Creating a new test.");
-    	//Module module = moduleService.getById(moduleId);
-    	//test.setModule(module);
+    	Module module = moduleService.getById(moduleId);
+    	module.addTest(test);
     	testDao.saveTest(test);
     	logger.info("TestService. Creating a new test successfully.");
     }

@@ -8,25 +8,25 @@ import com.crsms.domain.Area;
 import com.googlecode.jmapper.annotations.JMap;
 
 public class CourseDto {
-	
+
 	@JMap
 	private Long id;
-	
+
 	@JMap
 	private String name;
-	
+
 	@JMap
 	private String description;
-	
+
 	@JMap
 	private DateTime startDate;
-	
+
 	@JMap
 	private Duration duration;
-	
+
 	@JMap
 	private Boolean open = false;
-	
+
 	@JMap
 	private Area area;
 
