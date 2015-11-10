@@ -11,9 +11,9 @@
 	</thead>
 	<tbody>
 		<c:forEach var="test" items="${tests}">
-			<tr data-toggle="collapse" data-target=#${test.id}>
-				<td><div class="hover-div"><i class="glyphicon glyphicon-list-alt">&nbsp</i><strong>${test.name}</strong></div>
-					<div id=${test.id} class="collapse">
+			<tr data-toggle="collapse" data-target="#${test.id}">
+				<td><div class="hover-div" id="hover-${test.id}"><i class="glyphicon glyphicon-list-alt">&nbsp</i><strong>${test.name}</strong></div>
+					<div id="${test.id}" class="collapse div-show">
 						<br>
 						<blockquote class="greenQuote">
 							<div class="panel-heading">
@@ -25,10 +25,10 @@
 								</a>
 								</p>
 							</div>
-							<div class="panel-body">
+							<div class="panel-body" id ="questions-${test.id}">
 								<c:forEach var="question" items="${test.questions}">
 								<div id="info">
-									<ul class="list-group">
+									<ul class="list-group" >
 										<li class="list-group-item list-group-item-warning">
 										<c:url var="questionById" value="${test.id}/questions/${question.id}/" />
 										<a href="${questionById}" class="list-group-item-warning">
@@ -90,20 +90,21 @@
 			
 				<form:form modelAttribute="question" method="POST" class="form-horizontal" id="modalForm">
 				  <form:input path="id" id ="id" type="hidden" />
+				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				  <div class="form-group">
 				    <c:set var="questionTitle">
 				      <spring:message code="crsms.question.title" />
 				    </c:set>
 				    <label for="text" class="col-sm-2 control-label">${questionTitle}:</label>
 				    <div class="col-sm-10">
-				      <form:textarea rows="3" path="text" id="text" class="form-control" placeholder="${questionTitle}" />
+				      <form:textarea rows="3" path="text" id="text" class="form-control clear-textarea" placeholder="${questionTitle}" />
 				      <form:errors path="text" cssClass = "label label-danger" />
 				    </div>
 				  </div>
 				
 				  <div class="form-group">
 				    <div class="col-sm-offset-2 col-sm-10">
-				      <button class="btn btn-success" id="modal-form-submit"><spring:message code="crsms.button.save" /></button>
+				      <span class="btn btn-success" id="modal-form-submit"><spring:message code="crsms.button.save" /></span>
 				    </div>
 				  </div>
 				</form:form>

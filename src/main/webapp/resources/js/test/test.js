@@ -5,16 +5,36 @@ $(document).ready(function (e){
 		var testId = $('#modal-form-submit').val();
 
 		$.ajax({
-			headers: { 
-	            'Accept': 'application/json',
-	            'Content-Type': 'application/json' 
-	        },
-			url : document.URL + testId +"/questions/add/json",
+			url : document.URL + testId +'/questions/add/json',
 			dataType: 'json',
 			data : form.serialize(),
 			type : "POST",
-			success : function(response) {	
+			beforeSend: function() {
 				
+			},
+			complete: function() {
+				$("#my-modal").modal('hide');
+				$("#hover-" + testId).click();
+				$(".clear-textarea").val("");
+			} ,
+			success : function(question) {
+				var questionHtml =
+					'<div id="info">' +
+						'<ul class="list-group" >' +
+							'<li class="list-group-item list-group-item-warning">' +
+							'<input type="hidden" value="' + question.id + '">' +
+								'<a href="" class="list-group-item-warning">' +
+									question.text +
+									'&nbsp' +
+									'<a href="#" class="nonUnderlineDelete pull-right"><i class="glyphicon glyphicon-trash"></i></a>' +
+									'<a href="#" class="nonUnderlineEdit pull-right"><i class="glyphicon glyphicon-pencil"></i>&nbsp</a>' +								
+								'</a>' +
+							'</li>' +
+						'</ul>' +
+					'</div>';
+				
+				$("#questions-" + testId).append(questionHtml);
+								
 			},
 
 			error : function(xhr, ajaxOptions, thrownError) {
