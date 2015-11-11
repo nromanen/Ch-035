@@ -48,8 +48,8 @@
 					<div class="text-left course-enroll pull-left">
 						<c:choose>
 							<c:when test="${userCoursesId.contains(course.id)}">
-								<a href = "${course.id}/unsubscribe" class="btn btn-default " >
-									<strong><spring:message code="crsms.courses.button.unsubscribe" /></strong>
+								<a href = "${course.id}/leave" class="btn btn-default " >
+									<strong><spring:message code="crsms.courses.button.leave" /></strong>
 								</a>
 							</c:when>
 							<c:otherwise>

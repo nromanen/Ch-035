@@ -74,7 +74,6 @@ public class CourseController {
 		
 		List<Long> userCoursesId = null;
 		if (request.isUserInRole("ROLE_STUDENT")) {
-			email = SecurityContextHolder.getContext().getAuthentication().getName();
 			userCoursesId = this.getAllUserCoursesId(email);
 		}
 		
@@ -185,7 +184,7 @@ public class CourseController {
 		return "redirect:/courses/?show=my";
 	}
 	
-	@RequestMapping(value = "/{courseId}/unsubscribe", method = RequestMethod.GET)
+	@RequestMapping(value = "/{courseId}/leave", method = RequestMethod.GET)
 	public String unsubscribe(@PathVariable("courseId") Long courseId) {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		courseService.unsubscribe(courseId, email);
