@@ -37,7 +37,7 @@
 <div id = "language-picker">
 	<div class = "align-right">
 		<div class="btn-group" role="group" aria-label="...">
-			<c:url var="lang-en" value="">
+			<c:url var="langEN" value="">
 				<c:forEach items="${param}" var="entry">
 				    <c:if test="${entry.key != 'lang'}">
 				        <c:param name="${entry.key}" value="${entry.value}" />
@@ -45,9 +45,9 @@
 				</c:forEach>
 				<c:param name="lang" value="en" />
 			</c:url>
-			<a href = "${lang-en}" class = "btn btn-default">EN</a>
+			<a href = "${langEN}" class = "btn btn-default">EN</a>
 			
-			<c:url var="lang-uk" value="">
+			<c:url var="langUK" value="">
 				<c:forEach items="${param}" var="entry">
 				    <c:if test="${entry.key != 'lang'}">
 				        <c:param name="${entry.key}" value="${entry.value}" />
@@ -55,7 +55,7 @@
 				</c:forEach>
 				<c:param name="lang" value="uk" />
 			</c:url>
-			<a href = "${lang-uk}" class = "btn btn-default">UA</a>
+			<a href = "${langUK}" class = "btn btn-default">UA</a>
 		</div>
 	</div>
 </div>
