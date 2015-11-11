@@ -22,4 +22,26 @@
     	</addColumn>
     </changeSet>
     
+    <changeSet author="maftey" id="1446992667519-96">
+	    <modifyDataType 
+	            columnName="name"
+	            newDataType="character varying(255)"
+	            tableName="module"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-97">
+	    <modifyDataType 
+	            columnName="description"
+	            newDataType="text"
+	            tableName="module"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-98">
+        <sqlFile path="liquibase/populateDB2.sql"/>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-99">
+        <sqlFile path="liquibase/fixSequence.sql"/>
+    </changeSet>
+    
 </databaseChangeLog>

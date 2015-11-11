@@ -19,13 +19,13 @@
                 <td>${area.name}</td>
                 <td>
 					<div align="center">
-						<a href = "${area.id}/edit" 
+						<a href = "/crsms/areas/${area.id}/edit" 
 							class = "btn btn-success btn-sm"
 							data-toggle = "tooltip"
 							title = "<spring:message code="crsms.button.edit" />" >
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 						</a>
-						<a href = "${area.id}/delete"
+						<a href = "/crsms/areas/${area.id}/delete"
 							class = "btn btn-danger btn-sm" 
 							data-toggle = "tooltip"
 							title = "<spring:message code="crsms.button.delete" />" >
