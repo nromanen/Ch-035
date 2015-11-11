@@ -6,8 +6,12 @@
 <sec:authorize access="isAuthenticated()">
 	<div id = "navigation" class = "pull-left">
 		<ul class="nav nav-pills nav-stacked">
-		  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }"><a href="?show=all">All</a></li>
-		  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }"><a href="?show=my">My</a></li>
+		  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
+			  <a href="?show=all"><spring:message code = "crsms.courses.text.all" /></a>
+		  </li>
+		  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }">
+		  	<a href="?show=my"><spring:message code = "crsms.courses.text.my" /></a>
+		  </li>
 		</ul>
 	</div>
 </sec:authorize>
@@ -44,12 +48,12 @@
 					<div class="text-left course-enroll pull-left">
 						<c:choose>
 							<c:when test="${userCoursesId.contains(course.id)}">
-								<a href = "${course.id}/unsubscribe" class="btn btn-default" >
+								<a href = "${course.id}/unsubscribe" class="btn btn-default " >
 									<strong><spring:message code="crsms.courses.button.unsubscribe" /></strong>
 								</a>
 							</c:when>
 							<c:otherwise>
-								<a href = "${course.id}/enroll" class="btn btn-default" >
+								<a href = "${course.id}/enroll" class="btn btn-default ${!course.open ? 'disabled' : ''}">
 									<strong><spring:message code="crsms.courses.button.enroll" /></strong>
 								</a>
 							</c:otherwise>
