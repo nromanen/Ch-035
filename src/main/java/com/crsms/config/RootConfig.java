@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import com.crsms.interceptor.BreadcrumbsInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
@@ -31,9 +32,13 @@ public class RootConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-		interceptor.setParamName("lang");
-		registry.addInterceptor(interceptor);
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("lang");
+		
+		BreadcrumbsInterceptor breadcrumbsInterceptor = new BreadcrumbsInterceptor();
+		
+		registry.addInterceptor(localeChangeInterceptor);
+		registry.addInterceptor(breadcrumbsInterceptor);
 	}
 	
 	// Jackson serialization mappers

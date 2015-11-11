@@ -32,6 +32,11 @@ public interface CourseDao {
 	
 	List<Course> getAllByAreaId(Long areaId);
 	
+	List<Course> getAllByUserId(Long userId);
+
+	List<Course> getAllByUserEmail(String email);
+
 	boolean hasSubscribedUsers(Long courseId);
+	
 	boolean hasTestResults(Long courseId);
 }

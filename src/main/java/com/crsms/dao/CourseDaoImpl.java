@@ -33,7 +33,7 @@ public class CourseDaoImpl implements CourseDao {
 	public void saveCourse(Course course) {
 		
 		try {
-			if(course.getId() == null) {
+			if (course.getId() == null) {
 				sessionFactory.getCurrentSession().save(course);
 				logger.info("DAO:create course:" + course.getName());
 			} else {
@@ -49,7 +49,8 @@ public class CourseDaoImpl implements CourseDao {
 	@Override
 	public List<Course> getAll() {
 		try {
-			return (List<Course>)sessionFactory.getCurrentSession().createQuery("FROM Course").list();
+			return (List<Course>) sessionFactory.getCurrentSession()
+												.createQuery("FROM Course").list();
 
 		} catch (HibernateException e) {
 			logger.error("Error getAllCourse: " + e);
@@ -63,7 +64,8 @@ public class CourseDaoImpl implements CourseDao {
 	public List<Course> getAllInitialized() {
 		try {
 			List<Course> courses = null;
-			courses = (List<Course>)sessionFactory.getCurrentSession().createQuery("FROM Course").list();
+			courses = (List<Course>) sessionFactory.getCurrentSession()
+													.createQuery("FROM Course").list();
 			for (Course course : courses) {
 				Hibernate.initialize(course.getModules());
 			}
@@ -80,7 +82,7 @@ public class CourseDaoImpl implements CourseDao {
 	public Course getCourseById(Long id) {
 		Course course = null;
 		try {
-			course = (Course)sessionFactory.getCurrentSession().
+			course = (Course) sessionFactory.getCurrentSession().
 					get(Course.class, id);
 			Hibernate.initialize(course.getModules());
 			return course;
@@ -129,10 +131,39 @@ public class CourseDaoImpl implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			String hql = "from Course where area_id = :id order by id asc";
-			Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", areaId);
+			Query query = sessionFactory.getCurrentSession()
+										.createQuery(hql).setParameter("id", areaId);
 			list = query.list();
 		} catch (Exception e) {
 			logger.error("Error in getting all courses by area id: " + e);
+		}
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllByUserId(Long userId) {
+		List<Course> list = new ArrayList<Course>();
+		try {
+			list = sessionFactory.getCurrentSession()
+								 .getNamedQuery(Course.GET_BY_USER_ID)
+							 	 .setParameter("userId", userId).list();
+		} catch (Exception e) {
+			logger.error("Error in getting all courses by user id: " + e);
+		}
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllByUserEmail(String email) {
+		List<Course> list = new ArrayList<Course>();
+		try {
+			list = sessionFactory.getCurrentSession()
+								 .getNamedQuery(Course.GET_BY_USER_EMAIL)
+							 	 .setParameter("email", email).list();
+		} catch (Exception e) {
+			logger.error("Error in getting all courses by user email: " + e);
 		}
 		return list;
 	}
@@ -143,7 +174,7 @@ public class CourseDaoImpl implements CourseDao {
 			"SELECT COUNT(*) as count FROM course_users WHERE courses_id = :courses_id LIMIT 1"
 		).setParameter("courses_id", courseId);
 		long count = ((BigInteger) query.uniqueResult()).longValue();
-		if(count > 0) {
+		if (count > 0) {
 			return true;
 		} else {
 			return false;
@@ -173,7 +204,7 @@ public class CourseDaoImpl implements CourseDao {
 		).setParameter("courses_id", 2); 
 		*/
 		long count = ((BigInteger) query.uniqueResult()).longValue();
-		if(count > 0) {
+		if (count > 0) {
 			return true;
 		} else {
 			return false;

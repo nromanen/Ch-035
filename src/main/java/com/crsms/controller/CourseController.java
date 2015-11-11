@@ -1,8 +1,12 @@
 package com.crsms.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +22,7 @@ import com.crsms.domain.Area;
 import com.crsms.domain.Course;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
+import com.crsms.service.UserService;
 import com.crsms.util.StringUtil;
 import com.crsms.validator.CourseValidator;
 
@@ -46,6 +51,9 @@ public class CourseController {
 	private AreaService areaService;
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private CourseValidator validator;
 	
 	@InitBinder
@@ -54,14 +62,42 @@ public class CourseController {
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView showCourses() {
+	public ModelAndView showCourses(HttpServletRequest request,
+			@RequestParam (value = "show", required = false, defaultValue = "all") String show) {
+		
 		ModelAndView model = new ModelAndView();
-		List<Course> courses = courseService.getAllCourse();
+		
+		String email = null;
+		if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+			email = SecurityContextHolder.getContext().getAuthentication().getName();
+		}
+		
+		List<Long> userCoursesId = null;
+		if (request.isUserInRole("ROLE_STUDENT")) {
+			userCoursesId = this.getAllUserCoursesId(email);
+		}
+		
+		List<Course> courses = null;
+		switch (show) {
+			case "my": 
+				courses = courseService.getAllByUserEmail(email);
+				break;
+			case "all": 
+				courses = courseService.getAllCourse();
+				break;
+			default: 
+				courses = courseService.getAllCourse();
+				break;
+		}
+		
 		for (Course course : courses) {
-			course.setDescription(stringUtil.trimString(course.getDescription(), COURSE_DESC_LENGTH, true));
+			course.setDescription(stringUtil.trimString(course.getDescription(),
+														COURSE_DESC_LENGTH, true));
 			course.setName(stringUtil.trimString(course.getName(), COURSE_TITLE_LENGTH, true));
 		}
+		
 		model.addObject("courses", courses);
+		model.addObject("userCoursesId", userCoursesId);
 		model.setViewName("courses");
 		return model;
 	}
@@ -122,7 +158,7 @@ public class CourseController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/add" , method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView newCourseSubmit(
 			@RequestParam("weekDuration") Integer sweekDuration, 
 			@RequestParam("areaId") Long areaId, @Validated Course course, 
@@ -141,4 +177,25 @@ public class CourseController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/{courseId}/enroll", method = RequestMethod.GET)
+	public String subscribe(@PathVariable("courseId") Long courseId) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		courseService.subscribe(courseId, email);
+		return "redirect:/courses/?show=my";
+	}
+	
+	@RequestMapping(value = "/{courseId}/leave", method = RequestMethod.GET)
+	public String unsubscribe(@PathVariable("courseId") Long courseId) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		courseService.unsubscribe(courseId, email);
+		return "redirect:/courses/?show=my";
+	}
+	
+	private List<Long> getAllUserCoursesId(String email) {
+		List<Long> list = new LinkedList<Long>();
+		for (Course course : courseService.getAllByUserEmail(email)) {
+			list.add(course.getId());
+		}
+		return list;
+	}
 }

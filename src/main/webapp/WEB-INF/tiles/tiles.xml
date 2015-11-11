@@ -8,6 +8,7 @@
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
 		<put-attribute name="header-title" value="" cascade="true" />
 		<put-attribute name="menu" value="/WEB-INF/view/template/menu.jsp" />
+		<put-attribute name="breadcrumbs" value="/WEB-INF/view/template/breadcrumbs.jsp" />
 		<put-attribute name="content" value="" />
 		<put-attribute name="content-container-class" value="container" />
 		<put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
@@ -178,8 +179,7 @@
 	<definition name="createmodule" extends="base-template">
 		<put-attribute name="title" value="crsms.modules.title.modules.add" />
 		<put-attribute name="header-title" value="crsms.modules.title.modules.add" />
-		<put-attribute name="content"
-			value="/WEB-INF/view/module/createmodule.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/module/createmodule.jsp" />
 	</definition>
 
 	<definition name="editmodule" extends="createmodule">
@@ -315,11 +315,5 @@
 		<put-attribute name="content" value="/WEB-INF/view/404.jsp" />
 	</definition>
 	<!-- end error page -->
-	
-	<definition name = "qwe" extends = "base-template">
-		<put-attribute name="title" value="crsms.login.title.list" />
-		<put-attribute name="header-title" value="crsms.login.title.list" />
-		<put-attribute name="content" value="/WEB-INF/view/qwe.jsp" />
-	</definition>
 
 </tiles-definitions>
