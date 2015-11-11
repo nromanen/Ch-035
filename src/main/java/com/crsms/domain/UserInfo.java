@@ -19,6 +19,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user_info")
@@ -53,9 +55,18 @@ public class UserInfo {
 	@Cascade({CascadeType.ALL})
 	private Set<Group> groups;
 	
-	public UserInfo() {
+	@Column(name = "image", columnDefinition = "text")
+	private String image;
+	
+	public UserInfo() {	}
+
+	public String getImage() {
+		return image;
 	}
 
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	public Long getId() {
 		return id;

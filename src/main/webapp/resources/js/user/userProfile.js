@@ -15,4 +15,19 @@ $(document).ready(function() {
 				alert("Failed to submit form");
 			});
 		});
+	
+	$("#pic").change(function() {
+		if (this.files && this.files[0]) {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	        	var base64Image = e.target.result;
+	            $('#imagePreview').attr('src', base64Image)
+	            $("#image").attr('value', base64Image);
+	        }
+
+	        reader.readAsDataURL(this.files[0]);
+	        //alert(this.files[0].size);
+	    }
+	});
 });

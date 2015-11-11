@@ -38,7 +38,7 @@ public class ModuleServiceImpl implements ModuleService {
 	public void add(Long courseId, Module module) {
 		logger.info("in moduleService save(Module)");
 		Course course = courseDao.getCourseById(courseId);
-		module.setCourse(course);
+		course.addModule(module);
 		moduleDao.add(module);
 		logger.info("out moduleService save(Module)");
 	}
@@ -98,15 +98,17 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public void deleteById(Long id) {
-		logger.info("in moduleService deleteById(module id)");
+	public void deleteById(Long moduleId) {
+		logger.info("in moduleService deleteById()");
 		logger.info("checking module id");
-		if (moduleDao.getById(id) == null) {
+		
+		Module module = moduleDao.getById(moduleId);
+		if (module == null) {
 			throw new ElementNotFoundException();
 		}
 		
 		logger.info("trying to delete module");
-		moduleDao.deleteById(id);
+		moduleDao.deleteById(moduleId);
 		logger.info("out moduleService deleteById(module id)");
 	}
 	
