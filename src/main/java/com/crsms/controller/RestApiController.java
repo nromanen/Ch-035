@@ -71,13 +71,13 @@ public class RestApiController {
 	
 	@RequestMapping(value = {"/courses"}, method = RequestMethod.GET, produces = "application/json")
 	public List<CourseDto> getCourses() {
-		return dtoService.convert(courseService.getAllCourse(), CourseDto.class, Course.class);
+		return dtoService.convert(courseService.getAll(), CourseDto.class, Course.class);
 	}
 	
 	@RequestMapping(value = {"/courses/{courseId}"}, 
 			method = RequestMethod.GET, produces = "application/json")
 	public CourseDto getCourse(@PathVariable Long courseId) {
-		return dtoService.convert(courseService.getCourseById(courseId), CourseDto.class, Course.class);
+		return dtoService.convert(courseService.getById(courseId), CourseDto.class, Course.class);
 	}
 	
 	@RequestMapping(value = {"/courses/{courseId}/modules"}, 

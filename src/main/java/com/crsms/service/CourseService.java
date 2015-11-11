@@ -15,21 +15,21 @@ import com.crsms.domain.Course;
 
 public interface CourseService {
 	
-	void saveCourse(Course course);
+	void save(Course course);
 	
-	void saveCourse(Course course, long areaId, int sweekDuration);
+	void save(Course course, long areaId, int sweekDuration);
 	
-	List<Course> getAllCourse();
+	List<Course> getAll();
 	
 	List<Course> getAllInitialized();
 	
-	Course getCourseById(Long id);
+	Course getById(Long id);
 
-	void updateCourse(Course course);
+	void update(Course course);
 	
-	void updateCourse(Course course, long areaId, int sweekDuration);
+	void update(Course course, long areaId, int sweekDuration);
 	
-	Course getCourse(String name);
+	Course get(String name);
 	
 	//@PreAuthorize("hasAnyRole('ROLE_TEACHER')")
 	void deleteCourse(Course course);

@@ -29,10 +29,6 @@ public class CourseValidator implements Validator {
 								new Object[]{Course.MAX_NAME_LENGTH}, "name is too long");
 		}
 		
-		if (course.getDescription().length() > Course.MAX_DESCTIPTION_LENGTH) {
-			errors.rejectValue("description", "crsms.error.too.long", 
-								new Object[]{Course.MAX_DESCTIPTION_LENGTH}, "description is too long");
-		}
 	}
 	
 }
