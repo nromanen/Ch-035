@@ -8,8 +8,16 @@
 <tiles:importAttribute name="javascripts"/>
 <tiles:importAttribute name="stylesheets"/>
 <tiles:importAttribute name="favicon"/>
-<tiles:importAttribute name="title" toName="pageTitle" />
-<tiles:importAttribute name="header-title" toName="headerTitle" />
+<c:if test="${empty pageTitle}">
+	<tiles:importAttribute name="title" toName="pageTitle" />
+	<spring:message code = "${pageTitle}" var="pageTitle" />
+</c:if>
+<c:if test="${empty headerTitle}">
+	<tiles:importAttribute name="header-title" toName="headerTitle" />
+	<spring:message code = "${headerTitle}" var="headerTitle" />
+</c:if>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -24,7 +32,7 @@
     <meta name="description" content="SOME DESC">
     
     <!-- title -->
-    <title><spring:message code = "${pageTitle}" /></title>
+    <title>${pageTitle}</title>
     <!-- end title -->
     
     <link rel="shortcut icon" href="<c:url value="${favicon}"/>" type="image/x-icon" />
@@ -71,7 +79,7 @@
 
     <!-- content -->
     <main id="main-body">
-    	<div id="page-title"><spring:message code = "${headerTitle}" /></div>
+    	<div id="page-title">${headerTitle}</div>
 	    <tiles:insertAttribute name="breadcrumbs"></tiles:insertAttribute>
     	<div id="main-container" class="<tiles:insertAttribute name="content-container-class"></tiles:insertAttribute>">
           <tiles:insertAttribute name="content"></tiles:insertAttribute>

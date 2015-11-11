@@ -30,7 +30,7 @@ public class CourseDaoImpl implements CourseDao {
 	private static Logger logger = LogManager.getLogger(TestDaoImpl.class);
 	
 	@Override
-	public void saveCourse(Course course) {
+	public void save(Course course) {
 		
 		try {
 			if (course.getId() == null) {
@@ -79,7 +79,7 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public Course getCourseById(Long id) {
+	public Course getById(Long id) {
 		Course course = null;
 		try {
 			course = (Course) sessionFactory.getCurrentSession().
@@ -93,7 +93,7 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public void updateCourse(Course course) {
+	public void update(Course course) {
 		try {
 			sessionFactory.getCurrentSession().update(course);
 			logger.info("DAO:create update:" + course.getName());
@@ -104,7 +104,7 @@ public class CourseDaoImpl implements CourseDao {
 	}
 	
 	@Override
-	public Course getCourse(String name) {
+	public Course get(String name) {
 		try {
 			sessionFactory.getCurrentSession()
 				.createQuery("FROM Course c WHERE c.name=:name")
@@ -116,7 +116,7 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public void deleteCourse(Course course) {
+	public void delete(Course course) {
 		try {
 			sessionFactory.getCurrentSession().delete(course);
 		} catch (HibernateException e) {

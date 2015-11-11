@@ -1,18 +1,15 @@
 package com.crsms.util;
 
-import org.springframework.stereotype.Component;
-
 /**
  * 
  * @author Valerii Motresku
  *
  */
 
-@Component("stringUtil")
 public class StringUtil {
 
 	/**
-	 * Below is a method to trim long strings in webapp. 
+	 * Below is a method to trim long strings.
 	 * The "lastWord" boolean as you put it, if set to true will preserve the last word.
 	 * @param lastWord - true will preserve the last word
 	 * @return trimmed String

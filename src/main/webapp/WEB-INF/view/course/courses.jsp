@@ -39,9 +39,9 @@
 			<div class="course-info">
 				<h3 class="course-title"><a href="${course.id}">${course.name}</a></h3>
 				<p class="course-desc">${course.description}</p>
-				<div class="course-date">
-					<b><spring:message code="crsms.courses.text.startDate" /></b>: ${course.startDate.dayOfMonth}.${course.startDate.monthOfYear}.${course.startDate.year}
-				</div>
+			</div>
+			<div class="course-date">
+					<b><spring:message code="crsms.courses.text.startDate" /></b>: <joda:format value="${course.startDate}" pattern="dd.MM.yyyy"/>
 			</div>			
 			<div class="course-control">
 				<sec:authorize access="hasAnyRole('STUDENT')">

@@ -40,14 +40,14 @@ body {
 	transition: all 1000ms ease-in-out;
 }
 #main-container {
-	margin-top: 30px;
+	padding-top: 30px;
+	padding-bottom: 20px;
 }
 footer {
 	background: #1F89CA;
 	color: #fff;
 	min-height: 50px;
 	text-align: center;
-	margin-top: 20px;
 	margin-bottom: 0px !important;
 }
 #footer-copyright {
@@ -69,6 +69,26 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+/*unit-dashboard*/
+.unit-dashboard {
+	text-align: center;
+}
+.unit-dashboard-item {
+	padding: 10px 5px;
+	border-left: 1px solid #ccc;
+}
+.unit-dashboard-item:first-child {
+	border-left: none;
+}
+.unit-dashboard-item p, .unit-dashboard-item h3  {
+	margin: 0;
+}
+@media (max-width: 767px) {
+	.unit-dashboard-item{ 
+		border: none;
+	}
+}
+/*end unit-dashboard*/
 /*END GENERAL classes*/
 
 /*already in bootstrap: .text-right etc.*/

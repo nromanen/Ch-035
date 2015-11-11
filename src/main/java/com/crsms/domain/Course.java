@@ -50,7 +50,6 @@ public class Course {
 	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
 	
 	public static final int MAX_NAME_LENGTH = 255;
-	public static final int MAX_DESCTIPTION_LENGTH = 1024;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -62,8 +61,7 @@ public class Course {
 	@Size(min = 1, max = MAX_NAME_LENGTH)
 	private String name;
 	
-	@Column(nullable = false, length = MAX_DESCTIPTION_LENGTH)
-	@Size(max = MAX_DESCTIPTION_LENGTH)
+	@Column(nullable = false)
 	private String description;
 	
 //	@OneToOne(fetch = FetchType.LAZY)

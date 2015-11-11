@@ -40,8 +40,7 @@ public class CourseController {
 	private static final int COURSE_DESC_LENGTH = 300;
 	private static final int COURSE_TITLE_LENGTH = 40;
 	
-	@Autowired
-	private StringUtil stringUtil;
+	private StringUtil stringUtil = new StringUtil();
 	
 	//TODO: only for teacher
 	@Autowired
@@ -56,7 +55,7 @@ public class CourseController {
 	@Autowired
 	private CourseValidator validator;
 	
-	@InitBinder
+	@InitBinder(value="course")
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(validator);
     }
@@ -83,13 +82,13 @@ public class CourseController {
 				courses = courseService.getAllByUserEmail(email);
 				break;
 			case "all": 
-				courses = courseService.getAllCourse();
+				courses = courseService.getAll();
 				break;
 			default: 
-				courses = courseService.getAllCourse();
+				courses = courseService.getAll();
 				break;
-		}
-		
+		}	
+
 		for (Course course : courses) {
 			course.setDescription(stringUtil.trimString(course.getDescription(),
 														COURSE_DESC_LENGTH, true));
@@ -102,12 +101,22 @@ public class CourseController {
 		return model;
 	}
 	
-	
+	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
+	public ModelAndView showCourse(@PathVariable Long courseId) {
+		ModelAndView model = new ModelAndView();
+		Course course = courseService.getById(courseId);
+		model.addObject("course", course);
+		model.addObject("courseEndDate", course.getStartDate().plus(course.getDuration()));
+		model.addObject("pageTitle", course.getName());
+		model.addObject("headerTitle", course.getName());
+		model.setViewName("course");
+		return model;
+	}
 	
 	//TODO: only for teacher
 	@RequestMapping(value = "/{courseId}/delete", method = RequestMethod.GET)
 	public String deleteCourse(@PathVariable("courseId") Long courseId) {
-		Course course = courseService.getCourseById(courseId);
+		Course course = courseService.getById(courseId);
 		//TODO: check permissions
 		courseService.deleteCourse(course);
 		
@@ -119,7 +128,7 @@ public class CourseController {
 	public ModelAndView editCourse(@PathVariable("courseId") Long courseId) {
 		ModelAndView model = new ModelAndView();
 	
-		Course course = courseService.getCourseById(courseId); 
+		Course course = courseService.getById(courseId); 
 		List<Area> areas = areaService.getAllAreas();
 		model.addObject("course", course);
 		model.addObject("areas", areas);
@@ -141,7 +150,7 @@ public class CourseController {
 			model.setViewName("editFormCourse");
 			return model;
 		}
-		courseService.updateCourse(course, areaId, sweekDuration);
+		courseService.update(course, areaId, sweekDuration);
 		model.setViewName("redirect:/courses/");
 		return model;
 	}
@@ -172,7 +181,7 @@ public class CourseController {
 			model.setViewName("newFormCourse");
 			return model;
 		}
-		courseService.saveCourse(course, areaId, sweekDuration);
+		courseService.save(course, areaId, sweekDuration);
 		model.setViewName("redirect:/courses/");
 		return model;
 	}
