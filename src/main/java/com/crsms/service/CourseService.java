@@ -31,7 +31,7 @@ public interface CourseService {
 	
 	Course getCourse(String name);
 	
-	@PreAuthorize("hasAnyRole('ROLE_TEACHER')")
+	//@PreAuthorize("hasAnyRole('ROLE_TEACHER')")
 	void deleteCourse(Course course);
 	
 	List<Course> getAllByAreaId(Long areaId);
@@ -43,5 +43,6 @@ public interface CourseService {
 	List<Course> getAllByUserId(Long userId);
 	
 	List<Course> getAllByUserEmail(String email);
+
 
 }
