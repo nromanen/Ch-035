@@ -19,17 +19,16 @@
                 <td>${area.name}</td>
                 <td>
 					<div align="center">
-						<a href = "areas/${area.id}/edit" 
-						class = "btn btn-success btn-sm"
-						data-toggle = "tooltip"
-						title="<spring:message code="crsms.button.edit" />" >
-						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					</a>
-						<a 	href="areas/${area.id}/delete"
-							class="btn btn-danger btn-sm" 
-							data-toggle="tooltip"
-							title="<spring:message code="crsms.button.delete" />"
-						>
+						<a href = "/crsms/areas/${area.id}/edit" 
+							class = "btn btn-success btn-sm"
+							data-toggle = "tooltip"
+							title = "<spring:message code="crsms.button.edit" />" >
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+						</a>
+						<a href = "/crsms/areas/${area.id}/delete"
+							class = "btn btn-danger btn-sm" 
+							data-toggle = "tooltip"
+							title = "<spring:message code="crsms.button.delete" />" >
 							<span class="glyphicon glyphicon-remove"></span>		
 						</a>
 					</div>

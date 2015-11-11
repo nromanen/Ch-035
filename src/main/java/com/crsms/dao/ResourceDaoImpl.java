@@ -1,5 +1,6 @@
 package com.crsms.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +9,8 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+
 
 
 
@@ -122,5 +125,20 @@ public class ResourceDaoImpl implements ResourceDao {
 		return results;
 		
 	}
+
+	@Override
+	public boolean onlyForModule(Long moduleId) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				"SELECT COUNT(*) as count FROM module_resource WHERE module_id != :module_id LIMIT 1"
+			).setParameter("module_id", moduleId);
+			long count = ((BigInteger) query.uniqueResult()).longValue();
+			if(count > 0) {
+				return false;
+			} else {
+				return true;
+			}
+	}
+	
+	
 
 }

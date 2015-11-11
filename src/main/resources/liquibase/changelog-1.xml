@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext 
+						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+						http://www.liquibase.org/xml/ns/dbchangelog 
+						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
+>
+	<changeSet author="maftey" id="1446992667519-93">
+        <sqlFile path="liquibase/populateDB1.sql"/>
+    </changeSet>
+	<changeSet author="maftey" id="1446992667519-94">
+        <addColumn tableName="course" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-95">
+        <addColumn tableName="module" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-96">
+	    <modifyDataType 
+	            columnName="name"
+	            newDataType="character varying(255)"
+	            tableName="module"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-97">
+	    <modifyDataType 
+	            columnName="description"
+	            newDataType="text"
+	            tableName="module"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-98">
+        <sqlFile path="liquibase/populateDB2.sql"/>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-99">
+        <sqlFile path="liquibase/fixSequence.sql"/>
+    </changeSet>
+    
+</databaseChangeLog>

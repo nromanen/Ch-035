@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crsms.dao.CourseDao;
 import com.crsms.dao.UserDao;
 import com.crsms.domain.Course;
+import com.crsms.domain.Module;
 import com.crsms.domain.User;
 
 /**
@@ -32,6 +33,9 @@ public class CourseServiceImpl implements CourseService {
 	@Autowired
 	private AreaService areaService;
 	
+	@Autowired
+	private ModuleService moduleService;
+	
 	@Override
 	public void saveCourse(Course course) {
 		courseDao.saveCourse(course);
@@ -48,7 +52,7 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public List<Course> getAllCourse() {
-		return courseDao.getAllCourse();
+		return courseDao.getAll();
 	}
 	
 	@Override
@@ -82,7 +86,16 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public void deleteCourse(Course course) {
-		courseDao.deleteCourse(course);
+		//ToDO: delete all(module, test ...)
+		if(courseDao.hasSubscribedUsers(course.getId()) && courseDao.hasTestResults(course.getId())) {
+			course.setDisable(true);
+			courseDao.updateCourse(course);
+		} else {
+			/*for(Module module : course.getModules()){
+				moduleService.delete(module);
+			}*/
+			courseDao.deleteCourse(course);
+		}
 	}
 
 	@Override
@@ -107,10 +120,12 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	public List<Course> getAllWithInitializedUsers() {
-		List<Course> courses = courseDao.getAllCourse();
+		List<Course> courses = courseDao.getAll();
 		for (Course course : courses) {
 			Hibernate.initialize(course.getUsers());
 		}
 		return courses;
 	}
+	
+	
 }

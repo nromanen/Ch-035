@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -57,6 +59,13 @@ public class Course {
 	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
 	
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@PrimaryKeyJoinColumn 
+//	@Cascade({CascadeType.ALL})
+//	private User owner;
+//	
+//	@Column(nullable = false)
+//	private CourseLanguage language = CourseLanguage.EN;
 	
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -75,11 +84,18 @@ public class Course {
     @JoinColumn(name = "area_id")
 	private Area area;
 	
+	@Column(nullable = false)
+	private Boolean disable = false;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> users = new HashSet<User>();
 	
 	public Course() { }
 
+	public enum CourseLanguage {
+		EN, UK,
+	} 
+	
 	public Long getId() {
 		return id;
 	}
@@ -158,7 +174,7 @@ public class Course {
 		return this.modules.add(module);
 	}
 	
-	public boolean delete(Module module) {
+	public boolean deleteModule(Module module) {
 		if (this.modules.contains(module)) {
 			return this.modules.remove(module);
 		}
@@ -183,4 +199,13 @@ public class Course {
 		}
 		return false;
 	}
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+	
 }

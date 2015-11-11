@@ -1,3 +1,4 @@
+
 package com.crsms.service;
 
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -73,7 +76,7 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
-
+	
 	@Override
 	public User getUserById(Long id) {
 		User user = userDao.getUserById(id);
@@ -113,6 +116,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+
 	public boolean isEmailExists(String email) {
 		try {
 			if(!userDao.getUserByEmail(email).equals(email)){
@@ -122,6 +126,15 @@ public class UserServiceImpl implements UserService {
 			log.error("Email " + email + " exists " + e);
 		}
 		return false;
+	}
+
+	public long getRowsCount() {
+		return userDao.getRowsCount();
+	}
+
+	@Override
+	public List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order) {
+		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
 	}
 	
 	@Override

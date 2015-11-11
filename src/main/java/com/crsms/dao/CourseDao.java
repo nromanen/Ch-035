@@ -15,7 +15,7 @@ public interface CourseDao {
 	
 	void saveCourse(Course course);
 	
-	List<Course> getAllCourse();
+	List<Course> getAll();
 	
 	List<Course> getAllInitialized();
 	
@@ -31,4 +31,7 @@ public interface CourseDao {
 	void deleteCourse(Course course);
 	
 	List<Course> getAllByAreaId(Long areaId);
+	
+	boolean hasSubscribedUsers(Long courseId);
+	boolean hasTestResults(Long courseId);
 }

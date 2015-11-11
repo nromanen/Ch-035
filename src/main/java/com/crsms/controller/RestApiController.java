@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +34,7 @@ import com.crsms.service.TestService;
  *
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api")
 public class RestApiController {
@@ -72,37 +74,47 @@ public class RestApiController {
 		return dtoService.convert(courseService.getAllCourse(), CourseDto.class, Course.class);
 	}
 	
-	@RequestMapping(value = {"/courses/{courseId}"}, method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = {"/courses/{courseId}"}, 
+			method = RequestMethod.GET, produces = "application/json")
 	public CourseDto getCourse(@PathVariable Long courseId) {
 		return dtoService.convert(courseService.getCourseById(courseId), CourseDto.class, Course.class);
 	}
 	
-	@RequestMapping(value = {"/courses/{courseId}/modules"}, method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = {"/courses/{courseId}/modules"}, 
+			method = RequestMethod.GET, produces = "application/json")
 	public List<ModuleDto> getModules(@PathVariable Long courseId) {
 		return dtoService.convert(moduleService.getAllByCourseId(courseId), ModuleDto.class, Module.class);
 	}
 	
-	@RequestMapping(value = {"/modules/{moduleId}"}, method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = {"/modules/{moduleId}", "/courses/{courseId}/modules/{moduleId}"}, 
+			method = RequestMethod.GET, produces = "application/json")
 	public ModuleDto getModule(@PathVariable Long moduleId) {
 		return dtoService.convert(moduleService.getById(moduleId), ModuleDto.class, Module.class);
 	}
 	
-	@RequestMapping(value = {"/modules/{moduleId}/tests"}, method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = {"/modules/{moduleId}/tests", 
+			"/courses/{courseId}/modules/{moduleId}/tests"}, 
+			method = RequestMethod.GET, produces = "application/json")
 	public List<TestDto> getTests(@PathVariable Long moduleId) {
 		return dtoService.convert(testService.getAllByModuleId(moduleId), TestDto.class, Test.class);
 	}
 	
-	@RequestMapping(value = {"/tests/{testId}"}, method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = {"/tests/{testId}", "/courses/{courseId}/modules/{moduleId}/tests/{testId}"},
+			method = RequestMethod.GET, produces = "application/json")
 	public TestDto getTest(@PathVariable Long testId) {
 		return dtoService.convert(testService.getTestById(testId), TestDto.class, Test.class);
 	}
 	
-	@RequestMapping(value = {"/modules/{moduleId}/resources"}, method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = {"/modules/{moduleId}/resources", 
+			"/courses/{courseId}/modules/{moduleId}/resources"}, 
+			method = RequestMethod.GET, produces = "application/json")
 	public List<ResourceDto> getResources(@PathVariable Long moduleId) {
 		return dtoService.convert(resourceService.getAllByModuleId(moduleId), ResourceDto.class, Resource.class);
 	}
 	
-	@RequestMapping(value = {"/resources/{resourceId}"}, method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = {"/resources/{resourceId}", 
+			"/courses/{courseId}/modules/{moduleId}/resources/{resourceId}"}, 
+			method = RequestMethod.GET, produces = "application/json")
 	public ResourceDto getResource(@PathVariable Long resourceId) {
 		return dtoService.convert(resourceService.getById(resourceId), ResourceDto.class, Resource.class);
 	}
