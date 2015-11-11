@@ -80,6 +80,7 @@
     <!-- content -->
     <main id="main-body">
     	<div id="page-title">${headerTitle}</div>
+	    <tiles:insertAttribute name="breadcrumbs"></tiles:insertAttribute>
     	<div id="main-container" class="<tiles:insertAttribute name="content-container-class"></tiles:insertAttribute>">
           <tiles:insertAttribute name="content"></tiles:insertAttribute>
         </div>
