@@ -34,3 +34,8 @@ p, .panelHeaderText {
 	text-decoration: none;
 	color: red;
 }
+
+.checkbox-inline {
+    font-size: 14px;
+	color: green;
+}

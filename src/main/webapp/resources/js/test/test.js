@@ -9,13 +9,13 @@ $(document).ready(function (e){
 			dataType: 'json',
 			data : form.serialize(),
 			type : "POST",
-			beforeSend: function() {
-				
-			},
+			
 			complete: function() {
 				$("#my-modal").modal('hide');
 				$("#hover-" + testId).click();
 				$(".clear-textarea").val("");
+				
+				
 			} ,
 			success : function(question) {
 				var questionHtml =
@@ -34,6 +34,7 @@ $(document).ready(function (e){
 					'</div>';
 				
 				$("#questions-" + testId).append(questionHtml);
+				
 								
 			},
 
@@ -45,11 +46,11 @@ $(document).ready(function (e){
 	
 	$(".question-add").click(function (e){
 		 $('#modal-form-submit').val($(this).attr("value"));
-	})
+	});
 	
 	$("#modal-form-submit").click(function (e){
 		doAjaxPost();
-	})
+	});
 	
 })
 
