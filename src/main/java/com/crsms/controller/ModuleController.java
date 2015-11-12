@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.crsms.domain.Module;
-import com.crsms.dto.ModuleForm;
+import com.crsms.dto.ModuleFormJsonDto;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
 import com.crsms.service.ModuleService;
@@ -62,20 +62,20 @@ public class ModuleController {
 	public String newModule(@PathVariable Long courseId, Model model) {
 		Module module = new Module();
 		
-		ModuleForm moduleForm = dtoService.convert(module, ModuleForm.class, Module.class);
-		moduleForm.setCourseId(courseId);
+		ModuleFormJsonDto moduleFormJsonDto = dtoService.convert(module, ModuleFormJsonDto.class, Module.class);
+		moduleFormJsonDto.setCourseId(courseId);
 		
-		model.addAttribute("moduleForm", moduleForm);
+		model.addAttribute("moduleForm", moduleFormJsonDto);
 		return ADD_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
 	public String saveModule(@PathVariable Long courseId, 
-							@Validated ModuleForm moduleForm, BindingResult result) {
+							@Validated ModuleFormJsonDto moduleFormJsonDto, BindingResult result) {
 		if (result.hasErrors()) {
 			return ADD_MODULE_VIEW;
 		}
-		Module module = dtoService.convert(moduleForm, Module.class, ModuleForm.class);
+		Module module = dtoService.convert(moduleFormJsonDto, Module.class, ModuleFormJsonDto.class);
 		moduleService.add(courseId, module);
 		return redirect(courseId);
 	}	
@@ -86,21 +86,21 @@ public class ModuleController {
 		
 		Module module = moduleService.getById(moduleId);
 		
-		ModuleForm moduleForm = dtoService.convert(module, ModuleForm.class, Module.class);
-		moduleForm.setCourseId(courseId);
+		ModuleFormJsonDto moduleFormJsonDto = dtoService.convert(module, ModuleFormJsonDto.class, Module.class);
+		moduleFormJsonDto.setCourseId(courseId);
 		
-		model.addAttribute("moduleForm", moduleForm);
+		model.addAttribute("moduleForm", moduleFormJsonDto);
 		return EDIT_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
 	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, 
-								@Validated ModuleForm moduleForm, BindingResult result) {
+								@Validated ModuleFormJsonDto moduleFormJsonDto, BindingResult result) {
 		if (result.hasErrors()) {
 			return EDIT_MODULE_VIEW;
 		}
 
-		Module module = dtoService.convert(moduleForm, Module.class, ModuleForm.class);
+		Module module = dtoService.convert(moduleFormJsonDto, Module.class, ModuleFormJsonDto.class);
 		moduleService.update(module);
 
 		return redirect(courseId);
