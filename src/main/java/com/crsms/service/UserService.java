@@ -29,6 +29,4 @@ public interface UserService {
 	
 	List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order);
 
-	List<User> getAllWithInitializedCourses();
-
 }

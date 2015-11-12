@@ -43,7 +43,7 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public void add(Long courseId, Module module) {
 		logger.info("in moduleService save(Module)");
-		Course course = courseDao.getCourseById(courseId);//TODO: mybe to DAO?
+		Course course = courseDao.getById(courseId);//TODO: mybe to DAO?
 		course.addModule(module);
 		moduleDao.add(module);
 		logger.info("out moduleService save(Module)");
@@ -72,7 +72,7 @@ public class ModuleServiceImpl implements ModuleService {
 //				resourceService.delete(resource.getId(), module.getId());
 //			}
 			//TODO: delete tests
-			Course course = courseDao.getCourseById(courseId);//TODO: mybe to DAO
+			Course course = courseDao.getById(courseId);//TODO: mybe to DAO
 			course.deleteModule(module);
 			moduleDao.delete(module);
 		}
@@ -105,7 +105,7 @@ public class ModuleServiceImpl implements ModuleService {
 	public List<Module> getAllByCourseId(Long courseId) {
 		logger.info("in moduleService getAllByCourseId(courseId)");
 		logger.info("checking course id");
-		if (courseDao.getCourseById(courseId) == null) {
+		if (courseDao.getById(courseId) == null) {
 			throw new ElementNotFoundException();
 		}
 		

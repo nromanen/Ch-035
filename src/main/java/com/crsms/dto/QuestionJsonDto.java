@@ -2,15 +2,13 @@ package com.crsms.dto;
 
 import com.googlecode.jmapper.annotations.JMap;
 
-import java.io.Serializable;
-
 /**
  * @author Petro Andriets
  */
 
-public class QuestionDto implements Serializable{
+public class QuestionJsonDto {
 
-    public QuestionDto() {}
+    public QuestionJsonDto() {}
 
     @JMap
     private Long id;
