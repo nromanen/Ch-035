@@ -2,7 +2,7 @@ package com.crsms.dto;
 
 import com.googlecode.jmapper.annotations.JMap;
 
-public class ModuleFormJsonDto {
+public class ModuleFormDto {
 	@JMap
 	private Long id;
 	

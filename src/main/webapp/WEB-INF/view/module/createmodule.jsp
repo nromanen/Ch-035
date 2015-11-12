@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<form:form modelAttribute = "moduleForm" method = "POST" class = "form-horizontal">
+<form:form modelAttribute = "moduleFormDto" method = "POST" class = "form-horizontal">
 	<form:hidden path = "id"/>
 	<form:hidden path = "courseId"/>
 	
