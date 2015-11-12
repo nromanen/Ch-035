@@ -56,13 +56,17 @@ footer {
 }
 #scroll-to-top {
     position: fixed;
+    z-index: 2;
     right: 20px;
     bottom: 20px;
     font-size: 25px;
     padding: 2px 8px;
     display: none;
 }
-/*GENERAL classes*/
+/*GENERAL tags & classes*/
+.inline-block {
+	display: inline-block;
+}
 .vertical-horizontal-middle {
 	position: absolute;
     top: 50%;
@@ -83,7 +87,7 @@ footer {
 .unit-dashboard-item p, .unit-dashboard-item h3  {
 	margin: 0;
 }
-@media (max-width: 767px) {
+@media (max-width: 991px) {
 	.unit-dashboard-item{ 
 		border: none;
 	}
