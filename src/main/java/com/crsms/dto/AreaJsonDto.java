@@ -2,7 +2,7 @@ package com.crsms.dto;
 
 import com.googlecode.jmapper.annotations.JMap;
 
-public class AreaDto {
+public class AreaJsonDto {
 	
 	@JMap
 	private Long id;

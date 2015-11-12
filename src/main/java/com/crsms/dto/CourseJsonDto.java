@@ -4,10 +4,9 @@ package com.crsms.dto;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-import com.crsms.domain.Area;
 import com.googlecode.jmapper.annotations.JMap;
 
-public class CourseDto {
+public class CourseJsonDto {
 
 	@JMap
 	private Long id;
@@ -26,9 +25,6 @@ public class CourseDto {
 
 	@JMap
 	private Boolean open = false;
-
-	@JMap
-	private Area area;
 
 	public Long getId() {
 		return id;
@@ -78,11 +74,4 @@ public class CourseDto {
 		this.open = open;
 	}
 
-	public Area getArea() {
-		return area;
-	}
-
-	public void setArea(Area area) {
-		this.area = area;
-	}
 }
