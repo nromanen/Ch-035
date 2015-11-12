@@ -68,9 +68,9 @@ public class ModuleServiceImpl implements ModuleService {
 			moduleDao.update(module);
 		} else {
 			
-			for(Resource resource : module.getResources()){
-				resourceService.delete(resource.getId(), module.getId());
-			}
+//			for(Resource resource : module.getResources()){
+//				resourceService.delete(resource.getId(), module.getId());
+//			}
 			//TODO: delete tests
 			Course course = courseDao.getCourseById(courseId);//TODO: mybe to DAO
 			course.deleteModule(module);

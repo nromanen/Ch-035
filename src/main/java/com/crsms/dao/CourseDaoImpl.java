@@ -180,4 +180,13 @@ public class CourseDaoImpl implements CourseDao {
 		}
 	}
 
+	@Override
+	public void disable(Course course) {
+		course.setDisable(true);
+		this.updateCourse(course);
+		//TODO: disable all child
+	}
+	
+	
+
 }

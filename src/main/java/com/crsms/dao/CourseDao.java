@@ -26,6 +26,8 @@ public interface CourseDao {
 
 	void updateCourse(Course course);
 	
+	void disable(Course course);
+	
 	Course getCourse(String name);
 	
 	void deleteCourse(Course course);

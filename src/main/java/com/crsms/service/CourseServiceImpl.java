@@ -87,9 +87,9 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void deleteCourse(Course course) {
 		//ToDO: delete all(module, test ...)
-		if(courseDao.hasSubscribedUsers(course.getId()) && courseDao.hasTestResults(course.getId())) {
-			course.setDisable(true);
-			courseDao.updateCourse(course);
+		if(courseDao.hasSubscribedUsers(course.getId()) && courseDao.hasTestResults(course.getId())) {//ToDO:replace on if piblished
+			//course.setDisable(true);
+			courseDao.disable(course);
 		} else {
 			/*for(Module module : course.getModules()){
 				moduleService.delete(module);

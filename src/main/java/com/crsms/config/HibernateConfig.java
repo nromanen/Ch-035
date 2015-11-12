@@ -14,6 +14,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.crsms.interceptor.ModulesResourceInterceptor;
  
 @Configuration
 @EnableTransactionManagement
@@ -61,6 +63,7 @@ public class HibernateConfig {
     public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
        transactionManager.setSessionFactory(sessionFactory);
+       transactionManager.setEntityInterceptor(new ModulesResourceInterceptor());
        return transactionManager;
     }
 }

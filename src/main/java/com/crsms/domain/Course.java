@@ -43,7 +43,7 @@ public class Course {
 	public static final String GET_BY_NAME = "course.getCourseByName";
 	
 	public static final int MAX_NAME_LENGTH = 255;
-	public static final int MAX_DESCTIPTION_LENGTH = 1024;
+	public static final int MAX_DESCTIPTION_LENGTH = 1024;//TODO:delete
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")

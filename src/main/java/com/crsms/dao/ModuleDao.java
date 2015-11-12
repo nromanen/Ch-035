@@ -28,4 +28,6 @@ public interface ModuleDao {
 	
 	boolean hasTestResults(Long moduleId);
 	
+	//public void freeResources();
+	
 }

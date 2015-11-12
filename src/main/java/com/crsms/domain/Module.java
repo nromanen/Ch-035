@@ -33,7 +33,7 @@ public class Module {
 	public static final String DELETE_BY_ID = "Module.deleteById";
 	
 	public static final int MAX_NAME_LENGTH = 50;
-	public static final int MAX_DESCTIPTION_LENGTH = 1000;
+	public static final int MAX_DESCTIPTION_LENGTH = 1000;//TODO:delete
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
