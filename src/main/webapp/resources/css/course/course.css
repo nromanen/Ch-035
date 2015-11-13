@@ -1,3 +1,5 @@
+
+/*courses view*/
 th {
 	text-align: center;
 }
@@ -37,11 +39,20 @@ th {
 .course-add .fa {
 	font-size: 50px;
 }
+
+/*course view*/
 #course-wrapper .course-title {
 	text-align: center;
 }
 #course-wrapper .course-desc {
 	font-size: 15px;
+	max-width: 800px;
+    margin: 0 auto;
+    padding: 0 30px;
+    text-align: justify;
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: #ccc;
 }
 #main-container.course-container {
 	padding-top: 0;

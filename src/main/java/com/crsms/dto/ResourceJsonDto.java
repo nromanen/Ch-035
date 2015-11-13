@@ -3,7 +3,7 @@ package com.crsms.dto;
 import com.crsms.domain.Resource;
 import com.googlecode.jmapper.annotations.JMap;
 
-public class ResourceDto {
+public class ResourceJsonDto {
 
 	@JMap
 	private Long id;
