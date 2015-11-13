@@ -44,4 +44,29 @@
         <sqlFile path="liquibase/fixSequence.sql"/>
     </changeSet>
     
+    <changeSet author="stefankiv" id="1446992667519-100">
+		<addColumn tableName="course">
+			<column name="owner_id" type="BIGINT"/>
+ 		</addColumn>
+    </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-101">
+        <addForeignKeyConstraint 
+        	baseColumnNames="owner_id"
+        	baseTableName="course"
+        	constraintName="fk_course_owner"
+        	deferrable="false"
+        	initiallyDeferred="false"
+        	onDelete="NO ACTION"
+        	onUpdate="NO ACTION"
+        	referencedColumnNames="id"
+        	referencedTableName="users"/>
+    </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-102">
+	    <sql>
+	    	UPDATE course SET owner_id='3'
+	    </sql>
+	</changeSet>
+    
 </databaseChangeLog>

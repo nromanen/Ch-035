@@ -15,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,6 +29,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 
  * @author Valerii Motresku
  * @author maftey
+ * @author St. Roman
  *
  */
 
@@ -63,12 +62,7 @@ public class Course {
 	
 	@Column(nullable = false)
 	private String description;
-	
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@PrimaryKeyJoinColumn 
-//	@Cascade({CascadeType.ALL})
-//	private User owner;
-//	
+		
 //	@Column(nullable = false)
 //	private CourseLanguage language = CourseLanguage.EN;
 	
@@ -94,6 +88,9 @@ public class Course {
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> users = new HashSet<User>();
+	
+	@ManyToOne
+	private User owner;
 	
 	public Course() { }
 
@@ -211,6 +208,14 @@ public class Course {
 
 	public void setDisable(Boolean disable) {
 		this.disable = disable;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 	
 }
