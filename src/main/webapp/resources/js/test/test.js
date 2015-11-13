@@ -5,17 +5,18 @@ $(document).ready(function (e){
 		var testId = $('#modal-form-submit').val();
 
 		$.ajax({
-			url : document.URL + testId +'/questions/add/json',
+			url : document.URL + testId +'/questions/add/question-form',
 			dataType: 'json',
 			data : form.serialize(),
 			type : "POST",
 			
 			complete: function() {
+				//Hide add question modal after form submitting.
 				$("#my-modal").modal('hide');
-				$("#hover-" + testId).click();
+				
+				//Clear text area after add question form closing.
 				$(".clear-textarea").val("");
-				
-				
+					
 			} ,
 			success : function(question) {
 				var questionHtml =
@@ -44,12 +45,24 @@ $(document).ready(function (e){
 		});
 	}
 	
+	//Get Test id from inner JSP for-each loop.
 	$(".question-add").click(function (e){
 		 $('#modal-form-submit').val($(this).attr("value"));
 	});
 	
+	//Send ajax request when form submitted.
 	$("#modal-form-submit").click(function (e){
 		doAjaxPost();
+	});
+	
+	//Only one Test div can be shown in the moment.
+	$('div.full-div').click(function(e){
+		$('.collapse-off').collapse('hide');
+	});
+	
+	//"Close" button hide collapse area.
+	$('.close-div-button').click(function(e){
+		$('.collapse-off').collapse('hide');
 	});
 	
 })

@@ -1,6 +1,7 @@
 package com.crsms.controller;
 
 import com.crsms.domain.Question;
+import com.crsms.domain.Test;
 import com.crsms.service.QuestionService;
 import com.crsms.validator.QuestionFormValidator;
 
@@ -64,7 +65,7 @@ public class QuestionController {
         return redirect(courseId, moduleId, testId);
     }
     
-    @RequestMapping(value = "/add/json")
+    @RequestMapping(value = "/add/question-form")
     public @ResponseBody Question addQuestionJson(@PathVariable Long courseId, @PathVariable Long moduleId,
                               @PathVariable Long testId, @Validated Question question, BindingResult result) {
         if (!result.hasErrors()) {
@@ -75,8 +76,6 @@ public class QuestionController {
         return question;
     }
     
-    
-
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editQuestion(@PathVariable("id") Long id, Model model) {
         Question tempQuestion = questionService.getQuestionById(id);

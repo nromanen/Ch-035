@@ -2,8 +2,13 @@ th, .managementCell {
 	text-align: center;
 }
 
-div .greenQuote {
-	border-left: 4px solid #5cb85c !important;
+div .orangeQuote {
+	border-left: 4px solid #ff8000!important;
+}
+
+.full-div {
+	width: 100%;
+	font-weight: bold;	
 }
 
 .hover-div:hover {
@@ -17,7 +22,7 @@ p, .panelHeaderText {
 
 .nonUnderlineEdit {
 	text-decoration: none;
-	color: #5cb85c;
+	color: #337AB7;
 }
 
 .nonUnderlineDelete {
@@ -27,15 +32,24 @@ p, .panelHeaderText {
 
 .nonUnderlineEdit:hover {
 	text-decoration: none;
-	color: green;
+	color: #286090;
 }
 
 .nonUnderlineDelete:hover {
 	text-decoration: none;
-	color: red;
+	color: #ac2925;
 }
 
 .checkbox-inline {
     font-size: 14px;
-	color: green;
+	color: #337ab7;
+}
+
+.align-center {
+	text-align: center;
+	color: #F9AC50;
+}
+
+.form-horizontal .checkbox-inline {
+	margin-top: -5px;
 }
