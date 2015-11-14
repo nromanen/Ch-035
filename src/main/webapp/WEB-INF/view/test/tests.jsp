@@ -64,8 +64,12 @@
 						</a>
 
 						<c:url var="deleteTest" value="${test.id}/delete" />
-						<a href="${deleteTest}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.delete" />" value="${test.id}"> 
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>	
+						<a href="${deleteTest}"
+							class="btn btn-danger btn-sm"
+							data-toggle="tooltip"
+							title="<spring:message code="crsms.button.delete" />"
+							value="${test.id}"> <span class="glyphicon glyphicon-remove"
+							aria-hidden="true"></span>	
 						</a>
 					</div>
 				</td>
@@ -82,7 +86,6 @@
 <c:url var="createTest" value="add" />
 <a class="btn btn-primary" href="${createTest}"><spring:message code="crsms.tests.create.new" /></a>
 
-
 <!-- Modal -->
 <div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
@@ -93,9 +96,8 @@
 			</div>
 			<div class="modal-body">
 			
-				<form:form modelAttribute="question" method="POST" class="form-horizontal" id="modalForm">
+				<form:form modelAttribute="question" method="POST" class="form-horizontal" id="modal-form">
 					<form:input path="id" id ="id" type="hidden" />
-				  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				  
 				  	<c:set var="questionWord">
 				      <spring:message code="crsms.question.word" />
@@ -115,8 +117,8 @@
 					    </div>		    
 					  </div>
 					  
-					  <!--  -->
-	<%-- 				  <c:forEach var="answer" items = "${question.answers}" varStatus = "answerStatus">
+					<%-- 
+					<c:forEach var="answer" items = "${question.answers}" varStatus = "answerStatus">
 					  <div class="form-group">
 					  	<label for="answer.text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#${answerStatus.index}:</label>
 					    <div class="col-sm-10">
@@ -127,15 +129,9 @@
 						   </div>			      
 					    </div>
 					  </div>
-					  	
 					  </c:forEach>
-					   --%>
-					  <!--  -->
-					  
-					  
-					  
-					  
-					  
+					  --%>
+					 
 					  	<br>
 					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#1:</label>
@@ -143,8 +139,9 @@
 					      <form:textarea path="text" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div class="checkbox-inline">
-						      <input type="checkbox" name="answer1" value="yes"> <spring:message code="crsms.tests.correct.answer" />
-						  </div>	      
+						      <input type="checkbox"> <spring:message code="crsms.tests.correct.answer" />
+						      <!-- <input type="checkbox" name="answer1" value="yes"> <spring:message code="crsms.tests.correct.answer" /> -->
+						  </div>
 					    </div>
 					  </div>
 					  
@@ -179,7 +176,7 @@
 						      <input type="checkbox"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>			      
 					    </div>
-					  </div> 
+					  </div>  
 					
 					  <div class="form-group">
 					    <div class="col-sm-offset-2 col-sm-10">

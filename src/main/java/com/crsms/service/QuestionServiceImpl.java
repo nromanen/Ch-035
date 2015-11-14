@@ -15,6 +15,7 @@ import java.util.List;
  * @author Andriets Petro
  */
 
+
 @Transactional
 @Service("questionService")
 public class QuestionServiceImpl implements QuestionService{

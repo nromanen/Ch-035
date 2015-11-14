@@ -1,7 +1,7 @@
 $(document).ready(function (e){
 	
 	function doAjaxPost() {
-		var form = $('#modalForm');
+		var form = $('#modal-form');
 		var testId = $('#modal-form-submit').val();
 
 		$.ajax({
@@ -35,8 +35,7 @@ $(document).ready(function (e){
 					'</div>';
 				
 				$("#questions-" + testId).append(questionHtml);
-				
-								
+		
 			},
 
 			error : function(xhr, ajaxOptions, thrownError) {
@@ -44,6 +43,16 @@ $(document).ready(function (e){
 			}
 		});
 	}
+	
+	//Only one Test div can be shown in the moment.
+	$('div.full-div').click(function(e){
+		$('.collapse-off').collapse('hide');
+	});
+	
+	//"Close" button. Hide collapse area.
+	$('.close-div-button').click(function(e){
+		$('.collapse-off').collapse('hide');
+	});
 	
 	//Get Test id from inner JSP for-each loop.
 	$(".question-add").click(function (e){
@@ -53,16 +62,6 @@ $(document).ready(function (e){
 	//Send ajax request when form submitted.
 	$("#modal-form-submit").click(function (e){
 		doAjaxPost();
-	});
-	
-	//Only one Test div can be shown in the moment.
-	$('div.full-div').click(function(e){
-		$('.collapse-off').collapse('hide');
-	});
-	
-	//"Close" button hide collapse area.
-	$('.close-div-button').click(function(e){
-		$('.collapse-off').collapse('hide');
 	});
 	
 })

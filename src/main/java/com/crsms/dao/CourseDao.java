@@ -13,7 +13,7 @@ import com.crsms.domain.Course;
 
 public interface CourseDao {
 	
-	void saveCourse(Course course);
+	void save(Course course);
 	
 	List<Course> getAll();
 	
@@ -22,16 +22,21 @@ public interface CourseDao {
 	/**
 	 * @return a Course instance or null
 	 */
-	Course getCourseById(Long id);
+	Course getById(Long id);
 
-	void updateCourse(Course course);
+	void update(Course course);
 	
-	Course getCourse(String name);
+	Course get(String name);
 	
-	void deleteCourse(Course course);
+	void delete(Course course);
 	
 	List<Course> getAllByAreaId(Long areaId);
 	
+	List<Course> getAllByUserId(Long userId);
+
+	List<Course> getAllByUserEmail(String email);
+
 	boolean hasSubscribedUsers(Long courseId);
+	
 	boolean hasTestResults(Long courseId);
 }

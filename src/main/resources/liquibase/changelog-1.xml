@@ -5,8 +5,8 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext 
 						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
 						http://www.liquibase.org/xml/ns/dbchangelog 
-						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
->
+						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+						
 	<changeSet author="maftey" id="1446992667519-93">
         <sqlFile path="liquibase/populateDB1.sql"/>
     </changeSet>
@@ -20,6 +20,28 @@
         <addColumn tableName="module" >
         	<column name="disable" type="boolean" defaultValue="FALSE" />
     	</addColumn>
+    </changeSet>
+
+    <changeSet author="maftey" id="1446992667519-96">
+	    <modifyDataType 
+	            columnName="name"
+	            newDataType="character varying(255)"
+	            tableName="module"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-97">
+	    <modifyDataType 
+	            columnName="description"
+	            newDataType="text"
+	            tableName="module"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-98">
+        <sqlFile path="liquibase/populateDB2.sql"/>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-99">
+        <sqlFile path="liquibase/fixSequence.sql"/>
     </changeSet>
     
 </databaseChangeLog>

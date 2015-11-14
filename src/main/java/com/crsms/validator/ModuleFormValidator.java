@@ -9,7 +9,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.crsms.domain.Module;
-import com.crsms.dto.ModuleForm;
+import com.crsms.dto.ModuleFormDto;
 import com.crsms.service.CourseService;
 
 @Component
@@ -20,7 +20,7 @@ public class ModuleFormValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return ModuleForm.class.equals(clazz);
+		return ModuleFormDto.class.equals(clazz);
 	}
 
 	@Override
@@ -30,14 +30,14 @@ public class ModuleFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description",
 													"crsms.error.description.required");
 		
-		ModuleForm moduleFormDto = (ModuleForm) target;
+		ModuleFormDto moduleFormDto = (ModuleFormDto) target;
 		
 		Long moduleId = moduleFormDto.getId();
 		Long courseId = moduleFormDto.getCourseId();
 		
 		String name = moduleFormDto.getName();
 		
-		Set<Module> modules = courseService.getCourseById(courseId).getModules();
+		Set<Module> modules = courseService.getById(courseId).getModules();
 		
 		for (Module module : modules) {
 			//second condition allows you to edit other fields without "name already exists" error
@@ -51,14 +51,6 @@ public class ModuleFormValidator implements Validator {
 			errors.rejectValue("name", "crsms.error.too.long", 
 								new Object[]{Module.MAX_NAME_LENGTH},
 								"name is too long");
-		}
-		
-		String description = moduleFormDto.getDescription();
-		
-		if (description.length() > Module.MAX_DESCTIPTION_LENGTH) {
-			errors.rejectValue("description", "crsms.error.too.long", 
-								new Object[]{Module.MAX_DESCTIPTION_LENGTH},
-								"description is too long");
 		}
 	}
 }

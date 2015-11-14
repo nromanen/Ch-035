@@ -1,13 +1,30 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<div>
-	<a class="course-add" href="add" >
-		<i class="fa fa-plus-square-o" data-toggle="tooltip" 
-			title="<spring:message code = "crsms.courses.button.create_new_course" />"></i>
-	</a>
-</div>
+<sec:authorize access="isAuthenticated()">
+	<div id = "navigation" class = "pull-left">
+		<ul class="nav nav-pills nav-stacked">
+		  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
+			  <a href="?show=all"><spring:message code = "crsms.courses.text.all" /></a>
+		  </li>
+		  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }">
+		  	<a href="?show=my"><spring:message code = "crsms.courses.text.my" /></a>
+		  </li>
+		</ul>
+	</div>
+</sec:authorize>
+
+<sec:authorize access="isAuthenticated() and !hasAnyRole('STUDENT')">
+	<div>
+		<a class="course-add" href="add" >
+			<i class="fa fa-plus-square-o" data-toggle="tooltip" 
+				title="<spring:message code = "crsms.courses.button.create_new_course" />"></i>
+		</a>
+	</div>
+</sec:authorize>
+
 <div class="container">
 <c:forEach var="course" items="${courses}">
 	<div class="course-grid col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -22,14 +39,27 @@
 			<div class="course-info">
 				<h3 class="course-title"><a href="${course.id}">${course.name}</a></h3>
 				<p class="course-desc">${course.description}</p>
-				<div class="course-date">
-					<b><spring:message code="crsms.courses.text.startDate" /></b>: ${course.startDate.dayOfMonth}.${course.startDate.monthOfYear}.${course.startDate.year}
-				</div>
+			</div>
+			<div class="course-date">
+					<b><spring:message code="crsms.courses.text.startDate" /></b>: <joda:format value="${course.startDate}" pattern="dd.MM.yyyy"/>
 			</div>			
 			<div class="course-control">
-				<div class="text-left course-enroll pull-left">
-					<button class="btn btn-default"><strong><spring:message code="crsms.courses.button.enroll" /></strong></button>
-				</div>
+				<sec:authorize access="hasAnyRole('STUDENT')">
+					<div class="text-left course-enroll pull-left">
+						<c:choose>
+							<c:when test="${userCoursesId.contains(course.id)}">
+								<a href = "${course.id}/leave" class="btn btn-default " >
+									<strong><spring:message code="crsms.courses.button.leave" /></strong>
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a href = "${course.id}/enroll" class="btn btn-default ${!course.open ? 'disabled' : ''}">
+									<strong><spring:message code="crsms.courses.button.enroll" /></strong>
+								</a>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</sec:authorize>
 				<div class="text-right course-detailed">
 					<a href="${course.id}" class="btn btn-default"><strong><spring:message code="crsms.button.detailed" /></strong></a>
 				</div>

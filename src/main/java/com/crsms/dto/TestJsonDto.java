@@ -2,11 +2,9 @@ package com.crsms.dto;
 
 import com.googlecode.jmapper.annotations.JMap;
 
-import java.io.Serializable;
+public class TestJsonDto {
 
-public class TestDto implements Serializable{
-
-	public  TestDto() {}
+	public  TestJsonDto() {}
 
 	@JMap
     private Long id;
