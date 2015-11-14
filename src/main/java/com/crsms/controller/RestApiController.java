@@ -16,19 +16,19 @@ import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.Resource;
 import com.crsms.domain.Test;
-import com.crsms.dto.VacationJson;
 import com.crsms.dto.AreaJsonDto;
 import com.crsms.dto.CourseJsonDto;
 import com.crsms.dto.ModuleJsonDto;
 import com.crsms.dto.ResourceJsonDto;
 import com.crsms.dto.TestJsonDto;
+import com.crsms.dto.VacancyJsonDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
 import com.crsms.service.ModuleService;
 import com.crsms.service.ResourceService;
 import com.crsms.service.TestService;
-import com.crsms.service.VacationService;
+import com.crsms.service.VacancyService;
 
 /**
  * 
@@ -60,7 +60,7 @@ public class RestApiController {
 	DtoService dtoService;
 	
 	@Autowired
-  VacationService vacationService;
+  VacancyService vacancyService;
 	
 	@RequestMapping(value = {"/areas"}, method = RequestMethod.GET, produces = "application/json")
 	public List<AreaJsonDto> getAreas(HttpServletResponse response) {
@@ -124,8 +124,8 @@ public class RestApiController {
 		return dtoService.convert(resourceService.getById(resourceId), ResourceJsonDto.class, Resource.class);
 	}
 	
-	@RequestMapping(value = {"/vacations"}, method = RequestMethod.GET, produces = "application/json")
-	public List<VacationJson> getVacatinos() {
-	  return vacationService.getAllVacations();
+	@RequestMapping(value = {"/vacancies"}, method = RequestMethod.GET, produces = "application/json")
+	public List<VacancyJsonDto> getVacatinos() {
+	  return vacancyService.getAllVacancies();
 	}
 }

@@ -2,7 +2,7 @@ package com.crsms.dto;
 
 import com.googlecode.jmapper.annotations.JMap;
 
-public class VacationJson {
+public class VacancyJsonDto {
   @JMap
   private Long id;
   
