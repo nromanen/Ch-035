@@ -64,12 +64,9 @@
 						</a>
 
 						<c:url var="deleteTest" value="${test.id}/delete" />
-						<a href="${deleteTest}"
-							class="btn btn-danger btn-sm"
-							data-toggle="tooltip"
-							title="<spring:message code="crsms.button.delete" />"
-							value="${test.id}"> <span class="glyphicon glyphicon-remove"
-							aria-hidden="true"></span>	
+						<a href="${deleteTest}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.delete" />"
+							value="${test.id}"> 
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>	
 						</a>
 					</div>
 				</td>
