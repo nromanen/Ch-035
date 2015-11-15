@@ -211,4 +211,18 @@ public class CourseDaoImpl implements CourseDao {
 		}
 	}
 
+  @SuppressWarnings("unchecked")
+	@Override
+  public List<Course> searchCourses(String searchWord) {
+    try {
+      return (List<Course>) sessionFactory.getCurrentSession()
+                        .createQuery("SELECT c FROM Course c WHERE c.name LIKE :s OR "
+                        + "c.description LIKE :s ORDER BY c.name, c.description")
+                        .setParameter("s", "%" + searchWord + "%").list();
+    } catch (HibernateException e) {
+      logger.error("Error searchCourses: " + e);
+    }
+    return null;
+  }
+
 }

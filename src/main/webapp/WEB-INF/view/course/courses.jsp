@@ -1,7 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<div align="center">
+	<form class="navbar-form navbar" role="search" action="search" method="GET">
+		<input type="text" class="form-control" name="searchWord" >
+	    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+	    <strong><spring:message code = "crsms.button.search" /></strong></button>
+	</form>
+</div>
 
 <sec:authorize access="isAuthenticated()">
 	<div id = "navigation" class = "pull-left">
