@@ -22,7 +22,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -30,7 +29,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Valerii Motresku
  * @author maftey
  * @author St. Roman
- *
+ * 
  */
 
 @Entity
@@ -70,8 +69,9 @@ public class Course {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private DateTime startDate;
 	
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
-	private Duration duration;
+	@Column(nullable = false)
+	@NotNull
+	private Integer duration;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Module> modules;
@@ -121,23 +121,19 @@ public class Course {
 	public void setStartDate(DateTime startDate) {
 		this.startDate = startDate;
 	}
-
-	public Duration getDuration() {
+	
+	/**
+	 * @return duration in days
+	 */
+	public Integer getDuration() {
 		return duration;
 	}
-
-	public void setDuration(Duration duration) {
+	
+	/**
+	 * @param duration duration in days
+	 */
+	public void setDuration(Integer duration) {
 		this.duration = duration;
-	}
-	
-	public int getWeekDuration() {
-		if (duration != null)
-			return duration.toStandardDays().getDays() / 7;
-		return 0;
-	}
-	
-	public void setWeekDuration(int weeks) {
-		this.duration = new Duration(weeks * 7L * 24L * 60L * 60L * 1000L);
 	}
 
 	public Set<Module> getModules() {

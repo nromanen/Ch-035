@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,11 +21,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.crsms.domain.Area;
 import com.crsms.domain.Course;
+import com.crsms.dto.CourseFormDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
+import com.crsms.service.DtoService;
 import com.crsms.service.UserService;
 import com.crsms.util.StringUtil;
-import com.crsms.validator.CourseValidator;
+import com.crsms.validator.CourseFormValidator;
 
 /**
  * 
@@ -42,20 +45,23 @@ public class CourseController {
 	
 	private StringUtil stringUtil = new StringUtil();
 	
+	@Autowired
+	private AreaService areaService;
+	
 	//TODO: only for teacher
 	@Autowired
 	private CourseService courseService;
 	
 	@Autowired
-	private AreaService areaService;
+	private DtoService dtoService;
 	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
-	private CourseValidator validator;
+	private CourseFormValidator validator;
 	
-	@InitBinder(value="course")
+	@InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(validator);
     }
@@ -106,83 +112,116 @@ public class CourseController {
 		ModelAndView model = new ModelAndView();
 		Course course = courseService.getById(courseId);
 		model.addObject("course", course);
-		model.addObject("courseEndDate", course.getStartDate().plus(course.getDuration()));
+		model.addObject("courseEndDate", course.getStartDate().plusDays(course.getDuration()));
 		model.addObject("pageTitle", course.getName());
 		model.addObject("headerTitle", course.getName());
 		model.setViewName("course");
 		return model;
 	}
 	
-	//TODO: only for teacher
-	@RequestMapping(value = "/{courseId}/delete", method = RequestMethod.GET)
-	public String deleteCourse(@PathVariable("courseId") Long courseId) {
-		Course course = courseService.getById(courseId);
-		//TODO: check permissions
-		courseService.deleteCourse(course);
-		
-		return "redirect:/courses/";
-
-	}
-	
-	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.GET)
-	public ModelAndView editCourse(@PathVariable("courseId") Long courseId) {
-		ModelAndView model = new ModelAndView();
-	
-		Course course = courseService.getById(courseId); 
-		List<Area> areas = areaService.getAllAreas();
-		model.addObject("course", course);
-		model.addObject("areas", areas);
-		model.setViewName("editFormCourse");
-		return model;
-	}
-	
-	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.POST)
-	public ModelAndView editCourseSubmit(
-			@RequestParam("weekDuration") Integer sweekDuration,
-			@RequestParam("areaId") Long areaId, @Validated Course course, 
-			BindingResult result) {
-		ModelAndView model = new ModelAndView();
-		
-		if (result.hasErrors()) {
-			List<Area> areas = areaService.getAllAreas();
-			model.addObject("course", course);
-			model.addObject("areas", areas);
-			model.setViewName("editFormCourse");
-			return model;
-		}
-		courseService.update(course, areaId, sweekDuration);
-		model.setViewName("redirect:/courses/");
-		return model;
-	}
-	
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView newCourse() {
-		List<Area> areas = areaService.getAllAreas();
-		
 		ModelAndView model = new ModelAndView();
 		
-		model.addObject("course", new Course());
+		Course course = new Course();
+		CourseFormDto courseFormDto = dtoService.convert(course, CourseFormDto.class, Course.class);
+		String ownerEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+		courseFormDto.setOwnerEmail(ownerEmail);
+		
+		List<Area> areas = areaService.getAllAreas();
+		
+		model.addObject("courseFormDto", courseFormDto);
 		model.addObject("areas", areas);
 		model.setViewName("newFormCourse");
 		return model;
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView newCourseSubmit(
-			@RequestParam("weekDuration") Integer sweekDuration, 
-			@RequestParam("areaId") Long areaId, @Validated Course course, 
-			BindingResult result) {
-		
+						@RequestParam("areaId") Long areaId,
+						@Validated CourseFormDto courseFormDto, BindingResult result) {
+	
 		ModelAndView model = new ModelAndView();
+		
 		if (result.hasErrors()) {
 			List<Area> areas = areaService.getAllAreas();
-			model.addObject("course", course);
 			model.addObject("areas", areas);
 			model.setViewName("newFormCourse");
 			return model;
 		}
-		courseService.save(course, areaId, sweekDuration);
+		
+		Course course = dtoService.convert(courseFormDto, Course.class, CourseFormDto.class);
+		String ownerEmail = courseFormDto.getOwnerEmail();
+		courseService.save(course, areaId, ownerEmail);
 		model.setViewName("redirect:/courses/");
+		return model;
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
+	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.GET)
+	public ModelAndView editCourse(@PathVariable("courseId") Long courseId) {
+		ModelAndView model = new ModelAndView();
+	
+		Course course = courseService.getById(courseId); 
+		
+		if (!isCurrentPrincipalAnOwner(course)) {
+			model.setViewName("403");
+			return model;
+		}
+		
+		String ownerEmail = course.getOwner().getEmail();
+		CourseFormDto courseFormDto = dtoService.convert(course, CourseFormDto.class, Course.class);
+		courseFormDto.setOwnerEmail(ownerEmail);
+		
+		List<Area> areas = areaService.getAllAreas();
+		
+		model.addObject("courseFormDto", courseFormDto);
+		model.addObject("areas", areas);
+		model.setViewName("editFormCourse");
+		return model;
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
+	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.POST)
+	public ModelAndView editCourseSubmit(
+						@RequestParam("areaId") Long areaId,
+						@Validated CourseFormDto courseFormDto, BindingResult result) {
+		
+		ModelAndView model = new ModelAndView();
+		
+		if (result.hasErrors()) {
+			List<Area> areas = areaService.getAllAreas();
+			model.addObject("areas", areas);
+			model.setViewName("editFormCourse");
+			return model;
+		}
+		
+		Course course = dtoService.convert(courseFormDto, Course.class, CourseFormDto.class);
+		String ownerEmail = courseFormDto.getOwnerEmail();
+		
+		courseService.update(course, areaId, ownerEmail);
+		model.setViewName("redirect:/courses/");
+		return model;
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
+	@RequestMapping(value = "/{courseId}/delete", method = RequestMethod.GET)
+	public ModelAndView deleteCourse(@PathVariable("courseId") Long courseId) {
+		ModelAndView model = new ModelAndView();
+		
+		Course course = courseService.getById(courseId);
+
+		if (!isCurrentPrincipalAnOwner(course)) {
+			model.setViewName("403");
+			return model;
+		}
+		
+		courseService.deleteCourse(course);
+		
+		model.setViewName("redirect:/courses/");
+		
 		return model;
 	}
 	
@@ -206,5 +245,11 @@ public class CourseController {
 			list.add(course.getId());
 		}
 		return list;
+	}
+	
+	private boolean isCurrentPrincipalAnOwner(Course course) {		
+		String currentPrincipalEmail = SecurityContextHolder.getContext()
+										.getAuthentication().getName();
+		return course.getOwner().getEmail().equals(currentPrincipalEmail);
 	}
 }

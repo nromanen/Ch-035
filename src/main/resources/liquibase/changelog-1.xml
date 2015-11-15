@@ -68,5 +68,11 @@
 	    	UPDATE course SET owner_id='3'
 	    </sql>
 	</changeSet>
+	
+	<changeSet author="stefankiv" id="1446992667519-103">
+	    <sql>
+	    	UPDATE course SET duration='90';
+	    </sql>
+	</changeSet>
     
 </databaseChangeLog>

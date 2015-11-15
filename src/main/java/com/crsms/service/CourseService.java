@@ -17,7 +17,7 @@ public interface CourseService {
 	
 	void save(Course course);
 	
-	void save(Course course, long areaId, int sweekDuration);
+	void save(Course course, long areaId, String ownerEmail);
 	
 	List<Course> getAll();
 	
@@ -27,7 +27,7 @@ public interface CourseService {
 
 	void update(Course course);
 	
-	void update(Course course, long areaId, int sweekDuration);
+	void update(Course course, long areaId, String ownerEmail);
 	
 	Course get(String name);
 	

@@ -26,13 +26,13 @@ public class CourseServiceImpl implements CourseService {
     private CourseDao courseDao;
 	
 	@Autowired
-	private UserDao userDao;
-	
-	@Autowired
 	private AreaService areaService;
-	
+
 	@Autowired
 	private ModuleService moduleService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Override
 	public void save(Course course) {
@@ -41,11 +41,10 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public void save(Course course, long areaId, int sweekDuration) {
-		course.setWeekDuration(sweekDuration);
+	public void save(Course course, long areaId, String ownerEmail) {
+		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getAreaById(areaId));
 		courseDao.save(course);
-
 	}
 
 	@Override
@@ -70,8 +69,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public void update(Course course, long areaId, int sweekDuration) {
-		course.setWeekDuration(sweekDuration);
+	public void update(Course course, long areaId, String ownerEmail) {
+		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getAreaById(areaId));
 		courseDao.update(course);
 
@@ -104,7 +103,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void subscribe(Long courseId, String email) {
 		Course course = courseDao.getById(courseId);
-		User user = userDao.getUserByEmail(email);
+		User user = userService.getUserByEmail(email);
 		course.addUser(user);
 		courseDao.update(course);
 	}
@@ -112,7 +111,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void unsubscribe(Long courseId, String email) {
 		Course course = courseDao.getById(courseId);
-		User user = userDao.getUserByEmail(email);
+		User user = userService.getUserByEmail(email);
 		course.deleteUser(user);
 		courseDao.update(course);
 	}
