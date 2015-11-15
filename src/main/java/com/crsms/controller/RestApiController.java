@@ -125,7 +125,7 @@ public class RestApiController {
 	}
 	
 	@RequestMapping(value = {"/vacancies"}, method = RequestMethod.GET, produces = "application/json")
-	public List<VacancyJsonDto> getVacatinos() {
+	public List<VacancyJsonDto> getVacancies() {
 	  return vacancyService.getAllVacancies();
 	}
 }
