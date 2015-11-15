@@ -16,6 +16,7 @@ import java.util.List;
  * @author Petro Andriets
  */
 
+@Transactional
 @Service("testService")
 public class TestServiceImpl implements TestService {
     private static Logger logger = LogManager.getLogger(TestServiceImpl.class);
@@ -29,7 +30,6 @@ public class TestServiceImpl implements TestService {
     public TestServiceImpl() {}
 
     @Override
-    @Transactional
     public void createTest(Long moduleId, Test test) {
     	logger.info("TestService. Creating a new test.");
     	Module module = moduleService.getById(moduleId);
@@ -39,7 +39,6 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    @Transactional
     public Test getTestById(Long id) {
     	logger.info("TestService. Reading test by ID: " + id + ".");
     	Test test = testDao.getTestById(id);
@@ -48,7 +47,6 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    @Transactional
     public List<Test> getAllTests() {
     	logger.info("TestService. Reading all tests.");
     	List<Test> testList = testDao.getAllTests();
@@ -57,14 +55,12 @@ public class TestServiceImpl implements TestService {
     }
     
     @Override
-    @Transactional
     public List<Test> getAllByModuleId(Long id) {
     	logger.info("TestService. Reading all tests by Module ID.");
     	return testDao.getAllByModuleId(id);
     }
 
     @Override
-    @Transactional
     public void editTest(Test test) {
     	logger.info("TestService. Editing test.");
     	Test existingTest = testDao.getTestById(test.getId());
@@ -75,7 +71,6 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    @Transactional
     public void disableTestById(Long id) {
     	logger.info("TestService. Deleting test by ID: " + id + ".");
     	testDao.disableTestById(id);

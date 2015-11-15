@@ -32,8 +32,8 @@ public class Module {
 	public static final String GET_ALL = "Module.getAll";
 	public static final String GET_ALL_BY_COURSE_ID = "Module.getAllByCourseId";
 	public static final String DELETE_BY_ID = "Module.deleteById";
-	
 	public static final int MAX_NAME_LENGTH = 255;
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
