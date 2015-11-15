@@ -76,9 +76,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     @Transactional
-    public void deleteTestById(Long id) {
+    public void disableTestById(Long id) {
     	logger.info("TestService. Deleting test by ID: " + id + ".");
-    	testDao.deleteTestById(id);
+    	testDao.disableTestById(id);
     	logger.info("TestService. Deleting test by ID: " + id + " successfully.");
     }
 

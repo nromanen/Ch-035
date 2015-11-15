@@ -1,6 +1,5 @@
 package com.crsms.dao;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,55 +168,32 @@ public class CourseDaoImpl implements CourseDao {
 	}
 
 	@Override
-	public boolean hasSubscribedUsers(Long courseId) {
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(
-			"SELECT COUNT(*) as count FROM course_users WHERE courses_id = :courses_id LIMIT 1"
-		).setParameter("courses_id", courseId);
-		long count = ((BigInteger) query.uniqueResult()).longValue();
-		if (count > 0) {
-			return true;
-		} else {
-			return false;
-		}
-		
-	}
-
-	@Override
-	public boolean hasTestResults(Long courseId) {
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(
-			"SELECT COUNT(*) FROM test_result "
-			+ "JOIN test ON test.id = test_result.test_id "
-			+ "JOIN module_test ON test.id = module_test.tests_id "
-			+ "JOIN module ON module.id = module_test.module_id "
-			+ "JOIN course_module ON module.id = course_module.modules_id "
-			//+ "JOIN course ON course.id = course_module.course_id "
-			+ "WHERE course_module.course_id = :course_id LIMIT 1"
-		).setParameter("course_id", courseId);
-		
-		/*
-		Query query = sessionFactory.getCurrentSession().createQuery(
-			"SELECT COUNT(*) FROM TestResult test_result, Course course"
-			+ "JOIN course.modules modules "
-			+ "JOIN modules.tests test "
-			+ "JOIN module"
-			+ "WHERE test_result.test.id = test.id course.id = :courses_id LIMIT 1"
-		).setParameter("courses_id", 2); 
-		*/
-		long count = ((BigInteger) query.uniqueResult()).longValue();
-		if (count > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
 	public void disable(Course course) {
 		course.setDisable(true);
-		this.updateCourse(course);
-		//TODO: disable all child
+		this.update(course);
+		try {//TODO: this is piece of shit, maybe rewrite?
+			String hqlDelModule = ""
+					+ "UPDATE Module module SET module.disable=true WHERE module IN "
+					+ "(SELECT moduleList "
+					+ "FROM Course course "
+					+ "JOIN course.modules moduleList "
+					+ "WHERE course.id = :id)";
+			
+			String hqlDelTest = "UPDATE Test test SET test.disable=true WHERE test IN "
+					+ "(SELECT testList "
+					+ "FROM Course course "
+					+ "JOIN course.modules moduleList "
+					+ "JOIN moduleList.tests testList "
+					+ "WHERE course.id = :id)";
+			
+			sessionFactory.getCurrentSession().createQuery(hqlDelModule)
+				.setParameter("id", course.getId()).executeUpdate();
+			sessionFactory.getCurrentSession().createQuery(hqlDelTest)
+				.setParameter("id", course.getId()).executeUpdate();
+		} catch (Exception e) {
+			logger.error("Error in disable courses: " + e);
+		}
+		
 	}
-	
-	
 
 }

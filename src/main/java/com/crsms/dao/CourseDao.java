@@ -26,9 +26,6 @@ public interface CourseDao {
 
 	void update(Course course);
 	
-
-	void disable(Course course);
-	
 	Course get(String name);
 	
 	void delete(Course course);
@@ -38,8 +35,7 @@ public interface CourseDao {
 	List<Course> getAllByUserId(Long userId);
 
 	List<Course> getAllByUserEmail(String email);
-
-	boolean hasSubscribedUsers(Long courseId);
 	
-	boolean hasTestResults(Long courseId);
+	void disable(Course course);
+
 }
