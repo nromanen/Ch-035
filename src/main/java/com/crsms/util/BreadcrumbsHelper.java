@@ -10,6 +10,7 @@ public class BreadcrumbsHelper {
 	public static final String RESOURCES = "crsms.bc.resources";
 	public static final String ADD = "crsms.bc.add";
 	public static final String EDIT = "crsms.bc.edit";
+	public static final String DELETE = "crsms.bc.delete";
 	public static final String SIGNIN = "crsms.bc.signin";
 	public static final String SIGNUP = "crsms.bc.signup";
 	public static final String ADMIN = "crsms.bc.admin";
@@ -27,6 +28,7 @@ public class BreadcrumbsHelper {
 			case "resources": return RESOURCES;
 			case "add": return ADD;
 			case "edit": return EDIT;
+			case "delete": return DELETE;
 			case "signin": return SIGNIN;
 			case "signUp": return SIGNUP;
 			case "admin": return ADMIN;
