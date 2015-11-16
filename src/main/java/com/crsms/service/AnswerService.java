@@ -17,7 +17,11 @@ public interface AnswerService {
     public List<Answer> getAnswersByQuestionId(Long questionId);
 
     public void editAnswer(Answer answer);
+    
+    public void disable(Long answerId);
+    
+    public void disable(Answer answer);
 
-    public void deleteAnswerById(Long id);
+    //public void deleteAnswerById(Long id);
 
 }

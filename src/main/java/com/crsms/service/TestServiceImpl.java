@@ -68,10 +68,18 @@ public class TestServiceImpl implements TestService {
     	logger.info("TestService. Editing test successfully.");
     }
 
+//    @Override
+//    public void deleteTestById(Long id) {
+//    	logger.info("TestService. Deleting test by ID: " + id + ".");
+//    	//testDao.deleteTestById(id);
+//    	this.disableTestById(id);
+//    	logger.info("TestService. Deleting test by ID: " + id + " successfully.");
+//    }
+    
     @Override
-    public void deleteTestById(Long id) {
+    public void disableTestById(Long id) {
     	logger.info("TestService. Deleting test by ID: " + id + ".");
-    	testDao.deleteTestById(id);
+    	testDao.disableTestById(id);
     	logger.info("TestService. Deleting test by ID: " + id + " successfully.");
     }
 

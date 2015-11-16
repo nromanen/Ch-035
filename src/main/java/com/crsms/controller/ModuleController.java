@@ -41,7 +41,7 @@ public class ModuleController {
 	private CourseService courseService;
 	
 	@Autowired
-	private DtoService dtoService;;
+	private DtoService dtoService;
 	
 	@Autowired
 	private ModuleFormValidator validator;
@@ -108,7 +108,7 @@ public class ModuleController {
 	
 	@RequestMapping(value = {"/{moduleId}/delete"}, method = RequestMethod.GET)
 	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId) {
-		moduleService.deleteById(courseId, moduleId);
+		moduleService.disable(moduleId);
 		return redirect(courseId);
 	}
 	

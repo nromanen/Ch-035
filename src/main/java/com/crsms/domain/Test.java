@@ -3,8 +3,6 @@ package com.crsms.domain;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,6 +34,9 @@ public class Test {
 
     @Column(nullable = false)
     private Boolean available = false;
+    
+    @Column(nullable = false)
+	private Boolean disable = false;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Question> questions;
@@ -77,5 +78,13 @@ public class Test {
     public void addQuestion(Question question) {
         this.questions.add(question);
     }
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
     
 }

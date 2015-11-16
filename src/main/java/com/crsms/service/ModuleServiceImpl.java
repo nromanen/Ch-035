@@ -14,6 +14,7 @@ import com.crsms.dao.ModuleDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.Resource;
+import com.crsms.domain.Test;
 import com.crsms.exception.ElementNotFoundException;
 
 /**
@@ -60,7 +61,7 @@ public class ModuleServiceImpl implements ModuleService {
 		logger.info("out moduleService update(Module)");
 	}
 
-	@Override
+	/*@Override
 	public void delete(Long courseId, Module module) {
 		logger.info("in moduleService delete(Module)");
 		if(moduleDao.hasTestResults(module.getId())){
@@ -68,9 +69,9 @@ public class ModuleServiceImpl implements ModuleService {
 			moduleDao.update(module);
 		} else {
 			
-			for(Resource resource : module.getResources()){
-				resourceService.delete(resource.getId(), module.getId());
-			}
+//			for(Resource resource : module.getResources()){
+//				resourceService.delete(resource.getId(), module.getId());
+//			}
 			//TODO: delete tests
 			Course course = courseDao.getById(courseId);//TODO: mybe to DAO
 			course.deleteModule(module);
@@ -78,7 +79,7 @@ public class ModuleServiceImpl implements ModuleService {
 		}
 		
 		logger.info("out moduleService delete(Module)");
-	}
+	}*/
 
 	@Override
 	public Module getById(Long id) {
@@ -116,7 +117,7 @@ public class ModuleServiceImpl implements ModuleService {
 		return modules;
 	}
 
-	@Override
+	/*@Override
 	public void deleteById(Long courseId, Long moduleId) {
 		logger.info("in moduleService deleteById()");
 		logger.info("checking module id");
@@ -130,11 +131,12 @@ public class ModuleServiceImpl implements ModuleService {
 		//moduleDao.deleteById(moduleId);
 		delete(courseId, module);
 		logger.info("out moduleService deleteById(module id)");
-	}
+	}*/
 	
 	@Override
 	public void addResource(Long moduleId, Resource resource) {
 		Module module = this.getById(moduleId);
+		resourceService.save(resource);
 		module.addResource(resource);
 		this.update(module);
 	}
@@ -153,8 +155,40 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public void removeResource(Long moduleId, Resource resource) {
 		Module module = moduleDao.getById(moduleId);
+		this.removeResource(module, resource);
+	}
+	
+	@Override
+	public void removeResource(Module module, Resource resource) {
 		module.removeResource(resource);
 		moduleDao.update(module);
+		//TODO:check for delete
+		//resourceService.delete(resource);
+	}
+
+	@Override
+	public void disable(Module module) {
+		moduleDao.disable(module);
+		//TODO:
+//		for(Test test : module.getTests()){
+//			testService.disable(test);
+//		}
+		
+	}
+
+	@Override
+	public void disable(Long moduleId) {
+		Module module = moduleDao.getById(moduleId);
+		this.disable(module);
+		
+	}
+
+	@Override
+	public void freeResource(Module module) {
+		for(Resource resource : module.getResources()) {
+			this.removeResource(module, resource);
+		}
+		
 	}
 
 }
