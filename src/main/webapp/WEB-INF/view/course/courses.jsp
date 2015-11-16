@@ -3,8 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<div align="center">
-	<form class="navbar-form navbar" role="search" action="search" method="GET">
+<div id="courses-nav" class="container text-right">
+	<form class="navbar-form navbar search" role="search" action="search" method="GET">
 		<input type="text" class="form-control" name="searchWord" >
 	    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
 	    <strong><spring:message code = "crsms.button.search" /></strong></button>
