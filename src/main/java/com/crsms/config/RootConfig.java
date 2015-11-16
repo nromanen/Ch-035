@@ -38,12 +38,13 @@ public class RootConfig extends WebMvcConfigurerAdapter {
 		BreadcrumbsInterceptor breadcrumbsInterceptor = new BreadcrumbsInterceptor();
 		
 		registry.addInterceptor(localeChangeInterceptor);
-		registry.addInterceptor(breadcrumbsInterceptor);
+		registry.addInterceptor(breadcrumbsInterceptor)
+				.excludePathPatterns("/courses/*/modules/*/tests/*/questions/add/question-form");
 	}
 	
-	// Jackson serialization mappers
 	/**
-     * 	
+	 * Jackson serialization mappers
+	 * 
 	 * Jackson2ObjectMapperFactoryBean allows not to register JodaModule explicitly 
 	 * Jackson2ObjectMapperFactoryBean uses Jackson2ObjectMapperBuilder which registers 
 	 * the module automatically if it's available on the classpath.
@@ -68,5 +69,5 @@ public class RootConfig extends WebMvcConfigurerAdapter {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(mappingJackson2HttpMessageConverter());
     }
-    // End Jackson
+
 }
