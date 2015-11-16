@@ -194,6 +194,7 @@
 			<artifactId>jackson-datatype-joda</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+
 		
 		<!-- Mapper for DTO -->
         <dependency>
