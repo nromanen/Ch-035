@@ -15,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -91,6 +89,9 @@ public class Course {
 	
 	@Column(nullable = false)
 	private Boolean disable = false;
+	
+	@Column(nullable = false)
+	private Boolean published = false;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> users = new HashSet<User>();
@@ -212,5 +213,14 @@ public class Course {
 	public void setDisable(Boolean disable) {
 		this.disable = disable;
 	}
+
+	public Boolean getPublished() {
+		return published;
+	}
+
+	public void setPublished(Boolean published) {
+		this.published = published;
+	}
+	
 	
 }

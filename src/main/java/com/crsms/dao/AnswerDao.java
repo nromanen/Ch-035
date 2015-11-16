@@ -19,4 +19,6 @@ public interface AnswerDao {
     public void updateAnswer(Answer answer);
 
     public void deleteAnswerById(Long id);
+
+	void disable(Answer answer);
 }

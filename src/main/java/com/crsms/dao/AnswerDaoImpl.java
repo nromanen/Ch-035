@@ -1,6 +1,7 @@
 package com.crsms.dao;
 
 import com.crsms.domain.Answer;
+import com.crsms.domain.Test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -93,5 +94,11 @@ public class AnswerDaoImpl implements AnswerDao{
             logger.error("AnswerDao. Illegal argument received when answer by ID deleting.");
             throw new IllegalArgumentException("AnswerDao. Illegal argument received when answer by ID deleting.");
         }
+    }
+    
+    @Override
+	public void disable(Answer answer) {
+    	answer.setDisable(false);
+    	this.updateAnswer(answer);
     }
 }

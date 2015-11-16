@@ -20,4 +20,6 @@ public interface QuestionDao {
 
     public void deleteQuestionById(Long id);
 
+    public void disable(Question question);
+
 }
