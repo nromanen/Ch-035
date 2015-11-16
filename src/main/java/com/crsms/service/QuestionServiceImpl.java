@@ -27,8 +27,6 @@ public class QuestionServiceImpl implements QuestionService{
     @Autowired
     private TestService testService;
 
-    public QuestionServiceImpl() {}
-
     @Override
     public void createQuestion(Long testId, Question question) {
         logger.info("QuestionService. Creating a new question.");

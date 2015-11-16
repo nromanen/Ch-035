@@ -27,8 +27,6 @@ public class TestServiceImpl implements TestService {
     @Autowired
     ModuleService moduleService;
 
-    public TestServiceImpl() {}
-
     @Override
     public void createTest(Long moduleId, Test test) {
     	logger.info("TestService. Creating a new test.");

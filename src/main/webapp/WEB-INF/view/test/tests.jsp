@@ -115,30 +115,15 @@
 					      <form:errors path="text" cssClass = "label label-danger" />			      
 					    </div>		    
 					  </div>
-					  
-					<%-- 
-					<c:forEach var="answer" items = "${question.answers}" varStatus = "answerStatus">
-					  <div class="form-group">
-					  	<label for="answer.text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#${answerStatus.index}:</label>
-					    <div class="col-sm-10">
-					      <form:textarea path="answer.text" id="answer${answerStatus.index}" class="form-control clear-textarea" placeholder="${answerVersion}" />
-					      <form:errors path="answer.text" cssClass = "label label-danger" />
-					      <div class="checkbox-inline">
-						      <form:checkbox path="answer.correct"/> <spring:message code="crsms.tests.correct.answer" />
-						   </div>			      
-					    </div>
-					  </div>
-					  </c:forEach>
-					  --%>
 					 
 					  	<br>
  					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#1:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="text" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="text" name="answer_text[0]" value="" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div class="checkbox-inline">
-						      <input type="checkbox"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" name="correct_chackbox_1"> <spring:message code="crsms.tests.correct.answer" />
 						      <!-- <input type="checkbox" name="answer1" value="yes"> <spring:message code="crsms.tests.correct.answer" /> -->
 						  </div>
 					    </div>
@@ -147,10 +132,10 @@
 					 <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#2:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="text" id="answer2" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="text" name="answer_text[1]" value="" id="answer2" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />
 					      <div class="checkbox-inline">
-						      <input type="checkbox"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" name="correct_chackbox_2"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>				      
 					    </div>
 					  </div>
@@ -158,10 +143,10 @@
 					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#3:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="text" id="answer3" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="text" name="answer_text[2]" value="" id="answer3" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div class="checkbox-inline">
-						      <input type="checkbox"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" name="correct_chackbox_3"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>		      
 					    </div>
 					  </div>
@@ -169,10 +154,10 @@
 					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#4:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="text" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="text" name="answer_text[3]" value="" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />	
 					      <div class="checkbox-inline">
-						      <input type="checkbox"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" name="correct_chackbox_4"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>			      
 					    </div>
 					  </div>

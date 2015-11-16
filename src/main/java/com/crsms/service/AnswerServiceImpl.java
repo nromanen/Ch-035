@@ -27,8 +27,6 @@ public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private QuestionService questionService;
 
-    public AnswerServiceImpl() {}
-
     @Override
     public void createAnswer(Long questionId, Answer answer) {
         logger.info("AnswerService. Creating a new answer.");
