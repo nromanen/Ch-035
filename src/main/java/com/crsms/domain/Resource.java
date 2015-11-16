@@ -47,8 +47,6 @@ public class Resource {
 		FILE, EMBEDDED
 	}
 	
-	public Resource() {	}
-	
 	public Long getId() {
 		return id;
 	}
