@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -89,6 +88,9 @@ public class Course {
 	
 	@Column(nullable = false)
 	private Boolean disable = false;
+	
+	@Column(nullable = false)
+	private Boolean published = false;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> users = new HashSet<User>();
@@ -216,6 +218,14 @@ public class Course {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+	
+	public Boolean getPublished() {
+		return published;
+	}
+
+	public void setPublished(Boolean published) {
+		this.published = published;
 	}
 	
 }

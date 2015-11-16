@@ -42,4 +42,7 @@ public interface CourseService {
 	List<Course> getAllByUserEmail(String email);
 
 	List<Course> getAllByOwnerEmail(String email);
+	
+	List<Course> searchCourses(String seachWord);
+
 }

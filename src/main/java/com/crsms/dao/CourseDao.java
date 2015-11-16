@@ -37,8 +37,8 @@ public interface CourseDao {
 	List<Course> getAllByUserEmail(String email);
 	
 	List<Course> getAllByOwnerEmail(String email);
-
-	boolean hasSubscribedUsers(Long courseId);
 	
-	boolean hasTestResults(Long courseId);
+	void disable(Course course);
+
+	List<Course> searchCourses(String searchWord);
 }

@@ -60,7 +60,7 @@ public class CourseController {
 	
 	@Autowired
 	private CourseFormValidator validator;
-	
+
 	@InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(validator);
@@ -264,5 +264,14 @@ public class CourseController {
 														COURSE_TITLE_LENGTH, true));
 		}
 		return courses;
+	}
+
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ModelAndView searchCourses(@RequestParam("searchWord") String searchWord) {
+		ModelAndView model = new ModelAndView();
+		List<Course> courses = courseService.searchCourses(searchWord);
+		model.addObject("courses", courses);
+		model.setViewName("courses");
+		return model;
 	}
 }
