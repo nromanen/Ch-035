@@ -2,8 +2,6 @@ package com.crsms.service;
 
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-
 import com.crsms.domain.Course;
 
 /**
@@ -31,7 +29,6 @@ public interface CourseService {
 	
 	Course get(String name);
 	
-	//@PreAuthorize("hasAnyRole('ROLE_TEACHER')")
 	void deleteCourse(Course course);
 	
 	List<Course> getAllByAreaId(Long areaId);
@@ -44,5 +41,5 @@ public interface CourseService {
 	
 	List<Course> getAllByUserEmail(String email);
 
-
+	List<Course> getAllByOwnerEmail(String email);
 }

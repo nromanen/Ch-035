@@ -72,20 +72,29 @@ public class CourseController {
 		
 		ModelAndView model = new ModelAndView();
 		
-		String email = null;
+		String currentPrincipalEmail = null;
 		if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-			email = SecurityContextHolder.getContext().getAuthentication().getName();
+			currentPrincipalEmail = SecurityContextHolder.getContext()
+														 .getAuthentication().getName();
 		}
 		
 		List<Long> userCoursesId = null;
 		if (request.isUserInRole("ROLE_STUDENT")) {
-			userCoursesId = this.getAllUserCoursesId(email);
+			userCoursesId = this.getAllUserCoursesId(currentPrincipalEmail);
 		}
+		
+		model.setViewName("courses");
 		
 		List<Course> courses = null;
 		switch (show) {
 			case "my": 
-				courses = courseService.getAllByUserEmail(email);
+				if (request.isUserInRole("ROLE_STUDENT")) {
+					courses = courseService.getAllByUserEmail(currentPrincipalEmail);
+				} else if (request.isUserInRole("ROLE_TEACHER")
+				   		|| request.isUserInRole("ROLE_ADMIN")) {
+					courses = courseService.getAllByOwnerEmail(currentPrincipalEmail);
+					model.setViewName("courses_table");
+				}
 				break;
 			case "all": 
 				courses = courseService.getAll();
@@ -94,19 +103,15 @@ public class CourseController {
 				courses = courseService.getAll();
 				break;
 		}	
-
-		for (Course course : courses) {
-			course.setDescription(stringUtil.trimString(course.getDescription(),
-														COURSE_DESC_LENGTH, true));
-			course.setName(stringUtil.trimString(course.getName(), COURSE_TITLE_LENGTH, true));
-		}
+		
+		courses = this.truncateNameAndDescription(courses);
 		
 		model.addObject("courses", courses);
 		model.addObject("userCoursesId", userCoursesId);
-		model.setViewName("courses");
+		
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
 	public ModelAndView showCourse(@PathVariable Long courseId) {
 		ModelAndView model = new ModelAndView();
@@ -141,10 +146,11 @@ public class CourseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView newCourseSubmit(
 						@RequestParam("areaId") Long areaId,
-						@Validated CourseFormDto courseFormDto, BindingResult result) {
+						/*@Validated*/ CourseFormDto courseFormDto, BindingResult result) {
 	
 		ModelAndView model = new ModelAndView();
 		
+		validator.validate(courseFormDto, result);
 		if (result.hasErrors()) {
 			List<Area> areas = areaService.getAllAreas();
 			model.addObject("areas", areas);
@@ -187,10 +193,11 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.POST)
 	public ModelAndView editCourseSubmit(
 						@RequestParam("areaId") Long areaId,
-						@Validated CourseFormDto courseFormDto, BindingResult result) {
+						/*@Validated*/ CourseFormDto courseFormDto, BindingResult result) {
 		
 		ModelAndView model = new ModelAndView();
 		
+		validator.validate(courseFormDto, result);
 		if (result.hasErrors()) {
 			List<Area> areas = areaService.getAllAreas();
 			model.addObject("areas", areas);
@@ -251,5 +258,15 @@ public class CourseController {
 		String currentPrincipalEmail = SecurityContextHolder.getContext()
 										.getAuthentication().getName();
 		return course.getOwner().getEmail().equals(currentPrincipalEmail);
+	}
+	
+	private List<Course> truncateNameAndDescription(List<Course> courses) {
+		for (Course course : courses) {
+			course.setDescription(stringUtil.trimString(course.getDescription(),
+														COURSE_DESC_LENGTH, true));
+			course.setName(stringUtil.trimString(course.getName(), 
+														COURSE_TITLE_LENGTH, true));
+		}
+		return courses;
 	}
 }

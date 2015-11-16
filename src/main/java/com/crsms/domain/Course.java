@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,16 +37,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "course")
 @NamedQueries({
 	@NamedQuery(name = Course.GET_BY_NAME,
-				query = "FROM Course c WHERE c.name=:name"),
+				query = "from Course c where c.name=:name"),
 	@NamedQuery(name = Course.GET_BY_USER_ID,
 				query = "select c from User u join u.courses c where u.id = :userId"),
 	@NamedQuery(name = Course.GET_BY_USER_EMAIL,
-				query = "select c from User u join u.courses c where u.email = :email")
+				query = "select c from User u join u.courses c where u.email = :email"),
+	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
+				query = "select c from Course c join c.owner o where o.email = :email")
 })
 public class Course {
 	public static final String GET_BY_NAME = "course.getCourseByName";
 	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
 	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
+	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
 	
 	public static final int MAX_NAME_LENGTH = 255;
 	

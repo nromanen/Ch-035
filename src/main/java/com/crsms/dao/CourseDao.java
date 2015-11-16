@@ -35,6 +35,8 @@ public interface CourseDao {
 	List<Course> getAllByUserId(Long userId);
 
 	List<Course> getAllByUserEmail(String email);
+	
+	List<Course> getAllByOwnerEmail(String email);
 
 	boolean hasSubscribedUsers(Long courseId);
 	
