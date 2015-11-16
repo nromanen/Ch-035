@@ -3,8 +3,10 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<form:form modelAttribute = "course" class="form-horizontal" method="POST" >
-	<form:input path = "id" type = "hidden"/>
+<form:form modelAttribute = "courseFormDto" class="form-horizontal" method="POST" >
+	<form:hidden path = "id"/>
+	<form:hidden path = "ownerEmail"/>
+	
 	<div class="form-group">
 		<label for="name"  class="col-sm-2 control-label"><spring:message code="crsms.courses.text.name" /></label>
 		<div class="col-sm-10" >
@@ -24,13 +26,13 @@
 		<label for="area" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.area" /></label>
 		<div class="col-sm-10" >
 			<select id="areas" name="areaId">
-				<c:forEach var="carentArea" items="${areas}">
-					<option value="${carentArea.id}"
-							<c:if test="${course.area.id == carentArea.id}">
+				<c:forEach var="currentArea" items="${areas}">
+					<option value="${currentArea.id}"
+							<c:if test="${courseFormDto.area.id == currentArea.id}">
 								<c:out value="selected"/>
 							</c:if>
 							>
-							${carentArea.name}
+							${currentArea.name}
 					</option>
 				</c:forEach>
 			</select>
@@ -53,8 +55,8 @@
 		<label for="duration" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.duration" /></label>
 		<div class="col-sm-2" >
 			<div class="input-group" >
-				<form:input path="weekDuration" id="duration" class="form-control " />
-				<div class="input-group-addon"><spring:message code="crsms.courses.text.weeks" /></div>
+				<form:input path="duration" id="duration" class="form-control " />
+				<div class="input-group-addon"><spring:message code="crsms.courses.text.days" /></div>
 			</div>
 		</div>
 	</div>

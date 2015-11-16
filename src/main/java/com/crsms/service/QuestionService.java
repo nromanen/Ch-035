@@ -17,7 +17,11 @@ public interface QuestionService {
     public List<Question> getQuestionsByTestId(Long testId);
 
     public void editQuestion(Question question);
+    
+    public void disable(Long id);
+    
+    public void disable(Question question);
 
-    public void deleteQuestionById(Long id);
+    //public void deleteQuestionById(Long id);
 
 }

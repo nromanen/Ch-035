@@ -24,5 +24,7 @@ public interface TestDao {
 
     public void deleteTestById(Long id);
     
-    boolean hasTestResults(Long testId);
+    public void disableTestById(Long id);
+    
+    void disable(Test test);
 }

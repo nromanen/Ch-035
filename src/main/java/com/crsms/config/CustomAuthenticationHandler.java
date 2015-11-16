@@ -46,7 +46,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 		} else if (isManager(roles)) {
 			url = "/manager/";
 		} else if (isTeacher(roles)) {
-			url = "/teacher/";
+			url = "/courses/?show=my";
 		} else if (isStudent(roles)) {
 			url = "/courses/?show=my";
 		}else {

@@ -32,9 +32,8 @@
 			<c:set var="backButton">
 				<spring:message code="crsms.createtest.backButton" />
 			</c:set>
-			<a class="btn btn-success" role="button"
-				onClick="history.go(-1);return true;">${backButton}</a> 
-			<input type="submit" value="${testSave}" class="btn btn-success" />
+			<a class="btn btn-primary" role="button" onClick="history.go(-1);return true;">${backButton}</a> 
+			<input type="submit" value="${testSave}" class="btn btn-primary" />
 		</div>
 	</div>
 </form:form>

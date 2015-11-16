@@ -6,7 +6,9 @@ import org.hibernate.annotations.NamedQuery;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import java.util.Set;
+
 
 /**
  * @author Petro Andriets, Valerii Motresku
@@ -16,7 +18,7 @@ import java.util.Set;
 @Table(name = "question")
 @NamedQueries(@NamedQuery(name = Question.GET_BY_TEST_ID, query = "SELECT questions FROM Test t WHERE t.id = :id"))
 public class Question {
-    public static final String GET_BY_TEST_ID = "Question.getByTestId";
+	public static final String GET_BY_TEST_ID = "Question.getByTestId";
     public static final int MAX_TEXT_LENGTH = 1000;
 
     @Id
@@ -28,8 +30,11 @@ public class Question {
     @NotNull
     @Size(max = 1000)
     private String text;
+    
+    @Column(nullable = false)
+	private Boolean disable = false;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //, orphanRemoval = true
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Answer> answers;
 
     public Question() {
@@ -62,4 +67,13 @@ public class Question {
     public void addAnswer(Answer answer) {
         this.answers.add(answer);
     }
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+    
 }

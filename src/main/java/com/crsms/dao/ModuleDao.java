@@ -26,6 +26,8 @@ public interface ModuleDao {
 
 	void deleteById(Long id);
 	
-	boolean hasTestResults(Long moduleId);
+	void disable(Module module);
+	
+	//public void freeResources();
 	
 }

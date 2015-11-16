@@ -13,13 +13,13 @@ import com.crsms.domain.Course;
 
 public interface CourseService extends BaseService<Course> {
 	
-	void save(Course course, long areaId, int sweekDuration);
+	void save(Course course, long areaId, String ownerEmail);
 	
 	List<Course> getAllInitialized();
 	
 	Course getInitializedById(Long id, Course.LazyField ... lazyFields);
 	
-	void update(Course course, long areaId, int sweekDuration);
+	void update(Course course, long areaId, String ownerEmail);
 	
 	Course get(String name);
 	
@@ -33,5 +33,8 @@ public interface CourseService extends BaseService<Course> {
 	
 	List<Course> getAllByUserEmail(String email);
 
+	List<Course> getAllByOwnerEmail(String email);
+	
+	List<Course> searchCourses(String seachWord);
 
 }

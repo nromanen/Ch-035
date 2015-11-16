@@ -17,7 +17,7 @@ public interface ModuleService {
 	
 	void update(Module module);
 	
-	void delete(Long courseId, Module module);
+	//void delete(Long courseId, Module module);
 	
 	Module getById(Long id);
 	
@@ -25,12 +25,19 @@ public interface ModuleService {
 	
 	List<Module> getAllByCourseId(Long courseId);
 	
-	void deleteById(Long courseId, Long moduleId);
+	//void deleteById(Long courseId, Long moduleId);
 	
 	void addResource(Long moduleId, Resource resource);
 	
 	void addResource(Long moduleId, String name, String path);
 	
 	void removeResource(Long moduleId, Resource resource);
+	void removeResource(Module module, Resource resource);
+
+	void disable(Module module);
+	void disable(Long moduleId);
+	
+	void freeResource(Module module);
+	
 	
 }

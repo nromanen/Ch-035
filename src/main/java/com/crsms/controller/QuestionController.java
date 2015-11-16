@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-
 /**
  * @author Adriets Petro
  */
@@ -30,15 +29,10 @@ public class QuestionController {
 
     @Autowired(required = true)
     private QuestionService questionService;
-
+    
     @Autowired
-    private QuestionFormValidator formValidator;
-
-    @InitBinder
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(formValidator);
-    }
-
+    private QuestionFormValidator questionFormValidator;
+    
     public QuestionController() {}
 
     @RequestMapping(value = { "/add" }, method = RequestMethod.GET)
@@ -60,21 +54,17 @@ public class QuestionController {
         return redirect(courseId, moduleId, testId);
     }
     
-
-    @RequestMapping(value = "/add/json", method = RequestMethod.POST, headers = {"Content-type=application/json"})
-    @ResponseBody
-    public Question addQuestionJson(@PathVariable Long courseId, @PathVariable Long moduleId,
-                              @PathVariable Long testId, @Validated Question question, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalArgumentException("QuestionController. add json error.");
+    @RequestMapping(value = "/add/question-form")
+    public @ResponseBody Question addQuestionJson(@PathVariable Long courseId, @PathVariable Long moduleId,
+                         @PathVariable Long testId, @Validated Question question, BindingResult result) {
+        if (!result.hasErrors()) {
+        	questionService.createQuestion(testId, question);
         } else {
-            questionService.createQuestion(testId, question);
+        	throw new IllegalArgumentException("QuestionController. AJAX pocessing error.");
         }
         return question;
     }
     
-    
-
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editQuestion(@PathVariable("id") Long id, Model model) {
         Question tempQuestion = questionService.getQuestionById(id);
@@ -104,7 +94,7 @@ public class QuestionController {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String deleteQuestionById (@PathVariable Long courseId, @PathVariable Long moduleId,
                                       @PathVariable Long testId, @PathVariable("id") Long id) {
-        questionService.deleteQuestionById(id);
+        questionService.disable(id);
         return redirect(courseId, moduleId, testId);
     }
 
@@ -113,6 +103,15 @@ public class QuestionController {
      */
     private String redirect(Long courseId, Long moduleId, Long testId) {
         return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/" + testId + "/questions/";
+    }
+    
+	
+	/*
+	 * Method for form validation binding.
+	 */
+    @InitBinder(value="question")
+    private void initBinder(WebDataBinder binder) {
+		binder.setValidator(questionFormValidator);
     }
 
 }

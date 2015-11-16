@@ -82,10 +82,11 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		}
 		customizeRegistration(registration);
 	}
-
-	@Override
+    
+    @Override
 	protected Filter[] getServletFilters() {
 		Filter [] singleton = { new CORSFilter() };
 		return singleton;
 	}
+
 }

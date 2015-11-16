@@ -22,8 +22,10 @@ public interface CourseDao extends BaseDao<Course> {
 	List<Course> getAllByUserId(Long userId);
 
 	List<Course> getAllByUserEmail(String email);
-
-	boolean hasSubscribedUsers(Long courseId);
 	
-	boolean hasTestResults(Long courseId);
+	List<Course> getAllByOwnerEmail(String email);
+	
+	void disable(Course course);
+
+	List<Course> searchCourses(String searchWord);
 }
