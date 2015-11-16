@@ -1,6 +1,6 @@
 package com.crsms.validator;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,7 @@ public class ModuleFormValidator implements Validator {
 		
 		String name = moduleFormDto.getName();
 		
-		Set<Module> modules = courseService.getById(courseId).getModules();
+		List<Module> modules = courseService.getById(courseId).getModules();
 		
 		for (Module module : modules) {
 			//second condition allows you to edit other fields without "name already exists" error

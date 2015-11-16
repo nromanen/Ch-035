@@ -104,7 +104,7 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
 	public ModelAndView showCourse(@PathVariable Long courseId) {
 		ModelAndView model = new ModelAndView();
-		Course course = courseService.getById(courseId);
+		Course course = courseService.getInitializedById(courseId, Course.LazyField.MODULES);
 		model.addObject("course", course);
 		model.addObject("courseEndDate", course.getStartDate().plus(course.getDuration()));
 		model.addObject("pageTitle", course.getName());
@@ -118,7 +118,7 @@ public class CourseController {
 	public String deleteCourse(@PathVariable("courseId") Long courseId) {
 		Course course = courseService.getById(courseId);
 		//TODO: check permissions
-		courseService.deleteCourse(course);
+		courseService.delete(course);
 		
 		return "redirect:/courses/";
 

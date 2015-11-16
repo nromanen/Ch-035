@@ -1,6 +1,7 @@
 package com.crsms.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -45,11 +46,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 				query = "select c from User u join u.courses c where u.email = :email")
 })
 public class Course {
-	public static final String GET_BY_NAME = "course.getCourseByName";
-	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
-	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
-	
-	public static final int MAX_NAME_LENGTH = 255;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -80,7 +76,7 @@ public class Course {
 	private Duration duration;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Module> modules;
+	private List<Module> modules;
 	
 	@Column(nullable = false)
 	private Boolean open = false;
@@ -94,12 +90,20 @@ public class Course {
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> users = new HashSet<User>();
-	
-	public Course() { }
 
 	public enum CourseLanguage {
 		EN, UK,
-	} 
+	}
+	
+	public enum LazyField {
+		MODULES, USERS, ALL,
+	}
+	
+	public static final String GET_BY_NAME = "course.getCourseByName";
+	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
+	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
+	
+	public static final int MAX_NAME_LENGTH = 255;
 	
 	public Long getId() {
 		return id;
@@ -143,11 +147,11 @@ public class Course {
 		this.duration = new Duration(weeks * 7L * 24L * 60L * 60L * 1000L);
 	}
 
-	public Set<Module> getModules() {
+	public List<Module> getModules() {
 		return modules;
 	}
 
-	public void setModules(Set<Module> modules) {
+	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
 
