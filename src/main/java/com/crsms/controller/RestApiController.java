@@ -36,7 +36,6 @@ import com.crsms.service.VacancyService;
  *
  */
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/api")
 public class RestApiController {
