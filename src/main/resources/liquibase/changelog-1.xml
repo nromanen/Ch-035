@@ -44,4 +44,10 @@
         <sqlFile path="liquibase/fixSequence.sql"/>
     </changeSet>
     
+    <changeSet author="yuliia" id="1446992667519-100">
+        <addColumn tableName="user_info" >
+         <column name="image" type="text" defaultValue="null" />
+     </addColumn>
+    </changeSet>
+    
 </databaseChangeLog>

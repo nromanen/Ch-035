@@ -6,12 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -34,9 +36,11 @@ public class UserInfo {
 	
 	@Id  
     @Column(name = "id")  
-    @GeneratedValue(generator = "user_info_gen")  
-    @GenericGenerator(name = "user_info_gen", strategy = "foreign",   
-    parameters = @Parameter(name = "property", value = "user"))
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_info_gen")
+	@SequenceGenerator(name = "user_info_gen", sequenceName = "user_info_id_seq", allocationSize = 1000)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_info_gen")
+//    @GenericGenerator(name = "user_info_gen", strategy = "foreign",   
+//    parameters = @Parameter(name = "property", value = "user"))
 	private Long id;
 	
 	@OneToOne  

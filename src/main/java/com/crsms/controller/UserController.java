@@ -1,8 +1,12 @@
 package com.crsms.controller;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,28 +64,52 @@ public class UserController {
 	};
 	
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
-	public String submitUser(@Validated @ModelAttribute("userRegistr")  User user, BindingResult result, HttpSession session) {
+	public String submitUser(@Validated @ModelAttribute("userRegistr")  User user, BindingResult result, Model model) {
 		user.setRole(roleService.getRoleById(STUDENT_ROLE_ID));
 		if (result.hasErrors()) {
 			return "signUp";
 		}
 		userService.saveUser(user);
-		session.setAttribute("email", user.getEmail());
-		return "redirect:/userProfile"; ///   !!!!"login";
+		model.addAttribute(user);
+		//return "redirect:/signin";
+		return "forward:/userProfile?created=true"; 
 	};
 	
-	@RequestMapping("/userProfile")
-	public String userProfile(Model model) {
+	@RequestMapping(value = "/userProfile", params = "created")
+	public String createdUserProfile(Model model) {
+//		model.addAttribute(userService.getUserByEmail(user));
 		model.addAttribute(new UserInfo());
 		return "userProfile";
 	}
+	
+	@RequestMapping(value = "/userProfile", params = "!created")
+	public String userProfile(Model model) {
+		User user = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		model.addAttribute(user);
+		model.addAttribute(user.getUserInfo());
+		return "userProfile";
+	}
+//
+//	@RequestMapping(value = "/submitUserInfo", method = RequestMethod.POST)
+//	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo userInfo, 
+//			BindingResult result, @ModelAttribute("email") String email) {
+//		userInfo.setUser(userService.getUserByEmail(email));
+//		if (result.hasErrors()) {
+//			return "userProfile";
+//		}
+//		userInfoService.saveUserInfo(userInfo);
+//		return "redirect:/signUp"; //"logout"
+//	}
 
 	@RequestMapping(value = "/submitUserInfo", method = RequestMethod.POST)
-	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo userInfo, 
-			BindingResult result, @ModelAttribute("email") String email) {
-		userInfo.setUser(userService.getUserByEmail(email));
+	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo userInfo,  BindingResult result) {
+		userInfo.setUser(userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 		if (result.hasErrors()) {
 			return "userProfile";
+		}
+		Matcher matcher = Pattern.compile("^data:image.+").matcher(userInfo.getImage());
+		if(!matcher.matches()){
+			userInfo.setImage("");
 		}
 		userInfoService.saveUserInfo(userInfo);
 		return "redirect:/signUp"; //"logout"

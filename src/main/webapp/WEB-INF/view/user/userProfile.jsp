@@ -52,7 +52,7 @@
 							<c:choose>
 								<c:when test="${ empty userInfo.image }">
 									<c:url var="avatarUrl" value="/resources/images/default_logo.png" />
-									<c:set var="imgSrc" value="/resources/images/default_logo.png" />
+									<c:set var="imgSrc" value="${ avatarUrl }" />
 								</c:when>
 								<c:otherwise>
 									<c:set var="imgSrc" value="${ userInfo.image }" />
@@ -82,7 +82,7 @@
 					<div class="form-group">
 						<label for="email" class="col-md-2"><spring:message code = "crsms.userProfile.email"/></label>
 						<div class="col-md-2">
-							<input type="email" class="form-control" id="email" name="email" value="${ email }" readonly>
+							<input type="email" class="form-control" id="email" name="email" value="${ user.email }" readonly>
 						</div>
 					</div>
 					<div class="form-group">

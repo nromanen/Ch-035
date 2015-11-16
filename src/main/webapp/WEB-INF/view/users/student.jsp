@@ -8,6 +8,6 @@
 <body>
 	Dear <strong>${user}</strong>, Welcome to Student Page.
 	<a href="<c:url value="/logout" />">logout</a>
-
+	<a href="/crsms/userProfile"> Personal profile </a>
 </body>
 </html>
