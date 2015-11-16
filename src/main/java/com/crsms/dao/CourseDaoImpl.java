@@ -186,9 +186,30 @@ public class CourseDaoImpl implements CourseDao {
 					+ "JOIN moduleList.tests testList "
 					+ "WHERE course.id = :id)";
 			
+			String hqlDelQuestion = "UPDATE Question question SET question.disable=true WHERE question IN "
+					+ "(SELECT questionList "
+					+ "FROM Course course "
+					+ "JOIN course.modules moduleList "
+					+ "JOIN moduleList.tests testList "
+					+ "JOIN testList.questions questionList "
+					+ "WHERE course.id = :id)";
+			
+			String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+					+ "(SELECT answerList "
+					+ "FROM Course course "
+					+ "JOIN course.modules moduleList "
+					+ "JOIN moduleList.tests testList "
+					+ "JOIN testList.questions questionList "
+					+ "JOIN questionList.answers answerList "
+					+ "WHERE course.id = :id)";
+			
 			sessionFactory.getCurrentSession().createQuery(hqlDelModule)
 				.setParameter("id", course.getId()).executeUpdate();
 			sessionFactory.getCurrentSession().createQuery(hqlDelTest)
+				.setParameter("id", course.getId()).executeUpdate();
+			sessionFactory.getCurrentSession().createQuery(hqlDelQuestion)
+				.setParameter("id", course.getId()).executeUpdate();
+			sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
 				.setParameter("id", course.getId()).executeUpdate();
 		} catch (Exception e) {
 			logger.error("Error in disable courses: " + e);

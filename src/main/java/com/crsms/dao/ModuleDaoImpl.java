@@ -110,7 +110,26 @@ public class ModuleDaoImpl implements ModuleDao {
 				+ "JOIN module.tests testList "
 				+ "WHERE module.id = :id)";
 		
+		String hqlDelQuestion = "UPDATE Question question SET question.disable=true WHERE question IN "
+				+ "(SELECT questionList "
+				+ "FROM Module module "
+				+ "JOIN module.tests testList "
+				+ "JOIN testList.questions questionList "
+				+ "WHERE module.id = :id)";
+		
+		String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+				+ "(SELECT answerList "
+				+ "FROM Module module "
+				+ "JOIN module.tests testList "
+				+ "JOIN testList.questions questionList "
+				+ "JOIN questionList.answers answerList "
+				+ "WHERE module.id = :id)";
+		
 		sessionFactory.getCurrentSession().createQuery(hqlDelTest)
+			.setParameter("id", module.getId()).executeUpdate();
+		sessionFactory.getCurrentSession().createQuery(hqlDelQuestion)
+			.setParameter("id", module.getId()).executeUpdate();
+		sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
 			.setParameter("id", module.getId()).executeUpdate();
 	}
 

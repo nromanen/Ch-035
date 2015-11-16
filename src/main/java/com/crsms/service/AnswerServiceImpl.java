@@ -62,10 +62,24 @@ public class AnswerServiceImpl implements AnswerService {
         logger.info("AnswerService. Editing answer successfully.");
     }
 
-    @Override
-    public void deleteAnswerById(Long id) {
-        logger.info("AnswerService. Deleting answer by ID: " + id + ".");
-        answerDao.deleteAnswerById(id);
-        logger.info("AnswerService. Deleting answer by ID: " + id + " successfully.");
-    }
+	@Override
+	public void disable(Long id) {
+		Answer answer = answerDao.getAnswerById(id);
+		this.disable(answer);
+		
+	}
+
+	@Override
+	public void disable(Answer answer) {
+		answerDao.disable(answer);
+		
+	}
+
+//    @Override
+//    public void deleteAnswerById(Long id) {
+//        logger.info("AnswerService. Deleting answer by ID: " + id + ".");
+//        answerDao.deleteAnswerById(id);
+//        logger.info("AnswerService. Deleting answer by ID: " + id + " successfully.");
+//    }
+    
 }

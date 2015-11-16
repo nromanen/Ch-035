@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="maftey (generated)" id="1447152226104-1">
+        <createSequence sequenceName="answer_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-2">
+        <createSequence sequenceName="area_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-3">
+        <createSequence sequenceName="course_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-4">
+        <createSequence sequenceName="group_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-5">
+        <createSequence sequenceName="group_type_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-6">
+        <createSequence sequenceName="module_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-7">
+        <createSequence sequenceName="question_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-8">
+        <createSequence sequenceName="resource_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-9">
+        <createSequence sequenceName="role_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-10">
+        <createSequence sequenceName="test_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-11">
+        <createSequence sequenceName="test_result_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-12">
+        <createSequence sequenceName="user_answer_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-13">
+        <createSequence sequenceName="user_id_seq"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-14">
+        <createTable tableName="answer">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="correct" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-15">
+        <createTable tableName="area">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-16">
+        <createTable tableName="course">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="INT"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="open" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startdate" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="area_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-17">
+        <createTable tableName="course_module">
+            <column name="course_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modules_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-18">
+        <createTable tableName="course_users">
+            <column name="courses_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="users_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-19">
+        <createTable tableName="group_type">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-20">
+        <createTable tableName="groups">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maxusercount" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recruited" type="BOOL"/>
+            <column name="type_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-21">
+        <createTable tableName="groups_course">
+            <column name="groups_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="courses_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-22">
+        <createTable tableName="module">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_position" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-23">
+        <createTable tableName="module_resource">
+            <column name="module_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resources_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-24">
+        <createTable tableName="module_test">
+            <column name="module_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tests_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-25">
+        <createTable tableName="persistent_logins">
+            <column name="username" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="series" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_used" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-26">
+        <createTable tableName="question">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-27">
+        <createTable tableName="question_answer">
+            <column name="question_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="answers_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-28">
+        <createTable tableName="resource">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-29">
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-30">
+        <createTable tableName="test">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-31">
+        <createTable tableName="test_question">
+            <column name="test_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="questions_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-32">
+        <createTable tableName="test_result">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="complete" type="BOOL"/>
+            <column name="test_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-33">
+        <createTable tableName="user_answer">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="answer_id" type="BIGINT"/>
+            <column name="question_id" type="BIGINT"/>
+            <column name="test_result_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-34">
+        <createTable tableName="user_info">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="firstname" type="VARCHAR(20)"/>
+            <column name="lastname" type="VARCHAR(20)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-35">
+        <createTable tableName="user_info_groups">
+            <column name="users_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="groups_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-36">
+        <createTable tableName="user_roles">
+            <column name="role_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-37">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isenabled" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-38">
+        <addPrimaryKey columnNames="id" constraintName="answer_pkey" tableName="answer"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-39">
+        <addPrimaryKey columnNames="id" constraintName="area_pkey" tableName="area"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-40">
+        <addPrimaryKey columnNames="course_id, modules_id" constraintName="course_module_pkey" tableName="course_module"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-41">
+        <addPrimaryKey columnNames="id" constraintName="course_pkey" tableName="course"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-42">
+        <addPrimaryKey columnNames="courses_id, users_id" constraintName="course_users_pkey" tableName="course_users"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-43">
+        <addPrimaryKey columnNames="id" constraintName="group_type_pkey" tableName="group_type"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-44">
+        <addPrimaryKey columnNames="groups_id, courses_id" constraintName="groups_course_pkey" tableName="groups_course"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-45">
+        <addPrimaryKey columnNames="id" constraintName="groups_pkey" tableName="groups"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-46">
+        <addPrimaryKey columnNames="id" constraintName="module_pkey" tableName="module"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-47">
+        <addPrimaryKey columnNames="module_id, resources_id" constraintName="module_resource_pkey" tableName="module_resource"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-48">
+        <addPrimaryKey columnNames="module_id, tests_id" constraintName="module_test_pkey" tableName="module_test"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-49">
+        <addPrimaryKey columnNames="series" constraintName="persistent_logins_pkey" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-50">
+        <addPrimaryKey columnNames="question_id, answers_id" constraintName="question_answer_pkey" tableName="question_answer"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-51">
+        <addPrimaryKey columnNames="id" constraintName="question_pkey" tableName="question"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-52">
+        <addPrimaryKey columnNames="id" constraintName="resource_pkey" tableName="resource"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-53">
+        <addPrimaryKey columnNames="id" constraintName="roles_pkey" tableName="roles"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-54">
+        <addPrimaryKey columnNames="id" constraintName="test_pkey" tableName="test"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-55">
+        <addPrimaryKey columnNames="test_id, questions_id" constraintName="test_question_pkey" tableName="test_question"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-56">
+        <addPrimaryKey columnNames="id" constraintName="test_result_pkey" tableName="test_result"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-57">
+        <addPrimaryKey columnNames="id" constraintName="user_answer_pkey" tableName="user_answer"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-58">
+        <addPrimaryKey columnNames="users_id, groups_id" constraintName="user_info_groups_pkey" tableName="user_info_groups"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-59">
+        <addPrimaryKey columnNames="id" constraintName="user_info_pkey" tableName="user_info"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-60">
+        <addPrimaryKey columnNames="user_id" constraintName="user_roles_pkey" tableName="user_roles"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-61">
+        <addPrimaryKey columnNames="id" constraintName="users_pkey" tableName="users"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-62">
+        <addUniqueConstraint columnNames="tests_id" constraintName="uk_3nu5upm2s93chcxdd0sl2vh3h" tableName="module_test"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-63">
+        <addUniqueConstraint columnNames="email" constraintName="uk_6dotkott2kjsp8vw4d0m25fb7" tableName="users"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-64">
+        <addUniqueConstraint columnNames="answers_id" constraintName="uk_6tuoorxfb87x2hhysoh7rlrgl" tableName="question_answer"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-65">
+        <addUniqueConstraint columnNames="modules_id" constraintName="uk_dmhu26lbofk1dbv6lgathyfkt" tableName="course_module"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-66">
+        <addUniqueConstraint columnNames="questions_id" constraintName="uk_qhnyerq7h88aqm71cfnug27k2" tableName="test_question"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-67">
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="question_answer" constraintName="fk_1i8u28d6ugyv29hh66rsx2s99" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="question"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-68">
+        <addForeignKeyConstraint baseColumnNames="resources_id" baseTableName="module_resource" constraintName="fk_1lll6fgq9bj1rapswrhkyhxf7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="resource"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-69">
+        <addForeignKeyConstraint baseColumnNames="tests_id" baseTableName="module_test" constraintName="fk_3nu5upm2s93chcxdd0sl2vh3h" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="test"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-70">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="course_module" constraintName="fk_47xa7yiegoapk4ws6lttehmla" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="course"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-71">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_roles" constraintName="fk_5q4rc4fh1on6567qk69uesvyf" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="roles"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-72">
+        <addForeignKeyConstraint baseColumnNames="answers_id" baseTableName="question_answer" constraintName="fk_6tuoorxfb87x2hhysoh7rlrgl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="answer"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-73">
+        <addForeignKeyConstraint baseColumnNames="courses_id" baseTableName="course_users" constraintName="fk_6xl7wf5027p2w5scwoj8fxtpm" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="course"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-74">
+        <addForeignKeyConstraint baseColumnNames="test_result_id" baseTableName="user_answer" constraintName="fk_7k47ngr77vfrc1ij23pjymr6q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="test_result"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-75">
+        <addForeignKeyConstraint baseColumnNames="answer_id" baseTableName="user_answer" constraintName="fk_d79iu5m0xfk8swlfif83r4n2v" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="answer"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-76">
+        <addForeignKeyConstraint baseColumnNames="modules_id" baseTableName="course_module" constraintName="fk_dmhu26lbofk1dbv6lgathyfkt" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="module"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-77">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="test_result" constraintName="fk_e6o5t5njm3g1xavhlcivuwhqs" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-78">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_roles" constraintName="fk_g1uebn6mqk9qiaw45vnacmyo2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-79">
+        <addForeignKeyConstraint baseColumnNames="area_id" baseTableName="course" constraintName="fk_h4hwigmmpooesq65hs3hvyjjj" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="area"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-80">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_info" constraintName="fk_hixwjgx0ynne0cq4tqvoawoda" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-81">
+        <addForeignKeyConstraint baseColumnNames="users_id" baseTableName="user_info_groups" constraintName="fk_ic1n3xyu84argef87naf3nwe" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user_info"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-82">
+        <addForeignKeyConstraint baseColumnNames="module_id" baseTableName="module_resource" constraintName="fk_jdy2hso1ob32w16odnc8jlj8d" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="module"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-83">
+        <addForeignKeyConstraint baseColumnNames="users_id" baseTableName="course_users" constraintName="fk_k3h0elyvgu2ntt4q7usfm9p73" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-84">
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="user_answer" constraintName="fk_m1xst870eomkyv5unwmri5nub" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="question"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-85">
+        <addForeignKeyConstraint baseColumnNames="module_id" baseTableName="module_test" constraintName="fk_o65nojusbf5s3ruo00tlta9a6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="module"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-86">
+        <addForeignKeyConstraint baseColumnNames="groups_id" baseTableName="user_info_groups" constraintName="fk_o93timi6qcpn95v2w9awu2uh0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="groups"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-87">
+        <addForeignKeyConstraint baseColumnNames="courses_id" baseTableName="groups_course" constraintName="fk_obpjw8fsqsbycc2slx5ytj8yy" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="course"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-88">
+        <addForeignKeyConstraint baseColumnNames="groups_id" baseTableName="groups_course" constraintName="fk_ppxmhtaiu3srk1ngtaj9f2ta5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="groups"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-89">
+        <addForeignKeyConstraint baseColumnNames="questions_id" baseTableName="test_question" constraintName="fk_qhnyerq7h88aqm71cfnug27k2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="question"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-90">
+        <addForeignKeyConstraint baseColumnNames="type_id" baseTableName="groups" constraintName="fk_s2y5ymegf3px4s5269daugtqg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="group_type"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-91">
+        <addForeignKeyConstraint baseColumnNames="test_id" baseTableName="test_question" constraintName="fk_s5ga2bb2pthv9oa967trmhjn0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="test"/>
+    </changeSet>
+    <changeSet author="maftey (generated)" id="1447152226104-92">
+        <addForeignKeyConstraint baseColumnNames="test_id" baseTableName="test_result" constraintName="fk_tojb2wlo0nyrj7e2x7xucow9l" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="test"/>
+    </changeSet>
+</databaseChangeLog>

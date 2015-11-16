@@ -123,21 +123,6 @@ public class TestDaoImpl implements TestDao {
     }
 
 	@Override
-	public boolean hasTestResults(Long testId) {
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(
-				"SELECT COUNT(*) FROM test_result "
-				+ "WHERE test_result.test_id = :test_id LIMIT 1"
-		).setParameter("test_id", testId);
-		
-		long count = ((BigInteger) query.uniqueResult()).longValue();
-		if(count > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
 	public void disableTestById(Long testId) {
 		if (testId != null) {
             logger.info("TestDao. disabling test.");
@@ -155,6 +140,24 @@ public class TestDaoImpl implements TestDao {
 	public void disable(Test test) {
 		test.setDisable(true);
 		this.updateTest(test);
+		
+		String hqlDelQuestion = "UPDATE Question question SET question.disable=true WHERE question IN "
+				+ "(SELECT questionList "
+				+ "FROM Test test "
+				+ "JOIN test.questions questionList "
+				+ "WHERE test.id = :id)";
+		
+		String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+				+ "(SELECT answerList "
+				+ "FROM Test test "
+				+ "JOIN test.questions questionList "
+				+ "JOIN questionList.answers answerList "
+				+ "WHERE test.id = :id)";
+		
+		sessionFactory.getCurrentSession().createQuery(hqlDelQuestion)
+			.setParameter("id", test.getId()).executeUpdate();
+		sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
+			.setParameter("id", test.getId()).executeUpdate();
 	}
 
 }

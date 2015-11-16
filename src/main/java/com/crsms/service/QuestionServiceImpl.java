@@ -3,6 +3,7 @@ package com.crsms.service;
 import com.crsms.dao.QuestionDao;
 import com.crsms.domain.Question;
 import com.crsms.domain.Test;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +63,23 @@ public class QuestionServiceImpl implements QuestionService{
         logger.info("QuestionService. Editing question successfully.");
     }
 
-    @Override
-    public void deleteQuestionById(Long id) {
-        logger.info("QuestionService. Deleting question by ID: " + id + ".");
-        questionDao.deleteQuestionById(id);
-        logger.info("QuestionService. Deleting question by ID: " + id + " successfully.");
-    }
+//    @Override
+//    public void deleteQuestionById(Long id) {
+//        logger.info("QuestionService. Deleting question by ID: " + id + ".");
+//        questionDao.deleteQuestionById(id);
+//        logger.info("QuestionService. Deleting question by ID: " + id + " successfully.");
+//    }
+
+	@Override
+	public void disable(Long id) {
+		Question question = questionDao.getQuestionById(id);
+		this.disable(question);
+		
+	}
+	
+	@Override
+	public void disable(Question question) {
+		questionDao.disable(question);
+		
+	}
 }

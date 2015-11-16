@@ -6,10 +6,9 @@ import org.hibernate.annotations.NamedQuery;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import java.util.Set;
 
-import java.io.Serializable;
-import java.util.Set;
 
 /**
  * @author Petro Andriets, Valerii Motresku
@@ -31,6 +30,9 @@ public class Question {
     @NotNull
     @Size(max = 1000)
     private String text;
+    
+    @Column(nullable = false)
+	private Boolean disable = false;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //, orphanRemoval = true
     private Set<Answer> answers;
@@ -65,4 +67,13 @@ public class Question {
     public void addAnswer(Answer answer) {
         this.answers.add(answer);
     }
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+    
 }

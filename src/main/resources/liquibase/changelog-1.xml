@@ -69,6 +69,18 @@
         	<column name="published" type="boolean" defaultValue="FALSE" />
     	</addColumn>
     </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-104">
+        <addColumn tableName="question" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-105">
+        <addColumn tableName="answer" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
 	
     
 </databaseChangeLog>

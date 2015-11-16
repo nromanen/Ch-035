@@ -20,6 +20,8 @@ public interface TestService {
 
 	public void editTest(Test test);
 
+	//public void deleteTestById(Long id);
+	
 	public void disableTestById(Long id);
 
 }
