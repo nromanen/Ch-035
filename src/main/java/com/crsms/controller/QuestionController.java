@@ -2,12 +2,15 @@ package com.crsms.controller;
 
 import com.crsms.domain.Question;
 import com.crsms.service.QuestionService;
+import com.crsms.validator.QuestionFormValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,15 +29,10 @@ public class QuestionController {
 
     @Autowired(required = true)
     private QuestionService questionService;
-
-  /*  @Autowired
-    private QuestionFormValidator formValidator;*/
-
-/*    @InitBinder
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(formValidator);
-    }*/
-
+    
+    @Autowired
+    private QuestionFormValidator questionFormValidator;
+    
     public QuestionController() {}
 
     @RequestMapping(value = { "/add" }, method = RequestMethod.GET)
@@ -62,7 +60,7 @@ public class QuestionController {
         if (!result.hasErrors()) {
         	questionService.createQuestion(testId, question);
         } else {
-        	throw new IllegalArgumentException("QuestionController. Adding json error.");
+        	throw new IllegalArgumentException("QuestionController. AJAX pocessing error.");
         }
         return question;
     }
@@ -105,6 +103,15 @@ public class QuestionController {
      */
     private String redirect(Long courseId, Long moduleId, Long testId) {
         return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/" + testId + "/questions/";
+    }
+    
+	
+	/*
+	 * Method for form validation binding.
+	 */
+    @InitBinder(value="question")
+    private void initBinder(WebDataBinder binder) {
+		binder.setValidator(questionFormValidator);
     }
 
 }

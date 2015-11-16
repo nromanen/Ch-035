@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -35,7 +36,7 @@
 								</div>
 								<div class="panel-body" id ="questions-${test.id}">
 									<c:forEach var="question" items="${test.questions}">
-										<div id="info">
+										<div>
 											<ul class="list-group" >
 												<li class="list-group-item list-group-item-warning">
 												<c:url var="questionById" value="${test.id}/questions/${question.id}/" />
@@ -95,6 +96,7 @@
 			
 				<form:form modelAttribute="question" method="POST" class="form-horizontal" id="modal-form">
 					<form:input path="id" id ="id" type="hidden" />
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				  
 				  	<c:set var="questionWord">
 				      <spring:message code="crsms.question.word" />
@@ -130,7 +132,7 @@
 					  --%>
 					 
 					  	<br>
-					  <div class="form-group">
+ 					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#1:</label>
 					    <div class="col-sm-10">
 					      <form:textarea path="text" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
@@ -173,7 +175,7 @@
 						      <input type="checkbox"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>			      
 					    </div>
-					  </div>  
+					  </div>
 					
 					  <div class="form-group">
 					    <div class="col-sm-offset-2 col-sm-10">

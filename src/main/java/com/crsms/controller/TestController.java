@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,14 +33,9 @@ public class TestController {
 	private TestService testService;
 	
 	@Autowired
-	private TestFormValidator formValidator;
+	private TestFormValidator testFormValidator;
 
 	public TestController() {}
-	
-	@InitBinder(value="test")
-    private void initBinder(WebDataBinder binder) {
-		binder.setValidator(formValidator);
-    }
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
@@ -93,9 +87,7 @@ public class TestController {
 								 @PathVariable("id") Long id) {
 		testService.deleteTestById(id);
 		return redirect(courseId, moduleId);
-	}
-	
-	
+	}	
 
 	/*
 	 * Method returns path redirection.
@@ -103,5 +95,13 @@ public class TestController {
 	private String redirect(Long courseId, Long moduleId) {
 		return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/";
 	}
+	
+	/*
+	 * Method for form validation binding.
+	 */
+	@InitBinder(value="test")
+    private void initBinder(WebDataBinder binder) {
+		binder.setValidator(testFormValidator);
+    }
 
 }

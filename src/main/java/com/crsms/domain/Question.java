@@ -3,11 +3,14 @@ package com.crsms.domain;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
+import java.util.Set;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -32,7 +35,7 @@ public class Question {
     @Size(max = 1000)
     private String text;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //, orphanRemoval = true
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Answer> answers;
 
     public Question() {
@@ -65,4 +68,5 @@ public class Question {
     public void addAnswer(Answer answer) {
         this.answers.add(answer);
     }
+    
 }

@@ -20,19 +20,19 @@ $(document).ready(function (e){
 			} ,
 			success : function(question) {
 				var questionHtml =
-					'<div id="info">' +
-						'<ul class="list-group" >' +
-							'<li class="list-group-item list-group-item-warning">' +
-							'<input type="hidden" value="' + question.id + '">' +
-								'<a href="" class="list-group-item-warning">' +
-									question.text +
-									'&nbsp' +
-									'<a href="#" class="nonUnderlineDelete pull-right"><i class="glyphicon glyphicon-trash"></i></a>' +
-									'<a href="#" class="nonUnderlineEdit pull-right"><i class="glyphicon glyphicon-pencil"></i>&nbsp</a>' +								
-								'</a>' +
-							'</li>' +
-						'</ul>' +
-					'</div>';
+				'<div id="info">' +
+					'<ul class="list-group" >' +
+						'<li class="list-group-item list-group-item-warning">' +
+						'<input type="hidden" value="' + question.id + '">' +
+							'<a href="" class="list-group-item-warning">' +
+								question.text +
+								'&nbsp' +
+								'<a href="#" class="nonUnderlineDelete pull-right"><i class="glyphicon glyphicon-trash"></i></a>' +
+								'<a href="#" class="nonUnderlineEdit pull-right"><i class="glyphicon glyphicon-pencil"></i>&nbsp</a>' +								
+							'</a>' +
+						'</li>' +
+					'</ul>' +
+				'</div>';
 				
 				$("#questions-" + testId).append(questionHtml);
 		

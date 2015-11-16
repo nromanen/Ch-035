@@ -39,7 +39,6 @@ public class TestDaoImpl implements TestDao {
     	}
     }
 
-    @SuppressWarnings("unused")
 	@Override
     public Test getTestById(Long id) {
     	logger.info("TestDao. Reading test by ID: " + id + ".");
@@ -123,17 +122,14 @@ public class TestDaoImpl implements TestDao {
 
 	@Override
 	public boolean hasTestResults(Long testId) {
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(
-				"SELECT COUNT(*) FROM test_result "
-				+ "WHERE test_result.test_id = :test_id LIMIT 1"
-		).setParameter("test_id", testId);
-		
+		String sqlQuery = "SELECT COUNT(*) FROM test_result WHERE test_result.test_id = :test_id LIMIT 1";
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(sqlQuery).setParameter("test_id", testId);
 		long count = ((BigInteger) query.uniqueResult()).longValue();
-		if(count > 0) {
-			return true;
-		} else {
-			return false;
-		}
+			if(count > 0) {
+				return true;
+			} else {
+				return false;
+			}
 	}
 
 }
