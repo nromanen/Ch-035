@@ -34,7 +34,7 @@ public class Question {
     @Column(nullable = false)
 	private Boolean disable = false;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //, orphanRemoval = true
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Answer> answers;
 
     public Question() {

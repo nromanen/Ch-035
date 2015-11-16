@@ -21,12 +21,14 @@ import com.crsms.dto.CourseJsonDto;
 import com.crsms.dto.ModuleJsonDto;
 import com.crsms.dto.ResourceJsonDto;
 import com.crsms.dto.TestJsonDto;
+import com.crsms.dto.VacancyJsonDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
 import com.crsms.service.ModuleService;
 import com.crsms.service.ResourceService;
 import com.crsms.service.TestService;
+import com.crsms.service.VacancyService;
 
 /**
  * 
@@ -56,6 +58,9 @@ public class RestApiController {
 	
 	@Autowired
 	DtoService dtoService;
+	
+	@Autowired
+  VacancyService vacancyService;
 	
 	@RequestMapping(value = {"/areas"}, method = RequestMethod.GET, produces = "application/json")
 	public List<AreaJsonDto> getAreas(HttpServletResponse response) {
@@ -117,5 +122,10 @@ public class RestApiController {
 			method = RequestMethod.GET, produces = "application/json")
 	public ResourceJsonDto getResource(@PathVariable Long resourceId) {
 		return dtoService.convert(resourceService.getById(resourceId), ResourceJsonDto.class, Resource.class);
+	}
+	
+	@RequestMapping(value = {"/vacancies"}, method = RequestMethod.GET, produces = "application/json")
+	public List<VacancyJsonDto> getVacancies() {
+	  return vacancyService.getAllVacancies();
 	}
 }

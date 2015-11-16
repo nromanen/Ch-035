@@ -28,8 +28,6 @@ public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
 
 		String url = request.getRequestURI();
 		modelAndView.addObject("breadcrumbs", makeBreadcrumbs(url));
-		
-		modelAndView.addObject("url", url);
 	}
 	
 	private Map<String, String> makeBreadcrumbs(String url) {

@@ -138,6 +138,10 @@ public class CourseServiceImpl implements CourseService {
 	public List<Course> getAllByUserEmail(String email) {
 		return courseDao.getAllByUserEmail(email);		
 	}
-	
+
+  @Override
+  public List<Course> searchCourses(String searchWord) {
+    return courseDao.searchCourses(searchWord);
+  }
 	
 }

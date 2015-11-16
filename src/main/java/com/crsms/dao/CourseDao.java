@@ -38,4 +38,5 @@ public interface CourseDao {
 	
 	void disable(Course course);
 
+	List<Course> searchCourses(String searchWord);
 }

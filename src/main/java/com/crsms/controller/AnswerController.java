@@ -32,11 +32,6 @@ public class AnswerController {
     @Autowired
     private AnswerFormValidator formValidator;
 
-    @InitBinder
-    private void intiBinder(WebDataBinder binder) {
-        binder.setValidator(formValidator);
-    }
-
     public AnswerController() {}
 
     @RequestMapping(value = { "/add" }, method = RequestMethod.GET)
@@ -98,6 +93,14 @@ public class AnswerController {
     private String redirect(Long courseId, Long moduleId, Long testId, Long questionId) {
         return "redirect:/courses/" + courseId + "/modules/" + moduleId
                         + "/tests/" + testId + "/questions/" + questionId + "/answers/";
+    } 
+    
+	/*
+	 * Method for form validation binding.
+	 */
+    @InitBinder
+    private void intiBinder(WebDataBinder binder) {
+        binder.setValidator(formValidator);
     }
 
 }
