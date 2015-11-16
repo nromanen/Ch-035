@@ -1,4 +1,3 @@
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -11,7 +10,7 @@
 <div id="logo" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 	<a href="${homeLink}">
 		<img id="logo-img" src="<c:url value="${logo}"/>" />
-		<span id="logo-app-title"><spring:message code = "${appTitle}" /></span>
+		<span id="logo-app-title" class="inline-block"><spring:message code = "${appTitle}" /></span>
 	</a>
 <!-- end logo -->
 </div>
@@ -38,8 +37,25 @@
 <div id = "language-picker">
 	<div class = "align-right">
 		<div class="btn-group" role="group" aria-label="...">
-			<a href = "?lang=en" class = "btn btn-default">EN</a>
-			<a href = "?lang=uk" class = "btn btn-default">UA</a>
+			<c:url var="langEN" value="">
+				<c:forEach items="${param}" var="entry">
+				    <c:if test="${entry.key != 'lang'}">
+				        <c:param name="${entry.key}" value="${entry.value}" />
+				    </c:if>
+				</c:forEach>
+				<c:param name="lang" value="en" />
+			</c:url>
+			<a href = "${langEN}" class = "btn btn-default">EN</a>
+			
+			<c:url var="langUK" value="">
+				<c:forEach items="${param}" var="entry">
+				    <c:if test="${entry.key != 'lang'}">
+				        <c:param name="${entry.key}" value="${entry.value}" />
+				    </c:if>
+				</c:forEach>
+				<c:param name="lang" value="uk" />
+			</c:url>
+			<a href = "${langUK}" class = "btn btn-default">UA</a>
 		</div>
 	</div>
 </div>

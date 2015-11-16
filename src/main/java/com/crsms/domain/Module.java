@@ -31,9 +31,8 @@ public class Module {
 	public static final String GET_ALL = "Module.getAll";
 	public static final String GET_ALL_BY_COURSE_ID = "Module.getAllByCourseId";
 	public static final String DELETE_BY_ID = "Module.deleteById";
-	
-	public static final int MAX_NAME_LENGTH = 50;
-	public static final int MAX_DESCTIPTION_LENGTH = 1000;
+	public static final int MAX_NAME_LENGTH = 255;
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -45,9 +44,8 @@ public class Module {
 	@Size(max = MAX_NAME_LENGTH)
 	private String name;
 	
-	@Column(nullable = false, length = MAX_DESCTIPTION_LENGTH)
+	@Column(nullable = false)
 	@NotEmpty
-	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
 		
 	@ManyToMany(cascade = CascadeType.ALL)

@@ -16,6 +16,7 @@ import java.util.List;
  * @author Andriets Petro
  */
 
+@Transactional
 @Service("answerService")
 public class AnswerServiceImpl implements AnswerService {
     private static Logger logger = LogManager.getLogger(AnswerServiceImpl.class);
@@ -29,7 +30,6 @@ public class AnswerServiceImpl implements AnswerService {
     public AnswerServiceImpl() {}
 
     @Override
-    @Transactional
     public void createAnswer(Long questionId, Answer answer) {
         logger.info("AnswerService. Creating a new answer.");
         Question question = questionService.getQuestionById(questionId);
@@ -39,7 +39,6 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    @Transactional
     public Answer getAnswerById(Long id) {
         logger.info("AnswerService. Reading answer by ID: " + id + ".");
         Answer answer = answerDao.getAnswerById(id);
@@ -48,14 +47,12 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    @Transactional
     public List<Answer> getAnswersByQuestionId(Long questionId) {
         logger.info("AnswerService. Reading all answers by Question ID.");
         return answerDao.getAnswersByQuestionId(questionId);
     }
 
     @Override
-    @Transactional
     public void editAnswer(Answer answer) {
         logger.info("AnswerService. Editing answer.");
         Answer existingAnswer = answerDao.getAnswerById(answer.getId());
@@ -66,7 +63,6 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    @Transactional
     public void deleteAnswerById(Long id) {
         logger.info("AnswerService. Deleting answer by ID: " + id + ".");
         answerDao.deleteAnswerById(id);
