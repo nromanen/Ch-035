@@ -36,6 +36,8 @@ public interface CourseDao {
 
 	List<Course> getAllByUserEmail(String email);
 	
+	List<Course> getAllByOwnerEmail(String email);
+	
 	void disable(Course course);
 
 	List<Course> searchCourses(String searchWord);

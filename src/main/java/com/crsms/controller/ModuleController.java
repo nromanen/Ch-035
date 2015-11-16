@@ -41,7 +41,7 @@ public class ModuleController {
 	private CourseService courseService;
 	
 	@Autowired
-	private DtoService dtoService;;
+	private DtoService dtoService;
 	
 	@Autowired
 	private ModuleFormValidator validator;

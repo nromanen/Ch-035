@@ -166,6 +166,20 @@ public class CourseDaoImpl implements CourseDao {
 		}
 		return list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllByOwnerEmail(String email) {
+		List<Course> list = new ArrayList<Course>();
+		try {
+			list = sessionFactory.getCurrentSession()
+								 .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
+							 	 .setParameter("email", email).list();
+		} catch (Exception e) {
+			logger.error("Error in getting all courses by owner email: " + e);
+		}
+		return list;
+	}
 
 	@Override
 	public void disable(Course course) {
