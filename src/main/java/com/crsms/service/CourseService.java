@@ -43,6 +43,7 @@ public interface CourseService {
 	List<Course> getAllByUserId(Long userId);
 	
 	List<Course> getAllByUserEmail(String email);
-
+	
+	List<Course> searchCourses(String seachWord);
 
 }

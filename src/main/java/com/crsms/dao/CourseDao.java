@@ -39,4 +39,6 @@ public interface CourseDao {
 	boolean hasSubscribedUsers(Long courseId);
 	
 	boolean hasTestResults(Long courseId);
+	
+	List<Course> searchCourses(String searchWord);
 }

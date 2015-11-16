@@ -1,7 +1,7 @@
 
 /*courses view*/
-th {
-	text-align: center;
+#courses-nav .search {
+	display: inline-block;
 }
 
 .course-grid {
