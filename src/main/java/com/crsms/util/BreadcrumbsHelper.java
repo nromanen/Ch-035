@@ -18,7 +18,7 @@ public class BreadcrumbsHelper {
 	
 	public static final String UNKNOWN = "crsms.bc.unknown";
 
-	public String getCode(String label) {
+	public static String getCode(String label) {
 		switch (label) {
 			case "crsms": return CRSMS;
 			case "areas": return AREAS;

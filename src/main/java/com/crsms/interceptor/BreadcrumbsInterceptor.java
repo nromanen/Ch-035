@@ -19,8 +19,6 @@ import com.crsms.util.BreadcrumbsHelper;
 
 public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
 	
-	private BreadcrumbsHelper breadcrumbsHelper = new BreadcrumbsHelper();
-	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response,
 							Object handler, ModelAndView modelAndView)
@@ -73,9 +71,8 @@ public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
 	}
 	
 	private String makeLabel(String target) {
-		String label = target.replaceAll("\\d*\\/", "");
-		label = label.replaceAll("\\/", "");
-		return breadcrumbsHelper.getCode(label);
+		String label = target.replaceAll("\\d*\\/", "").replaceAll("\\/", "");
+		return BreadcrumbsHelper.getCode(label);
 	}
 	
 }

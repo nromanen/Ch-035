@@ -194,7 +194,6 @@ public class CourseController {
 	public ModelAndView editCourseSubmit(
 						@RequestParam("areaId") Long areaId,
 						/*@Validated*/ CourseFormDto courseFormDto, BindingResult result) {
-		
 		ModelAndView model = new ModelAndView();
 		
 		validator.validate(courseFormDto, result);
@@ -217,18 +216,15 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}/delete", method = RequestMethod.GET)
 	public ModelAndView deleteCourse(@PathVariable("courseId") Long courseId) {
 		ModelAndView model = new ModelAndView();
-		
 		Course course = courseService.getById(courseId);
-
+		
 		if (!isCurrentPrincipalAnOwner(course)) {
 			model.setViewName("403");
 			return model;
 		}
 		
 		courseService.deleteCourse(course);
-		
 		model.setViewName("redirect:/courses/");
-		
 		return model;
 	}
 	
