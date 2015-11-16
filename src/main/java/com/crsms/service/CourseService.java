@@ -11,25 +11,17 @@ import com.crsms.domain.Course;
  *
  */
 
-public interface CourseService {
-	
-	void save(Course course);
+public interface CourseService extends BaseService<Course> {
 	
 	void save(Course course, long areaId, String ownerEmail);
 	
-	List<Course> getAll();
-	
 	List<Course> getAllInitialized();
 	
-	Course getById(Long id);
-
-	void update(Course course);
+	Course getInitializedById(Long id, Course.LazyField ... lazyFields);
 	
 	void update(Course course, long areaId, String ownerEmail);
 	
 	Course get(String name);
-	
-	void deleteCourse(Course course);
 	
 	List<Course> getAllByAreaId(Long areaId);
 	

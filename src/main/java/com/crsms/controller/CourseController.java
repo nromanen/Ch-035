@@ -115,7 +115,7 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
 	public ModelAndView showCourse(@PathVariable Long courseId) {
 		ModelAndView model = new ModelAndView();
-		Course course = courseService.getById(courseId);
+		Course course = courseService.getInitializedById(courseId, Course.LazyField.MODULES);
 		model.addObject("course", course);
 		model.addObject("courseEndDate", course.getStartDate().plusDays(course.getDuration()));
 		model.addObject("pageTitle", course.getName());
@@ -124,6 +124,7 @@ public class CourseController {
 		return model;
 	}
 	
+
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView newCourse() {
@@ -223,7 +224,7 @@ public class CourseController {
 			return model;
 		}
 		
-		courseService.deleteCourse(course);
+		courseService.delete(course);
 		model.setViewName("redirect:/courses/");
 		return model;
 	}

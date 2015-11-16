@@ -41,6 +41,21 @@
 }
 
 /*course view*/
+#course-wrapper {
+	position: relative;
+	margin-bottom: 20px;
+}
+#course-wrapper:after {
+	position: absolute;
+    margin: 0 auto;
+    left: 50%;
+    margin-left: -60px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 60px 60px 0px 60px;
+    border-color: #ffffff transparent transparent transparent;
+}
 #course-wrapper .course-title {
 	text-align: center;
 }
@@ -56,11 +71,16 @@
 }
 #main-container.course-container {
 	padding-top: 0;
-	background-color: #f1f2f2;
+	padding-bottom: 0;
 }
-.unit-dashboard {
-	background-color: #fff;
+#course-modules-wrapper {
+	background-color: #E6E6E6;
+	padding-top: 50px;
 }
-.breadcrumb {
-	margin-bottom: 0;
+.course-module-grid {
+	border-top: 1px solid #8E8E8E;
+	padding-bottom: 40px;
+}
+.module-desc {
+	text-align: justify;
 }
