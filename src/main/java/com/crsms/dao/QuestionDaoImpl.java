@@ -1,6 +1,8 @@
 package com.crsms.dao;
 
+import com.crsms.domain.Module;
 import com.crsms.domain.Question;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -93,6 +95,22 @@ public class QuestionDaoImpl implements QuestionDao {
             logger.error("QuestionDao. Illegal argument received when question by ID deleting.");
             throw new IllegalArgumentException("QuestionDao. Illegal argument received when question by ID deleting.");
         }
+    }
+    
+    @Override
+	public void disable(Question question) {
+    	question.setDisable(true);
+    	this.updateQuestion(question);
+    	
+    	String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+				+ "(SELECT answerList "
+				+ "FROM Question question "
+				+ "JOIN question.answers answerList "
+				+ "WHERE question.id = :id)";
+    	
+    	sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
+			.setParameter("id", question.getId()).executeUpdate();
+    	
     }
 
 }

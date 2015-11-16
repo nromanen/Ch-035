@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.CourseDao;
+import com.crsms.dao.ModuleDao;
 import com.crsms.dao.UserDao;
 import com.crsms.domain.Course;
+import com.crsms.domain.Module;
 import com.crsms.domain.User;
 
 /**
@@ -84,16 +86,26 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public void deleteCourse(Course course) {
-		//ToDO: delete all(module, test ...)
-		if(courseDao.hasSubscribedUsers(course.getId()) && courseDao.hasTestResults(course.getId())) {
-			course.setDisable(true);
-			courseDao.update(course);
+		if(course.getPublished()) {
+			this.disable(course);
 		} else {
-			/*for(Module module : course.getModules()){
-				moduleService.delete(module);
-			}*/
+			this.disable(course);
+			//TODO:replace on HQL
+			for(Module module : course.getModules()){
+				moduleService.freeResource(module);
+			}
 			courseDao.delete(course);
 		}
+	}
+
+	public void disable(Course course) {
+		/*course.setDisable(true);
+		courseDao.update(course);
+		
+		for(Module module : course.getModules()){
+			moduleService.disable(module);
+		}*/
+		courseDao.disable(course);
 	}
 
 	@Override

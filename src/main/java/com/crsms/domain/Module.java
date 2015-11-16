@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+
 import java.util.Set;
 
 /**
@@ -48,7 +49,7 @@ public class Module {
 	@NotEmpty
 	private String description;
 		
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Set<Resource> resources;
 	
 	@OneToMany(cascade = CascadeType.ALL)

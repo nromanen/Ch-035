@@ -1,6 +1,7 @@
 package com.crsms.dao;
 
 import com.crsms.domain.Test;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
@@ -121,15 +122,41 @@ public class TestDaoImpl implements TestDao {
     }
 
 	@Override
-	public boolean hasTestResults(Long testId) {
-		String sqlQuery = "SELECT COUNT(*) FROM test_result WHERE test_result.test_id = :test_id LIMIT 1";
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(sqlQuery).setParameter("test_id", testId);
-		long count = ((BigInteger) query.uniqueResult()).longValue();
-			if(count > 0) {
-				return true;
-			} else {
-				return false;
-			}
+	public void disableTestById(Long testId) {
+		if (testId != null) {
+            logger.info("TestDao. disabling test.");
+            Test test = (Test) sessionFactory.getCurrentSession().load(Test.class, new Long(testId));
+            this.disable(test);
+            logger.info("TestDao. disabling test successfully.");
+    	} else {
+    		logger.error("TestDao. Illegal argument received when test deleting.");
+    		throw new IllegalArgumentException("TestDao. Illegal argument received when test disabling.");
+    	}
+		
+	}
+	
+	@Override
+	public void disable(Test test) {
+		test.setDisable(true);
+		this.updateTest(test);
+		
+		String hqlDelQuestion = "UPDATE Question question SET question.disable=true WHERE question IN "
+				+ "(SELECT questionList "
+				+ "FROM Test test "
+				+ "JOIN test.questions questionList "
+				+ "WHERE test.id = :id)";
+		
+		String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+				+ "(SELECT answerList "
+				+ "FROM Test test "
+				+ "JOIN test.questions questionList "
+				+ "JOIN questionList.answers answerList "
+				+ "WHERE test.id = :id)";
+		
+		sessionFactory.getCurrentSession().createQuery(hqlDelQuestion)
+			.setParameter("id", test.getId()).executeUpdate();
+		sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
+			.setParameter("id", test.getId()).executeUpdate();
 	}
 
 }

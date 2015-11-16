@@ -36,6 +36,9 @@ public class Answer {
 	
 	@Column(nullable = false)
 	private Boolean correct = false;
+	
+	@Column(nullable = false)
+	private Boolean disable = false;
 
 	public Answer() {}
 
@@ -63,4 +66,12 @@ public class Answer {
 		this.correct = correct;
 	}
 
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+	
 }

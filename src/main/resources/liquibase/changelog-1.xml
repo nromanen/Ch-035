@@ -44,4 +44,43 @@
         <sqlFile path="liquibase/fixSequence.sql"/>
     </changeSet>
     
+    <changeSet author="maftey" id="1446992667519-100">
+        <addColumn tableName="test" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-101">
+	    <modifyDataType 
+	            columnName="name"
+	            newDataType="character varying(255)"
+	            tableName="course"/>
+	</changeSet> 
+	
+	<changeSet author="maftey" id="1446992667519-102">
+	    <modifyDataType 
+	            columnName="description"
+	            newDataType="text"
+	            tableName="course"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-103">
+        <addColumn tableName="course" >
+        	<column name="published" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-104">
+        <addColumn tableName="question" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-105">
+        <addColumn tableName="answer" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+	
+    
 </databaseChangeLog>
