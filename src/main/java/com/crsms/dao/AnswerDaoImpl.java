@@ -1,7 +1,6 @@
 package com.crsms.dao;
 
 import com.crsms.domain.Answer;
-import com.crsms.domain.Test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,39 +17,13 @@ import java.util.List;
  */
 
 @Repository("answerDao")
-public class AnswerDaoImpl implements AnswerDao{
+public class AnswerDaoImpl extends BaseDaoImpl<Answer> implements AnswerDao{
     private static Logger logger = LogManager.getLogger(AnswerDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
 
     public AnswerDaoImpl() {}
-
-    @Override
-    public void saveAnswer(Answer answer) {
-        if (answer != null) {
-            logger.info("AnswerDao. Creating a new answer.");
-            Session session = sessionFactory.getCurrentSession();
-            session.persist(answer);
-            logger.info("AnswerDao. Creating a new answer successfully.");
-        } else {
-            logger.error("AnswerDao. Illegal argument received when answer saving.");
-            throw new IllegalArgumentException("AnswerDao. Illegal argument received when answer saving.");
-        }
-    }
-
-    @Override
-    public Answer getAnswerById(Long id) {
-        logger.info("AnswerDao. Reading answer by ID: " + id + ".");
-        Answer answer = (Answer) sessionFactory.getCurrentSession().get(Answer.class, id);
-        if (answer != null) {
-            logger.info("AnswerDao. Reading answer by ID: " + id + " successfully.");
-            return answer;
-        } else {
-            logger.error("AnswerDao. Illegal argument received when answer by ID getting.");
-            throw new IllegalArgumentException("AnswerDao. Illegal argument received when answer by ID getting.");
-        }
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -64,19 +37,6 @@ public class AnswerDaoImpl implements AnswerDao{
         } else {
             logger.error("AnswerDao. Illegal argument received when answer by Question ID getting.");
             throw new IllegalArgumentException("AnswerDao. Illegal argument received when answer by Question ID getting.");
-        }
-    }
-
-    @Override
-    public void updateAnswer(Answer answer) {
-        if (answer != null) {
-            logger.info("AnswerDao. Updating answer.");
-            Session session = sessionFactory.getCurrentSession();
-            session.update(answer);
-            logger.info("AnswerDao. Updating answer successfully.");
-        } else {
-            logger.error("AnswerDao. Illegal argument received when answer updating.");
-            throw new IllegalArgumentException("AnswerDao. Illegal argument received when answer updating.");
         }
     }
 
@@ -99,6 +59,7 @@ public class AnswerDaoImpl implements AnswerDao{
     @Override
 	public void disable(Answer answer) {
     	answer.setDisable(false);
-    	this.updateAnswer(answer);
+    	this.update(answer);
     }
+    
 }

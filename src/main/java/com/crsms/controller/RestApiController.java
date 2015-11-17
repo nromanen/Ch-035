@@ -106,7 +106,7 @@ public class RestApiController {
 	@RequestMapping(value = {"/tests/{testId}", "/courses/{courseId}/modules/{moduleId}/tests/{testId}"},
 			method = RequestMethod.GET, produces = "application/json")
 	public TestJsonDto getTest(@PathVariable Long testId) {
-		return dtoService.convert(testService.getTestById(testId), TestJsonDto.class, Test.class);
+		return dtoService.convert(testService.getById(testId), TestJsonDto.class, Test.class);
 	}
 	
 	@RequestMapping(value = {"/modules/{moduleId}/resources", 

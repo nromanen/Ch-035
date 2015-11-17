@@ -1,5 +1,6 @@
 package com.crsms.dao;
 
+import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.Question;
 
@@ -18,68 +19,13 @@ import java.util.List;
  */
 
 @Repository("questionDao")
-public class QuestionDaoImpl implements QuestionDao {
+public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDao {
     private static Logger logger = LogManager.getLogger(QuestionDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
 
     public QuestionDaoImpl() {}
-
-    @Override
-    public void saveQuestion(Question question) {
-        if (question != null) {
-            logger.info("QuestionDao. Creating a new question.");
-            Session session = sessionFactory.getCurrentSession();
-            session.persist(question);
-            logger.info("QuestionDao. Creating a new question successfully.");
-        } else {
-            logger.error("QuestionDao. Illegal argument received when question saving.");
-            throw new IllegalArgumentException("QuestionDao. Illegal argument received when question saving.");
-        }
-    }
-
-    @Override
-    public Question getQuestionById(Long id) {
-        logger.info("QuestionDao. Reading question by ID: " + id + ".");
-        Question question = (Question) sessionFactory.getCurrentSession().get(Question.class, id);
-        if (question != null) {
-            logger.info("QuestionDao. Reading question by ID: " + id + " successfully.");
-            return question;
-        } else {
-            logger.error("QuestionDao. Illegal argument received when question by ID getting.");
-            throw new IllegalArgumentException("QuestionDao. Illegal argument received when question by ID getting.");
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-	@Override
-    public List<Question> getAllByTestId(Long id) {
-        if (id != null) {
-            logger.info("QuestionDao. Reading all questions by Test ID.");
-            List<Question> questionList = new ArrayList<Question>();
-            questionList = sessionFactory.getCurrentSession().getNamedQuery(Question.GET_BY_TEST_ID)
-                                                             .setParameter("id", id).list();
-            logger.info("QuestionDao. Reading all questions by Test ID successfully.");
-            return questionList;
-        } else {
-            logger.error("QuestionDao. Illegal argument received when questions by Test ID getting.");
-            throw new IllegalArgumentException("QuestionDao. Illegal argument received when questions by Test ID getting.");
-        }
-    }
-
-    @Override
-    public void updateQuestion(Question question) {
-        if (question != null) {
-            logger.info("QuestionDao. Updating question.");
-            Session session = sessionFactory.getCurrentSession();
-            session.update(question);
-            logger.info("QuestionDao. Updating question successfully.");
-        } else {
-            logger.error("QuestionDao. Illegal argument received when question updating.");
-            throw new IllegalArgumentException("QuestionDao. Illegal argument received when question updating.");
-        }
-    }
 
     @Override
     public void deleteQuestionById(Long id) {
@@ -97,10 +43,26 @@ public class QuestionDaoImpl implements QuestionDao {
         }
     }
     
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<Question> getAllByTestId(Long id) {
+        if (id != null) {
+            logger.info("QuestionDao. Reading all questions by Test ID.");
+            List<Question> questionList = new ArrayList<Question>();
+            questionList = sessionFactory.getCurrentSession().getNamedQuery(Question.GET_BY_TEST_ID)
+                                                             .setParameter("id", id).list();
+            logger.info("QuestionDao. Reading all questions by Test ID successfully.");
+            return questionList;
+        } else {
+            logger.error("QuestionDao. Illegal argument received when questions by Test ID getting.");
+            throw new IllegalArgumentException("QuestionDao. Illegal argument received when questions by Test ID getting.");
+        }
+    }
+    
     @Override
 	public void disable(Question question) {
     	question.setDisable(true);
-    	this.updateQuestion(question);
+    	this.update(question);
     	
     	String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
 				+ "(SELECT answerList "
@@ -110,7 +72,6 @@ public class QuestionDaoImpl implements QuestionDao {
     	
     	sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
 			.setParameter("id", question.getId()).executeUpdate();
-    	
     }
 
 }
