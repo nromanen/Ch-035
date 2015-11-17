@@ -2,7 +2,6 @@ package com.crsms.service;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,46 +40,6 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		course.setArea(areaService.getAreaById(areaId));
 		courseDao.save(course);
 	}
-	
-	@Override
-	public List<Course> getAllInitialized() {
-		return courseDao.getAllInitialized();
-	}
-	
-	// TODO Ask where to place bellow method. DAO or Service layer	
-	@Override
-	public Course getInitializedById(Long id, Course.LazyField ... lazyFields) {
-		Course course = courseDao.getById(id);
-		this.initializeFields(course, lazyFields);
-		return course;
-	}
-	private void initializeFields(Course course, Course.LazyField[] lazyFields) {
-		for (Course.LazyField lazyField : lazyFields) {
-			this.initializeField(course, lazyField);
-		}
-	}
-	private void initializeField(Course course, Course.LazyField lazyField) {
-		switch(lazyField) {
-			case ALL:
-				Hibernate.initialize(course.getModules());
-				for (Module module : course.getModules()) {
-					Hibernate.initialize(module.getTests());
-					Hibernate.initialize(module.getResources());
-				}
-				Hibernate.initialize(course.getUsers());
-				break;
-			case MODULES:
-				Hibernate.initialize(course.getModules());
-				for (Module module : course.getModules()) {
-					Hibernate.initialize(module.getTests());
-					Hibernate.initialize(module.getResources());
-				}
-				break;
-			case USERS: 
-				Hibernate.initialize(course.getUsers());
-		}
-	}
-	// TODO SEE ABOVE
 	
 	@Override
 	public void update(Course course, long areaId, String ownerEmail) {
