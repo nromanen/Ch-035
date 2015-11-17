@@ -13,3 +13,8 @@ th {
 .nameCell {
 	width: 30%;
 }
+
+.btn-create {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
