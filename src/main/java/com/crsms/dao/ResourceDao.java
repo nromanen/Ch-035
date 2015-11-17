@@ -10,22 +10,9 @@ import com.crsms.domain.Resource;
  *
  */
 
-public interface ResourceDao {
-	
-	void save(Resource resource);
-	
-	void update(Resource resource);
-	
-	void delete(Resource resource);
+public interface ResourceDao extends BaseDao<Resource> {
 	
 	void deleteById(Long id);
 	
-	Resource getById(Long id);
-	
-	List<Resource> getAll();
-	
 	List<Resource> getAllByModuleId(Long moduleId);
-	
-	public boolean onlyForModule(Long moduleId);
-	
 }

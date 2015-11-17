@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -29,22 +28,24 @@ class WebConfig extends WebMvcConfigurationSupport {
     }
     
     @Bean
-    TilesViewResolver viewResolver(){
+    TilesViewResolver viewResolver() {
         TilesViewResolver viewResolver = new TilesViewResolver();
         return viewResolver;
     }
 
     @Bean
-    TilesConfigurer tilesConfigurer(){
+    TilesConfigurer tilesConfigurer() {
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
         tilesConfigurer.setDefinitions("WEB-INF/tiles/tiles.xml");
-        tilesConfigurer.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
+        tilesConfigurer.setPreparerFactoryClass(
+        		org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
         return tilesConfigurer;    
     }
     
     @Bean
 	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		ReloadableResourceBundleMessageSource messageSource = 
+				new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("/resources/localization/crsms");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
@@ -63,7 +64,7 @@ class WebConfig extends WebMvcConfigurationSupport {
         return new StandardServletMultipartResolver();
     }
     
-    @Bean(name="simpleMappingExceptionResolver")
+    @Bean(name = "simpleMappingExceptionResolver")
     public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
         SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
         resolver.setDefaultErrorView("errorpage");

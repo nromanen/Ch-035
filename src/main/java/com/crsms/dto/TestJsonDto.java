@@ -4,7 +4,7 @@ import com.googlecode.jmapper.annotations.JMap;
 
 public class TestJsonDto {
 
-	public  TestJsonDto() {}
+	public  TestJsonDto() { }
 
 	@JMap
     private Long id;

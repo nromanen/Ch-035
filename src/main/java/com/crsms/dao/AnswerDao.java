@@ -1,24 +1,19 @@
 package com.crsms.dao;
 
-import com.crsms.domain.Answer;
-
 import java.util.List;
+
+import com.crsms.domain.Answer;
 
 /**
  * @author Petro Andriets
  */
 
-public interface AnswerDao {
+public interface AnswerDao extends BaseDao<Answer> {
 
-    public void saveAnswer(Answer answer);
+    List<Answer> getAnswersByQuestionId(Long id);
 
-    public Answer getAnswerById(Long id);
-
-    public List<Answer> getAnswersByQuestionId(Long id);
-
-    public void updateAnswer(Answer answer);
-
-    public void deleteAnswerById(Long id);
+    void deleteAnswerById(Long id);
 
 	void disable(Answer answer);
+	
 }

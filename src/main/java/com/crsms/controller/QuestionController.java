@@ -54,6 +54,7 @@ public class QuestionController {
         return redirect(courseId, moduleId, testId);
     }
     
+    //Need to return QuestionFormDto?
     @RequestMapping(value = "/add/question-form")
     public @ResponseBody Question addQuestionJson(@PathVariable Long courseId, @PathVariable Long moduleId,
                          @PathVariable Long testId, @Validated Question question, BindingResult result) {
@@ -67,7 +68,7 @@ public class QuestionController {
     
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editQuestion(@PathVariable("id") Long id, Model model) {
-        Question tempQuestion = questionService.getQuestionById(id);
+        Question tempQuestion = questionService.getById(id);
         model.addAttribute("question", tempQuestion);
         return CREATE_QUESTION_PAGE;
     }
@@ -78,8 +79,8 @@ public class QuestionController {
                                @Validated Question question, BindingResult result) {
         if (result.hasErrors()) {
             return CREATE_QUESTION_PAGE;
-        } else if (questionService.getQuestionById(id) != null) {
-            questionService.editQuestion(question);
+        } else if (questionService.getById(id) != null) {
+            questionService.update(question);
         }
         return redirect(courseId, moduleId, testId);
     }

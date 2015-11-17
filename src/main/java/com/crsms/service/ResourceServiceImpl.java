@@ -20,7 +20,7 @@ import com.crsms.domain.Resource;
 
 @Service("resourceService")
 @Transactional
-public class ResourceServiceImpl implements ResourceService {
+public class ResourceServiceImpl extends BaseServiceImpl<Resource>  implements ResourceService {
 	
 	private static Logger logger = LogManager.getLogger(ResourceServiceImpl.class);
 	
@@ -31,46 +31,11 @@ public class ResourceServiceImpl implements ResourceService {
 	private ModuleService moduleService;
 	
 	@Override
-	public void save(Resource resource) {
-		logger.info("in resourceService save(Resource)");
-		resourceDao.save(resource);
-		logger.info("out resourceService save(Resource)");
-	}
-	
-	@Override
-	public void update(Resource resource) {
-		logger.info("in resourceService update(Resource)");
-		resourceDao.update(resource);
-		logger.info("out resourceService update(Resource)");
-	}
-
-	@Override
-	public void delete(Resource resource) {
-		logger.info("in resourceService delete(Resource)");
-		resourceDao.delete(resource);
-		logger.info("out resourceService delete(Resource)");
-	}
-	
-	@Override
 	public void delete(Long resourceId, Long moduleId) {
 		logger.info("in resourceService delete(Long resourceId, Long moduleId)");
 		Resource resource = resourceDao.getById(resourceId);
 		moduleService.removeResource(moduleId, resource);
 		logger.info("out resourceService delete(Long resourceId, Long moduleId)");
-	}
-	
-	@Override
-	public Resource getById(Long id) {
-		logger.info("in resourceService getById(resource id)");
-		logger.info("trying to get resource");
-		return resourceDao.getById(id);
-	}
-
-	@Override
-	public List<Resource> getAll() {
-		logger.info("in resourceService getAll(Resource)");
-		logger.info("trying to get resources");
-		return resourceDao.getAll();
 	}
 
 	@Override

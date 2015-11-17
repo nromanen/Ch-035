@@ -1,16 +1,17 @@
 package com.crsms.config;
 
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import java.io.File;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
-import java.io.File;
+
+import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	// Temporary location where files will be stored.
@@ -24,17 +25,17 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { RootConfig.class };
+		return new Class[] {RootConfig.class};
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { WebConfig.class };
+		return new Class[] {WebConfig.class};
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] { "/" };
+		return new String[] {"/"};
 	}
 	
 	@Override
@@ -48,8 +49,9 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         if (!dir.exists()) {
         	dir.mkdirs();
         }
-    	MultipartConfigElement multipartConfigElement = new MultipartConfigElement(dir.getAbsolutePath(), MAX_FILE_SIZE, 
-    																			   MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
+    	MultipartConfigElement multipartConfigElement = 
+    			new MultipartConfigElement(dir.getAbsolutePath(), MAX_FILE_SIZE, 
+    										MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
         return multipartConfigElement;
     }
     
@@ -58,17 +60,16 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		String servletName = getServletName();
 		Assert.hasLength(servletName, "getServletName() must not return empty or null");
 		WebApplicationContext servletAppContext = createServletApplicationContext();
-		Assert.notNull(servletAppContext,
-				"createServletApplicationContext() did not return an application " +
-				"context for servlet [" + servletName + "]");
+		Assert.notNull(servletAppContext, "createServletApplicationContext() did not return" 
+			  + "an application context for servlet [" + servletName + "]");
 
 		DispatcherServlet dispatcherServlet = createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setContextInitializers(getServletApplicationContextInitializers());
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-		ServletRegistration.Dynamic registration = servletContext.addServlet(servletName, dispatcherServlet);
-		Assert.notNull(registration,
-				"Failed to register servlet with name '" + servletName + "'." +
-				"Check if there is another servlet registered under the same name.");
+		ServletRegistration.Dynamic registration = 
+				servletContext.addServlet(servletName, dispatcherServlet);
+		Assert.notNull(registration, "Failed to register servlet with name '" + servletName + "'." 
+			  + "Check if there is another servlet registered under the same name.");
 
 		registration.setLoadOnStartup(1);
 		registration.addMapping(getServletMappings());
@@ -85,7 +86,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     
     @Override
 	protected Filter[] getServletFilters() {
-		Filter [] singleton = { new CORSFilter() };
+		Filter[] singleton = {new CORSFilter()};
 		return singleton;
 	}
 
