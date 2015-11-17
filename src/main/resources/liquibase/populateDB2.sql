@@ -1,9 +1,10 @@
-DELETE FROM area;
+DELETE FROM course_module;
+DELETE FROM module_resource;
 DELETE FROM course;
 DELETE FROM module;
-DELETE FROM course_module;
+DELETE FROM area;
 DELETE FROM resource;
-DELETE FROM module_resource;
+
 
 INSERT INTO area(id, name) VALUES (1, 'UI');
 INSERT INTO area(id, name) VALUES (2, 'Java');
