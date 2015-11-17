@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.crsms.util.Command;
+import com.crsms.util.Invocable;
 
 @Transactional
 public interface BaseService<E> {
@@ -15,7 +15,7 @@ public interface BaseService<E> {
 
 	E getById(Long id);
 	
-	E getById(Long id, Command ... initializers);
+	E getById(Long id, List<Invocable<E>> initializers);
 
 	void update(E entity);
 	
