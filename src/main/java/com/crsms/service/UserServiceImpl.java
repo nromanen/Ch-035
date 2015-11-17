@@ -31,7 +31,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Transactional
 	public User saveUser(User user) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			userDao.update(user);
+			userDao.save(user);
 		return user;
 	}
 	
