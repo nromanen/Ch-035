@@ -149,6 +149,9 @@
 		<put-attribute name="header-title" value="crsms.courses.text.courses" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courses_table.jsp" />
 		<put-attribute name="content-container-class" value="container-fluid" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/course/course.css" />
+		</put-list-attribute>
 	</definition>
 	
 	<definition name="course" extends="base-template" >

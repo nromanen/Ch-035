@@ -8,10 +8,10 @@
 		<div id = "navigation" class = "pull-left">
 			<ul class="nav nav-pills">
 			  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
-				  <a href="?show=all"><spring:message code = "crsms.courses.text.all" /></a>
+				  <a href="/crsms/courses/?show=all"><spring:message code = "crsms.courses.text.all" /></a>
 			  </li>
 			  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }">
-			  	<a href="?show=my"><spring:message code = "crsms.courses.text.my" /></a>
+			  	<a href="/crsms/courses/?show=my"><spring:message code = "crsms.courses.text.my" /></a>
 			  </li>
 			</ul>
 		</div>
