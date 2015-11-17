@@ -42,10 +42,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-offset-0">
-				<div class="form-group">
-					<input type="file" accept="image/*" id="pic">
-				</div>	
 				<form:form modelAttribute="userInfo" id="user-information" action="submitUserInfo" name="userInformation" method="POST" class="form-horizontal">
+					<form:input path="id" type="hidden" class="form-control" name="id" />
 					<div class="form-group">
 						<label for="image" class="col-md-2">Image</label>
 						<div class="col-md-2">
@@ -62,12 +60,16 @@
 							<form:input path="image" type="hidden" class="form-control" id="image" name="image" value="${ imgSrc }" />
 						</div>
 					</div>	
-										
+					<div class="form-group">
+						<div class="col-md-3 col-md-offset-2">
+							<input type="file" accept="image/*" id="pic">
+						</div>
+					</div>	
 					<div class="form-group">
 						<label for="firstName" class="col-md-2"><spring:message code = "crsms.userProfile.fName"/></label>
 						<div class="col-md-2">
 							<form:input path="firstName" type="text" class="form-control" id="firstName" name="firstName"
-								placeholder="First name" required="true" pattern="^[A-Z][a-z]*"  />
+								placeholder="First name" required="true"  />
 							<form:errors path = "firstName" cssClass = "label label-danger" />
 						</div>
 					</div>
@@ -75,14 +77,14 @@
 						<label for="lastName" class="col-md-2"><spring:message code = "crsms.userProfile.lName"/></label>
 						<div class="col-md-2">
 							<form:input path="lastName" type="text" class="form-control" id="lastName" name="lastName"
-								placeholder="Last name" required="true" pattern="^[A-Z][a-z]*"  />
+								placeholder="Last name" required="true" />
 							<form:errors path = "lastName" cssClass = "label label-danger" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="email" class="col-md-2"><spring:message code = "crsms.userProfile.email"/></label>
 						<div class="col-md-2">
-							<input type="email" class="form-control" id="email" name="email" value="${ user.email }" readonly>
+							<input type="email" class="form-control" id="email" name="email" value="${userInfo.user.email}" readonly>
 						</div>
 					</div>
 					<div class="form-group">

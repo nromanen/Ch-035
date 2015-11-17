@@ -19,10 +19,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user_info")
@@ -37,16 +33,8 @@ public class UserInfo {
 	@Id  
     @Column(name = "id")  
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_info_id_seq", allocationSize = 1000)
-		
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_info_gen")
-//	@SequenceGenerator(name = "user_info_gen", sequenceName = "user_info_id_seq", allocationSize = 1000)
-	
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_info_gen")
-//    @GenericGenerator(name = "user_info_gen", strategy = "foreign",   
-//    parameters = @Parameter(name = "property", value = "user"))
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_info_id_seq", allocationSize = 1)
 	private Long id;
-	
 	
 	@OneToOne  
 	@Cascade({ CascadeType.ALL })
@@ -81,7 +69,7 @@ public class UserInfo {
 		return id;
 	}
 
-	public void setUserId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -1,5 +1,8 @@
 package com.crsms.validator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -10,6 +13,8 @@ import com.crsms.domain.UserInfo;
 @Component
 public class UserInfoValidator implements Validator{
 
+	final static String NAME_PATTERN = "^[A-ZА-Я][a-zа-я]*";
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return UserInfo.class.equals(clazz);
@@ -21,6 +26,17 @@ public class UserInfoValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "crsms.error.name.required");
 		
 		UserInfo userInfo = (UserInfo) obj;
+		
+		Matcher fNameMatch = Pattern.compile(NAME_PATTERN).matcher(userInfo.getFirstName());
+		Matcher lNameMatch = Pattern.compile(NAME_PATTERN).matcher(userInfo.getLastName());
+		
+		if(!fNameMatch.matches()){
+			errors.rejectValue("firstName", "crsms.error.description.required");
+		}
+		
+		if(!lNameMatch.matches()){
+			errors.rejectValue("lastName", "crsms.error.description.required");
+		}
 		
 		if (userInfo.getFirstName().length() > UserInfo.MAX_NAME_LENGTH) {
 			errors.rejectValue("firstName", "crsms.error.too.long",

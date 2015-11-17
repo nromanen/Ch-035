@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			if (user.getId() == null) {
 				log.info("saving user: ", user);
-				sessionFactory.getCurrentSession().save(user);
+				sessionFactory.getCurrentSession().persist(user);
 			} else {
 				log.info("updating user: ", user);
 				sessionFactory.getCurrentSession().update(user);

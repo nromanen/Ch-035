@@ -134,19 +134,5 @@ public class UserServiceImpl implements UserService {
 										String sortingField, String order) {
 		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
 	}
-	
-	@Override
-	public List<User> getAllWithInitializedCourses() {
-		List<User> users = new ArrayList<>();
-		try {
-			users = userDao.getAllUsers();
-			for (User user : users) {
-				Hibernate.initialize(user.getCourses());
-			}
-		} catch (Exception e) {
-			log.error("Error in get all users with initialized courses " + e);
-		}
-		return users;
-	}
 
 }
