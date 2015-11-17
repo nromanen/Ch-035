@@ -18,64 +18,15 @@ import com.crsms.domain.Module;
  */
 
 @Repository("moduleDao")
-public class ModuleDaoImpl implements ModuleDao {
+public class ModuleDaoImpl extends BaseDaoImpl<Module> implements ModuleDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
 	private static Logger logger = LogManager.getLogger(ModuleDaoImpl.class);
-
-	@Override
-	public void add(Module module) {
-		try {
-			sessionFactory.getCurrentSession().persist(module);
-		} catch (Exception e) {
-			logger.error("Error in save module: " + e);
-		}
-	}
 	
-	@Override
-	public void update(Module module) {
-		try {
-			sessionFactory.getCurrentSession().update(module);
-		} catch (Exception e) {
-			logger.error("Error in update module: " + e);
-		}
-	}
-
-	@Override
-	public void delete(Module module) {
-		try {
-			sessionFactory.getCurrentSession().delete(module);
-		} catch (Exception e) {
-			logger.error("Error in delete module: " + e);
-		}
-	}
-
-	/**
-	 * Returns Module or null
-	 */
-	@Override
-	public Module getById(Long id) {
-		Module module = null;
-		try {
-			module = (Module) sessionFactory.getCurrentSession().get(Module.class, id);
-		} catch (Exception e) {
-			logger.error("Error in get module by id: " + e);
-		}
-		return module;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Module> getAll() {
-		List<Module> list = new ArrayList<Module>();
-		try {
-			list = sessionFactory.getCurrentSession().getNamedQuery(Module.GET_ALL).list();
-		} catch (Exception e) {
-			logger.error("Error in get all modules: " + e);
-		}
-		return list;
+	public ModuleDaoImpl() {
+		super(Module.class);
 	}
 	
 	@SuppressWarnings("unchecked")
