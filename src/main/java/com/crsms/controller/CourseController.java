@@ -26,6 +26,7 @@ import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
 import com.crsms.service.UserService;
+import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
 import com.crsms.util.StringUtil;
 import com.crsms.validator.CourseFormValidator;
 
@@ -115,7 +116,7 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
 	public ModelAndView showCourse(@PathVariable Long courseId) {
 		ModelAndView model = new ModelAndView();
-		Course course = courseService.getInitializedById(courseId, Course.LazyField.MODULES);
+		Course course = courseService.getById(courseId, new CourseModulesDeepInitializer(null));
 		model.addObject("course", course);
 		model.addObject("courseEndDate", course.getStartDate().plusDays(course.getDuration()));
 		model.addObject("pageTitle", course.getName());

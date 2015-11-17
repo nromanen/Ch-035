@@ -104,10 +104,6 @@ public class Course {
 		EN, UK,
 	}
 	
-	public enum LazyField {
-		MODULES, USERS, ALL,
-	}
-	
 	public Long getId() {
 		return id;
 	}
