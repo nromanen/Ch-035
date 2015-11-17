@@ -128,7 +128,7 @@ public class AdminController {
 		if (result.hasErrors()) {
 			return "adduser";
 		}
-		userService.saveUser(user);
+		userService.update(user);
 		return "redirect:/admin/";
 	}
 	
