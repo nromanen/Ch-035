@@ -1,5 +1,8 @@
 package com.crsms.domain;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,14 +14,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets, Valerii Motresku
  */
 
 @Entity
 @Table(name = "answer")
+@NamedQueries(@NamedQuery(name = Answer.GET_BY_QUESTION_ID, query = "SELECT answers FROM Question q WHERE q.id = :id"))
 public class Answer {
+	public static final int MAX_TEXT_LENGTH = 200;
+	public static final String GET_BY_QUESTION_ID = "Answer.getByQuestionId";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "answer_id_seq",  allocationSize = 1)
@@ -26,13 +31,16 @@ public class Answer {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 2, max = 100)
+	@Size(max = 200)
 	private String text;
 	
 	@Column(nullable = false)
 	private Boolean correct = false;
 	
-	public Answer() { }
+	@Column(nullable = false)
+	private Boolean disable = false;
+
+	public Answer() {}
 
 	public Long getId() {
 		return id;
@@ -57,4 +65,13 @@ public class Answer {
 	public void setCorrect(Boolean correct) {
 		this.correct = correct;
 	}
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+	
 }

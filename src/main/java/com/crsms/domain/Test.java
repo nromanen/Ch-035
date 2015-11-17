@@ -1,21 +1,13 @@
 package com.crsms.domain;
 
-import java.util.Set;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
+import java.util.Set;
 
 /**
  * @author Petro Andriets, Valerii Motresku
@@ -23,9 +15,12 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "test")
-@NamedQueries(@NamedQuery(name = Test.GET_ALL, query = "FROM Test"))
+@NamedQueries({ @NamedQuery(name = Test.GET_ALL, query = "FROM Test"),
+			  	@NamedQuery(name = Test.GET_BY_MODULE_ID, query = "SELECT tests FROM Module m WHERE m.id = :id")
+				})
 public class Test {
 	public static final String GET_ALL = "Test.getAll";
+	public static final String GET_BY_MODULE_ID = "Test.getByModuleId";
 	public static final int MAX_NAME_LENGTH = 100;
 	
     @Id
@@ -33,18 +28,20 @@ public class Test {
     @SequenceGenerator(name = "crsms_gen", sequenceName = "test_id_seq", allocationSize = 1)
     private Long id;
 
-    @Column(nullable = true)
     @NotNull
 	@Size(max = MAX_NAME_LENGTH)
     private String name;
 
     @Column(nullable = false)
     private Boolean available = false;
+    
+    @Column(nullable = false)
+	private Boolean disable = false;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Question> questions;
 
-    public Test() { }
+    public Test() {}
 
     public Long getId() {
         return id;
@@ -77,4 +74,17 @@ public class Test {
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
     }
+
+    public void addQuestion(Question question) {
+        this.questions.add(question);
+    }
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+    
 }

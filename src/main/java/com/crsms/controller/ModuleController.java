@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.crsms.domain.Module;
-import com.crsms.dto.ModuleForm;
+import com.crsms.dto.ModuleFormDto;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
 import com.crsms.service.ModuleService;
@@ -41,7 +41,7 @@ public class ModuleController {
 	private CourseService courseService;
 	
 	@Autowired
-	private DtoService dtoService;;
+	private DtoService dtoService;
 	
 	@Autowired
 	private ModuleFormValidator validator;
@@ -62,21 +62,21 @@ public class ModuleController {
 	public String newModule(@PathVariable Long courseId, Model model) {
 		Module module = new Module();
 		
-		ModuleForm moduleForm = dtoService.convert(module, ModuleForm.class, Module.class);
-		moduleForm.setCourseId(courseId);
+		ModuleFormDto moduleFormDto = dtoService.convert(module, ModuleFormDto.class, Module.class);
+		moduleFormDto.setCourseId(courseId);
 		
-		model.addAttribute("moduleForm", moduleForm);
+		model.addAttribute("moduleFormDto", moduleFormDto);
 		return ADD_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
 	public String saveModule(@PathVariable Long courseId, 
-							@Validated ModuleForm moduleForm, BindingResult result) {
+							@Validated ModuleFormDto moduleFormDto, BindingResult result) {
 		if (result.hasErrors()) {
 			return ADD_MODULE_VIEW;
 		}
-		Module module = dtoService.convert(moduleForm, Module.class, ModuleForm.class);
-		moduleService.add(courseId, module);
+		Module module = dtoService.convert(moduleFormDto, Module.class, ModuleFormDto.class);
+		moduleService.save(courseId, module);
 		return redirect(courseId);
 	}	
 	
@@ -86,21 +86,21 @@ public class ModuleController {
 		
 		Module module = moduleService.getById(moduleId);
 		
-		ModuleForm moduleForm = dtoService.convert(module, ModuleForm.class, Module.class);
-		moduleForm.setCourseId(courseId);
+		ModuleFormDto moduleFormDto = dtoService.convert(module, ModuleFormDto.class, Module.class);
+		moduleFormDto.setCourseId(courseId);
 		
-		model.addAttribute("moduleForm", moduleForm);
+		model.addAttribute("moduleFormDto", moduleFormDto);
 		return EDIT_MODULE_VIEW;
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
 	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, 
-								@Validated ModuleForm moduleForm, BindingResult result) {
+								@Validated ModuleFormDto moduleFormDto, BindingResult result) {
 		if (result.hasErrors()) {
 			return EDIT_MODULE_VIEW;
 		}
 
-		Module module = dtoService.convert(moduleForm, Module.class, ModuleForm.class);
+		Module module = dtoService.convert(moduleFormDto, Module.class, ModuleFormDto.class);
 		moduleService.update(module);
 
 		return redirect(courseId);
@@ -108,7 +108,7 @@ public class ModuleController {
 	
 	@RequestMapping(value = {"/{moduleId}/delete"}, method = RequestMethod.GET)
 	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId) {
-		moduleService.deleteById(moduleId);
+		moduleService.disable(moduleId);
 		return redirect(courseId);
 	}
 	

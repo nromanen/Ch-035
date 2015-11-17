@@ -10,20 +10,12 @@ import com.crsms.domain.Module;
  *
  */
 
-public interface ModuleDao {
-	
-	void add(Module module);
-	
-	void update(Module module);
-	
-	void delete(Module module);
-	
-	Module getById(Long id);
-	
-	List<Module> getAll();
+public interface ModuleDao extends BaseDao<Module> {
 	
 	List<Module> getAllByCourseId(Long courseId);
 
 	void deleteById(Long id);
+	
+	void disable(Module module);
 	
 }

@@ -2,8 +2,6 @@ package com.crsms.service;
 
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-
 import com.crsms.domain.Course;
 
 /**
@@ -13,33 +11,26 @@ import com.crsms.domain.Course;
  *
  */
 
-public interface CourseService {
+public interface CourseService extends BaseService<Course> {
 	
-	void saveCourse(Course course);
+	void save(Course course, long areaId, String ownerEmail);
 	
-	void saveCourse(Course course, long areaId, int sweekDuration);
+	void update(Course course, long areaId, String ownerEmail);
 	
-	List<Course> getAllCourse();
-	
-	List<Course> getAllInitialized();
-	
-	Course getCourseById(Long id);
-
-	void updateCourse(Course course);
-	
-	void updateCourse(Course course, long areaId, int sweekDuration);
-	
-	Course getCourse(String name);
-	
-	@PreAuthorize("hasAnyRole('ROLE_TEACHER')")
-	void deleteCourse(Course course);
+	Course get(String name);
 	
 	List<Course> getAllByAreaId(Long areaId);
 	
-	void subscribe(Long courseId, Long userId);
+	void subscribe(Long courseId, String email);
 	
-	void unsubscribe(Long courseId, Long userId);
+	void unsubscribe(Long courseId, String email);
 	
-	List<Course> getAllWithInitializedUsers();
+	List<Course> getAllByUserId(Long userId);
+	
+	List<Course> getAllByUserEmail(String email);
+
+	List<Course> getAllByOwnerEmail(String email);
+	
+	List<Course> searchCourses(String seachWord);
 
 }

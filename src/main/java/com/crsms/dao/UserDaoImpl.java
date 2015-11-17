@@ -10,7 +10,6 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -128,7 +127,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			Criteria criteria = sessionFactory.getCurrentSession()
 					.createCriteria(User.class);
-			if (sortingField!= null && order.equals("asc")){
+			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));
 			} else	{
 				criteria.addOrder(Order.desc(sortingField));

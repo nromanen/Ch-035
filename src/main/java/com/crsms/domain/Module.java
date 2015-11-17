@@ -1,27 +1,16 @@
 package com.crsms.domain;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+
+import java.util.Set;
+
 /**
- * 
  * @author Valerii Motresku, St. Roman
- *
  */
 
 @Entity
@@ -43,9 +32,8 @@ public class Module {
 	public static final String GET_ALL = "Module.getAll";
 	public static final String GET_ALL_BY_COURSE_ID = "Module.getAllByCourseId";
 	public static final String DELETE_BY_ID = "Module.deleteById";
-	
-	public static final int MAX_NAME_LENGTH = 30;
-	public static final int MAX_DESCTIPTION_LENGTH = 1000;
+	public static final int MAX_NAME_LENGTH = 255;
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -57,12 +45,11 @@ public class Module {
 	@Size(max = MAX_NAME_LENGTH)
 	private String name;
 	
-	@Column(nullable = false, length = MAX_DESCTIPTION_LENGTH)
+	@Column(nullable = false)
 	@NotEmpty
-	@Size(max = MAX_DESCTIPTION_LENGTH)
 	private String description;
 		
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Set<Resource> resources;
 	
 	@OneToMany(cascade = CascadeType.ALL)
@@ -73,6 +60,9 @@ public class Module {
 	
 	@Column(name = "order_position", nullable = true)
 	private Long orderPosition;
+	
+	@Column(nullable = false)
+	private Boolean disable = false;
 	
 	public Module() { }
 
@@ -139,5 +129,17 @@ public class Module {
 	public void addResource(Resource resource) {
 		this.resources.add(resource);
 	}
-	
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+		
+	public void addTest(Test test) {
+		this.tests.add(test);
+	}
+
 }

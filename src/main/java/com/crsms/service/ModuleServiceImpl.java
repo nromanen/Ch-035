@@ -24,7 +24,7 @@ import com.crsms.exception.ElementNotFoundException;
 
 @Service("moduleService")
 @Transactional
-public class ModuleServiceImpl implements ModuleService {
+public class ModuleServiceImpl extends BaseServiceImpl<Module> implements ModuleService {
 	
 	private static Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 	
@@ -33,13 +33,19 @@ public class ModuleServiceImpl implements ModuleService {
 	
 	@Autowired
 	private ModuleDao moduleDao;
+	
+	@Autowired
+	private ResourceService resourceService;
+	
+	@Autowired
+	private TestService testService;
 
 	@Override
-	public void add(Long courseId, Module module) {
+	public void save(Long courseId, Module module) {
 		logger.info("in moduleService save(Module)");
-		Course course = courseDao.getCourseById(courseId);
+		Course course = courseDao.getById(courseId); //TODO: mybe to DAO?
 		course.addModule(module);
-		moduleDao.add(module);
+		moduleDao.save(module);
 		logger.info("out moduleService save(Module)");
 	}
 	
@@ -54,39 +60,31 @@ public class ModuleServiceImpl implements ModuleService {
 		logger.info("out moduleService update(Module)");
 	}
 
-	@Override
-	public void delete(Module module) {
+	/*@Override
+	public void delete(Long courseId, Module module) {
 		logger.info("in moduleService delete(Module)");
-		moduleDao.delete(module);
-		logger.info("out moduleService delete(Module)");
-	}
-
-	@Override
-	public Module getById(Long id) {
-		logger.info("in moduleService getById(module id)");
-		logger.info("trying to get module");
-		
-		Module module = moduleDao.getById(id);
-		if (module == null) {
-			throw new ElementNotFoundException();
+		if(moduleDao.hasTestResults(module.getId())){
+			module.setDisable(true);
+			moduleDao.update(module);
+		} else {
+			
+//			for(Resource resource : module.getResources()){
+//				resourceService.delete(resource.getId(), module.getId());
+//			}
+			//TODO: delete tests
+			Course course = courseDao.getById(courseId);//TODO: mybe to DAO
+			course.deleteModule(module);
+			moduleDao.delete(module);
 		}
 		
-		logger.info("out moduleService getById(module id)");
-		return module;
-	}
-
-	@Override
-	public List<Module> getAll() {
-		logger.info("in moduleService getAll(Module)");
-		logger.info("trying to get modules");
-		return moduleDao.getAll();
-	}
+		logger.info("out moduleService delete(Module)");
+	}*/
 	
 	@Override
 	public List<Module> getAllByCourseId(Long courseId) {
 		logger.info("in moduleService getAllByCourseId(courseId)");
 		logger.info("checking course id");
-		if (courseDao.getCourseById(courseId) == null) {
+		if (courseDao.getById(courseId) == null) {
 			throw new ElementNotFoundException();
 		}
 		
@@ -97,8 +95,8 @@ public class ModuleServiceImpl implements ModuleService {
 		return modules;
 	}
 
-	@Override
-	public void deleteById(Long moduleId) {
+	/*@Override
+	public void deleteById(Long courseId, Long moduleId) {
 		logger.info("in moduleService deleteById()");
 		logger.info("checking module id");
 		
@@ -108,13 +106,15 @@ public class ModuleServiceImpl implements ModuleService {
 		}
 		
 		logger.info("trying to delete module");
-		moduleDao.deleteById(moduleId);
+		//moduleDao.deleteById(moduleId);
+		delete(courseId, module);
 		logger.info("out moduleService deleteById(module id)");
-	}
+	}*/
 	
 	@Override
 	public void addResource(Long moduleId, Resource resource) {
 		Module module = this.getById(moduleId);
+		resourceService.save(resource);
 		module.addResource(resource);
 		this.update(module);
 	}
@@ -133,8 +133,40 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public void removeResource(Long moduleId, Resource resource) {
 		Module module = moduleDao.getById(moduleId);
+		this.removeResource(module, resource);
+	}
+	
+	@Override
+	public void removeResource(Module module, Resource resource) {
 		module.removeResource(resource);
 		moduleDao.update(module);
+		//TODO:check for delete
+		//resourceService.delete(resource);
+	}
+
+	@Override
+	public void disable(Module module) {
+		moduleDao.disable(module);
+		//TODO:
+//		for(Test test : module.getTests()){
+//			testService.disable(test);
+//		}
+		
+	}
+
+	@Override
+	public void disable(Long moduleId) {
+		Module module = moduleDao.getById(moduleId);
+		this.disable(module);
+		
+	}
+
+	@Override
+	public void freeResource(Module module) {
+		for (Resource resource : module.getResources()) {
+			this.removeResource(module, resource);
+		}
+		
 	}
 
 }

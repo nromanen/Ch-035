@@ -2,14 +2,13 @@ package com.crsms.service;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.CourseDao;
-import com.crsms.dao.UserDao;
 import com.crsms.domain.Course;
+import com.crsms.domain.Module;
 import com.crsms.domain.User;
 
 /**
@@ -21,68 +20,61 @@ import com.crsms.domain.User;
 
 @Service("courseService")
 @Transactional
-public class CourseServiceImpl implements CourseService {
+public class CourseServiceImpl extends BaseServiceImpl<Course> implements CourseService {
 	
 	@Autowired
     private CourseDao courseDao;
 	
 	@Autowired
-	private UserDao userDao;
+	private AreaService areaService;
+
+	@Autowired
+	private ModuleService moduleService;
 	
 	@Autowired
-	private AreaService areaService;
+	private UserService userService;
 	
 	@Override
-	public void saveCourse(Course course) {
-		courseDao.saveCourse(course);
-
-	}
-	
-	@Override
-	public void saveCourse(Course course, long areaId, int sweekDuration) {
-		course.setWeekDuration(sweekDuration);
+	public void save(Course course, long areaId, String ownerEmail) {
+		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getAreaById(areaId));
-		courseDao.saveCourse(course);
-
-	}
-
-	@Override
-	public List<Course> getAllCourse() {
-		return courseDao.getAllCourse();
+		courseDao.save(course);
 	}
 	
 	@Override
-	public List<Course> getAllInitialized() {
-		return courseDao.getAllInitialized();
-	}
-
-	@Override
-	public Course getCourseById(Long id) {
-		return courseDao.getCourseById(id);
-	}
-
-	@Override
-	public void updateCourse(Course course) {
-		courseDao.updateCourse(course);
-
-	}
-	
-	@Override
-	public void updateCourse(Course course, long areaId, int sweekDuration) {
-		course.setWeekDuration(sweekDuration);
+	public void update(Course course, long areaId, String ownerEmail) {
+		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getAreaById(areaId));
-		courseDao.updateCourse(course);
-
+		courseDao.update(course);
 	}
 
 	@Override
-	public Course getCourse(String name) {
-		return courseDao.getCourse(name);
+	public Course get(String name) {
+		return courseDao.get(name);
 	}
 
 	@Override
-	public void deleteCourse(Course course) {
-		courseDao.deleteCourse(course);
+	public void delete(Course course) {
+		if (course.getPublished()) {
+			this.disable(course);
+		} else {
+			this.disable(course);
+			//TODO:replace on HQL
+			for (Module module : course.getModules()) {
+				moduleService.freeResource(module);
+			}
+			courseDao.delete(course);
+		}
+	}
+
+	public void disable(Course course) {
+		/*course.setDisable(true);
+		courseDao.update(course);
+		
+		for(Module module : course.getModules()){
+			moduleService.disable(module);
+		}*/
+		courseDao.disable(course);
 	}
 
 	@Override
@@ -91,26 +83,39 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public void subscribe(Long courseId, Long userId) {
-		Course course = courseDao.getCourseById(courseId);
-		User user = userDao.getUserById(userId);
+	public void subscribe(Long courseId, String email) {
+		Course course = courseDao.getById(courseId);
+		User user = userService.getUserByEmail(email);
 		course.addUser(user);
-		courseDao.updateCourse(course);
+		courseDao.update(course);
 	}
 	
 	@Override
-	public void unsubscribe(Long courseId, Long userId) {
-		Course course = courseDao.getCourseById(courseId);
-		User user = userDao.getUserById(userId);
+	public void unsubscribe(Long courseId, String email) {
+		Course course = courseDao.getById(courseId);
+		User user = userService.getUserByEmail(email);
 		course.deleteUser(user);
-		courseDao.updateCourse(course);
+		courseDao.update(course);
 	}
 	
-	public List<Course> getAllWithInitializedUsers() {
-		List<Course> courses = courseDao.getAllCourse();
-		for (Course course : courses) {
-			Hibernate.initialize(course.getUsers());
-		}
-		return courses;
+	@Override
+	public List<Course> getAllByUserId(Long userId) {
+		return courseDao.getAllByUserId(userId);
 	}
+	
+	@Override
+	public List<Course> getAllByUserEmail(String email) {
+		return courseDao.getAllByUserEmail(email);		
+	}
+	
+	@Override
+	public List<Course> getAllByOwnerEmail(String email) {
+		return courseDao.getAllByOwnerEmail(email);
+	}
+
+	@Override
+	public List<Course> searchCourses(String searchWord) {
+		return courseDao.searchCourses(searchWord);
+	}
+
 }

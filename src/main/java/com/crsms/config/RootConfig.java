@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import com.crsms.interceptor.BreadcrumbsInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
@@ -31,14 +32,19 @@ public class RootConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-		interceptor.setParamName("lang");
-		registry.addInterceptor(interceptor);
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("lang");
+		
+		BreadcrumbsInterceptor breadcrumbsInterceptor = new BreadcrumbsInterceptor();
+		
+		registry.addInterceptor(localeChangeInterceptor);
+		registry.addInterceptor(breadcrumbsInterceptor)
+				.excludePathPatterns("/courses/*/modules/*/tests/*/questions/add/question-form");
 	}
 	
-	// Jackson serialization mappers
 	/**
-     * 	
+	 * Jackson serialization mappers
+	 * 
 	 * Jackson2ObjectMapperFactoryBean allows not to register JodaModule explicitly 
 	 * Jackson2ObjectMapperFactoryBean uses Jackson2ObjectMapperBuilder which registers 
 	 * the module automatically if it's available on the classpath.
@@ -63,5 +69,5 @@ public class RootConfig extends WebMvcConfigurerAdapter {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(mappingJackson2HttpMessageConverter());
     }
-    // End Jackson
+
 }
