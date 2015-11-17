@@ -3,37 +3,30 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<div id="courses-nav" class="container text-right">
-	<form class="navbar-form navbar search" role="search" action="search" method="GET">
-		<input type="text" class="form-control" name="searchWord" >
-	    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
-	    <strong><spring:message code = "crsms.button.search" /></strong></button>
-	</form>
+<div class = "container">
+	<sec:authorize access="isAuthenticated()">
+		<div id = "navigation" class = "pull-left">
+			<ul class="nav nav-pills">
+			  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
+				  <a href="?show=all"><spring:message code = "crsms.courses.text.all" /></a>
+			  </li>
+			  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }">
+			  	<a href="?show=my"><spring:message code = "crsms.courses.text.my" /></a>
+			  </li>
+			</ul>
+		</div>
+	</sec:authorize>
+	
+	<div id="courses-nav" class="text-right">
+		<form id = "search-form" class="navbar-form navbar search" role="search" action="search" method="GET">
+			<input type="text" class="form-control" name="searchWord" >
+		    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+		    <strong><spring:message code = "crsms.button.search" /></strong></button>
+		</form>
+	</div>
 </div>
 
-<sec:authorize access="isAuthenticated()">
-	<div id = "navigation" class = "pull-left">
-		<ul class="nav nav-pills nav-stacked">
-		  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
-			  <a href="?show=all"><spring:message code = "crsms.courses.text.all" /></a>
-		  </li>
-		  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }">
-		  	<a href="?show=my"><spring:message code = "crsms.courses.text.my" /></a>
-		  </li>
-		</ul>
-	</div>
-</sec:authorize>
-
-<sec:authorize access="isAuthenticated() and !hasAnyRole('STUDENT')">
-	<div>
-		<a class="course-add" href="add" >
-			<i class="fa fa-plus-square-o" data-toggle="tooltip" 
-				title="<spring:message code = "crsms.courses.button.create_new_course" />"></i>
-		</a>
-	</div>
-</sec:authorize>
-
-<div class="container">
+<div id = "courses-table" class="container">
 <c:forEach var="course" items="${courses}">
 	<div class="course-grid col-lg-4 col-md-4 col-sm-6 col-xs-12">
 		<div class="ribbon-corner ${course.open ? 

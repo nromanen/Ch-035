@@ -1,13 +1,5 @@
 
 /*courses view*/
-#courses-nav .search {
-	display: inline-block;
-}
-
-.course-grid {
-	
-}
-
 .course-grid {
     padding: 5px;
 }
@@ -83,4 +75,15 @@
 }
 .module-desc {
 	text-align: justify;
+}
+#courses-nav .search {
+	display: inline-block;
+}
+#search-form {
+	margin-top: 0;
+	margin-bottom: 0;
+	min-height: 0;
+}
+#courses-table {
+	padding-top: 10px;
 }
