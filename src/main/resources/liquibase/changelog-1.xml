@@ -88,4 +88,8 @@
      </addColumn>
     </changeSet>
     
+    <changeSet author="yuliia" id="1446992667519-107">
+        <createSequence sequenceName="user_info_id_seq"/>
+    </changeSet>
+    
 </databaseChangeLog>

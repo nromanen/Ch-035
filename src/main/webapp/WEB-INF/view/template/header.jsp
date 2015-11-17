@@ -17,13 +17,27 @@
 
 <div class = "securityprincipal" align="right">
 	<c:choose>
-	<c:when test="${pageContext.request.userPrincipal.name != null}">
-		<h5> <spring:message code="crsms.text.signin.signedas" />
-			<b>${pageContext.request.userPrincipal.name}</b>
+	<c:when test="${pageContext.request.userPrincipal.name != null}"> <br>
+		<!-- <h5> <spring:message code="crsms.text.signin.signedas" />  -->
+				<div class="dropdown">		
+				<a id="dLabel" data-target="#" href="<c:url value="/courses/?show=my" />" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<b>${pageContext.request.userPrincipal.name}</b> <span class="caret"></span>
+				</a>	
+					<!--<button class="btn btn-primary dropdown-toggle" type="button"
+						data-toggle="dropdown">
+						<b>${pageContext.request.userPrincipal.name}</b> <span class="caret"></span>
+					  </button> -->
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="<c:url value="/courses/?show=my" />">  <spring:message	code="crsms.courses.text.title.list" /></a></li>
+						<li><a href="<c:url value="/userProfile" />">  <spring:message	code="crsms.userProfile.profile" /></a></li>
+						<li><a href="<c:url value="/signout" />"><spring:message	code="crsms.button.signout" /></a></li>
+					</ul>
+				</div>
+
+				<!-- <b>${pageContext.request.userPrincipal.name}</b> 
 			<a	href=<c:url value="/signout" />>
 				<spring:message	code="crsms.button.signout" />
-			</a>
-		</h5>
+			</a>-->
 	</c:when>
 	<c:otherwise>
 	<h5> <spring:message code="crsms.text.signin.unsigned" /></h5>

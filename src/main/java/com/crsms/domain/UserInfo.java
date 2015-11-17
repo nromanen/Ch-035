@@ -36,12 +36,17 @@ public class UserInfo {
 	
 	@Id  
     @Column(name = "id")  
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_info_gen")
-	@SequenceGenerator(name = "user_info_gen", sequenceName = "user_info_id_seq", allocationSize = 1000)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_info_id_seq", allocationSize = 1000)
+		
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_info_gen")
+//	@SequenceGenerator(name = "user_info_gen", sequenceName = "user_info_id_seq", allocationSize = 1000)
+	
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_info_gen")
 //    @GenericGenerator(name = "user_info_gen", strategy = "foreign",   
 //    parameters = @Parameter(name = "property", value = "user"))
 	private Long id;
+	
 	
 	@OneToOne  
 	@Cascade({ CascadeType.ALL })
