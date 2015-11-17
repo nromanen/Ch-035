@@ -55,7 +55,7 @@ public class AnswerController {
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editAnswer(@PathVariable("id") Long id, Model model) {
-        Answer tempAnswer = answerService.getAnswerById(id);
+        Answer tempAnswer = answerService.getById(id);
         model.addAttribute("answer", tempAnswer);
         return CREATE_ANSWER_PAGE;
     }
@@ -66,8 +66,8 @@ public class AnswerController {
                              @Validated Answer answer, BindingResult result) {
         if (result.hasErrors()) {
             return CREATE_ANSWER_PAGE;
-        } else if (answerService.getAnswerById(id) != null) {
-            answerService.editAnswer(answer);
+        } else if (answerService.getById(id) != null) {
+            answerService.update(answer);
         }
         return redirect(courseId, moduleId, testId, questionId);
     }

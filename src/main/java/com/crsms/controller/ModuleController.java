@@ -41,7 +41,7 @@ public class ModuleController {
 	private CourseService courseService;
 	
 	@Autowired
-	private DtoService dtoService;;
+	private DtoService dtoService;
 	
 	@Autowired
 	private ModuleFormValidator validator;
@@ -76,7 +76,7 @@ public class ModuleController {
 			return ADD_MODULE_VIEW;
 		}
 		Module module = dtoService.convert(moduleFormDto, Module.class, ModuleFormDto.class);
-		moduleService.add(courseId, module);
+		moduleService.save(courseId, module);
 		return redirect(courseId);
 	}	
 	

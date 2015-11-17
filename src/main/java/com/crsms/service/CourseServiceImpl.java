@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.CourseDao;
-import com.crsms.dao.ModuleDao;
-import com.crsms.dao.UserDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.User;
@@ -22,61 +20,32 @@ import com.crsms.domain.User;
 
 @Service("courseService")
 @Transactional
-public class CourseServiceImpl implements CourseService {
+public class CourseServiceImpl extends BaseServiceImpl<Course> implements CourseService {
 	
 	@Autowired
     private CourseDao courseDao;
 	
 	@Autowired
-	private UserDao userDao;
-	
-	@Autowired
 	private AreaService areaService;
-	
+
 	@Autowired
 	private ModuleService moduleService;
 	
-	@Override
-	public void save(Course course) {
-		courseDao.save(course);
-
-	}
+	@Autowired
+	private UserService userService;
 	
 	@Override
-	public void save(Course course, long areaId, int sweekDuration) {
-		course.setWeekDuration(sweekDuration);
+	public void save(Course course, long areaId, String ownerEmail) {
+		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getAreaById(areaId));
 		courseDao.save(course);
-
-	}
-
-	@Override
-	public List<Course> getAll() {
-		return courseDao.getAll();
 	}
 	
 	@Override
-	public List<Course> getAllInitialized() {
-		return courseDao.getAllInitialized();
-	}
-
-	@Override
-	public Course getById(Long id) {
-		return courseDao.getById(id);
-	}
-
-	@Override
-	public void update(Course course) {
-		courseDao.update(course);
-
-	}
-	
-	@Override
-	public void update(Course course, long areaId, int sweekDuration) {
-		course.setWeekDuration(sweekDuration);
+	public void update(Course course, long areaId, String ownerEmail) {
+		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getAreaById(areaId));
 		courseDao.update(course);
-
 	}
 
 	@Override
@@ -85,13 +54,13 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public void deleteCourse(Course course) {
-		if(course.getPublished()) {
+	public void delete(Course course) {
+		if (course.getPublished()) {
 			this.disable(course);
 		} else {
 			this.disable(course);
 			//TODO:replace on HQL
-			for(Module module : course.getModules()){
+			for (Module module : course.getModules()) {
 				moduleService.freeResource(module);
 			}
 			courseDao.delete(course);
@@ -116,7 +85,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void subscribe(Long courseId, String email) {
 		Course course = courseDao.getById(courseId);
-		User user = userDao.getUserByEmail(email);
+		User user = userService.getUserByEmail(email);
 		course.addUser(user);
 		courseDao.update(course);
 	}
@@ -124,7 +93,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void unsubscribe(Long courseId, String email) {
 		Course course = courseDao.getById(courseId);
-		User user = userDao.getUserByEmail(email);
+		User user = userService.getUserByEmail(email);
 		course.deleteUser(user);
 		courseDao.update(course);
 	}
@@ -138,10 +107,15 @@ public class CourseServiceImpl implements CourseService {
 	public List<Course> getAllByUserEmail(String email) {
 		return courseDao.getAllByUserEmail(email);		
 	}
-
-  @Override
-  public List<Course> searchCourses(String searchWord) {
-    return courseDao.searchCourses(searchWord);
-  }
 	
+	@Override
+	public List<Course> getAllByOwnerEmail(String email) {
+		return courseDao.getAllByOwnerEmail(email);
+	}
+
+	@Override
+	public List<Course> searchCourses(String searchWord) {
+		return courseDao.searchCourses(searchWord);
+	}
+
 }

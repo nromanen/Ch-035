@@ -60,16 +60,15 @@ public class TestController {
 							 @PathVariable Long id, @Validated Test test, BindingResult result) {
 		if (result.hasErrors()) {
 			return CREATE_TEST_PAGE;
-		} else if (testService.getTestById(id) != null) {
-			testService.editTest(test);
+		} else if (testService.getById(id) != null) {
+			testService.update(test);
 		}
 		return redirect(courseId, moduleId);
-
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editTest(@PathVariable("id") Long id, Model model) {
-		Test tempTest = testService.getTestById(id);
+		Test tempTest = testService.getById(id);
 		model.addAttribute("test", tempTest);
 		return CREATE_TEST_PAGE;
 	}

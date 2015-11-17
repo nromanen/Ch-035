@@ -15,22 +15,22 @@ public class StringUtil {
 	 * @return trimmed String
 	 */
 	public String trimString(String string, int length, boolean lastWord) {
-	    if(string == null || string.trim().isEmpty()){
+	    if (string == null || string.trim().isEmpty()) {
 	        return string;
 	    }
 
 	    StringBuffer sb = new StringBuffer(string);
 	    int actualLength = length - 3;
-	    if(sb.length() > actualLength){
+	    if (sb.length() > actualLength) {
 	        // -3 because we add 3 dots at the end. Returned string length has to be length including the dots.
-	        if(!lastWord)
+	        if (!lastWord)
 	            return sb.insert(actualLength, "...").substring(0, actualLength+3);
 	        else {
-	            int endIndex = sb.indexOf(" ",actualLength);
+	            int endIndex = sb.indexOf(" ", actualLength);
 	            if (endIndex == -1) {
 	            	return string;
 	            }
-	            return sb.insert(endIndex,"...").substring(0, endIndex+3);
+	            return sb.insert(endIndex, "...").substring(0, endIndex + 3);
 	        }
 	    }
 	    return string;

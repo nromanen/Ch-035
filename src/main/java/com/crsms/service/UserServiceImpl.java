@@ -130,7 +130,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order) {
+	public List<User> getPagingUsers(int startPosition, int itemsPerPage, 
+										String sortingField, String order) {
 		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
 	}
 	

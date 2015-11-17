@@ -11,30 +11,19 @@ import com.crsms.domain.Course;
  *
  */
 
-public interface CourseDao {
-	
-	void save(Course course);
-	
-	List<Course> getAll();
+public interface CourseDao extends BaseDao<Course> {
 	
 	List<Course> getAllInitialized();
 	
-	/**
-	 * @return a Course instance or null
-	 */
-	Course getById(Long id);
-
-	void update(Course course);
-	
 	Course get(String name);
-	
-	void delete(Course course);
 	
 	List<Course> getAllByAreaId(Long areaId);
 	
 	List<Course> getAllByUserId(Long userId);
 
 	List<Course> getAllByUserEmail(String email);
+	
+	List<Course> getAllByOwnerEmail(String email);
 	
 	void disable(Course course);
 

@@ -1,27 +1,19 @@
 package com.crsms.service;
 
-import com.crsms.domain.Test;
-
 import java.util.List;
+
+import com.crsms.domain.Test;
 
 /**
  * @author Andriets Petro
  */
 
-public interface TestService {
-
-	public void createTest(Long moduleId, Test test);
-
-	public Test getTestById(Long id);
-
-	public List<Test> getAllTests();
+public interface TestService extends BaseService<Test> {
 	
-	public List<Test> getAllByModuleId(Long id);
-
-	public void editTest(Test test);
-
-	//public void deleteTestById(Long id);
+	List<Test> getAllByModuleId(Long id);
 	
-	public void disableTestById(Long id);
+	void disableTestById(Long id);
+	
+	void createTest(Long moduleId, Test test);
 
 }

@@ -1,6 +1,7 @@
 package com.crsms.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,32 +23,29 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
  * @author Valerii Motresku
  * @author maftey
- *
+ * @author St. Roman
+ * 
  */
 
 @Entity
 @Table(name = "course")
 @NamedQueries({
 	@NamedQuery(name = Course.GET_BY_NAME,
-				query = "FROM Course c WHERE c.name=:name"),
+				query = "from Course c where c.name=:name"),
 	@NamedQuery(name = Course.GET_BY_USER_ID,
 				query = "select c from User u join u.courses c where u.id = :userId"),
 	@NamedQuery(name = Course.GET_BY_USER_EMAIL,
-				query = "select c from User u join u.courses c where u.email = :email")
+				query = "select c from User u join u.courses c where u.email = :email"),
+	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
+				query = "select c from Course c join c.owner o where o.email = :email")
 })
 public class Course {
-	public static final String GET_BY_NAME = "course.getCourseByName";
-	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
-	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
-	
-	public static final int MAX_NAME_LENGTH = 255;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -61,12 +59,7 @@ public class Course {
 	
 	@Column(nullable = false)
 	private String description;
-	
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@PrimaryKeyJoinColumn 
-//	@Cascade({CascadeType.ALL})
-//	private User owner;
-//	
+		
 //	@Column(nullable = false)
 //	private CourseLanguage language = CourseLanguage.EN;
 	
@@ -74,11 +67,12 @@ public class Course {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private DateTime startDate;
 	
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
-	private Duration duration;
+	@Column(nullable = false)
+	@NotNull
+	private Integer duration;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Module> modules;
+	private List<Module> modules;
 	
 	@Column(nullable = false)
 	private Boolean open = false;
@@ -96,11 +90,19 @@ public class Course {
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> users = new HashSet<User>();
 	
-	public Course() { }
+	@ManyToOne
+	private User owner;
 
+	public static final String GET_BY_NAME = "course.getCourseByName";
+	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
+	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
+	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
+	
+	public static final int MAX_NAME_LENGTH = 255;
+	
 	public enum CourseLanguage {
 		EN, UK,
-	} 
+	}
 	
 	public Long getId() {
 		return id;
@@ -125,30 +127,26 @@ public class Course {
 	public void setStartDate(DateTime startDate) {
 		this.startDate = startDate;
 	}
-
-	public Duration getDuration() {
+	
+	/**
+	 * @return duration in days
+	 */
+	public Integer getDuration() {
 		return duration;
 	}
-
-	public void setDuration(Duration duration) {
+	
+	/**
+	 * @param duration duration in days
+	 */
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
-	
-	public int getWeekDuration() {
-		if (duration != null)
-			return duration.toStandardDays().getDays() / 7;
-		return 0;
-	}
-	
-	public void setWeekDuration(int weeks) {
-		this.duration = new Duration(weeks * 7L * 24L * 60L * 60L * 1000L);
-	}
 
-	public Set<Module> getModules() {
+	public List<Module> getModules() {
 		return modules;
 	}
 
-	public void setModules(Set<Module> modules) {
+	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
 
@@ -214,6 +212,14 @@ public class Course {
 		this.disable = disable;
 	}
 
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+	
 	public Boolean getPublished() {
 		return published;
 	}
@@ -221,6 +227,5 @@ public class Course {
 	public void setPublished(Boolean published) {
 		this.published = published;
 	}
-	
 	
 }

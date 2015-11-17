@@ -12,7 +12,7 @@ import com.crsms.domain.UserInfo;
 @Service("userInfoService")
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 
-public class UserInfoServiceImpl implements UserInfoService{
+public class UserInfoServiceImpl implements UserInfoService {
 	
 	@Autowired
 	private UserService userService;

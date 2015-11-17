@@ -16,48 +16,22 @@ import com.crsms.domain.Course;
 
 /**
  * 
- * @author Valerii Motresku
+ * @author Valerii Motresku, maftey, St. Roman
  *
  */
 
 @Repository("courseDao")
-public class CourseDaoImpl implements CourseDao {
+public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
 	private static Logger logger = LogManager.getLogger(TestDaoImpl.class);
+
+	public CourseDaoImpl() {
+		super(Course.class);
+	}
 	
-	@Override
-	public void save(Course course) {
-		
-		try {
-			if (course.getId() == null) {
-				sessionFactory.getCurrentSession().save(course);
-				logger.info("DAO:create course:" + course.getName());
-			} else {
-				sessionFactory.getCurrentSession().update(course);
-				logger.info("DAO:create update:" + course.getName());
-			}
-		} catch (HibernateException e) {
-			logger.error("Error saveCourse: " + e);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Course> getAll() {
-		try {
-			return (List<Course>) sessionFactory.getCurrentSession()
-												.createQuery("FROM Course").list();
-
-		} catch (HibernateException e) {
-			logger.error("Error getAllCourse: " + e);
-		}
-		
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAllInitialized() {
@@ -76,31 +50,6 @@ public class CourseDaoImpl implements CourseDao {
 		}
 		
 	}
-
-	@Override
-	public Course getById(Long id) {
-		Course course = null;
-		try {
-			course = (Course) sessionFactory.getCurrentSession().
-					get(Course.class, id);
-			Hibernate.initialize(course.getModules());
-			return course;
-		} catch (HibernateException e) {
-			logger.error("Error getCourseById: " + e);
-		}
-		return course;
-	}
-
-	@Override
-	public void update(Course course) {
-		try {
-			sessionFactory.getCurrentSession().update(course);
-			logger.info("DAO:create update:" + course.getName());
-		} catch (Exception e) {
-			logger.error("Error updateCourse: " + e);
-		}
-
-	}
 	
 	@Override
 	public Course get(String name) {
@@ -110,18 +59,9 @@ public class CourseDaoImpl implements CourseDao {
 				.setString("name", name).uniqueResult();
 		} catch (Exception e) {
 			logger.error("Error getCourse: " + e);
+			throw e;
 		}
 		return null;
-	}
-
-	@Override
-	public void delete(Course course) {
-		try {
-			sessionFactory.getCurrentSession().delete(course);
-		} catch (HibernateException e) {
-			logger.error("Error delete: " + e);
-		}
-		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -135,6 +75,7 @@ public class CourseDaoImpl implements CourseDao {
 			list = query.list();
 		} catch (Exception e) {
 			logger.error("Error in getting all courses by area id: " + e);
+			throw e;
 		}
 		return list;
 	}
@@ -149,6 +90,7 @@ public class CourseDaoImpl implements CourseDao {
 							 	 .setParameter("userId", userId).list();
 		} catch (Exception e) {
 			logger.error("Error in getting all courses by user id: " + e);
+			throw e;
 		}
 		return list;
 	}
@@ -163,6 +105,21 @@ public class CourseDaoImpl implements CourseDao {
 							 	 .setParameter("email", email).list();
 		} catch (Exception e) {
 			logger.error("Error in getting all courses by user email: " + e);
+			throw e;
+		}
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllByOwnerEmail(String email) {
+		List<Course> list = new ArrayList<Course>();
+		try {
+			list = sessionFactory.getCurrentSession()
+								 .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
+							 	 .setParameter("email", email).list();
+		} catch (Exception e) {
+			logger.error("Error in getting all courses by owner email: " + e);
 		}
 		return list;
 	}
@@ -171,7 +128,7 @@ public class CourseDaoImpl implements CourseDao {
 	public void disable(Course course) {
 		course.setDisable(true);
 		this.update(course);
-		try {//TODO: this is piece of shit, maybe rewrite?
+		try { //TODO: this is piece of shit, maybe rewrite?
 			String hqlDelModule = ""
 					+ "UPDATE Module module SET module.disable=true WHERE module IN "
 					+ "(SELECT moduleList "
@@ -186,7 +143,8 @@ public class CourseDaoImpl implements CourseDao {
 					+ "JOIN moduleList.tests testList "
 					+ "WHERE course.id = :id)";
 			
-			String hqlDelQuestion = "UPDATE Question question SET question.disable=true WHERE question IN "
+			String hqlDelQuestion = ""
+					+ "UPDATE Question question SET question.disable=true WHERE question IN "
 					+ "(SELECT questionList "
 					+ "FROM Course course "
 					+ "JOIN course.modules moduleList "

@@ -1,27 +1,22 @@
 package com.crsms.service;
 
-import com.crsms.domain.Question;
-
 import java.util.List;
+
+import com.crsms.domain.Question;
 
 /**
  * @author Andriets Petro
  */
 
-public interface QuestionService {
+public interface QuestionService extends BaseService<Question> {
 
-    public void createQuestion(Long testId, Question question);
-
-    public Question getQuestionById(Long id);
-
-    public List<Question> getQuestionsByTestId(Long testId);
-
-    public void editQuestion(Question question);
+	void createQuestion(Long testId, Question question);
+	
+	List<Question> getQuestionsByTestId(Long testId);
     
-    public void disable(Long id);
+    void disable(Long id);
     
-    public void disable(Question question);
+    void disable(Question question);
 
-    //public void deleteQuestionById(Long id);
 
 }

@@ -1,25 +1,19 @@
 package com.crsms.dao;
 
-import com.crsms.domain.Question;
-
 import java.util.List;
+
+import com.crsms.domain.Question;
 
 /**
  * @author Petro Andriets
  */
 
-public interface QuestionDao {
+public interface QuestionDao extends BaseDao<Question> {
 
-    public void saveQuestion(Question question);
+    void deleteQuestionById(Long id);
 
-    public Question getQuestionById(Long id);
-
-    public List<Question> getAllByTestId(Long id);
-
-    public void updateQuestion(Question question);
-
-    public void deleteQuestionById(Long id);
-
-    public void disable(Question question);
+    void disable(Question question);
+    
+    List<Question> getAllByTestId(Long id);
 
 }
