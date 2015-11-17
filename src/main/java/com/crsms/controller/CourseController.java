@@ -96,7 +96,7 @@ public class CourseController {
 		
 		List<Long> userCoursesId = null;
 		if (request.isUserInRole("STUDENT")) {
-			userCoursesId = this.getAllUserCoursesId(currentPrincipalEmail);
+			userCoursesId = this.getAllCoursesIds(currentPrincipalEmail);
 		}
 		
 		model.setViewName(COURSES_VIEW);
@@ -280,9 +280,9 @@ public class CourseController {
 		return model;
 	}
 	
-	private List<Long> getAllUserCoursesId(String email) {
+	private List<Long> getAllCoursesIds(String userEmail) {
 		List<Long> list = new LinkedList<Long>();
-		for (Course course : courseService.getAllByUserEmail(email)) {
+		for (Course course : courseService.getAllByUserEmail(userEmail)) {
 			list.add(course.getId());
 		}
 		return list;

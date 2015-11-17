@@ -27,7 +27,7 @@ public class MainController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String homePage() {
-		return "index";
+		return "redirect:/courses/";
 	}
 	
 
