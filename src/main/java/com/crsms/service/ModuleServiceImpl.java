@@ -14,7 +14,6 @@ import com.crsms.dao.ModuleDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.Resource;
-import com.crsms.domain.Test;
 import com.crsms.exception.ElementNotFoundException;
 
 /**
@@ -44,7 +43,7 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public void add(Long courseId, Module module) {
 		logger.info("in moduleService save(Module)");
-		Course course = courseDao.getById(courseId);//TODO: mybe to DAO?
+		Course course = courseDao.getById(courseId); //TODO: mybe to DAO?
 		course.addModule(module);
 		moduleDao.add(module);
 		logger.info("out moduleService save(Module)");
@@ -185,7 +184,7 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public void freeResource(Module module) {
-		for(Resource resource : module.getResources()) {
+		for (Resource resource : module.getResources()) {
 			this.removeResource(module, resource);
 		}
 		

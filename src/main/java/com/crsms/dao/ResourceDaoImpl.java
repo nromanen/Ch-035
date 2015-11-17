@@ -36,8 +36,8 @@ public class ResourceDaoImpl implements ResourceDao {
 		try {
 			sessionFactory.getCurrentSession().persist(resource);
 		} catch (Exception e) {
-			logger.error("Error save resource with name=" + 
-					resource.getName() + ": " + e);
+			logger.error("Error save resource with name=" 
+						+ resource.getName() + ": " + e);
 		}
 
 	}
@@ -48,8 +48,8 @@ public class ResourceDaoImpl implements ResourceDao {
 		try {
 			sessionFactory.getCurrentSession().update(resource);
 		} catch (Exception e) {
-			logger.error("Error update resource with id=" + 
-					resource.getId() + ": " + e);
+			logger.error("Error update resource with id="
+						+ resource.getId() + ": " + e);
 		}
 		
 	}
@@ -60,8 +60,8 @@ public class ResourceDaoImpl implements ResourceDao {
 		try {
 			sessionFactory.getCurrentSession().delete(resource);
 		} catch (Exception e) {
-			logger.error("Error delete resource with id=" + 
-					resource.getId() + ": " + e);
+			logger.error("Error delete resource with id=" 
+						+ resource.getId() + ": " + e);
 		}
 
 	}
@@ -69,8 +69,8 @@ public class ResourceDaoImpl implements ResourceDao {
 	@Override
 	public void deleteById(Long id) {
 		
-		String hql = " DELETE Resource"  + 
-	             	 " WHERE id = :resource_id";
+		String hql = " DELETE Resource"   
+	               + " WHERE id = :resource_id";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter("resource_id", id);
 		try {
@@ -84,10 +84,11 @@ public class ResourceDaoImpl implements ResourceDao {
 	public Resource getById(Long id) {
 		Resource resource = null;
 		try {
-			resource = Resource.class.cast(sessionFactory.getCurrentSession().get(Resource.class, id));
+			resource = Resource.class.cast(sessionFactory.getCurrentSession()
+														 .get(Resource.class, id));
 		} catch (Exception e) {
-			logger.error("Error getById resource with id=" + 
-					id + ": " + e);
+			logger.error("Error getById resource with id=" 
+						+ id + ": " + e);
 		}
 		return resource;
 	}
@@ -128,11 +129,14 @@ public class ResourceDaoImpl implements ResourceDao {
 
 	@Override
 	public boolean onlyForModule(Long moduleId) {
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(
-				"SELECT COUNT(*) as count FROM module_resource WHERE module_id != :module_id LIMIT 1"
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(""
+					+ " SELECT COUNT(*) as count"
+					+ " FROM module_resource"
+					+ " WHERE module_id != :module_id "
+					+ " LIMIT 1"
 			).setParameter("module_id", moduleId);
 			long count = ((BigInteger) query.uniqueResult()).longValue();
-			if(count > 0) {
+			if (count > 0) {
 				return false;
 			} else {
 				return true;

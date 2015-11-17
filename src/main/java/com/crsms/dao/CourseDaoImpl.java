@@ -16,7 +16,7 @@ import com.crsms.domain.Course;
 
 /**
  * 
- * @author Valerii Motresku, maftey, Roman S
+ * @author Valerii Motresku, maftey, St. Roman
  *
  */
 
@@ -128,7 +128,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	public void disable(Course course) {
 		course.setDisable(true);
 		this.update(course);
-		try {//TODO: this is piece of shit, maybe rewrite?
+		try { //TODO: this is piece of shit, maybe rewrite?
 			String hqlDelModule = ""
 					+ "UPDATE Module module SET module.disable=true WHERE module IN "
 					+ "(SELECT moduleList "
@@ -143,7 +143,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 					+ "JOIN moduleList.tests testList "
 					+ "WHERE course.id = :id)";
 			
-			String hqlDelQuestion = "UPDATE Question question SET question.disable=true WHERE question IN "
+			String hqlDelQuestion = ""
+					+ "UPDATE Question question SET question.disable=true WHERE question IN "
 					+ "(SELECT questionList "
 					+ "FROM Course course "
 					+ "JOIN course.modules moduleList "

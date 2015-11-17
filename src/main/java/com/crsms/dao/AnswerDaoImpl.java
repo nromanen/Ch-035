@@ -1,6 +1,7 @@
 package com.crsms.dao;
 
-import com.crsms.domain.Answer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,21 +10,20 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.crsms.domain.Answer;
 
 /**
  * @author Petro Andriets
  */
 
 @Repository("answerDao")
-public class AnswerDaoImpl extends BaseDaoImpl<Answer> implements AnswerDao{
+public class AnswerDaoImpl extends BaseDaoImpl<Answer> implements AnswerDao {
     private static Logger logger = LogManager.getLogger(AnswerDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    public AnswerDaoImpl() {}
+    public AnswerDaoImpl() { }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -31,12 +31,16 @@ public class AnswerDaoImpl extends BaseDaoImpl<Answer> implements AnswerDao{
         if (id != null) {
             logger.info("AnswerDao. Reading all answers by Question ID.");
             List<Answer> answerList = new ArrayList<Answer>();
-            answerList = sessionFactory.getCurrentSession().getNamedQuery(Answer.GET_BY_QUESTION_ID).setParameter("id", id).list();
+            answerList = sessionFactory.getCurrentSession()
+            						   .getNamedQuery(Answer.GET_BY_QUESTION_ID)
+            						   .setParameter("id", id).list();
             logger.info("AnswerDao. Reading all answers by Question ID successfully.");
             return answerList;
         } else {
-            logger.error("AnswerDao. Illegal argument received when answer by Question ID getting.");
-            throw new IllegalArgumentException("AnswerDao. Illegal argument received when answer by Question ID getting.");
+            logger.error("AnswerDao."
+            		+ " Illegal argument received when answer by Question ID getting.");
+            throw new IllegalArgumentException("AnswerDao."
+            		+ " Illegal argument received when answer by Question ID getting.");
         }
     }
 
@@ -52,7 +56,8 @@ public class AnswerDaoImpl extends BaseDaoImpl<Answer> implements AnswerDao{
             logger.info("AnswerDao. Deleting answer by ID: " + id + " successfully.");
         } else {
             logger.error("AnswerDao. Illegal argument received when answer by ID deleting.");
-            throw new IllegalArgumentException("AnswerDao. Illegal argument received when answer by ID deleting.");
+            throw new IllegalArgumentException("AnswerDao."
+            		+ " Illegal argument received when answer by ID deleting.");
         }
     }
     
