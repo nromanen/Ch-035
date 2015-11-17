@@ -130,7 +130,7 @@ public class ResourceController {
 	
 	@RequestMapping(value = RESOURCE_PATH + "/uploadfile/{filename}", method = RequestMethod.GET)
     public FileSystemResource uploadFileResource(@PathVariable("filename") String fileName) throws IOException {
-		return new FileSystemResource("");
+		return new FileSystemResource(fileService.getFileFromStorage(fileName));
     }
 	
 	// @ResponseBody to return json in response body

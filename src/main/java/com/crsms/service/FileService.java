@@ -9,7 +9,7 @@ public interface FileService {
 	
 	void uploadFile(MultipartFile multipartFile) throws IOException;
 	
-	File getFileFromStorage(String name);
+	File getFileFromStorage(String fileName);
 	
 	String getStoragePath();
 
