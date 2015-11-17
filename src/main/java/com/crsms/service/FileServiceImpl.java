@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service("multipartFileService")
+@Service("fileService")
 public class FileServiceImpl implements FileService {
 	
 	private final String storagePath = "storage" + File.separator + "resources";
@@ -24,8 +24,10 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public File getFileFromStorage(String name) {
-		return null;
+	public File getFileFromStorage(String fileName) {
+		String rootPath = System.getProperty("catalina.home");
+		File file = new File(rootPath + File.separator + storagePath + File.separator + fileName);
+		return file;
 	}
 
 	public String getStoragePath() {

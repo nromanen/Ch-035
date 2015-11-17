@@ -36,6 +36,7 @@ import com.crsms.validator.CourseFormValidator;
  * 
  * @author maftey
  * @author Valerii Motresku
+ * @author St. Roman
  *
  */
 
@@ -119,6 +120,7 @@ public class CourseController {
 	public ModelAndView showCourse(@PathVariable Long courseId) {
 		ModelAndView model = new ModelAndView();
 		List<Invocable<Course>> initializers = new ArrayList<>();
+		initializers.add(new CourseModulesDeepInitializer());
 		Course course = courseService.getById(courseId, initializers);
 		model.addObject("course", course);
 		model.addObject("courseEndDate", course.getStartDate().plusDays(course.getDuration()));
