@@ -55,12 +55,12 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 
 	@Override
 	public void delete(Course course) {
-		if(course.getPublished()) {
+		if (course.getPublished()) {
 			this.disable(course);
 		} else {
 			this.disable(course);
 			//TODO:replace on HQL
-			for(Module module : course.getModules()){
+			for (Module module : course.getModules()) {
 				moduleService.freeResource(module);
 			}
 			courseDao.delete(course);

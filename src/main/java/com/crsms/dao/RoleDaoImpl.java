@@ -17,7 +17,7 @@ import com.crsms.domain.Role;
  * @author Roman Romaniuk
  *
  */
-@Repository ("roleDao")
+@Repository
 public class RoleDaoImpl implements RoleDao {
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -66,8 +66,5 @@ public class RoleDaoImpl implements RoleDao {
 		}
 		return role;
 	}
-	
-	
-	
 	
 }

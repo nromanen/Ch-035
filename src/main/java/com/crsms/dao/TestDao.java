@@ -1,8 +1,9 @@
 package com.crsms.dao;
 
+import java.util.List;
+
 import com.crsms.domain.Test;
 
-import java.util.List;
 
 /**
  * @author Petro Andriets
@@ -10,11 +11,11 @@ import java.util.List;
 
 public interface TestDao extends BaseDao<Test> {
     
-    public List<Test> getAllByModuleId(Long moduleId);
+    List<Test> getAllByModuleId(Long moduleId);
 
-    public void deleteTestById(Long id);
+    void deleteTestById(Long id);
     
-    public void disableTestById(Long id);
+    void disableTestById(Long id);
     
     void disable(Test test);
     

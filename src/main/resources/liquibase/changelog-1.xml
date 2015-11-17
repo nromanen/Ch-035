@@ -8,7 +8,7 @@
 						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 						
 	<changeSet author="maftey" id="1446992667519-93">
-        <sqlFile path="liquibase/populateDB1.sql"/>
+        <sqlFile path="src/main/resources/liquibase/populateDB1.sql"/>
     </changeSet>
 	<changeSet author="maftey" id="1446992667519-94">
         <addColumn tableName="course" >
@@ -37,11 +37,11 @@
 	</changeSet>
 	
 	<changeSet author="maftey" id="1446992667519-98">
-        <sqlFile path="liquibase/populateDB2.sql"/>
+        <sqlFile path="src/main/resources/liquibase/populateDB2.sql"/>
     </changeSet>
     
     <changeSet author="maftey" id="1446992667519-99">
-        <sqlFile path="liquibase/fixSequence.sql"/>
+        <sqlFile path="src/main/resources/liquibase/fixSequence.sql"/>
     </changeSet>
     
     <changeSet author="maftey" id="1446992667519-100">

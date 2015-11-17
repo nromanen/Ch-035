@@ -1,8 +1,8 @@
 package com.crsms.service;
 
-import com.crsms.domain.Answer;
-
 import java.util.List;
+
+import com.crsms.domain.Answer;
 
 /**
  * @author Andriets Petro
@@ -10,12 +10,12 @@ import java.util.List;
 
 public interface AnswerService extends BaseService<Answer> {
 
-    public void createAnswer(Long questionId, Answer answer);
+    void createAnswer(Long questionId, Answer answer);
 
-    public List<Answer> getAnswersByQuestionId(Long questionId);
+    List<Answer> getAnswersByQuestionId(Long questionId);
     
-    public void disable(Long answerId);
+    void disable(Long answerId);
     
-    public void disable(Answer answer);
+    void disable(Answer answer);
 
 }

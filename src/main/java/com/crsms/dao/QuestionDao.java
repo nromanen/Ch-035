@@ -8,12 +8,12 @@ import com.crsms.domain.Question;
  * @author Petro Andriets
  */
 
-public interface QuestionDao extends BaseDao<Question>{
+public interface QuestionDao extends BaseDao<Question> {
 
-    public void deleteQuestionById(Long id);
+    void deleteQuestionById(Long id);
 
-    public void disable(Question question);
+    void disable(Question question);
     
-    public List<Question> getAllByTestId(Long id);
+    List<Question> getAllByTestId(Long id);
 
 }

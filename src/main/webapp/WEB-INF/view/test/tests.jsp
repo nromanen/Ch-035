@@ -60,14 +60,14 @@
 				<td>
 					<div align="center">
 						<c:url var="editTest" value="${test.id}/edit" />
-						<button href="${editTest}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.edit" />"> 
+						<a href="${editTest}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.edit" />"> 
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-						</button>
+						</a>
 
 						<c:url var="deleteTest" value="${test.id}/delete" />
 						<button data-deleteurl="${deleteTest}" class="btn btn-danger btn-sm btn-delete-test" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.delete" />"
 							value="${test.id}"> 
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>	
+							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>	
 						</button>
 					</div>
 				</td>

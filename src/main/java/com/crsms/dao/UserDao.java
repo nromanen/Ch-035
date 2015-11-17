@@ -10,19 +10,12 @@ import com.crsms.domain.User;
  *
  */
 
-public interface UserDao {
-
-	User saveUser(User user);
-	
-	User getUserById(Long id);
+public interface UserDao extends BaseDao<User> {
 
 	User getUserByEmail(String email);
 
-	void delete(Long id);
-
-	List<User> getAllUsers();
-	
 	long getRowsCount();
 	
-	List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order);
+	List<User> getPagingUsers(int startPosition, int itemsPerPage,
+								String sortingField, String order);
 }

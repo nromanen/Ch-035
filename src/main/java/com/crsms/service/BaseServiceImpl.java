@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crsms.dao.BaseDao;
-import com.crsms.util.Command;
+import com.crsms.util.Invocable;
 
 public class BaseServiceImpl<E> implements BaseService<E> {
 	
@@ -28,10 +28,10 @@ public class BaseServiceImpl<E> implements BaseService<E> {
 	}
 
 	@Override
-	public E getById(Long id, Command ... initializers) {
+	public E getById(Long id, List<Invocable<E>> initializers) {
 		E entity = this.getById(id);
-		for (Command initalizer : initializers) {
-			initalizer.execute();
+		for (Invocable<E> initalizer : initializers) {
+			initalizer.invoke(entity);
 		}
 		return entity;
 	}

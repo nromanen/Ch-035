@@ -9,11 +9,9 @@ import com.crsms.domain.User;
  * @author Roman Romaniuk
  *
  */
-public interface UserService {
+public interface UserService extends BaseService<User> {
 
 	User saveUser(User user);
-	
-	User updateUser(User user);
 	
 	boolean changePassword(String email, String currentPassword, String newPassword);
 
@@ -21,12 +19,9 @@ public interface UserService {
 
 	User getUserByEmail(String email);
 	
-	void delete(Long id);
-
-	List<User> getAllUsers();
-	
 	long getRowsCount();
 	
-	List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order);
+	List<User> getPagingUsers(int startPosition, int itemsPerPage,
+								String sortingField, String order);
 
 }

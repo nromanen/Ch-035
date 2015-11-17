@@ -1,8 +1,10 @@
 package com.crsms.dto;
 
-
 import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.crsms.domain.Area;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.jmapper.annotations.JMap;
 
 public class CourseJsonDto {
@@ -17,6 +19,7 @@ public class CourseJsonDto {
 	private String description;
 
 	@JMap
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private DateTime startDate;
 
 	@JMap
@@ -24,6 +27,13 @@ public class CourseJsonDto {
 
 	@JMap
 	private Boolean open = false;
+	
+	@JMap
+	@JsonIgnore
+	private Area area;
+	
+	@JsonIgnore
+	private String ownerEmail;
 
 	public Long getId() {
 		return id;
@@ -71,6 +81,22 @@ public class CourseJsonDto {
 
 	public void setOpen(Boolean open) {
 		this.open = open;
+	}
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
+
+	public String getOwnerEmail() {
+		return ownerEmail;
+	}
+
+	public void setOwnerEmail(String ownerEmail) {
+		this.ownerEmail = ownerEmail;
 	}
 
 }

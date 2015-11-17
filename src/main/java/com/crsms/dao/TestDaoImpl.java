@@ -1,6 +1,7 @@
 package com.crsms.dao;
 
-import com.crsms.domain.Test;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,21 +10,19 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.crsms.domain.Test;
+
 
 /**
  * @author Petro Andriets
  */
 
-@Repository("testDao")
+@Repository
 public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
     private static Logger logger = LogManager.getLogger(TestDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    public TestDaoImpl() {}
   
 	@SuppressWarnings("unchecked")
 	@Override
@@ -31,12 +30,15 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 		if (id != null) {
             logger.info("TestDao. Reading all tests by Module ID.");
             List<Test> testList = new ArrayList<Test>();
-            testList = sessionFactory.getCurrentSession().getNamedQuery(Test.GET_BY_MODULE_ID).setParameter("id", id).list();
+            testList = sessionFactory.getCurrentSession()
+            						 .getNamedQuery(Test.GET_BY_MODULE_ID)
+            						 .setParameter("id", id).list();
             logger.info("TestDao. Reading all tests by Module ID successfully.");
             return testList;
 		} else {
 			logger.error("TestDao. Illegal argument received when test by Module ID getting.");
-			throw new IllegalArgumentException("TestDao. Illegal argument received when test by Module ID getting.");
+			throw new IllegalArgumentException("TestDao."
+					+ " Illegal argument received when test by Module ID getting.");
 		}
 	}
 
@@ -52,7 +54,8 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
             logger.info("TestDao. Deleting test by ID: " + id + " successfully.");
     	} else {
     		logger.error("TestDao. Illegal argument received when test by ID deleting.");
-    		throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID deleting.");
+    		throw new IllegalArgumentException("TestDao."
+    				+ " Illegal argument received when test by ID deleting.");
     	}
     }
 
@@ -60,12 +63,14 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 	public void disableTestById(Long testId) {
 		if (testId != null) {
             logger.info("TestDao. disabling test.");
-            Test test = (Test) sessionFactory.getCurrentSession().load(Test.class, new Long(testId));
+            Test test = (Test) sessionFactory.getCurrentSession()
+            								 .load(Test.class, new Long(testId));
             this.disable(test);
             logger.info("TestDao. disabling test successfully.");
     	} else {
     		logger.error("TestDao. Illegal argument received when test deleting.");
-    		throw new IllegalArgumentException("TestDao. Illegal argument received when test disabling.");
+    		throw new IllegalArgumentException("TestDao."
+    				+ " Illegal argument received when test disabling.");
     	}
 		
 	}
@@ -75,13 +80,15 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 		test.setDisable(true);
 		this.update(test);
 		
-		String hqlDelQuestion = "UPDATE Question question SET question.disable=true WHERE question IN "
+		String hqlDelQuestion = ""
+				+ "UPDATE Question question SET question.disable=true WHERE question IN "
 				+ "(SELECT questionList "
 				+ "FROM Test test "
 				+ "JOIN test.questions questionList "
 				+ "WHERE test.id = :id)";
 		
-		String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+		String hqlDelAnswer = ""
+				+ "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
 				+ "(SELECT answerList "
 				+ "FROM Test test "
 				+ "JOIN test.questions questionList "

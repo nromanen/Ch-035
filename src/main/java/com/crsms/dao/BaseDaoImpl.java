@@ -22,11 +22,11 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static Logger logger = LogManager.getLogger(BaseDaoImpl.class);
+	private final Logger logger = LogManager.getLogger(BaseDaoImpl.class);
 	
 	private final Class<E> entityClass;
 	
-	@SuppressWarnings(value="unchecked")
+	@SuppressWarnings(value = "unchecked")
 	public BaseDaoImpl() {
 		this.entityClass = (Class<E>) ((ParameterizedType) getClass()
 	            .getGenericSuperclass()).getActualTypeArguments()[0];
@@ -62,12 +62,12 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 	}
 
 	@Override
-	@SuppressWarnings(value="unchecked")
+	@SuppressWarnings(value = "unchecked")
 	public List<E> getAll() {
 		String hql = "FROM " + this.entityClass.getSimpleName() + " ORDER BY id";
 		List<E> list = new ArrayList<E>();
 		try {
-			list = (List<E>)sessionFactory.getCurrentSession().createQuery(hql).list();
+			list = (List<E>) sessionFactory.getCurrentSession().createQuery(hql).list();
 		} catch (Exception e) {
 			logger.error("Error in getAll(): " + this.entityClass.getSimpleName() + " : " + e);
 			throw e;
@@ -77,11 +77,11 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 
 	
 	@Override
-	@SuppressWarnings(value="unchecked")
+	@SuppressWarnings(value = "unchecked")
 	public E getById(Long id) {
 		E entity = null;
 		try {
-			entity = (E)sessionFactory.getCurrentSession().get(this.entityClass, id);
+			entity = (E) sessionFactory.getCurrentSession().get(this.entityClass, id);
 		} catch (Exception e) {
 			logger.error("Error in get " + this.entityClass.getSimpleName() + " by id: " + e);
 			throw e;
@@ -97,6 +97,14 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 			logger.error("Error update: " + this.entityClass.getSimpleName() + " : " + e);
 			throw e;
 		}
+	}
+
+	protected SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public Logger getLogger() {
+		return logger;
 	}
 
 }
