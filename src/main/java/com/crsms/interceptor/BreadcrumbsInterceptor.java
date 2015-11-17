@@ -1,11 +1,7 @@
 package com.crsms.interceptor;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +14,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.crsms.util.BreadcrumbsHelper;
 
 public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
+	private static final String REGEXP_PARSE_URL = "([\\d]+\\/)?\\w+[\\/]?$"; //TODO name?
+	private static final String REGEXP_REMOVE_NUMBERS = "\\d*\\/";
+	private static final String REGEXP_REMOVE_SLASHES = "\\/";
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response,
@@ -31,46 +30,31 @@ public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
 	private Map<String, String> makeBreadcrumbs(String url) {
 		String path = new String(url);
 		String label = null;
+		Map<String, String> breadcrumbs = new TreeMap<String, String>();
 		
-		List<String> pathes = new LinkedList<String>();
-		List<String> labels = new LinkedList<String>();
-		
-		String regex = "([\\d]+\\/)?\\w+[\\/]?$";
-		Pattern pattern = Pattern.compile(regex);
+		Pattern pattern = Pattern.compile(REGEXP_PARSE_URL);
 		Matcher matcher = pattern.matcher(path);
 		
 		String match = null;
 		while (matcher.find()) {
 			match = matcher.group();
 			label = makeLabel(match);
-			labels.add(label);
-			pathes.add(path);
-			path = path.substring(0, path.lastIndexOf(match));
+			breadcrumbs.put(path, label);
+			path = removeMatch(path, match);
 			matcher = pattern.matcher(path);
 		}
 		
-		return makeMap(pathes, labels);
+		return breadcrumbs;
 	}
 
-	private Map<String, String> makeMap(List<String> pathes, List<String> labels) {
-		Map<String, String> result = new LinkedHashMap<String, String>();
-		
-		Collections.reverse(pathes);
-		Collections.reverse(labels);
-		
-		Iterator<String> pathesIterator = pathes.iterator();
-		Iterator<String> labelsIterator = labels.iterator();
-		
-		while (pathesIterator.hasNext() && labelsIterator.hasNext()) {
-			result.put(pathesIterator.next(), labelsIterator.next());
-		}
-		
-		return result;
-	}
-	
 	private String makeLabel(String target) {
-		String label = target.replaceAll("\\d*\\/", "").replaceAll("\\/", "");
+		String label = target.replaceAll(REGEXP_REMOVE_NUMBERS, "")
+							 .replaceAll(REGEXP_REMOVE_SLASHES, "");
 		return BreadcrumbsHelper.getCode(label);
+	}	
+	
+	private String removeMatch(String path, String match) {
+		return path.substring(0, path.lastIndexOf(match));
 	}
 	
 }

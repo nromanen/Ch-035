@@ -20,7 +20,7 @@ import com.crsms.domain.Area;
  *
  */
 
-@Repository("areaDao")
+@Repository
 public class AreaDaoImpl implements AreaDao {
 
 	@Autowired

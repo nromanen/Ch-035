@@ -47,10 +47,6 @@ public class Role {
 	@JoinColumn(name = "user_id")
 	private List <User> users;
 
-	
-
-	public Role() {	}
-
 	public Long getId() {
 		return id;
 	}

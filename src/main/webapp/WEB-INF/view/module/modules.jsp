@@ -1,9 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<c:url var = "createModule" value = "add" />
+<a class = "btn btn-primary btn-create" href = "${createModule}"><spring:message code="crsms.modules.button.create"/></a>
+
 <table class = "table table-bordered table-hover">
 	<thead>
-		<tr class = "success">
+		<tr class = "active">
 			<th class = "hide"><spring:message code = "crsms.text.id"/></th>
 			<th><spring:message code = "crsms.text.name"/></th>
 			<th><spring:message code = "crsms.text.description"/></th>
@@ -13,21 +16,21 @@
 	</thead>
 	<tbody>
 		<c:forEach var = "module" items = "${modules}">
-			<tr class = "active">
+			<tr>
 				<th class = "hide">${module.id}</th>
 				<td class = "nameCell">${module.name}</td>
 				<td>${module.description}</td>
 				<td class = "contentCell text-center">
 					<c:url var = "showTests" value = "${module.id}/tests/" />
 					<a href = "${showTests}" 
-						class = "btn btn-success btn-sm">
+						class = "btn btn-primary btn-sm">
 						<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 						<spring:message code="crsms.modules.text.tests" />
 					</a>
 					
 					<c:url var = "showResources" value = "${module.id}/resources/" />
 					<a href = "${showResources}" 
-						class = "btn btn-success btn-sm">
+						class = "btn btn-primary btn-sm">
 						<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
 						<spring:message code="crsms.modules.text.resources" />
 					</a>
@@ -35,7 +38,7 @@
 				<td class = "managementCell text-center">
 					<c:url var = "editModule" value = "${module.id}/edit" />
 					<a href = "${editModule}" 
-						class = "btn btn-success btn-sm"
+						class = "btn btn-primary btn-sm"
 						data-toggle = "tooltip"
 						title="<spring:message code="crsms.button.edit" />" >
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -55,10 +58,5 @@
 	</tbody>
 </table>
 
-<c:set var="backButton">
-	<spring:message code="crsms.createtest.backButton" />
-</c:set>
-	<a class="btn btn-success" role="button" onClick="history.go(-1);return true;">${backButton}</a>
-
 <c:url var = "createModule" value = "add" />
-<a class = "btn btn-success" href = "${createModule}"><spring:message code="crsms.modules.button.create"/></a>
+<a class = "btn btn-primary" href = "${createModule}"><spring:message code="crsms.modules.button.create"/></a>

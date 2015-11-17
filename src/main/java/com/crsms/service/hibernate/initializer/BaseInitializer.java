@@ -2,25 +2,12 @@ package com.crsms.service.hibernate.initializer;
 
 import org.hibernate.Hibernate;
 
-import com.crsms.util.Command;
+import com.crsms.util.Invocable;
 
-public class BaseInitializer<E> implements Command {
+public class BaseInitializer<E> implements Invocable<E> {
 	
-	private E entity;
-	
-	public BaseInitializer(E entity) {
-		this.entity = entity;
-	}
-	
-	public void execute() {
+	public void invoke(E entity) {
 		Hibernate.initialize(entity);
 	}
 
-	public E getEntity() {
-		return entity;
-	}
-
-	public void setEntity(E entity) {
-		this.entity = entity;
-	}
 }

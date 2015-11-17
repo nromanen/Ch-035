@@ -40,8 +40,6 @@ public class Answer {
 	@Column(nullable = false)
 	private Boolean disable = false;
 
-	public Answer() {}
-
 	public Long getId() {
 		return id;
 	}

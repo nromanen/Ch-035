@@ -63,8 +63,6 @@ public class Module {
 	
 	@Column(nullable = false)
 	private Boolean disable = false;
-	
-	public Module() { }
 
 	public Long getId() {
 		return id;

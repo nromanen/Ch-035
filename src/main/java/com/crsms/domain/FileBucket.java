@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileBucket {
 	 
-    MultipartFile file;
+    private MultipartFile file;
      
     public MultipartFile getFile() {
         return file;

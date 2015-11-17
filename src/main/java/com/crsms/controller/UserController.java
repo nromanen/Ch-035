@@ -69,7 +69,7 @@ public class UserController {
 		userService.saveUser(user);	
 
 		user.setRole(roleService.getRoleById(STUDENT_ROLE_ID));
-		userService.updateUser(user);
+		userService.update(user);
 		UserInfo userInfo = new UserInfo();
 		userInfoService.save(userInfo);
 		userInfo.setUser(user);

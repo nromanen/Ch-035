@@ -16,7 +16,7 @@ import com.crsms.domain.Answer;
  * @author Petro Andriets
  */
 
-@Repository("answerDao")
+@Repository
 public class AnswerDaoImpl extends BaseDaoImpl<Answer> implements AnswerDao {
     private static Logger logger = LogManager.getLogger(AnswerDaoImpl.class);
 
