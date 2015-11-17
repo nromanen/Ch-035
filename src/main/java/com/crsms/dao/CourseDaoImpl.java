@@ -180,8 +180,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
   public List<Course> searchCourses(String searchWord) {
     try {
       return (List<Course>) sessionFactory.getCurrentSession()
-                        .createQuery("SELECT c FROM Course c WHERE UPPER(c.name) LIKE UPPER(:s) OR "
-                        + "UPPER(c.description) LIKE UPPER(:s) ORDER BY c.name, c.description")
+                        .getNamedQuery(Course.SEARCH)
                         .setParameter("s", "%" + searchWord + "%").list();
     } catch (HibernateException e) {
       logger.error("Error searchCourses: " + e);

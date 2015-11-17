@@ -63,14 +63,14 @@ public class RestApiController {
 	
 	@RequestMapping(value = {"/areas"}, method = RequestMethod.GET, produces = "application/json")
 	public List<AreaJsonDto> getAreas(HttpServletResponse response) {
-		List<AreaJsonDto> dtos = dtoService.convert(areaService.getAllAreas(), AreaJsonDto.class, Area.class);
+		List<AreaJsonDto> dtos = dtoService.convert(areaService.getAll(), AreaJsonDto.class, Area.class);
 		response.addIntHeader("X-Total-Count", dtos.size());
 		return dtos;
 	}
 	
 	@RequestMapping(value = {"/areas/{areaId}"}, method = RequestMethod.GET, produces = "application/json")
 	public AreaJsonDto getArea(@PathVariable Long areaId) {
-		return dtoService.convert(areaService.getAreaById(areaId), AreaJsonDto.class, Area.class);
+		return dtoService.convert(areaService.getById(areaId), AreaJsonDto.class, Area.class);
 	}
 	
 	@RequestMapping(value = {"/courses"}, method = RequestMethod.GET, produces = "application/json")

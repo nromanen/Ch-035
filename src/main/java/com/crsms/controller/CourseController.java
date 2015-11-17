@@ -136,7 +136,7 @@ public class CourseController {
 		String ownerEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 		courseFormDto.setOwnerEmail(ownerEmail);
 		
-		List<Area> areas = areaService.getAllAreas();
+		List<Area> areas = areaService.getAll();
 		
 		model.addObject("courseFormDto", courseFormDto);
 		model.addObject("areas", areas);
@@ -154,7 +154,7 @@ public class CourseController {
 		
 		validator.validate(courseFormDto, result);
 		if (result.hasErrors()) {
-			List<Area> areas = areaService.getAllAreas();
+			List<Area> areas = areaService.getAll();
 			model.addObject("areas", areas);
 			model.setViewName("newFormCourse");
 			return model;
@@ -183,7 +183,7 @@ public class CourseController {
 		CourseFormDto courseFormDto = dtoService.convert(course, CourseFormDto.class, Course.class);
 		courseFormDto.setOwnerEmail(ownerEmail);
 		
-		List<Area> areas = areaService.getAllAreas();
+		List<Area> areas = areaService.getAll();
 		
 		model.addObject("courseFormDto", courseFormDto);
 		model.addObject("areas", areas);
@@ -200,7 +200,7 @@ public class CourseController {
 		
 		validator.validate(courseFormDto, result);
 		if (result.hasErrors()) {
-			List<Area> areas = areaService.getAllAreas();
+			List<Area> areas = areaService.getAll();
 			model.addObject("areas", areas);
 			model.setViewName("editFormCourse");
 			return model;

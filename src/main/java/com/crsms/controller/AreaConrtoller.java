@@ -32,7 +32,7 @@ public class AreaConrtoller {
 	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
 	public String getAllAreas(Model model) {
     model.addAttribute("area", new Area());
-    model.addAttribute("getAllAreas", areaService.getAllAreas());
+    model.addAttribute("getAllAreas", areaService.getAll());
     return "area";
   }
 	
@@ -51,24 +51,24 @@ public class AreaConrtoller {
 	    return "reenter";
 	  }
 	  if (area.getId() == null) {
-	   	areaService.saveArea(area);
+	   	areaService.save(area);
 	  } else {
-	    areaService.updateArea(area);
+	    areaService.update(area);
 	  }
 	  return "redirect:/areas/";
     }
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editPreparing(@PathVariable("id") Long id, Model model) {
-		Area area = areaService.getAreaById(id);
+		Area area = areaService.getById(id);
 		model.addAttribute("area", area);
-    model.addAttribute("getAllAreas", areaService.getAllAreas());
+    model.addAttribute("getAllAreas", areaService.getAll());
     return "area";
 	}
 
   @RequestMapping("/{id}/delete")
   public String deleteAreaById(@PathVariable("id") Long id) {
-    areaService.deleteArea(id);
+    areaService.deleteById(id);
     return "redirect:/areas/";
   }
 
