@@ -15,7 +15,7 @@
 	</div>
 </div>
 
-<div id = "courses-table" class = "container">
+<div id = "courses-table-wrapper" class = "container">
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr class = "active">
