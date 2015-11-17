@@ -116,7 +116,7 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
 	public ModelAndView showCourse(@PathVariable Long courseId) {
 		ModelAndView model = new ModelAndView();
-		Course course = courseService.getById(courseId, new CourseModulesDeepInitializer(null));
+		Course course = courseService.getById(courseId, new CourseModulesDeepInitializer());
 		model.addObject("course", course);
 		model.addObject("courseEndDate", course.getStartDate().plusDays(course.getDuration()));
 		model.addObject("pageTitle", course.getName());

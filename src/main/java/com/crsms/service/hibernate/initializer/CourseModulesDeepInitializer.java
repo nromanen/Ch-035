@@ -7,16 +7,13 @@ import com.crsms.domain.Module;
 
 public class CourseModulesDeepInitializer extends BaseInitializer<Course> {
 	
-	public CourseModulesDeepInitializer(Course course) {
-		super(course);
-	}
-	
 	@Override
-	public void execute() {
-		Hibernate.initialize(this.getEntity().getModules());
-		for (Module module : this.getEntity().getModules()) {
+	public void invoke(Course course) {
+		Hibernate.initialize(course.getModules());
+		for (Module module : course.getModules()) {
 			Hibernate.initialize(module.getTests());
 			Hibernate.initialize(module.getResources());		
 		}
 	}
+	
 }
