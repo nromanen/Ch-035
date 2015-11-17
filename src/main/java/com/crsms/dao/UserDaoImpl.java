@@ -17,7 +17,7 @@ import com.crsms.domain.User;
  * @author Roman Romaniuk
  *
  */
-@Repository("userDao")
+@Repository
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
 
 
