@@ -37,7 +37,7 @@
 		<div class="module-resources">
 			<c:forEach var="moduleResource" items="${module.resources}">
 			<div class="module-resource-wrapper">
-				<a href="/${moduleResource.url}" class="module-resource-link" download>${moduleResource.name}</a>			
+				<a href="/crsms/resources/downloadfile?filename=${moduleResource.name}" class="module-resource-link">${moduleResource.name}</a>			
 			</div>
 			</c:forEach>
 		</div>

@@ -1,13 +1,19 @@
 package com.crsms.controller;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -128,9 +135,15 @@ public class ResourceController {
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
 	
-	@RequestMapping(value = RESOURCE_PATH + "/uploadfile/{filename}", method = RequestMethod.GET)
-    public FileSystemResource uploadFileResource(@PathVariable("filename") String fileName) throws IOException {
-		return new FileSystemResource(fileService.getFileFromStorage(fileName));
+	@RequestMapping(value = RESOURCE_PATH + "/downloadfile", method = RequestMethod.GET)
+    public void uploadFileResource(@RequestParam("filename") String fileName,
+    			HttpServletResponse response) throws IOException {
+		File file = fileService.getFileForDownload(fileName);
+		// get file as InputStream
+		InputStream in = new FileInputStream(file);
+		// copy it to response's OutputStream
+		FileCopyUtils.copy(in, response.getOutputStream());
+		response.flushBuffer();
     }
 	
 	// @ResponseBody to return json in response body

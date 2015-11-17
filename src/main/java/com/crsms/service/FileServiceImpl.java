@@ -1,6 +1,7 @@
 package com.crsms.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.springframework.stereotype.Service;
@@ -24,9 +25,12 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public File getFileFromStorage(String fileName) {
+	public File getFileForDownload(String fileName) throws IOException {
 		String rootPath = System.getProperty("catalina.home");
 		File file = new File(rootPath + File.separator + storagePath + File.separator + fileName);
+		if (!file.isFile()) {
+			throw new FileNotFoundException();
+		}
 		return file;
 	}
 

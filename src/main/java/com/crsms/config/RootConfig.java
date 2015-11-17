@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -39,7 +40,8 @@ public class RootConfig extends WebMvcConfigurerAdapter {
 		
 		registry.addInterceptor(localeChangeInterceptor);
 		registry.addInterceptor(breadcrumbsInterceptor)
-				.excludePathPatterns("/courses/*/modules/*/tests/*/questions/add/question-form");
+				.excludePathPatterns("/courses/*/modules/*/tests/*/questions/add/question-form")
+				.excludePathPatterns("/resources/downloadfile/**");
 	}
 	
 	/**
@@ -67,7 +69,7 @@ public class RootConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(mappingJackson2HttpMessageConverter());
+        converters.add(this.mappingJackson2HttpMessageConverter());
     }
 
 }
