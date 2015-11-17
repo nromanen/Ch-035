@@ -55,7 +55,7 @@
 					<td>${user.password}</td>
 					<td>${user.role.name}</td>
 					<td class="managementCell">
-						<c:url var="editUser"	value="edit/${user.id}" /> 
+						<c:url var="editUser"	value="${user.id}/edit" /> 
 							<a href="${editUser}" class="btn btn-success btn-sm" 
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.edit" />">
@@ -63,7 +63,7 @@
 							</a>
 					</td>
 					<td class="managementCell">
-						<c:url var="deleteUser"	value="delete/${user.id}" /> 
+						<c:url var="deleteUser"	value="/${user.id}delete" /> 
 							<a href="${deleteUser}"
 								class="btn btn-danger btn-sm" 
 								data-toggle="tooltip"

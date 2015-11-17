@@ -89,9 +89,10 @@ public class AdminController {
 		
 	}
 	
-	@RequestMapping(value = { "/delete/{userId}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/{userId}/delete" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable long userId) {
-		userService.delete(userId);
+		User user = userService.getById(userId);
+		userService.delete(user);
 		return "redirect:/admin/";
 	}
 	
@@ -113,14 +114,14 @@ public class AdminController {
 		return "redirect:/admin/";
 	}
 
-	@RequestMapping(value = { "/edit/{userId}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/{userId}/edit" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable Long userId, ModelMap model) {
 		User user = userService.getUserById(userId);
 		model.addAttribute("user", user);
 		return "adduser";
 	}
 
-	@RequestMapping(value = "/edit/{userId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{userId}/edit", method = RequestMethod.POST)
 	public String updateUser(@PathVariable long userId, 
 								@Validated User user, BindingResult result) {
 		validator.validate(user, result);
