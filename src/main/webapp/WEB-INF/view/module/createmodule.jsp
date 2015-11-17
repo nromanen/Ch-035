@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<form:form modelAttribute = "moduleFormDto" method = "POST" class = "form-horizontal">
+<form:form modelAttribute = "moduleJsonDto" method = "POST" class = "form-horizontal">
 	<form:hidden path = "id"/>
 	<form:hidden path = "courseId"/>
 	
@@ -39,7 +39,7 @@
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<c:set var = "moduleSave"><spring:message code = "crsms.button.save"/></c:set>
-			<input type = "submit" value = "${moduleSave}" class="btn btn-success"/>
+			<input type = "submit" value = "${moduleSave}" class="btn btn-primary"/>
 		</div>
 	</div>		
 </form:form>
