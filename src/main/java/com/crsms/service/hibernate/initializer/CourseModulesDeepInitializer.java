@@ -4,8 +4,9 @@ import org.hibernate.Hibernate;
 
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
+import com.crsms.util.Invocable;
 
-public class CourseModulesDeepInitializer extends BaseInitializer<Course> {
+public class CourseModulesDeepInitializer implements Invocable<Course> {
 	
 	@Override
 	public void invoke(Course course) {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
 import com.crsms.service.ModuleService;
-import com.crsms.service.MultipartFileService;
+import com.crsms.service.FileService;
 import com.crsms.service.ResourceService;
 import com.crsms.validator.MultipartFileValidator;
 
@@ -44,7 +45,7 @@ public class ResourceController {
 	private ModuleService moduleService;
 	
 	@Autowired
-	private MultipartFileService multipartFileService;
+	private FileService fileService;
 	
 	@Autowired
     MultipartFileValidator multuipartFileValidator;
@@ -109,8 +110,8 @@ public class ResourceController {
         }
 		MultipartFile receivedFile = fileBucket.getFile();
 		String originalName = receivedFile.getOriginalFilename();		
-		multipartFileService.uploadFile(receivedFile);		
-		resourceService.save(originalName, multipartFileService.getStoragePath());		
+		fileService.uploadFile(receivedFile);		
+		resourceService.save(originalName, fileService.getStoragePath());		
         return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
@@ -122,9 +123,14 @@ public class ResourceController {
         }
 		MultipartFile receivedFile = fileBucket.getFile();
 		String originalName = receivedFile.getOriginalFilename();		
-		multipartFileService.uploadFile(receivedFile);		
-        moduleService.addResource(moduleId, originalName, multipartFileService.getStoragePath());		
+		fileService.uploadFile(receivedFile);		
+        moduleService.addResource(moduleId, originalName, fileService.getStoragePath());		
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
+    }
+	
+	@RequestMapping(value = RESOURCE_PATH + "/uploadfile/{filename}", method = RequestMethod.GET)
+    public FileSystemResource uploadFileResource(@PathVariable("filename") String fileName) throws IOException {
+		return new FileSystemResource("");
     }
 	
 	// @ResponseBody to return json in response body
@@ -156,8 +162,6 @@ public class ResourceController {
 		resourceService.delete(id, moduleId);
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
-	
-	//FileSys
 	
 	
 }

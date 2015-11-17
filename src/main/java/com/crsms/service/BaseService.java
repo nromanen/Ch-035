@@ -15,7 +15,7 @@ public interface BaseService<E> {
 
 	E getById(Long id);
 	
-	E getById(Long id, Invocable<E> ... initializers);
+	E getById(Long id, List<Invocable<E>> initializers);
 
 	void update(E entity);
 	

@@ -22,7 +22,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static Logger logger = LogManager.getLogger(BaseDaoImpl.class);
+	private final Logger logger = LogManager.getLogger(BaseDaoImpl.class);
 	
 	private final Class<E> entityClass;
 	
@@ -97,6 +97,14 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 			logger.error("Error update: " + this.entityClass.getSimpleName() + " : " + e);
 			throw e;
 		}
+	}
+
+	protected SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public Logger getLogger() {
+		return logger;
 	}
 
 }

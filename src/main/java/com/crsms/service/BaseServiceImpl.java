@@ -28,7 +28,7 @@ public class BaseServiceImpl<E> implements BaseService<E> {
 	}
 
 	@Override
-	public E getById(Long id, Invocable<E> ... initializers) {
+	public E getById(Long id, List<Invocable<E>> initializers) {
 		E entity = this.getById(id);
 		for (Invocable<E> initalizer : initializers) {
 			initalizer.invoke(entity);
