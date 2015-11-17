@@ -15,10 +15,6 @@ public interface CourseService extends BaseService<Course> {
 	
 	void save(Course course, long areaId, String ownerEmail);
 	
-	List<Course> getAllInitialized();
-	
-	Course getInitializedById(Long id, Course.LazyField ... lazyFields);
-	
 	void update(Course course, long areaId, String ownerEmail);
 	
 	Course get(String name);
