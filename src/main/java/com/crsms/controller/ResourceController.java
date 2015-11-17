@@ -47,7 +47,7 @@ public class ResourceController {
 	private MultipartFileService multipartFileService;
 	
 	@Autowired
-    MultipartFileValidator multuipartFileValidator;
+    private MultipartFileValidator multuipartFileValidator;
  
     @InitBinder("fileBucket")
     protected void initBinderFileBucket(WebDataBinder binder) {

@@ -22,7 +22,7 @@ import com.crsms.domain.Resource;
  *
  */
 
-@Repository("resourceDao")
+@Repository
 public class ResourceDaoImpl implements ResourceDao {
 	
 	@Autowired

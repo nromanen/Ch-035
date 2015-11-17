@@ -20,7 +20,7 @@ import com.crsms.domain.Course;
  *
  */
 
-@Repository("courseDao")
+@Repository
 public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	
 	@Autowired
