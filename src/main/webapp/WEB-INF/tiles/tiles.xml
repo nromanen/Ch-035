@@ -148,6 +148,7 @@
 		<put-attribute name="title" value="crsms.courses.text.courses" />
 		<put-attribute name="header-title" value="crsms.courses.text.courses" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courses_table.jsp" />
+		<put-attribute name="content-container-class" value="container-fluid" />
 	</definition>
 	
 	<definition name="course" extends="base-template" >
