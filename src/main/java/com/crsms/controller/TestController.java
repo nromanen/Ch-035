@@ -3,6 +3,7 @@ package com.crsms.controller;
 
 import com.crsms.domain.Question;
 import com.crsms.domain.Test;
+import com.crsms.dto.QuestionFormDto;
 import com.crsms.service.TestService;
 import com.crsms.validator.TestFormValidator;
 
@@ -77,7 +78,7 @@ public class TestController {
 	public String getAllTestsByModuleId(@PathVariable Long moduleId, Model model) {
 		List<Test> tests = testService.getAllByModuleId(moduleId);
 		model.addAttribute("tests", tests);
-		model.addAttribute("question", new Question());
+		model.addAttribute("question", new QuestionFormDto());
 		return TESTS_PAGE;
 	}
 

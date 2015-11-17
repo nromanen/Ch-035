@@ -7,6 +7,7 @@ import com.crsms.domain.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     @Autowired
     ModuleService moduleService;
     
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @Override
     public void createTest(Long moduleId, Test test) {
     	logger.info("TestService. Creating a new test.");
@@ -42,6 +44,7 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     	return testDao.getAllByModuleId(id);
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @Override
     public void disableTestById(Long id) {
     	logger.info("TestService. Deleting test by ID: " + id + ".");

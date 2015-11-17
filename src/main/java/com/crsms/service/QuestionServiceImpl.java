@@ -7,6 +7,7 @@ import com.crsms.domain.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
     @Autowired
     private TestService testService;
 
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @Override
     public void createQuestion(Long testId, Question question) {
         logger.info("QuestionService. Creating a new question.");
@@ -42,7 +44,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
         return questionDao.getAllByTestId(testId);
     }
 
-	@Override
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
+    @Override
 	public void disable(Long id) {
 		Question question = questionDao.getById(id);
 		this.disable(question);	

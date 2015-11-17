@@ -15,7 +15,7 @@
 			<tr id="hover-${test.id}">
 				<td>
 				<div class="hover-div">
-					<div class="full-div" data-toggle="collapse" data-target="#${test.id}" data-parrent="#accordion">
+					<div class="full-div test-name" data-toggle="collapse" data-target="#${test.id}" data-parrent="#accordion">
 						<i class="glyphicon glyphicon-list-alt">&nbsp</i>${test.name}
 						</div>
 					</div>
@@ -60,15 +60,15 @@
 				<td>
 					<div align="center">
 						<c:url var="editTest" value="${test.id}/edit" />
-						<a href="${editTest}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.edit" />"> 
+						<button href="${editTest}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.edit" />"> 
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-						</a>
+						</button>
 
 						<c:url var="deleteTest" value="${test.id}/delete" />
-						<a href="${deleteTest}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.delete" />"
+						<button data-deleteurl="${deleteTest}" class="btn btn-danger btn-sm btn-delete-test" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.delete" />"
 							value="${test.id}"> 
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>	
-						</a>
+						</button>
 					</div>
 				</td>
 			</tr>
@@ -76,15 +76,10 @@
 	</tbody>
 </table>
 	
-<c:set var="backButton">
-	<spring:message code="crsms.createtest.backButton" />
-</c:set>
-<a class="btn btn-primary" role="button" onClick="history.go(-1);return true;">${backButton}</a>
-
 <c:url var="createTest" value="add" />
 <a class="btn btn-primary" href="${createTest}"><spring:message code="crsms.tests.create.new" /></a>
 
-<!-- Modal -->
+<!-- Add questions with answers modal window. -->
 <div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -120,11 +115,10 @@
  					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#1:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="text" name="answer_text[0]" value="" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="answers[0].text" name="answers[0].text" value="" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div class="checkbox-inline">
-						      <input type="checkbox" name="correct_chackbox_1"> <spring:message code="crsms.tests.correct.answer" />
-						      <!-- <input type="checkbox" name="answer1" value="yes"> <spring:message code="crsms.tests.correct.answer" /> -->
+						      <input type="radio" form = "modal-form" name="answers[0].correct" checked> <spring:message code="crsms.tests.correct.answer" />
 						  </div>
 					    </div>
 					  </div>
@@ -132,10 +126,10 @@
 					 <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#2:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="text" name="answer_text[1]" value="" id="answer2" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="answers[1].text" name="answers[1].text" value="" id="answer2" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />
 					      <div class="checkbox-inline">
-						      <input type="checkbox" name="correct_chackbox_2"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="radio" form = "modal-form" name="answers[1].correct"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>				      
 					    </div>
 					  </div>
@@ -143,10 +137,10 @@
 					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#3:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="text" name="answer_text[2]" value="" id="answer3" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="answers[2].text" name="answers[2].text" value="" id="answer3" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div class="checkbox-inline">
-						      <input type="checkbox" name="correct_chackbox_3"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="radio" form = "modal-form" name="answers[2].correct"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>		      
 					    </div>
 					  </div>
@@ -154,10 +148,10 @@
 					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#4:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="text" name="answer_text[3]" value="" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="answers[3].text" name="answers[3].text" value="" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />	
 					      <div class="checkbox-inline">
-						      <input type="checkbox" name="correct_chackbox_4"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="radio" form = "modal-form" name="answers[3].correct"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>			      
 					    </div>
 					  </div>
@@ -173,3 +167,25 @@
 		</div>
 	</div>
 </div>
+
+<!-- Delete test modal window -->
+<div class="modal fade" id="delete-confirmation-modal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><spring:message code = "crsms.tests.text.confirmation" /></h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 15px; font-weight: 600;">
+        	<spring:message code = "crsms.tests.msg.confirm.delete" /> 
+        	<span class="test-delete-msg"></span>
+        </p>
+      </div>
+      <div class="modal-footer">
+      	<button id="btn-modal-delete-test" class="btn btn-danger"><spring:message code = "crsms.button.delete" /></button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.button.cancel" /></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

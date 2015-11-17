@@ -1,32 +1,46 @@
 package com.crsms.dto;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.crsms.domain.Answer;
-import com.crsms.domain.Question;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author Petro Andriets
  */
+
+/**
+ * @JsonIgnoreProperties annotation ignore properties that do not match the DTO.
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class QuestionFormDto {
+	private String text;
+	private Long id;
 	
-	public QuestionFormDto() {}
-	
-	//TODO dto modificators.
-	public Question question;
-	public Set<Answer> answers;
-	
-	public Question getQuestion() {
-		return question;
+	private List<AnswerFormDto> answers = new ArrayList<>();
+
+	public String getText() {
+		return text;
 	}
-	public void setQuestion(Question question) {
-		this.question = question;
+
+	public void setText(String text) {
+		this.text = text;
 	}
-	public Set<Answer> getAnswers() {
+
+	public List<AnswerFormDto> getAnswers() {
 		return answers;
 	}
-	public void setAnswers(Set<Answer> answers) {
+
+	public void setAnswers(List<AnswerFormDto> answers) {
 		this.answers = answers;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

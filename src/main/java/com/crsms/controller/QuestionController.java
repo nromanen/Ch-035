@@ -1,6 +1,7 @@
 package com.crsms.controller;
 
 import com.crsms.domain.Question;
+import com.crsms.dto.QuestionFormDto;
 import com.crsms.service.QuestionService;
 import com.crsms.validator.QuestionFormValidator;
 
@@ -37,19 +38,19 @@ public class QuestionController {
 
     @RequestMapping(value = { "/add" }, method = RequestMethod.GET)
     public String newQuestion(Model model) {
-        Question question = new Question();
+    	QuestionFormDto question = new QuestionFormDto();
         model.addAttribute("question", question);
         return CREATE_QUESTION_PAGE;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addQuestion(@PathVariable Long courseId, @PathVariable Long moduleId,
-                              @PathVariable Long testId, @Validated Question question,
+                              @PathVariable Long testId, @Validated QuestionFormDto question,
                               BindingResult result) {
         if (result.hasErrors()) {
             return CREATE_QUESTION_PAGE;
         } else {
-            questionService.createQuestion(testId, question);
+            //questionService.createQuestion(testId, question);
         }
         return redirect(courseId, moduleId, testId);
     }
