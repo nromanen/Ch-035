@@ -46,7 +46,7 @@
 						</div>
 						<div class="form-group last">
 							<div class="col-sm-offset-3 col-sm-9">
-								<button type="submit" class="btn btn-success btn-sm">
+								<button type="submit" class="btn btn-primary btn-sm">
 									<spring:message code="crsms.button.signin" />
 								</button>
 								<button type="reset" class="btn btn-default btn-sm">

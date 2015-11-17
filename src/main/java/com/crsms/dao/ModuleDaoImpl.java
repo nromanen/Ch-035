@@ -17,7 +17,7 @@ import com.crsms.domain.Module;
  *
  */
 
-@Repository("moduleDao")
+@Repository
 public class ModuleDaoImpl extends BaseDaoImpl<Module> implements ModuleDao {
 	
 	@Autowired
