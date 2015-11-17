@@ -13,7 +13,7 @@ import com.crsms.dto.ModuleJsonDto;
 import com.crsms.service.CourseService;
 
 @Component
-public class ModuleFormValidator implements Validator {
+public class ModuleJsonValidator implements Validator {
 	
 	@Autowired
 	private CourseService courseService;

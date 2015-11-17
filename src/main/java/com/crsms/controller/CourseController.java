@@ -30,7 +30,7 @@ import com.crsms.service.UserService;
 import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
 import com.crsms.util.Invocable;
 import com.crsms.util.StringUtil;
-import com.crsms.validator.CourseFormValidator;
+import com.crsms.validator.CourseJsonValidator;
 
 /**
  * 
@@ -64,7 +64,6 @@ public class CourseController {
 	@Autowired
 	private AreaService areaService;
 	
-	//TODO: only for teacher
 	@Autowired
 	private CourseService courseService;
 	
@@ -75,7 +74,7 @@ public class CourseController {
 	private UserService userService;
 	
 	@Autowired
-	private CourseFormValidator validator;
+	private CourseJsonValidator validator;
 
 	@InitBinder
     private void initBinder(WebDataBinder binder) {
@@ -120,8 +119,7 @@ public class CourseController {
 				break;
 		}	
 		
-		courses = this.truncateNameAndDescription(courses); //TODO ask about return type: void or List<Course>
-		//VOID
+		truncateNameAndDescription(courses);
 		
 		model.addObject("courses", courses);
 		model.addObject("userCoursesId", userCoursesId);
@@ -294,13 +292,12 @@ public class CourseController {
 		return course.getOwner().getEmail().equals(currentPrincipalEmail);
 	}
 	
-	private List<Course> truncateNameAndDescription(List<Course> courses) {
+	private void truncateNameAndDescription(List<Course> courses) {
 		for (Course course : courses) {
 			course.setDescription(stringUtil.trimString(course.getDescription(),
 														COURSE_DESC_LENGTH, true));
 			course.setName(stringUtil.trimString(course.getName(), 
 														COURSE_TITLE_LENGTH, true));
 		}
-		return courses;
 	}
 }
