@@ -84,7 +84,8 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	public List<Module> getAllByCourseId(Long courseId) {
 		logger.info("in moduleService getAllByCourseId(courseId)");
 		logger.info("checking course id");
-		if (courseDao.getById(courseId) == null) {
+		Course course = courseDao.getById(courseId);
+		if (course == null || course.getDisable()) {
 			throw new ElementNotFoundException();
 		}
 		

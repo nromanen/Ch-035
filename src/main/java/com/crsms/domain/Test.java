@@ -15,12 +15,28 @@ import java.util.Set;
 
 @Entity
 @Table(name = "test")
-@NamedQueries({ @NamedQuery(name = Test.GET_ALL, query = "FROM Test"),
-			  	@NamedQuery(name = Test.GET_BY_MODULE_ID, query = "SELECT tests FROM Module m WHERE m.id = :id")
-				})
+@NamedQueries({ 
+	@NamedQuery(name = Test.GET_ALL, query = "FROM Test"),
+  	@NamedQuery(name = Test.GET_BY_MODULE_ID, query = "SELECT tests FROM Module m WHERE m.id = :id"),
+	@NamedQuery(name = Test.DISABLE_QUESTIONS,
+				query = "UPDATE Question question SET question.disable=true WHERE question IN "
+						+ "(SELECT questionList "
+						+ "FROM Test test "
+						+ "JOIN test.questions questionList "
+						+ "WHERE test.id = :id)"),
+	@NamedQuery(name = Test.DISABLE_ANSWERS,
+				query = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+						+ "(SELECT answerList "
+						+ "FROM Test test "
+						+ "JOIN test.questions questionList "
+						+ "JOIN questionList.answers answerList "
+						+ "WHERE test.id = :id)")
+})
 public class Test {
 	public static final String GET_ALL = "Test.getAll";
 	public static final String GET_BY_MODULE_ID = "Test.getByModuleId";
+	public static final String DISABLE_QUESTIONS = "Test.disableQuestionsByTest";
+	public static final String DISABLE_ANSWERS = "Test.disableAnswersByTest";
 	public static final int MAX_NAME_LENGTH = 100;
 	
     @Id

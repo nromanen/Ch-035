@@ -43,7 +43,38 @@ import org.springframework.format.annotation.DateTimeFormat;
 	@NamedQuery(name = Course.GET_BY_USER_EMAIL,
 				query = "select c from User u join u.courses c where u.email = :email"),
 	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
-				query = "select c from Course c join c.owner o where o.email = :email")
+				query = "select c from Course c join c.owner o where o.email = :email"),
+	@NamedQuery(name = Course.DISABLE_MODULES,
+				query = ""
+						+ "UPDATE Module module SET module.disable=true WHERE module IN "
+						+ "(SELECT moduleList "
+						+ "FROM Course course "
+						+ "JOIN course.modules moduleList "
+						+ "WHERE course.id = :id)"),
+	@NamedQuery(name = Course.DISABLE_TESTS,
+				query = "UPDATE Test test SET test.disable=true WHERE test IN "
+						+ "(SELECT testList "
+						+ "FROM Course course "
+						+ "JOIN course.modules moduleList "
+						+ "JOIN moduleList.tests testList "
+						+ "WHERE course.id = :id)"),
+	@NamedQuery(name = Course.DISABLE_QUESTIONS,
+				query = "UPDATE Question question SET question.disable=true WHERE question IN "
+						+ "(SELECT questionList "
+						+ "FROM Course course "
+						+ "JOIN course.modules moduleList "
+						+ "JOIN moduleList.tests testList "
+						+ "JOIN testList.questions questionList "
+						+ "WHERE course.id = :id)"),
+	@NamedQuery(name = Course.DISABLE_ANSWERS,
+				query = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+						+ "(SELECT answerList "
+						+ "FROM Course course "
+						+ "JOIN course.modules moduleList "
+						+ "JOIN moduleList.tests testList "
+						+ "JOIN testList.questions questionList "
+						+ "JOIN questionList.answers answerList "
+						+ "WHERE course.id = :id)")
 })
 public class Course {
 	
@@ -97,6 +128,10 @@ public class Course {
 	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
 	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
 	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
+	public static final String DISABLE_MODULES = "course.disableModulesByCourse";
+	public static final String DISABLE_TESTS = "course.disableTestsByCourse";
+	public static final String DISABLE_QUESTIONS = "course.disableQuestionsByCourse";
+	public static final String DISABLE_ANSWERS = "course.disableAnswersByCourse";
 	
 	public static final int MAX_NAME_LENGTH = 255;
 	

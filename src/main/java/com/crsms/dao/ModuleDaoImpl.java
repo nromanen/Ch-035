@@ -59,33 +59,11 @@ public class ModuleDaoImpl extends BaseDaoImpl<Module> implements ModuleDao {
 		module.setDisable(true);
 		this.update(module);
 		
-		String hqlDelTest = "UPDATE Test test SET test.disable=true WHERE test IN "
-				+ "(SELECT testList "
-				+ "FROM Module module "
-				+ "JOIN module.tests testList "
-				+ "WHERE module.id = :id)";
-		
-		String hqlDelQuestion = ""
-				+ "UPDATE Question question SET question.disable=true WHERE question IN "
-				+ "(SELECT questionList "
-				+ "FROM Module module "
-				+ "JOIN module.tests testList "
-				+ "JOIN testList.questions questionList "
-				+ "WHERE module.id = :id)";
-		
-		String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
-				+ "(SELECT answerList "
-				+ "FROM Module module "
-				+ "JOIN module.tests testList "
-				+ "JOIN testList.questions questionList "
-				+ "JOIN questionList.answers answerList "
-				+ "WHERE module.id = :id)";
-		
-		sessionFactory.getCurrentSession().createQuery(hqlDelTest)
+		sessionFactory.getCurrentSession().getNamedQuery(Module.DISABLE_TESTS)
 			.setParameter("id", module.getId()).executeUpdate();
-		sessionFactory.getCurrentSession().createQuery(hqlDelQuestion)
+		sessionFactory.getCurrentSession().getNamedQuery(Module.DISABLE_QUESTIONS)
 			.setParameter("id", module.getId()).executeUpdate();
-		sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
+		sessionFactory.getCurrentSession().getNamedQuery(Module.DISABLE_ANSWERS)
 			.setParameter("id", module.getId()).executeUpdate();
 	}
 
