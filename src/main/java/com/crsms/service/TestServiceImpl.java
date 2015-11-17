@@ -1,8 +1,6 @@
 package com.crsms.service;
 
-import com.crsms.dao.TestDao;
-import com.crsms.domain.Module;
-import com.crsms.domain.Test;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.crsms.dao.TestDao;
+import com.crsms.domain.Module;
+import com.crsms.domain.Test;
 
 /**
  * @author Petro Andriets
@@ -25,7 +25,7 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     private TestDao testDao;
     
     @Autowired
-    ModuleService moduleService;
+    private ModuleService moduleService;
     
     @Override
     public void createTest(Long moduleId, Test test) {

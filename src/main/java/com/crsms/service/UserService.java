@@ -27,6 +27,7 @@ public interface UserService {
 	
 	long getRowsCount();
 	
-	List<User> getPagingUsers(int startPosition, int itemsPerPage, String sortingField, String order);
+	List<User> getPagingUsers(int startPosition, int itemsPerPage,
+								String sortingField, String order);
 
 }

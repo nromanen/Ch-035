@@ -1,8 +1,7 @@
 package com.crsms.dao;
 
-import com.crsms.domain.Course;
-import com.crsms.domain.Module;
-import com.crsms.domain.Question;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.crsms.domain.Question;
 
 /**
  * @author Petro Andriets
@@ -39,7 +37,8 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
             logger.info("QuestionDao. Deleting question by ID: " + id + " successfully.");
         } else {
             logger.error("QuestionDao. Illegal argument received when question by ID deleting.");
-            throw new IllegalArgumentException("QuestionDao. Illegal argument received when question by ID deleting.");
+            throw new IllegalArgumentException("QuestionDao."
+            		+ " Illegal argument received when question by ID deleting.");
         }
     }
     
@@ -54,8 +53,10 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
             logger.info("QuestionDao. Reading all questions by Test ID successfully.");
             return questionList;
         } else {
-            logger.error("QuestionDao. Illegal argument received when questions by Test ID getting.");
-            throw new IllegalArgumentException("QuestionDao. Illegal argument received when questions by Test ID getting.");
+            logger.error("QuestionDao."
+            		+ " Illegal argument received when questions by Test ID getting.");
+            throw new IllegalArgumentException("QuestionDao."
+            		+ " Illegal argument received when questions by Test ID getting.");
         }
     }
     

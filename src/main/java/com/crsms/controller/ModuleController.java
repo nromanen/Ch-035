@@ -76,7 +76,7 @@ public class ModuleController {
 			return ADD_MODULE_VIEW;
 		}
 		Module module = dtoService.convert(moduleFormDto, Module.class, ModuleFormDto.class);
-		moduleService.add(courseId, module);
+		moduleService.save(courseId, module);
 		return redirect(courseId);
 	}	
 	

@@ -11,17 +11,11 @@ import com.crsms.domain.Resource;
  *
  */
 
-public interface ModuleService {
+public interface ModuleService extends BaseService<Module> {
 	
-	void add(Long courseId, Module module);
-	
-	void update(Module module);
+	void save(Long courseId, Module module);
 	
 	//void delete(Long courseId, Module module);
-	
-	Module getById(Long id);
-	
-	List<Module> getAll();
 	
 	List<Module> getAllByCourseId(Long courseId);
 	

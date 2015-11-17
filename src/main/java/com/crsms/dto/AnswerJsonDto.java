@@ -8,7 +8,7 @@ import com.googlecode.jmapper.annotations.JMap;
 
 public class AnswerJsonDto {
 
-    public AnswerJsonDto() {}
+    public AnswerJsonDto() { }
 
     @JMap
     private Long id;
