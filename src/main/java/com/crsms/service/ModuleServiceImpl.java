@@ -24,7 +24,7 @@ import com.crsms.exception.ElementNotFoundException;
 
 @Service("moduleService")
 @Transactional
-public class ModuleServiceImpl implements ModuleService {
+public class ModuleServiceImpl extends BaseServiceImpl<Module> implements ModuleService {
 	
 	private static Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 	
@@ -41,11 +41,11 @@ public class ModuleServiceImpl implements ModuleService {
 	private TestService testService;
 
 	@Override
-	public void add(Long courseId, Module module) {
+	public void save(Long courseId, Module module) {
 		logger.info("in moduleService save(Module)");
 		Course course = courseDao.getById(courseId); //TODO: mybe to DAO?
 		course.addModule(module);
-		moduleDao.add(module);
+		moduleDao.save(module);
 		logger.info("out moduleService save(Module)");
 	}
 	
@@ -79,27 +79,6 @@ public class ModuleServiceImpl implements ModuleService {
 		
 		logger.info("out moduleService delete(Module)");
 	}*/
-
-	@Override
-	public Module getById(Long id) {
-		logger.info("in moduleService getById(module id)");
-		logger.info("trying to get module");
-		
-		Module module = moduleDao.getById(id);
-		if (module == null) {
-			throw new ElementNotFoundException();
-		}
-		
-		logger.info("out moduleService getById(module id)");
-		return module;
-	}
-
-	@Override
-	public List<Module> getAll() {
-		logger.info("in moduleService getAll(Module)");
-		logger.info("trying to get modules");
-		return moduleDao.getAll();
-	}
 	
 	@Override
 	public List<Module> getAllByCourseId(Long courseId) {
