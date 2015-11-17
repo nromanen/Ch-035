@@ -3,18 +3,13 @@ package com.crsms.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.crsms.domain.Course;
 import com.crsms.domain.User;
 
 /**
@@ -24,6 +19,7 @@ import com.crsms.domain.User;
  */
 @Repository("userDao")
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
+
 
 	public UserDaoImpl() {
 		super(User.class);

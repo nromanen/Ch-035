@@ -71,8 +71,6 @@ public class User {
 	
 	@ManyToMany(mappedBy = "users")
 	private Set<Course> courses = new HashSet<Course>();
-	
-	public User() { }
 	 
 	public Long getId() {
 		return id;

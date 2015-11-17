@@ -29,8 +29,6 @@ public class GroupType {
 	@NotNull
 	@Size(min = 2, max = 100)
 	private String name;
-	
-	public GroupType() { }
 
 	public Long getId() {
 		return id;

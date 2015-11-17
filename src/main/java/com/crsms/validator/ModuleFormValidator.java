@@ -9,7 +9,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.crsms.domain.Module;
-import com.crsms.dto.ModuleFormDto;
+import com.crsms.dto.ModuleJsonDto;
 import com.crsms.service.CourseService;
 
 @Component
@@ -20,7 +20,7 @@ public class ModuleFormValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return ModuleFormDto.class.equals(clazz);
+		return ModuleJsonDto.class.equals(clazz);
 	}
 
 	@Override
@@ -30,12 +30,12 @@ public class ModuleFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description",
 													"crsms.error.description.required");
 		
-		ModuleFormDto moduleFormDto = (ModuleFormDto) target;
+		ModuleJsonDto moduleJsonDto = (ModuleJsonDto) target;
 		
-		Long moduleId = moduleFormDto.getId();
-		Long courseId = moduleFormDto.getCourseId();
+		Long moduleId = moduleJsonDto.getId();
+		Long courseId = moduleJsonDto.getCourseId();
 		
-		String name = moduleFormDto.getName();
+		String name = moduleJsonDto.getName();
 		
 		List<Module> modules = courseService.getById(courseId).getModules();
 		
