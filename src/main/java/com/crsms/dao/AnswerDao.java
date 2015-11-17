@@ -8,17 +8,12 @@ import java.util.List;
  * @author Petro Andriets
  */
 
-public interface AnswerDao {
-
-    public void saveAnswer(Answer answer);
-
-    public Answer getAnswerById(Long id);
+public interface AnswerDao extends BaseDao<Answer> {
 
     public List<Answer> getAnswersByQuestionId(Long id);
-
-    public void updateAnswer(Answer answer);
 
     public void deleteAnswerById(Long id);
 
 	void disable(Answer answer);
+	
 }

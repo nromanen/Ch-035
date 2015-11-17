@@ -12,8 +12,9 @@ public class QuestionFormDto {
 	
 	public QuestionFormDto() {}
 	
-	private Question question;
-	private Set<Answer> answers;
+	//TODO dto modificators.
+	public Question question;
+	public Set<Answer> answers;
 	
 	public Question getQuestion() {
 		return question;
