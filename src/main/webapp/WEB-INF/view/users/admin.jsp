@@ -7,28 +7,6 @@
 <c:set var = "order" value = "desc"/>
 </c:if>
 <c:if test="${!empty users}">
-
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-       <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Find</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
-          	aria-haspopup="true" aria-expanded="false">${order}<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li ><a href="#">5</a></li>
-            <li><a href="#">10</a></li>
-            <li><a href="#">15</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-</nav>
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr class="active">
