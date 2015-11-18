@@ -29,18 +29,47 @@
 	<div class="course-module-grid container">
 		<h3 class="module-title">${module.name}</h3>
 		<p class="module-desc">${module.description}</p>
-		<div class="module-tests">
-			<c:forEach var="moduleTest" items="${module.tests}">
-			<div class="module-test">${moduleTest.name}</div>
-			</c:forEach>
-		</div>
-		<div class="module-resources">
+		
+		<div class="module-resources module-unit-grid col-md-6">
+			<h4 class="text-uppercase${fn:length(module.resources) == 0 ? ' hidden' : ''}"
+				><spring:message code="crsms.modules.text.resources" /></h4>
 			<c:forEach var="moduleResource" items="${module.resources}">
-			<div class="module-resource-wrapper">
-				<a href="/crsms/resources/downloadfile?filename=${moduleResource.name}" class="module-resource-link">${moduleResource.name}</a>			
+			<div class="module-resource">
+				<c:choose>
+					<c:when test="${moduleResource.type == 'EMBEDDED'}">
+						<a class="btn btn-default" role="button" data-toggle="collapse" 
+							href="#resource-${moduleResource.id}-collapse" aria-expanded="false" aria-controls="collapseExample"
+							><i class="fa fa-lg fa-film"></i> ${moduleResource.name}</a>
+						<div class="collapse" id="resource-${moduleResource.id}-collapse">
+							<div class="well">
+						    	<div class="embed-responsive embed-responsive-16by9">
+								  	<iframe class="embed-responsive-item" src="${moduleResource.url}"></iframe>
+								</div>
+						  	</div>
+						</div>
+					</c:when>
+					<c:when test="${moduleResource.type == 'FILE'}">
+						<c:url value="/resources/downloadfile" var="fileDownloadURL">
+						  	<c:param name="filename" value="${moduleResource.name}" />
+						</c:url>
+						<a class="btn btn-default" href="${fileDownloadURL}" 
+							class="module-resource-link"><i class="fa fa-lg fa-download"></i> ${moduleResource.name}</a>
+					</c:when>
+				</c:choose>		
 			</div>
 			</c:forEach>
 		</div>
+		
+		<div class="module-tests module-unit-grid col-md-6">
+			<h4 class="text-uppercase${fn:length(module.tests) == 0 ? ' hidden' : ''}"
+				><spring:message code="crsms.modules.text.tests" /></h4>
+			<c:forEach var="moduleTest" items="${module.tests}">
+			<div class="module-test">
+				<a class="btn btn-default" ><i class="fa fa-lg fa-check-square-o"></i> ${moduleTest.name}</a>
+			</div>
+			</c:forEach>
+		</div>
+		
 	</div>
 	</c:forEach>
 </div>

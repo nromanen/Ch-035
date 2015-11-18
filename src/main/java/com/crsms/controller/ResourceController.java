@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -136,9 +136,16 @@ public class ResourceController {
     }
 	
 	@RequestMapping(value = RESOURCE_PATH + "/downloadfile", method = RequestMethod.GET)
-    public void uploadFileResource(@RequestParam("filename") String fileName,
+    public void getFileResource(@RequestParam("filename") String fileName,
+    			HttpServletRequest request,
     			HttpServletResponse response) throws IOException {
 		File file = fileService.getFileForDownload(fileName);
+		// set content attributes for the response
+		String mimeType = request.getServletContext().getMimeType(file.getAbsolutePath());
+		response.setContentType(mimeType != null ? mimeType : "application/octet-stream");
+		response.setContentLength((int) file.length());
+		// set headers for the response
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
 		// get file as InputStream
 		InputStream in = new FileInputStream(file);
 		// copy it to response's OutputStream

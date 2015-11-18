@@ -7,10 +7,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-import java.util.Set;
+import java.util.List;
 
 /**
- * @author Valerii Motresku, St. Roman
+ * @author Valerii Motresku
+ * @author St. Roman
  */
 
 @Entity
@@ -50,10 +51,10 @@ public class Module {
 	private String description;
 		
 	@ManyToMany
-	private Set<Resource> resources;
+	private List<Resource> resources;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Test> tests;
+	private List<Test> tests;
 	
 	@Column(nullable = false)
 	private Boolean available = false;
@@ -88,11 +89,11 @@ public class Module {
 		this.description = description;
 	}
 	
-	public Set<Resource> getResources() {
+	public List<Resource> getResources() {
 		return resources;
 	}
 
-	public void setResources(Set<Resource> resources) {
+	public void setResources(List<Resource> resources) {
 		this.resources = resources;
 	}
 	
@@ -100,11 +101,11 @@ public class Module {
 		this.resources.remove(resource);
 	}
 
-	public Set<Test> getTests() {
+	public List<Test> getTests() {
 		return tests;
 	}
 
-	public void setTests(Set<Test> tests) {
+	public void setTests(List<Test> tests) {
 		this.tests = tests;
 	}
 
