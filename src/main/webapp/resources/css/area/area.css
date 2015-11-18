@@ -1,3 +1,4 @@
-.error {
-    color:#FF0000;
+.errorTxt {
+	font-weight: bold;
+	color: red;
 }
