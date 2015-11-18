@@ -6,16 +6,19 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.crsms.dao.CourseDao;
 import com.crsms.dao.QuestionDao;
 import com.crsms.domain.Answer;
 import com.crsms.domain.Question;
 import com.crsms.domain.Test;
 import com.crsms.dto.AnswerFormDto;
 import com.crsms.dto.QuestionFormDto;
+import com.crsms.dao.TestDao;
+import com.crsms.domain.Course;
+import com.crsms.exception.ElementNotFoundException;
 
 /**
  * @author Andriets Petro
@@ -31,6 +34,12 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 
     @Autowired
     private TestService testService;
+    
+    @Autowired
+    CourseDao courseDao;
+    
+    @Autowired
+    TestDao testDao;
 
     @Override
     public void createQuestion(Long testId, QuestionFormDto dto) {
@@ -69,7 +78,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
         return questionDao.getAllByTestId(testId);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
+
     @Override
 	public void disable(Long id) {
 		Question question = questionDao.getById(id);
@@ -79,6 +88,35 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 	@Override
 	public void disable(Question question) {
 		questionDao.disable(question);	
+	}
+
+	@Override
+	public void delete(Long questionId) {
+		Course course = courseDao.getByQuestion(questionId);
+    	if (course == null || course.getDisable()) {
+			throw new ElementNotFoundException();
+		}
+    	
+    	Test test = testDao.getByQuestion(questionId);
+    	
+    	if (test == null || test.getDisable()) {
+			throw new ElementNotFoundException();
+		}
+    	
+    	
+    	
+		Question question = questionDao.getById(questionId);
+		
+		if (test == null || question.getDisable()) {
+			throw new ElementNotFoundException();
+		}
+		
+		questionDao.disable(question);
+		
+		if (!course.getPublished()) {
+			test.removeQuestion(question);
+			questionDao.delete(question);
+		}
 	}
 	
 }

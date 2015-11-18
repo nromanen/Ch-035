@@ -21,5 +21,6 @@ public interface QuestionService extends BaseService<Question> {
     
     Question createQuestionFromForm(Long testId, QuestionFormDto dto);
 
+	void delete(Long questionId);
 
 }
