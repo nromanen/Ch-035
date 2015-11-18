@@ -8,18 +8,23 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
+import com.crsms.dao.BaseDaoImpl;
 /**
  * @author Roman Romaniuk
  */
 @Component
 public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler {
-
+	
+	private final Logger logger = LogManager.getLogger(BaseDaoImpl.class);
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@Override
@@ -28,7 +33,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 			throws IOException {
 		String targetUrl = determineTargetUrl(authentication);
 		if (response.isCommitted()) {
-			System.out.println("Can't redirect");
+			logger.error("Error redirect");
 			return;
 		}
 		redirectStrategy.sendRedirect(request, response, targetUrl);
@@ -41,46 +46,18 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 		for (GrantedAuthority a : authorities) {
 			roles.add(a.getAuthority());
 		}
-		if (isAdmin(roles)) {
+		if (roles.contains("ROLE_ADMIN")) {
 			url = "/admin/";
-		} else if (isManager(roles)) {
-			url = "/manager/";
-		} else if (isTeacher(roles)) {
+		} else if (roles.contains("ROLE_MANAGER")) {
+			url = "/areas/";
+		} else if (roles.contains("ROLE_TEACHER")) {
 			url = "/courses/?show=my";
-		} else if (isStudent(roles)) {
+		} else if (roles.contains("ROLE_STUDENT")) {
 			url = "/courses/?show=my";
 		} else {
 			url = "/403";
 		}
 		return url;
-	}
-
-	private boolean isAdmin(List<String> roles) {
-		if (roles.contains("ROLE_ADMIN")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isManager(List<String> roles) {
-		if (roles.contains("ROLE_MANAGER")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isTeacher(List<String> roles) {
-		if (roles.contains("ROLE_TEACHER")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isStudent(List<String> roles) {
-		if (roles.contains("ROLE_STUDENT")) {
-			return true;
-		}
-		return false;
 	}
 
 	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {

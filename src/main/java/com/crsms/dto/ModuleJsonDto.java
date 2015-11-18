@@ -1,9 +1,9 @@
 package com.crsms.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.jmapper.annotations.JMap;
 
 public class ModuleJsonDto {
-	
 	@JMap
 	private Long id;
 	
@@ -18,6 +18,9 @@ public class ModuleJsonDto {
 
 	@JMap
 	private Long orderPosition;
+	
+	@JsonIgnore
+	private Long courseId;
 
 	public Long getId() {
 		return id;
@@ -57,6 +60,14 @@ public class ModuleJsonDto {
 
 	public void setOrderPosition(Long orderPosition) {
 		this.orderPosition = orderPosition;
+	}
+
+	public Long getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
 	}
 	
 }

@@ -1,20 +1,17 @@
 
 package com.crsms.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.crsms.dao.RoleDao;
 import com.crsms.dao.UserDao;
 import com.crsms.domain.User;
+import com.crsms.util.Invocable;
 
 /**
  * 
@@ -23,40 +20,20 @@ import com.crsms.domain.User;
  */
 @Service("userService")
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-public class UserServiceImpl implements UserService {
-
-	private static Logger log = LogManager.getLogger(UserServiceImpl.class);
+public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserDao userDao;
-
-	@Autowired
-	private RoleDao roleDao;
-	
-	@Autowired
-	private CourseService courseService;
 	
 	@Override
 	@Transactional
 	public User saveUser(User user) {
-		try {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			userDao.saveUser(user);
-		} catch (Exception e) {
-			log.error("Error save user: " + e);
-		}
+			userDao.save(user);
 		return user;
-	}
-
-	@Override
-	@Transactional
-	public User updateUser(User user) {
-		log.debug("updating user: ", user);
-
-		return userDao.saveUser(user);
 	}
 	
 	@Override
@@ -69,47 +46,25 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		user.setPassword(this.passwordEncoder.encode(newPassword));
-		updateUser(user);
+		userDao.update(user);
 		
 		return true;
-	}
-	
-	@Override
-	public User getUserById(Long id) {
-		User user = userDao.getUserById(id);
-		return user;
 	}
 
 	@Override
 	public User getUserByEmail(String email) {
 		User user = null;
-		try {
-			user = userDao.getUserByEmail(email);
-		} catch (Exception e) {
-			log.error("Error get user by email: " + email + e);
-		}
+		user = userDao.getUserByEmail(email);
 		return user;
 	}
-
+	
 	@Override
-	@Transactional
-	public void delete(Long id) {
-		try {
-			userDao.delete(id);
-		} catch (Exception e) {
-			log.error("Error deleting user by Id: " + id + e);
+	public User getUserByEmail(String email, List<Invocable<User>> initializers) {
+		User user = userDao.getUserByEmail(email);
+		for (Invocable<User> initalizer : initializers) {
+			initalizer.invoke(user);
 		}
-	}
-
-	@Override
-	public List<User> getAllUsers() {
-		List<User> users = new ArrayList<>();
-		try {
-			users = userDao.getAllUsers();
-		} catch (Exception e) {
-			log.error("Error get all users " + e);
-		}
-		return users;
+		return user;
 	}
 
 	@Override
@@ -122,4 +77,5 @@ public class UserServiceImpl implements UserService {
 										String sortingField, String order) {
 		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
 	}
+	
 }

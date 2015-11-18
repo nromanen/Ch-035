@@ -16,14 +16,12 @@ import com.crsms.domain.Question;
  * @author Petro Andriets
  */
 
-@Repository("questionDao")
+@Repository
 public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDao {
     private static Logger logger = LogManager.getLogger(QuestionDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    public QuestionDaoImpl() {}
 
     @Override
     public void deleteQuestionById(Long id) {

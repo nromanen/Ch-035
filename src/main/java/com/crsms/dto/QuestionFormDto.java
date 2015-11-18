@@ -10,8 +10,6 @@ import com.crsms.domain.Question;
  */
 public class QuestionFormDto {
 	
-	public QuestionFormDto() {}
-	
 	//TODO dto modificators.
 	public Question question;
 	public Set<Answer> answers;

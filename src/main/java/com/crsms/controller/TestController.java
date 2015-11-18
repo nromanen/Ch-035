@@ -26,16 +26,14 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests")
 public class TestController {
-	private final String TESTS_PAGE = "tests";
-	private final String CREATE_TEST_PAGE = "createtest";
+	private static final String TESTS_PAGE = "tests";
+	private static final String CREATE_TEST_PAGE = "createtest";
 
 	@Autowired(required = true)
 	private TestService testService;
 	
 	@Autowired
 	private TestFormValidator testFormValidator;
-
-	public TestController() {}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
@@ -48,7 +46,7 @@ public class TestController {
 		return redirect(courseId, moduleId);
 	}
 
-	@RequestMapping(value = { "/add" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String newTest(Model model) {
 		Test test = new Test();
 		model.addAttribute("test", test);
@@ -98,7 +96,7 @@ public class TestController {
 	/*
 	 * Method for form validation binding.
 	 */
-	@InitBinder(value="test")
+	@InitBinder(value = "test")
     private void initBinder(WebDataBinder binder) {
 		binder.setValidator(testFormValidator);
     }

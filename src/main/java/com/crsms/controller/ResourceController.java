@@ -1,12 +1,19 @@
 package com.crsms.controller;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -14,13 +21,13 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
 import com.crsms.service.ModuleService;
-import com.crsms.service.MultipartFileService;
+import com.crsms.service.FileService;
 import com.crsms.service.ResourceService;
 import com.crsms.validator.MultipartFileValidator;
 
@@ -44,10 +51,10 @@ public class ResourceController {
 	private ModuleService moduleService;
 	
 	@Autowired
-	private MultipartFileService multipartFileService;
+	private FileService fileService;
 	
 	@Autowired
-    MultipartFileValidator multuipartFileValidator;
+    private MultipartFileValidator multuipartFileValidator;
  
     @InitBinder("fileBucket")
     protected void initBinderFileBucket(WebDataBinder binder) {
@@ -109,8 +116,8 @@ public class ResourceController {
         }
 		MultipartFile receivedFile = fileBucket.getFile();
 		String originalName = receivedFile.getOriginalFilename();		
-		multipartFileService.uploadFile(receivedFile);		
-		resourceService.save(originalName, multipartFileService.getStoragePath());		
+		fileService.uploadFile(receivedFile);		
+		resourceService.save(originalName, fileService.getStoragePath());		
         return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
@@ -122,16 +129,28 @@ public class ResourceController {
         }
 		MultipartFile receivedFile = fileBucket.getFile();
 		String originalName = receivedFile.getOriginalFilename();		
-		multipartFileService.uploadFile(receivedFile);		
-        moduleService.addResource(moduleId, originalName, multipartFileService.getStoragePath());		
+		fileService.uploadFile(receivedFile);		
+        moduleService.addResource(moduleId, originalName, fileService.getStoragePath());		
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
 	
-	// @ResponseBody to return json in response body
-	@RequestMapping(value = {RESOURCE_PATH + "/{id}/json"}, method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Resource getJsonResource(@PathVariable Long id) {
-		return resourceService.getById(id);
-	}
+	@RequestMapping(value = RESOURCE_PATH + "/downloadfile", method = RequestMethod.GET)
+    public void getFileResource(@RequestParam("filename") String fileName,
+    			HttpServletRequest request,
+    			HttpServletResponse response) throws IOException {
+		File file = fileService.getFileForDownload(fileName);
+		// set content attributes for the response
+		String mimeType = request.getServletContext().getMimeType(file.getAbsolutePath());
+		response.setContentType(mimeType != null ? mimeType : "application/octet-stream");
+		response.setContentLength((int) file.length());
+		// set headers for the response
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+		// get file as InputStream
+		InputStream in = new FileInputStream(file);
+		// copy it to response's OutputStream
+		FileCopyUtils.copy(in, response.getOutputStream());
+		response.flushBuffer();
+    }
 	
 	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
 	public String editResource(@PathVariable Long id, Resource resource, Model model) {
@@ -156,8 +175,6 @@ public class ResourceController {
 		resourceService.delete(id, moduleId);
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
-	
-	//FileSys
 	
 	
 }

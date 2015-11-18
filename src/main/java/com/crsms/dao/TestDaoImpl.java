@@ -17,14 +17,12 @@ import com.crsms.domain.Test;
  * @author Petro Andriets
  */
 
-@Repository("testDao")
+@Repository
 public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
     private static Logger logger = LogManager.getLogger(TestDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    public TestDaoImpl() { }
   
 	@SuppressWarnings("unchecked")
 	@Override

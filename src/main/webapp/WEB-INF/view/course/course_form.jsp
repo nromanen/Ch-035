@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<form:form modelAttribute = "courseFormDto" class="form-horizontal" method="POST" >
+<form:form modelAttribute = "courseJsonDto" class="form-horizontal" method="POST" >
 	<form:hidden path = "id"/>
 	<form:hidden path = "ownerEmail"/>
 	
@@ -28,7 +28,7 @@
 			<select id="areas" name="areaId">
 				<c:forEach var="currentArea" items="${areas}">
 					<option value="${currentArea.id}"
-							<c:if test="${courseFormDto.area.id == currentArea.id}">
+							<c:if test="${courseJsonDto.area.id == currentArea.id}">
 								<c:out value="selected"/>
 							</c:if>
 							>
@@ -58,6 +58,7 @@
 				<form:input path="duration" id="duration" class="form-control " />
 				<div class="input-group-addon"><spring:message code="crsms.courses.text.days" /></div>
 			</div>
+			<form:errors path = "duration" cssClass = "label label-danger" />
 		</div>
 	</div>
 	<div class="form-group">

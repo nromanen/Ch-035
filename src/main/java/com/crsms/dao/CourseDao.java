@@ -14,8 +14,6 @@ import com.crsms.domain.Test;
 
 public interface CourseDao extends BaseDao<Course> {
 	
-	List<Course> getAllInitialized();
-	
 	Course get(String name);
 	
 	Course getByTest(Test test);
@@ -32,4 +30,6 @@ public interface CourseDao extends BaseDao<Course> {
 	void disable(Course course);
 
 	List<Course> searchCourses(String searchWord);
+	
+	List<Long> getUserCoursesIds(String email);
 }

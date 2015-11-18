@@ -57,8 +57,6 @@ public class Test {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Question> questions;
 
-    public Test() {}
-
     public Long getId() {
         return id;
     }

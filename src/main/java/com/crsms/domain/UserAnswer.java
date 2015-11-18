@@ -41,8 +41,6 @@ public class UserAnswer {
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name="test_result_id")
 	private TestResult testResult;
-	
-	public UserAnswer() { }
 
 	public Long getId() {
 		return id;

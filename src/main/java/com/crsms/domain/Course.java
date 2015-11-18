@@ -79,7 +79,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 						+ "JOIN moduleList.tests testList "
 						+ "JOIN testList.questions questionList "
 						+ "JOIN questionList.answers answerList "
-						+ "WHERE course.id = :id)")
+						+ "WHERE course.id = :id)"),
+	@NamedQuery(name = Course.GET_USER_COURSES_IDS,
+				query = "select c.id from Course c join c.users u where u.email = :email"),
+	@NamedQuery(name = Course.SEARCH,
+	      query = "select c from Course c where upper(c.name) like upper(:s) or "
+                        + "upper(c.description) like upper(:s) order by c.name, c.description")
 })
 public class Course {
 	
@@ -138,6 +143,8 @@ public class Course {
 	public static final String DISABLE_QUESTIONS = "course.disableQuestionsByCourse";
 	public static final String DISABLE_ANSWERS = "course.disableAnswersByCourse";
 	public static final String GET_BY_TEST = "course.getByTest";
+	public static final String GET_USER_COURSES_IDS = "course.getCourseIDsByUserEmail";
+	public static final String SEARCH = "course.search";
 	
 	public static final int MAX_NAME_LENGTH = 255;
 	

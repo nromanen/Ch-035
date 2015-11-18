@@ -17,7 +17,7 @@ import com.crsms.domain.Resource;
  *
  */
 
-@Repository("resourceDao")
+@Repository
 public class ResourceDaoImpl extends BaseDaoImpl<Resource> implements ResourceDao {
 	
 	@Autowired

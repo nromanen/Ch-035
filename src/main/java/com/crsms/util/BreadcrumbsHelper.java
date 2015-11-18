@@ -15,6 +15,7 @@ public class BreadcrumbsHelper {
 	public static final String SIGNUP = "crsms.bc.signup";
 	public static final String ADMIN = "crsms.bc.admin";
 	public static final String USER_PROFILE = "crsms.bc.userprofile";
+	public static final String SEARCH = "crsms.bc.search";
 	
 	public static final String UNKNOWN = "crsms.bc.unknown";
 
@@ -33,6 +34,7 @@ public class BreadcrumbsHelper {
 			case "signUp": return SIGNUP;
 			case "admin": return ADMIN;
 			case "userProfile": return USER_PROFILE;
+      case "search": return SEARCH;
 			default: return UNKNOWN;
 		}
 	}

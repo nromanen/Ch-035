@@ -46,9 +46,6 @@ public class Question {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Answer> answers;
 
-    public Question() {
-    }
-
     public Long getId() {
         return id;
     }

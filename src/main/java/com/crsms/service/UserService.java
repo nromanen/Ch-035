@@ -4,26 +4,21 @@ package com.crsms.service;
 import java.util.List;
 
 import com.crsms.domain.User;
+import com.crsms.util.Invocable;
 /**
  * 
  * @author Roman Romaniuk
  *
  */
-public interface UserService {
+public interface UserService extends BaseService<User> {
 
 	User saveUser(User user);
 	
-	User updateUser(User user);
-	
 	boolean changePassword(String email, String currentPassword, String newPassword);
-
-	User getUserById(Long id);
 
 	User getUserByEmail(String email);
 	
-	void delete(Long id);
-
-	List<User> getAllUsers();
+	User getUserByEmail(String email, List<Invocable<User>> initializers);
 	
 	long getRowsCount();
 	

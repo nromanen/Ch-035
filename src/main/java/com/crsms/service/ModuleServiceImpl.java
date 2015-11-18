@@ -29,10 +29,13 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	private static Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 	
 	@Autowired
-	private CourseDao courseDao;
+	private CourseService courseService;
 	
 	@Autowired
 	private ModuleDao moduleDao;
+	
+	@Autowired
+	private CourseDao courseDao;
 	
 	@Autowired
 	private ResourceService resourceService;
@@ -42,11 +45,11 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 
 	@Override
 	public void save(Long courseId, Module module) {
-		logger.info("in moduleService save(Module)");
-		Course course = courseDao.getById(courseId); //TODO: mybe to DAO?
+		logger.info("in moduleService save(courseId, Module)");
+		Course course = courseService.getById(courseId);
 		course.addModule(module);
 		moduleDao.save(module);
-		logger.info("out moduleService save(Module)");
+		logger.info("out moduleService save(courseId, Module)");
 	}
 	
 	@Override
@@ -81,6 +84,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	public List<Module> getAllByCourseId(Long courseId) {
 		logger.info("in moduleService getAllByCourseId(courseId)");
 		logger.info("checking course id");
+
 		Course course = courseDao.getById(courseId);
 		if (course == null || course.getDisable()) {
 			throw new ElementNotFoundException();
@@ -123,6 +127,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
         resource.setName(name);
         resource.setType(Resource.Type.FILE);
         resource.setUrl(path + File.separator + name);
+        resourceService.save(resource);
 		module.addResource(resource);
 		this.update(module);
 	}

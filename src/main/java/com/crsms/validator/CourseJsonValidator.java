@@ -9,18 +9,18 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.crsms.domain.Course;
-import com.crsms.dto.CourseFormDto;
+import com.crsms.dto.CourseJsonDto;
 import com.crsms.service.CourseService;
 
 @Component
-public class CourseFormValidator implements Validator {
+public class CourseJsonValidator implements Validator {
 	
 	@Autowired
 	private CourseService courseService;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return CourseFormDto.class.equals(clazz);
+		return CourseJsonDto.class.equals(clazz);
 	}
 
 	@Override
@@ -29,11 +29,13 @@ public class CourseFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
 												"description", "crsms.error.description.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "crsms.error.date.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
+												"duration", "crsms.error.duration.required");
 		
-		CourseFormDto courseFormDto = (CourseFormDto) target;
+		CourseJsonDto courseJsonDto = (CourseJsonDto) target;
 		
-		Long courseId = courseFormDto.getId();
-		String name = courseFormDto.getName();
+		Long courseId = courseJsonDto.getId();
+		String name = courseJsonDto.getName();
 		
 		List<Course> courses = courseService.getAll();
 		
@@ -44,9 +46,11 @@ public class CourseFormValidator implements Validator {
 			}
 		}
 		
-		if (courseFormDto.getName().length() > Course.MAX_NAME_LENGTH) {
+		if (courseJsonDto.getName().length() > Course.MAX_NAME_LENGTH) {
 			errors.rejectValue("name", "crsms.error.too.long", 
 								new Object[]{Course.MAX_NAME_LENGTH}, "name is too long");
 		}
+	
 	}
+	
 }
