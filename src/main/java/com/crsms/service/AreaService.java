@@ -13,6 +13,6 @@ public interface AreaService extends BaseService<Area> {
 
 	Area getByName(String name);
 	
-	void deleteById(Long id);
+	void deleteById(Long id) throws RuntimeException;
 	
 }
