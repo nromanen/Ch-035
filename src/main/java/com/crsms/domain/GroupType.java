@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
  */
 
 @Entity
-@Table(name="group_type")
+@Table(name = "group_type")
 public class GroupType {
 	
 	@Id

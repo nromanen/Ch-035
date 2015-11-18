@@ -17,7 +17,7 @@ public class MultipartFileValidator implements Validator {
     public void validate(Object obj, Errors errors) {
         FileBucket file = (FileBucket) obj;
          
-        if(file.getFile() != null){
+        if (file.getFile() != null) {
             if (file.getFile().getSize() == 0) {
                 errors.rejectValue("file", "crsms.error.file.empty");
             }

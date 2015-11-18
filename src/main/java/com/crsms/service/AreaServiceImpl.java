@@ -3,6 +3,7 @@
  */
 package com.crsms.service;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,11 @@ public class AreaServiceImpl extends BaseServiceImpl<Area> implements AreaServic
 	}
 
 	@Override
-	public void deleteById(Long id) {
-		areaDao.deleteById(id);		
+	public void deleteById(Long id) throws RuntimeException {
+		try {
+		  areaDao.deleteById(id);
+		} catch (HibernateException e) {
+		  throw new RuntimeException("Can't delete area. At least one course is attached to it.");
+		}
 	}
 }

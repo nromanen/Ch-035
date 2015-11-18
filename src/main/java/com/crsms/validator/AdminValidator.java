@@ -18,12 +18,13 @@ public class AdminValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "crsms.error.password.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
+													"crsms.error.password.required");
 		User user = (User) target;
 		if (user.getPassword().length() > User.MAX_PASSWORD_LENGTH) {
 			errors.rejectValue("password", "crsms.error.too.long", 
 								new Object[]{User.MAX_PASSWORD_LENGTH}, "Password is too long");
-		}else if (user.getPassword().length() < User.MIN_PASSWORD_LENGTH) {
+		} else if (user.getPassword().length() < User.MIN_PASSWORD_LENGTH) {
 			errors.rejectValue("password", "crsms.error.too.short", 
 								new Object[]{User.MIN_PASSWORD_LENGTH}, "Password is too short");
 		}

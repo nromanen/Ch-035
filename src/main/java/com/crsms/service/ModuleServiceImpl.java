@@ -70,7 +70,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		
 		moduleDao.disable(module);
 		this.freeResource(module);
-		if(!course.getPublished()){
+		if (!course.getPublished()) {
 			course.deleteModule(module);
 			moduleDao.delete(module);
 		}
