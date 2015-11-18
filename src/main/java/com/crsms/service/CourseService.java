@@ -13,9 +13,11 @@ import com.crsms.domain.Course;
 
 public interface CourseService extends BaseService<Course> {
 	
-	void save(Course course, long areaId, String ownerEmail);
+	void save(Course course, Long areaId, String ownerEmail);
 	
-	void update(Course course, long areaId, String ownerEmail);
+	void update(Course course, Long areaId, String ownerEmail);
+	
+	void deleteById(Long courseId);
 	
 	Course get(String name);
 	
@@ -32,5 +34,9 @@ public interface CourseService extends BaseService<Course> {
 	List<Course> getAllByOwnerEmail(String email);
 	
 	List<Course> searchCourses(String seachWord);
+	
+	List<Long> getUserCoursesIds(String email);
+	
+	boolean isUserACourseOwner(Long courseId, String userEmail);
 
 }
