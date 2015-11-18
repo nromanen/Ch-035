@@ -227,13 +227,6 @@
 			<version>1.4.1-1</version>
 		</dependency>
 
-		<!-- Liquibase -->
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-			<version>${liquibase.version}</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery-validation</artifactId>

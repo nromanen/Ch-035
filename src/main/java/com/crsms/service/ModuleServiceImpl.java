@@ -137,7 +137,6 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	public void removeResource(Module module, Resource resource) {
 		module.removeResource(resource);
 		moduleDao.update(module);
-		//TODO:check for delete
 	}
 
 	@Override
