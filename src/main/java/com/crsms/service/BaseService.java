@@ -2,7 +2,6 @@ package com.crsms.service;
 
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.util.Invocable;
@@ -10,7 +9,6 @@ import com.crsms.util.Invocable;
 @Transactional
 public interface BaseService<E> {
 
-	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN', 'MANAGER')")
 	void save(E entity);
 	
 	List<E> getAll();
@@ -19,10 +17,8 @@ public interface BaseService<E> {
 	
 	E getById(Long id, List<Invocable<E>> initializers);
 
-	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN', 'MANAGER')")
 	void update(E entity);
 	
-	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN', 'MANAGER')")
 	void delete(E entity);
 	
 }
