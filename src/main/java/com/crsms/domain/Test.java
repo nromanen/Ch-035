@@ -28,9 +28,9 @@ import org.hibernate.annotations.NamedQuery;
 @Table(name = "test")
 @NamedQueries({ 
 	@NamedQuery(name = Test.GET_ALL,
-		query = "FROM Test"),
+				query = "FROM Test"),
 	@NamedQuery(name = Test.GET_BY_MODULE_ID,
-		query = "SELECT tests FROM Module m WHERE m.id = :id"),
+				query = "SELECT tests FROM Module m WHERE m.id = :id"),
   	@NamedQuery(name = Test.GET_BY_QUESTION, 
   				query = "SELECT test FROM Test test "
   						+ "JOIN test.questions question "
