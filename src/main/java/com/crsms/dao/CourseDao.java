@@ -13,8 +13,6 @@ import com.crsms.domain.Course;
 
 public interface CourseDao extends BaseDao<Course> {
 	
-	List<Course> getAllInitialized();
-	
 	Course get(String name);
 	
 	List<Course> getAllByAreaId(Long areaId);
