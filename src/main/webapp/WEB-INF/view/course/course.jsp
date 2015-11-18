@@ -31,7 +31,7 @@
 		<p class="module-desc">${module.description}</p>
 		
 		<div class="module-resources module-unit-grid col-md-6">
-			<h4 class="text-uppercase${fn:length(module.resources) == 0 ? ' hidden' : ''}"
+			<h4 class="module-units-title text-uppercase${fn:length(module.resources) == 0 ? ' hidden' : ''}"
 				><spring:message code="crsms.modules.text.resources" /></h4>
 			<c:forEach var="moduleResource" items="${module.resources}">
 			<div class="module-resource">
@@ -61,7 +61,7 @@
 		</div>
 		
 		<div class="module-tests module-unit-grid col-md-6">
-			<h4 class="text-uppercase${fn:length(module.tests) == 0 ? ' hidden' : ''}"
+			<h4 class="module-units-title text-uppercase${fn:length(module.tests) == 0 ? ' hidden' : ''}"
 				><spring:message code="crsms.modules.text.tests" /></h4>
 			<c:forEach var="moduleTest" items="${module.tests}">
 			<div class="module-test">

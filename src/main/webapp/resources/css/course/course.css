@@ -93,6 +93,13 @@
 .module-desc {
 	text-align: justify;
 }
+.module-unit-grid .btn {
+	text-align: left;
+	padding: 6px 30px;
+}
+.module-units-title {
+	text-align: center;
+}
 
 /*courses_table view*/
 #courses-table-wrapper table {
