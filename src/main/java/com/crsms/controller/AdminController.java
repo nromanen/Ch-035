@@ -54,7 +54,7 @@ public class AdminController {
 		}
 
 		String order = (String) session.getAttribute("direction");
-		if (session.getAttribute("sortparam") != null ) {
+		if (session.getAttribute("sortparam") != null) {
 			order = direction;
 			session.setAttribute("direction", order);
 		} 
@@ -75,18 +75,12 @@ public class AdminController {
 			lastpage++;
 		}
 		int startPosition = (page - 1) * ITEMSPERPAGE;
-		
-		System.out.println("startposition in getPagingUsers: " + startPosition);
-		System.out.println("sortingField in getPagingUsers: " + sortingField);
-		System.out.println("order in getPagingUsers: " + order);
 
 		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortingField, order);
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		return "admin";
-		
-		
 	}
 	
 	@RequestMapping(value = { "/{userId}/delete" }, method = RequestMethod.GET)
@@ -116,7 +110,7 @@ public class AdminController {
 
 	@RequestMapping(value = { "/{userId}/edit" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable Long userId, ModelMap model) {
-		User user = userService.getUserById(userId);
+		User user = userService.getById(userId);
 		model.addAttribute("user", user);
 		return "adduser";
 	}

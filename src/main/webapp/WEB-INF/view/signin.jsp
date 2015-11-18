@@ -34,6 +34,11 @@
 								<form:errors path="password" cssClass="label label-danger" />
 							</div>
 						</div>
+						<c:if test="${param.error != null}">
+                                <div class="alert alert-danger">
+                                    <p>Invalid username or password.</p>
+                                </div>
+                            </c:if>
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<div class="checkbox">
