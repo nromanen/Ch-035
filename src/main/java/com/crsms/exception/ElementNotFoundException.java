@@ -2,7 +2,9 @@ package com.crsms.exception;
 
 public class ElementNotFoundException extends RuntimeException {
 	
-	public ElementNotFoundException() {
+  private static final long serialVersionUID = 1L;
+
+  public ElementNotFoundException() {
 		super();
 	}
 	
