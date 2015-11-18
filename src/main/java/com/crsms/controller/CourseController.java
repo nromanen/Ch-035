@@ -116,7 +116,7 @@ public class CourseController {
 		initializers.add(new CourseModulesDeepInitializer());
 		Course course = courseService.getById(courseId, initializers);
 		model.addObject("course", course);
-		model.addObject("courseEndDate", course.getStartDate().plusDays(course.getDuration()));
+		model.addObject("courseEndDate", course.getStartDate().plusWeeks(course.getDuration()));
 		model.addObject("pageTitle", course.getName());
 		model.addObject("headerTitle", course.getName());
 		model.setViewName(COURSE_VIEW);

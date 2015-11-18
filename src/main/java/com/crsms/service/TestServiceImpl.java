@@ -53,6 +53,21 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     }
     
     @Override
+    public Test getTestById(Long id) {
+    	logger.info("TestService. Reading test by ID: " + id + ".");
+    	Test test = testDao.getTestById(id);
+    	logger.info("TestService. Reading test by ID: " + id + " successfully.");
+    	return test;
+    }
+    
+    @Override
+    public void disableTestById(Long id) {
+    	logger.info("TestService. Deleting test by ID: " + id + ".");
+    	testDao.disableTestById(id);
+    	logger.info("TestService. Deleting test by ID: " + id + " successfully.");
+    }
+
+    @Override
     public void deleteTestById(Long testId) {
     	logger.info("TestService. Deleting test by ID: " + testId + ".");
 
@@ -76,7 +91,6 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     		module.removeTest(test);
     		testDao.delete(test);
     	}
-    	
     	logger.info("TestService. Deleting test by ID: " + testId + " successfully.");
     }
 

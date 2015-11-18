@@ -28,7 +28,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${users}" var="user">
-				<tr class="active">
+				<tr>
 					<th class = "hide">${user.id}</th>
 					<td class="nameCell">${user.email}</td>
 					<td class="nameCell">${user.userInfo.lastname}</td>

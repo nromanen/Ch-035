@@ -141,15 +141,12 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	@Override
 	public void removeResource(Module module, Resource resource) {
 		module.removeResource(resource);
-		moduleDao.update(module);
 	}
 
 	@Override
 	public void freeResource(Module module) {
-		for (Resource resource : module.getResources()) {
-			this.removeResource(module, resource);
-		}
-		
+		module.getResources().clear();
+		moduleDao.update(module);
 	}
 
 }
