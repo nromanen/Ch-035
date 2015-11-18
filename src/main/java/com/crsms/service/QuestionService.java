@@ -14,9 +14,8 @@ public interface QuestionService extends BaseService<Question> {
 	
 	List<Question> getQuestionsByTestId(Long testId);
     
-    void disable(Long id);
-    
-    void disable(Question question);
+	void delete(Long questionId);
+	
 
 
 }

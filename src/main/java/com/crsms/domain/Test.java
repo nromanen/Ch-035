@@ -18,6 +18,10 @@ import java.util.Set;
 @NamedQueries({ 
 	@NamedQuery(name = Test.GET_ALL, query = "FROM Test"),
   	@NamedQuery(name = Test.GET_BY_MODULE_ID, query = "SELECT tests FROM Module m WHERE m.id = :id"),
+  	@NamedQuery(name = Test.GET_BY_QUESTION, 
+  				query = "SELECT test FROM Test test "
+  						+ "JOIN test.questions question "
+  						+ " WHERE question.id = :id"),
 	@NamedQuery(name = Test.DISABLE_QUESTIONS,
 				query = "UPDATE Question question SET question.disable=true WHERE question IN "
 						+ "(SELECT questionList "
@@ -35,6 +39,7 @@ import java.util.Set;
 public class Test {
 	public static final String GET_ALL = "Test.getAll";
 	public static final String GET_BY_MODULE_ID = "Test.getByModuleId";
+	public static final String GET_BY_QUESTION = "Test.getByQuestion";
 	public static final String DISABLE_QUESTIONS = "Test.disableQuestionsByTest";
 	public static final String DISABLE_ANSWERS = "Test.disableAnswersByTest";
 	public static final int MAX_NAME_LENGTH = 100;
@@ -91,6 +96,10 @@ public class Test {
 
     public void addQuestion(Question question) {
         this.questions.add(question);
+    }
+    
+    public void removeQuestion(Question question) {
+        this.questions.remove(question);
     }
 
 	public Boolean getDisable() {
