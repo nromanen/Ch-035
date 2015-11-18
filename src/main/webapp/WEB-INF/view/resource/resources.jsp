@@ -18,11 +18,11 @@
 
 </c:choose>
 
-<a class = "btn btn-success" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
+<a class = "btn btn-primary" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
 
 <table class = "table table-bordered table-hover">
 	<thead>
-		<tr class = "success">
+		<tr class = "active">
 			<th class="hide text-center"><spring:message code = "crsms.text.id" /></th>
 			<th class="text-center"><spring:message code = "crsms.text.name" /></th>
 			<th class="text-center"><spring:message code = "crsms.resource.text.type" /></th>
@@ -32,14 +32,14 @@
 	</thead>
 	<tbody>
 		<c:forEach var = "resource" items = "${resources}">
-			<tr class = "active">
+			<tr>
 				<td class="resource-id hide" >${resource.id}</td>
 				<td class="resource-name" >${resource.name}</td>
 				<td>${resource.type}</td>
 				<td>${resource.url}</td>
 				<td>
 					<div class="text-center">
-					  <button class="btn btn-success btn-sm btn-edit-resource" 
+					  <button class="btn btn-primary btn-sm btn-edit-resource" 
 					  		data-toggle="tooltip" title="<spring:message code = "crsms.resource.button.edit" />" 
 					  		value="${resource.id}"
 					  >
@@ -50,7 +50,7 @@
 					  <button class="btn btn-danger btn-sm btn-delete-resource" 
 					  		 data-toggle="tooltip" title="<spring:message code = "crsms.resource.button.delete" />" 
 					  		 value="${resource.id}" >
-					    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					    <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
 					  </button>
 
 					</div>
@@ -60,7 +60,7 @@
 	</tbody>
 </table>
 
-<a class = "btn btn-success" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
+<a class = "btn btn-primary" href = "${addResourceLink}"><spring:message code = "crsms.resource.button.add" /></a>
 
 <!-- Modal delete confirmation -->
 <div class="modal fade" id="delete-confirmation-modal" >
@@ -128,7 +128,7 @@
 			
 			<div class="form-group hide">
 				<div class="col-sm-offset-1 col-sm-4">
-					<input type = "submit" value = "<spring:message code = "crsms.button.save" />" class="btn btn-success"/>
+					<input type = "submit" value = "<spring:message code = "crsms.button.save" />" class="btn btn-primary"/>
 				</div>
 			</div>		
 		</form:form>
@@ -140,7 +140,7 @@
         </div>
       </div>
       <div class="modal-footer">
-      	<button value="" id="btn-modal-edit-resource" class="btn btn-success"><spring:message code = "crsms.button.save" /></button>
+      	<button value="" id="btn-modal-edit-resource" class="btn btn-primary"><spring:message code = "crsms.button.save" /></button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.button.cancel" /></button>
       </div>
     </div><!-- /.modal-content -->

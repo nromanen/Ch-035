@@ -21,7 +21,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name="user_info")
+@Table(name = "user_info")
 @NamedQueries({
 	@NamedQuery(name = UserInfo.DELETE, query = "DELETE FROM UserInfo uf WHERE uf.id=:id")})
 @PrimaryKeyJoinColumn

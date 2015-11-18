@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.crsms.dao.CourseDao;
+import com.crsms.dao.ModuleDao;
 import com.crsms.dao.TestDao;
+import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.Test;
+import com.crsms.exception.ElementNotFoundException;
 
 /**
  * @author Petro Andriets
@@ -26,6 +30,12 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     
     @Autowired
     private ModuleService moduleService;
+    
+    @Autowired
+    CourseDao courseDao;
+    
+    @Autowired
+    ModuleDao moduleDao;
     
     @Override
     public void createTest(Long moduleId, Test test) {
@@ -43,10 +53,45 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     }
     
     @Override
+    public Test getTestById(Long id) {
+    	logger.info("TestService. Reading test by ID: " + id + ".");
+    	Test test = testDao.getTestById(id);
+    	logger.info("TestService. Reading test by ID: " + id + " successfully.");
+    	return test;
+    }
+    
+    @Override
     public void disableTestById(Long id) {
     	logger.info("TestService. Deleting test by ID: " + id + ".");
     	testDao.disableTestById(id);
     	logger.info("TestService. Deleting test by ID: " + id + " successfully.");
+    }
+
+    @Override
+    public void deleteTestById(Long testId) {
+    	logger.info("TestService. Deleting test by ID: " + testId + ".");
+
+    	Course course = courseDao.getByTest(testId);
+    	if (course == null || course.getDisable()) {
+			throw new ElementNotFoundException();
+		}
+    	
+    	Module module = moduleDao.getByTest(testId);
+    	if (course == null || course.getDisable()) {
+			throw new ElementNotFoundException();
+		}
+    	
+    	Test test = testDao.getById(testId);
+    	if (test == null || test.getDisable()) {
+			throw new ElementNotFoundException();
+		}
+    	
+    	testDao.disable(test);
+    	if(!course.getPublished()) {
+    		module.removeTest(test);
+    		testDao.delete(test);
+    	}
+    	logger.info("TestService. Deleting test by ID: " + testId + " successfully.");
     }
 
 }

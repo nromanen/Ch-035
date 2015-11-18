@@ -41,6 +41,19 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 					+ " Illegal argument received when test by Module ID getting.");
 		}
 	}
+	
+	@Override
+    public Test getTestById(Long id) {
+    	logger.info("TestDao. Reading test by ID: " + id + ".");
+    	Test test = (Test) sessionFactory.getCurrentSession().get(Test.class, id);
+        if (test != null) {
+        	logger.info("TestDao. Reading test by ID: " + id + " successfully.");
+        return test;
+        } else {
+        	logger.error("TestDao. Illegal argument received when test by ID getting.");
+        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID getting.");
+        }
+    }
 
     @Override
     public void deleteTestById(Long id) {
@@ -71,34 +84,23 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
     		logger.error("TestDao. Illegal argument received when test deleting.");
     		throw new IllegalArgumentException("TestDao."
     				+ " Illegal argument received when test disabling.");
-    	}
-		
+    	}	
 	}
 	
 	@Override
 	public void disable(Test test) {
 		test.setDisable(true);
 		this.update(test);
-		
-		String hqlDelQuestion = ""
-				+ "UPDATE Question question SET question.disable=true WHERE question IN "
-				+ "(SELECT questionList "
-				+ "FROM Test test "
-				+ "JOIN test.questions questionList "
-				+ "WHERE test.id = :id)";
-		
-		String hqlDelAnswer = ""
-				+ "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
-				+ "(SELECT answerList "
-				+ "FROM Test test "
-				+ "JOIN test.questions questionList "
-				+ "JOIN questionList.answers answerList "
-				+ "WHERE test.id = :id)";
-		
-		sessionFactory.getCurrentSession().createQuery(hqlDelQuestion)
+		sessionFactory.getCurrentSession().getNamedQuery(Test.DISABLE_QUESTIONS)
+					  .setParameter("id", test.getId()).executeUpdate();
+		sessionFactory.getCurrentSession().getNamedQuery(Test.DISABLE_ANSWERS)
 			.setParameter("id", test.getId()).executeUpdate();
-		sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
-			.setParameter("id", test.getId()).executeUpdate();
+	}
+
+	@Override
+	public Test getByQuestion(Long questionId) {
+		return (Test) getSessionFactory().getCurrentSession().getNamedQuery(Test.GET_BY_QUESTION)
+										 .setParameter("id", questionId).uniqueResult();
 	}
 
 }

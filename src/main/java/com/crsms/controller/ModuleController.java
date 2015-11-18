@@ -18,7 +18,7 @@ import com.crsms.dto.ModuleJsonDto;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
 import com.crsms.service.ModuleService;
-import com.crsms.validator.ModuleFormValidator;
+import com.crsms.validator.ModuleJsonValidator;
 
 /**
  * 
@@ -44,7 +44,7 @@ public class ModuleController {
 	private DtoService dtoService;
 	
 	@Autowired
-	private ModuleFormValidator validator;
+	private ModuleJsonValidator validator;
 	
 	@InitBinder
     private void initBinder(WebDataBinder binder) {
@@ -52,14 +52,14 @@ public class ModuleController {
     }
 	
 	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
-	public String showModules(@PathVariable Long courseId, Model model) {
+	public String getModules(@PathVariable Long courseId, Model model) {
 		List<Module> modules = moduleService.getAllByCourseId(courseId);
 		model.addAttribute("modules", modules);
 		return MODULES_VIEW;
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.GET)
-	public String newModule(@PathVariable Long courseId, Model model) {
+	public String addModule(@PathVariable Long courseId, Model model) {
 		Module module = new Module();
 		
 		ModuleJsonDto moduleJsonDto = dtoService.convert(module, ModuleJsonDto.class, Module.class);
@@ -70,7 +70,7 @@ public class ModuleController {
 	}
 	
 	@RequestMapping(value = {"/add"}, method = RequestMethod.POST)
-	public String saveModule(@PathVariable Long courseId, 
+	public String addModuleSubmit(@PathVariable Long courseId, 
 							@Validated ModuleJsonDto moduleJsonDto, BindingResult result) {
 		if (result.hasErrors()) {
 			return ADD_MODULE_VIEW;
@@ -94,7 +94,7 @@ public class ModuleController {
 	}
 	
 	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
-	public String updateModule(@PathVariable Long courseId, @PathVariable Long moduleId, 
+	public String editModuleSubmit(@PathVariable Long courseId, @PathVariable Long moduleId, 
 								@Validated ModuleJsonDto moduleJsonDto, BindingResult result) {
 		if (result.hasErrors()) {
 			return EDIT_MODULE_VIEW;
@@ -108,7 +108,7 @@ public class ModuleController {
 	
 	@RequestMapping(value = {"/{moduleId}/delete"}, method = RequestMethod.GET)
 	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId) {
-		moduleService.disable(moduleId);
+		moduleService.deleteById(courseId, moduleId);
 		return redirect(courseId);
 	}
 	

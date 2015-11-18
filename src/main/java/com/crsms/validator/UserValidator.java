@@ -12,6 +12,7 @@ import org.springframework.validation.Validator;
 import com.crsms.domain.User;
 import com.crsms.service.UserService;
 
+
 @Component
 public class UserValidator implements Validator {
 	
@@ -27,8 +28,10 @@ public class UserValidator implements Validator {
 
 	@Override
 	public void validate(Object obj, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "crsms.error.email.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "crsms.error.password.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", 
+													"crsms.error.email.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", 
+													"crsms.error.password.required");
 		
 		User user = (User) obj;
 		
@@ -36,7 +39,7 @@ public class UserValidator implements Validator {
 		
 		if(user.getEmail() != null && !"".equals(user.getEmail().trim()) && !matcher.matches()){
 			errors.rejectValue("email", "crsms.error.email.invalid",
-					new Object[] { User.BY_EMAIL },
+					new Object[] {User.BY_EMAIL},
 					"Incorrect Email format");
 		};
 		
@@ -48,12 +51,10 @@ public class UserValidator implements Validator {
 
 		if (user.getPassword().length() > User.MAX_PASSWORD_LENGTH) {
 			errors.rejectValue("password", "crsms.error.too.long",
-					new Object[] { User.MAX_PASSWORD_LENGTH },
-					"Password is too long");
+					new Object[] {User.MAX_PASSWORD_LENGTH}, "Password is too long");
 		} else if (user.getPassword().length() < User.MIN_PASSWORD_LENGTH) {
-			errors.rejectValue("password", "crsms.error.too.short",
-					new Object[] { User.MIN_PASSWORD_LENGTH },
-					"Password is too short");
+			errors.rejectValue("password", "crsms.error.too.short", 
+					new Object[] {User.MIN_PASSWORD_LENGTH}, "Password is too short");
 		}
 
 	}

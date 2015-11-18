@@ -3,12 +3,13 @@ package com.crsms.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Course;
+import com.crsms.domain.Question;
+import com.crsms.domain.Test;
 
 /**
  * 
@@ -21,25 +22,6 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 
 	public CourseDaoImpl() {
 		super(Course.class);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Course> getAllInitialized() {
-		try {
-			List<Course> courses = null;
-			courses = (List<Course>) this.getSessionFactory().getCurrentSession()
-													.createQuery("FROM Course").list();
-			for (Course course : courses) {
-				Hibernate.initialize(course.getModules());
-			}
-			return courses;
-
-		} catch (HibernateException e) {
-			this.getLogger().error("Error getAllCourse: " + e);
-			throw e;
-		}
-		
 	}
 	
 	@Override
@@ -61,8 +43,9 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			String hql = "from Course where area_id = :id order by id asc";
-			Query query = this.getSessionFactory().getCurrentSession()
-										.createQuery(hql).setParameter("id", areaId);
+			Query query = this.getSessionFactory()
+							  .getCurrentSession()
+							  .createQuery(hql).setParameter("id", areaId);
 			list = query.list();
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting all courses by area id: " + e);
@@ -77,8 +60,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			list = this.getSessionFactory().getCurrentSession()
-								 .getNamedQuery(Course.GET_BY_USER_ID)
-							 	 .setParameter("userId", userId).list();
+										   .getNamedQuery(Course.GET_BY_USER_ID)
+									 	   .setParameter("userId", userId).list();
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting all courses by user id: " + e);
 			throw e;
@@ -92,8 +75,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			list = this.getSessionFactory().getCurrentSession()
-								 .getNamedQuery(Course.GET_BY_USER_EMAIL)
-							 	 .setParameter("email", email).list();
+										   .getNamedQuery(Course.GET_BY_USER_EMAIL)
+									 	   .setParameter("email", email).list();
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting all courses by user email: " + e);
 			throw e;
@@ -107,8 +90,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			list = this.getSessionFactory().getCurrentSession()
-								 .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
-							 	 .setParameter("email", email).list();
+										   .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
+									 	   .setParameter("email", email).list();
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting all courses by owner email: " + e);
 		}
@@ -119,65 +102,70 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	public void disable(Course course) {
 		course.setDisable(true);
 		this.update(course);
-		try { //TODO: this is piece of shit, maybe rewrite?
-			String hqlDelModule = ""
-					+ "UPDATE Module module SET module.disable=true WHERE module IN "
-					+ "(SELECT moduleList "
-					+ "FROM Course course "
-					+ "JOIN course.modules moduleList "
-					+ "WHERE course.id = :id)";
-			
-			String hqlDelTest = "UPDATE Test test SET test.disable=true WHERE test IN "
-					+ "(SELECT testList "
-					+ "FROM Course course "
-					+ "JOIN course.modules moduleList "
-					+ "JOIN moduleList.tests testList "
-					+ "WHERE course.id = :id)";
-			
-			String hqlDelQuestion = ""
-					+ "UPDATE Question question SET question.disable=true WHERE question IN "
-					+ "(SELECT questionList "
-					+ "FROM Course course "
-					+ "JOIN course.modules moduleList "
-					+ "JOIN moduleList.tests testList "
-					+ "JOIN testList.questions questionList "
-					+ "WHERE course.id = :id)";
-			
-			String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
-					+ "(SELECT answerList "
-					+ "FROM Course course "
-					+ "JOIN course.modules moduleList "
-					+ "JOIN moduleList.tests testList "
-					+ "JOIN testList.questions questionList "
-					+ "JOIN questionList.answers answerList "
-					+ "WHERE course.id = :id)";
-			
-			this.getSessionFactory().getCurrentSession().createQuery(hqlDelModule)
+		try {
+			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_MODULES)
 				.setParameter("id", course.getId()).executeUpdate();
-			this.getSessionFactory().getCurrentSession().createQuery(hqlDelTest)
+			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_TESTS)
 				.setParameter("id", course.getId()).executeUpdate();
-			this.getSessionFactory().getCurrentSession().createQuery(hqlDelQuestion)
+			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_QUESTIONS)
 				.setParameter("id", course.getId()).executeUpdate();
-			this.getSessionFactory().getCurrentSession().createQuery(hqlDelAnswer)
+			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_ANSWERS)
 				.setParameter("id", course.getId()).executeUpdate();
 		} catch (Exception e) {
 			this.getLogger().error("Error in disable courses: " + e);
 		}
 		
 	}
-
-  @SuppressWarnings("unchecked")
+	
+	@SuppressWarnings("unchecked")
 	@Override
-  public List<Course> searchCourses(String searchWord) {
-    try {
-      return (List<Course>) this.getSessionFactory().getCurrentSession()
-                        .createQuery("SELECT c FROM Course c WHERE UPPER(c.name) LIKE UPPER(:s) OR "
-                        + "UPPER(c.description) LIKE UPPER(:s) ORDER BY c.name, c.description")
-                        .setParameter("s", "%" + searchWord + "%").list();
-    } catch (HibernateException e) {
-      this.getLogger().error("Error searchCourses: " + e);
-    }
-    return null;
-  }
+	public List<Long> getUserCoursesIds(String email) {
+		List<Long> list = new ArrayList<Long>();
+		try {
+			list = this.getSessionFactory().getCurrentSession()
+										   .getNamedQuery(Course.GET_USER_COURSES_IDS)
+									 	   .setParameter("email", email).list();
+		} catch (Exception e) {
+			this.getLogger().error("Error in getting all courses' IDs by user email: " + e);
+		}
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> searchCourses(String searchWord) {
+		try {
+			return (List<Course>) this.getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Course.SEARCH)
+									  .setParameter("s", "%" + searchWord + "%").list();
+		} catch (HibernateException e) {
+			this.getLogger().error("Error searchCourses: " + e);
+		}
+		return null;
+	}
+
+	@Override
+	public Course getByTest(Test test) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_TEST)
+				.setParameter("id", test.getId()).uniqueResult();
+	}
+	
+	@Override
+	public Course getByTest(Long testId) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_TEST)
+				.setParameter("id", testId).uniqueResult();
+	}
+	
+	@Override
+	public Course getByQuestion(Question question) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_QUESTION)
+				.setParameter("id", question.getId()).uniqueResult();
+	}
+	
+	@Override
+	public Course getByQuestion(Long questionId) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_QUESTION)
+				.setParameter("id", questionId).uniqueResult();
+	}
 
 }

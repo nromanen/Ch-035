@@ -12,11 +12,15 @@ import com.crsms.domain.Test;
 public interface TestDao extends BaseDao<Test> {
     
     List<Test> getAllByModuleId(Long moduleId);
+    
+    Test getByQuestion(Long questionId);
 
     void deleteTestById(Long id);
     
     void disableTestById(Long id);
     
     void disable(Test test);
+    
+    public Test getTestById(Long id);
     
 }

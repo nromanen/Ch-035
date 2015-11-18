@@ -23,8 +23,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions/questionId")
 public class AnswerController {
-    private final String ANSWERS_PAGE = "answers";
-    public final String CREATE_ANSWER_PAGE = "createanswer";
+    private static final String ANSWERS_PAGE = "answers";
+    private static final String CREATE_ANSWER_PAGE = "createanswer";
 
     @Autowired
     private AnswerService answerService;
@@ -71,16 +71,16 @@ public class AnswerController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getAllAnswersByQuestionId (@PathVariable Long questionId, Model model) {
+    public String getAllAnswersByQuestionId(@PathVariable Long questionId, Model model) {
         List<Answer> answers = answerService.getAnswersByQuestionId(questionId);
         model.addAttribute("answers", answers);
         return ANSWERS_PAGE;
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-    public String deleteQuestionById (@PathVariable Long courseId, @PathVariable Long moduleId,
-                                      @PathVariable Long testId, @PathVariable Long questionId,
-                                      @PathVariable("id") Long id) {
+    public String deleteQuestionById(@PathVariable Long courseId, @PathVariable Long moduleId,
+                                     @PathVariable Long testId, @PathVariable Long questionId,
+                                     @PathVariable("id") Long id) {
         answerService.disable(id);
         return redirect(courseId, moduleId, testId, questionId);
     }

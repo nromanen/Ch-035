@@ -9,7 +9,6 @@
 		<tr class = "active">
 			<th class = "hide"><spring:message code = "crsms.text.id"/></th>
 			<th><spring:message code = "crsms.text.name"/></th>
-			<th><spring:message code = "crsms.text.description"/></th>
 			<th><spring:message code = "crsms.modules.text.content"/></th>
 			<th><spring:message code = "crsms.text.controls"/></th>
 		</tr>
@@ -19,7 +18,6 @@
 			<tr>
 				<th class = "hide">${module.id}</th>
 				<td class = "nameCell">${module.name}</td>
-				<td>${module.description}</td>
 				<td class = "contentCell text-center">
 					<c:url var = "showTests" value = "${module.id}/tests/" />
 					<a href = "${showTests}" 
@@ -49,7 +47,7 @@
 						class = "btn btn-danger btn-sm"
 						data-toggle = "tooltip"
 						title="<spring:message code="crsms.button.delete" />" >
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						<i class="fa fa-trash-o fa-lg"></i>
 					</a>
 					
 				</td>

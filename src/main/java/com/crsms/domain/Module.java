@@ -1,16 +1,28 @@
 package com.crsms.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 
-import java.util.Set;
 
 /**
- * @author Valerii Motresku, St. Roman
+ * @author Valerii Motresku
+ * @author St. Roman
  */
 
 @Entity
@@ -22,16 +34,45 @@ import java.util.Set;
 	@NamedQuery(name = Module.GET_ALL_BY_COURSE_ID, 
 				query = "select m from Course c join c.modules m"
 					 + " where course_id = :id order by m.id asc"),
+	@NamedQuery(name = Module.GET_BY_TEST,
+				query = "SELECT module FROM Module module "
+						+ "JOIN module.tests test "
+						+ "WHERE test.id = :id"),
 				
 	@NamedQuery(name = Module.DELETE_BY_ID,
 				query = "delete Module where id = :id"
-				)
+				),
+	@NamedQuery(name = Module.DISABLE_TESTS,
+				query = "UPDATE Test test SET test.disable=true WHERE test IN "
+						+ "(SELECT testList "
+						+ "FROM Module module "
+						+ "JOIN module.tests testList "
+						+ "WHERE module.id = :id)"),
+	@NamedQuery(name = Module.DISABLE_QUESTIONS,
+				query = "UPDATE Question question SET question.disable=true WHERE question IN "
+						+ "(SELECT questionList "
+						+ "FROM Module module "
+						+ "JOIN module.tests testList "
+						+ "JOIN testList.questions questionList "
+						+ "WHERE module.id = :id)"),
+	@NamedQuery(name = Module.DISABLE_ANSWERS,
+				query = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+						+ "(SELECT answerList "
+						+ "FROM Module module "
+						+ "JOIN module.tests testList "
+						+ "JOIN testList.questions questionList "
+						+ "JOIN questionList.answers answerList "
+						+ "WHERE module.id = :id)")
 })
 public class Module {
 	
 	public static final String GET_ALL = "Module.getAll";
 	public static final String GET_ALL_BY_COURSE_ID = "Module.getAllByCourseId";
 	public static final String DELETE_BY_ID = "Module.deleteById";
+	public static final String DISABLE_TESTS = "Module.disableTestsByModule";
+	public static final String DISABLE_QUESTIONS = "Module.disableQuestionsByModule";
+	public static final String DISABLE_ANSWERS = "Module.disableAnswersByModule";
+	public static final String GET_BY_TEST = "Module.getByTest";
 	public static final int MAX_NAME_LENGTH = 255;
 
 	
@@ -50,10 +91,10 @@ public class Module {
 	private String description;
 		
 	@ManyToMany
-	private Set<Resource> resources;
+	private List<Resource> resources;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Test> tests;
+	private List<Test> tests;
 	
 	@Column(nullable = false)
 	private Boolean available = false;
@@ -88,11 +129,11 @@ public class Module {
 		this.description = description;
 	}
 	
-	public Set<Resource> getResources() {
+	public List<Resource> getResources() {
 		return resources;
 	}
 
-	public void setResources(Set<Resource> resources) {
+	public void setResources(List<Resource> resources) {
 		this.resources = resources;
 	}
 	
@@ -100,11 +141,11 @@ public class Module {
 		this.resources.remove(resource);
 	}
 
-	public Set<Test> getTests() {
+	public List<Test> getTests() {
 		return tests;
 	}
 
-	public void setTests(Set<Test> tests) {
+	public void setTests(List<Test> tests) {
 		this.tests = tests;
 	}
 
@@ -138,6 +179,10 @@ public class Module {
 		
 	public void addTest(Test test) {
 		this.tests.add(test);
+	}
+	
+	public void removeTest(Test test) {
+		this.tests.remove(test);
 	}
 
 }

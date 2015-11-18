@@ -3,12 +3,8 @@ th {
 }
 
 .managementCell {
-	width: 8%;
+	width: 25%;
 	text-align: center
-}
-
-.contentCell {
-	width: 16%;
 }
 
 .nameCell {

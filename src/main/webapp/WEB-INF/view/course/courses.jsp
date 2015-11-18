@@ -2,9 +2,12 @@
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+
+<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
 <div class = "container">
-	<sec:authorize access="isAuthenticated()">
+	<sec:authorize access="isAuthenticated() and !hasAnyRole('MANAGER')">
 		<div id = "navigation" class = "pull-left">
 			<ul class="nav nav-pills">
 			  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
@@ -17,13 +20,19 @@
 		</div>
 	</sec:authorize>
 	
-	<div id="courses-nav" class="text-right">
-		<form id = "search-form" class="navbar-form navbar search" role="search" action="search" method="GET">
-			<input type="text" class="form-control" name="searchWord" >
-		    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
-		    <strong><spring:message code = "crsms.button.search" /></strong></button>
-		</form>
-	</div>
+	<div id="courses-nav" class="container text-right">
+		<div class="errorTxt"></div>
+	<c:if test="${empty courses}"><strong><spring:message code = "crsms.courses.message.not.found"/></strong></c:if>
+	<form id = "searchForm" class="navbar-form navbar search" role="search" action="search" method="GET">
+		<input id = "search" type="text" class="form-control" name="searchWord" value = "${searchWord}" >
+	    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+	    	<strong><spring:message code = "crsms.button.search" /></strong>
+	    </button>
+	    <button type="button" onclick="ClearField();" class="btn btn-default">
+	    	<span class="glyphicon glyphicon-remove"></span>
+	    </button>
+	</form>
+</div>
 </div>
 
 <div id = "courses-table" class="container">

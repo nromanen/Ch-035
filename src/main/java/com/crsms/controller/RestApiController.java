@@ -64,14 +64,14 @@ public class RestApiController {
 	
 	@RequestMapping(value = {"/areas"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<AreaJsonDto> getAreas(HttpServletResponse response) {
-		List<AreaJsonDto> dtos = dtoService.convert(areaService.getAllAreas(), AreaJsonDto.class, Area.class);
+		List<AreaJsonDto> dtos = dtoService.convert(areaService.getAll(), AreaJsonDto.class, Area.class);
 		response.addIntHeader("X-Total-Count", dtos.size());
 		return dtos;
 	}
 	
 	@RequestMapping(value = {"/areas/{areaId}"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public AreaJsonDto getArea(@PathVariable Long areaId) {
-		return dtoService.convert(areaService.getAreaById(areaId), AreaJsonDto.class, Area.class);
+		return dtoService.convert(areaService.getById(areaId), AreaJsonDto.class, Area.class);
 	}
 	
 	@RequestMapping(value = {"/courses"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -109,6 +109,13 @@ public class RestApiController {
 	public TestJsonDto getTest(@PathVariable Long testId) {
 		return dtoService.convert(testService.getById(testId), TestJsonDto.class, Test.class);
 	}
+	
+	@RequestMapping(value = "/tests/{testId}/delete", method = RequestMethod.GET, 
+													  produces = MediaType.APPLICATION_JSON_VALUE)
+	public Boolean deleteTestById(@PathVariable Long testId) {
+		testService.deleteTestById(testId);
+		return true;
+	}	
 	
 	@RequestMapping(value = {"/modules/{moduleId}/resources", 
 			"/courses/{courseId}/modules/{moduleId}/resources"}, 

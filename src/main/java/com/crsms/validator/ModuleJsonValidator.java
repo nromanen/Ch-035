@@ -1,5 +1,6 @@
 package com.crsms.validator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,15 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.dto.ModuleJsonDto;
 import com.crsms.service.CourseService;
+import com.crsms.service.hibernate.initializer.CourseModulesInitializer;
+import com.crsms.util.Invocable;
 
 @Component
-public class ModuleFormValidator implements Validator {
+public class ModuleJsonValidator implements Validator {
 	
 	@Autowired
 	private CourseService courseService;
@@ -37,7 +41,7 @@ public class ModuleFormValidator implements Validator {
 		
 		String name = moduleJsonDto.getName();
 		
-		List<Module> modules = courseService.getById(courseId).getModules();
+		List<Module> modules = getModules(courseId);
 		
 		for (Module module : modules) {
 			//second condition allows you to edit other fields without "name already exists" error
@@ -52,5 +56,12 @@ public class ModuleFormValidator implements Validator {
 								new Object[]{Module.MAX_NAME_LENGTH},
 								"name is too long");
 		}
+	}
+
+	private List<Module> getModules(Long courseId) {
+		List<Invocable<Course>> initializers = new ArrayList<>();
+		initializers.add(new CourseModulesInitializer());
+		List<Module> modules = courseService.getById(courseId, initializers).getModules();
+		return modules;
 	}
 }

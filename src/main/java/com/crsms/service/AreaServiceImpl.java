@@ -3,8 +3,7 @@
  */
 package com.crsms.service;
 
-import java.util.List;
-
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,41 +18,22 @@ import com.crsms.domain.Area;
 
 @Service("areaService")
 @Transactional
-public class AreaServiceImpl implements AreaService {
+public class AreaServiceImpl extends BaseServiceImpl<Area> implements AreaService {
 	
 	@Autowired
     private AreaDao areaDao;
-
+	
 	@Override
-	public void saveArea(Area area) {
-		areaDao.saveArea(area);
-		
+	public Area getByName(String name) {
+		return areaDao.getByName(name);
 	}
 
 	@Override
-	public List<Area> getAllAreas() {
-		return areaDao.getAllAreas();
+	public void deleteById(Long id) throws RuntimeException {
+		try {
+		  areaDao.deleteById(id);
+		} catch (HibernateException e) {
+		  throw new RuntimeException("Can't delete area. At least one course is attached to it.");
+		}
 	}
-
-	@Override
-	public Area getAreaById(Long id) {
-		return areaDao.getAreaById(id);
-	}
-
-	@Override
-	public void updateArea(Area area) {
-		areaDao.updateArea(area);
-	}
-
-	@Override
-	public Area getAreaByName(String name) {
-		return areaDao.getAreaByName(name);
-	}
-
-	@Override
-	public void deleteArea(Long id) {
-		areaDao.deleteArea(id);
-		
-	}
-
 }

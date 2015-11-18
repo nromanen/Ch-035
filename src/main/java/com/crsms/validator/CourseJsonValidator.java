@@ -13,7 +13,7 @@ import com.crsms.dto.CourseJsonDto;
 import com.crsms.service.CourseService;
 
 @Component
-public class CourseFormValidator implements Validator {
+public class CourseJsonValidator implements Validator {
 	
 	@Autowired
 	private CourseService courseService;
@@ -29,6 +29,8 @@ public class CourseFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
 												"description", "crsms.error.description.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "crsms.error.date.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
+												"duration", "crsms.error.duration.required");
 		
 		CourseJsonDto courseJsonDto = (CourseJsonDto) target;
 		
@@ -48,5 +50,7 @@ public class CourseFormValidator implements Validator {
 			errors.rejectValue("name", "crsms.error.too.long", 
 								new Object[]{Course.MAX_NAME_LENGTH}, "name is too long");
 		}
+	
 	}
+	
 }

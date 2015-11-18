@@ -62,15 +62,8 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
 	public void disable(Question question) {
     	question.setDisable(true);
     	this.update(question);
-    	
-    	String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
-				+ "(SELECT answerList "
-				+ "FROM Question question "
-				+ "JOIN question.answers answerList "
-				+ "WHERE question.id = :id)";
-    	
-    	sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
-			.setParameter("id", question.getId()).executeUpdate();
+    	sessionFactory.getCurrentSession().getNamedQuery(Question.DISABLE_ANSWERS)
+					  .setParameter("id", question.getId()).executeUpdate();
     }
 
 }

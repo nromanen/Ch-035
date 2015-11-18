@@ -1,7 +1,5 @@
 package com.crsms.dao;
 
-import java.util.List;
-
 import com.crsms.domain.Area;
 
 /**
@@ -10,18 +8,10 @@ import com.crsms.domain.Area;
  *
  */
 
-public interface AreaDao {
+public interface AreaDao extends BaseDao<Area> {
 	
-	void saveArea(Area area);
+	Area getByName(String name);
 	
-	List<Area> getAllAreas();
-	
-	Area getAreaById(Long id);
-
-	void updateArea(Area area);
-	
-	Area getAreaByName(String name);
-	
-	void deleteArea(Long id);
+	void deleteById(Long id);
 	
 }

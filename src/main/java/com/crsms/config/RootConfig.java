@@ -41,7 +41,8 @@ public class RootConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(breadcrumbsInterceptor)
 				.excludePathPatterns("/courses/*/modules/*/tests/*/questions/add/question-form")
 				.excludePathPatterns("/api/**")
-				.excludePathPatterns("/changePassword");
+				.excludePathPatterns("/changePassword")
+				.excludePathPatterns("/resources/downloadfile/**");
 	}
 	
 	/**
@@ -69,7 +70,7 @@ public class RootConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(mappingJackson2HttpMessageConverter());
+        converters.add(this.mappingJackson2HttpMessageConverter());
     }
 
 }
