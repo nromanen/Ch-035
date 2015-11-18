@@ -15,6 +15,7 @@ jQuery.extend(jQuery.validator.messages, {
 	    rangelength: jQuery.validator.format("Будь ласка, введіть значення довжиною від {0} до {1} символів."),
 	    range: jQuery.validator.format("Будь ласка, введіть число від {0} до {1}."),
 	    max: jQuery.validator.format("Будь ласка, введіть число, менше або рівно {0}."),
-	    min: jQuery.validator.format("Будь ласка, введіть число, більше або рівно {0}.")
+	    min: jQuery.validator.format("Будь ласка, введіть число, більше або рівно {0}."),
+	    regex: "<spring:message code="crsms.error.field.letters.only"/>"
 });
 </script>

@@ -139,8 +139,13 @@
 		<put-attribute name="header-title" value="crsms.courses.text.courses" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courses.jsp" />
 		<put-attribute name="content-container-class" value="container-fluid" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/course/course.css" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/course/courses.js" />
 		</put-list-attribute>
 	</definition>
 	

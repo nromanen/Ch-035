@@ -272,6 +272,7 @@ public class CourseController {
 	public ModelAndView searchCourses(@RequestParam("searchWord") String searchWord) {
 		ModelAndView model = new ModelAndView();
 		List<Course> courses = courseService.searchCourses(searchWord);
+		model.addObject("searchWord", searchWord);
 		model.addObject("courses", courses);
 		model.setViewName("courses");
 		return model;

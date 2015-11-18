@@ -2,12 +2,18 @@
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+
+<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
 <div id="courses-nav" class="container text-right">
-	<form class="navbar-form navbar search" role="search" action="search" method="GET">
-		<input type="text" class="form-control" name="searchWord" >
+	<c:if test="${empty courses}"><strong><spring:message code = "crsms.courses.message.not.found"/></strong></c:if>
+	<form id = "searchForm" class="navbar-form navbar search" role="search" action="search" method="GET">
+		<input id = "search" type="text" class="form-control" name="searchWord" value = "${searchWord}" >
 	    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
 	    <strong><spring:message code = "crsms.button.search" /></strong></button>
+	    <button type="button" onclick="ClearField();" class="btn btn-default">
+	    <span class="glyphicon glyphicon-remove"></span></button>
 	</form>
 </div>
 
