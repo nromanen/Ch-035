@@ -3,6 +3,7 @@ package com.crsms.dao;
 import java.util.List;
 
 import com.crsms.domain.Course;
+import com.crsms.domain.Question;
 import com.crsms.domain.Test;
 
 
@@ -18,6 +19,9 @@ public interface CourseDao extends BaseDao<Course> {
 	
 	Course getByTest(Test test);
 	Course getByTest(Long testId);
+	
+	Course getByQuestion(Question question);
+	Course getByQuestion(Long questionId);
 	
 	List<Course> getAllByAreaId(Long areaId);
 	

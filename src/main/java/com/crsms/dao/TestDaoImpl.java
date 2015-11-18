@@ -85,4 +85,10 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 			.setParameter("id", test.getId()).executeUpdate();
 	}
 
+	@Override
+	public Test getByQuestion(Long questionId) {
+		return (Test) getSessionFactory().getCurrentSession().getNamedQuery(Test.GET_BY_QUESTION)
+				.setParameter("id", questionId).uniqueResult();
+	}
+
 }
