@@ -15,8 +15,6 @@ public interface UserService extends BaseService<User> {
 	
 	boolean changePassword(String email, String currentPassword, String newPassword);
 
-	User getUserById(Long id);
-
 	User getUserByEmail(String email);
 	
 	long getRowsCount();

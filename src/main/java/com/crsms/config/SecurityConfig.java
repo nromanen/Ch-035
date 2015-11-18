@@ -25,6 +25,8 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	private static final Integer VALIDITYTIME = 28800;
 
 	@Autowired
 	@Qualifier("userDetailsService")
@@ -47,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 	  http
 		  .authorizeRequests()
-				  	.antMatchers("/signUp", "/signin", "/**").permitAll()
+				  	.antMatchers("/signUp", "/signin", "/courses").permitAll()
 				  	.antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
 				  	.antMatchers("/manager/**").access("hasAnyRole ('ROLE_ADMIN', 'ROLE_MANAGER')")
 				  	.antMatchers("/teacher/**").access("hasAnyRole ('ROLE_ADMIN', 'ROLE_TEACHER')")
@@ -57,15 +59,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  		.formLogin().loginPage("/signin")
 				  	.usernameParameter("email")
 				  	.passwordParameter("password")
-				  	.successHandler(customHandler)
+				  	.successHandler(customHandler)			  	
 				  	.and()
-				  	.rememberMe().rememberMeParameter("remember-me")
-				  	.tokenRepository(persistentTokenRepository())
-				  	.tokenValiditySeconds(86400)
-				  	.and()
-				  	.logout().logoutSuccessUrl("/signin?signout")
+			.logout().logoutSuccessUrl("/signin?signout")
 				  	.and().csrf()
-				  	.and().exceptionHandling().accessDeniedPage("/403");
+				  	.and().exceptionHandling().accessDeniedPage("/403")
+				  	.and()
+			.rememberMe().rememberMeParameter("remember-me")
+				  	.tokenRepository(persistentTokenRepository())
+				  	.tokenValiditySeconds(VALIDITYTIME);
 	}
 	
 	 @Bean
@@ -87,5 +89,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         tokenRepositoryImpl.setDataSource(dataSource);
         return tokenRepositoryImpl;
     }
-
 }
