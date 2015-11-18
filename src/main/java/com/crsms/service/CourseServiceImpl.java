@@ -37,14 +37,14 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	@Override
 	public void save(Course course, long areaId, String ownerEmail) {
 		course.setOwner(userService.getUserByEmail(ownerEmail));
-		course.setArea(areaService.getAreaById(areaId));
+		course.setArea(areaService.getById(areaId));
 		courseDao.save(course);
 	}
 	
 	@Override
 	public void update(Course course, long areaId, String ownerEmail) {
 		course.setOwner(userService.getUserByEmail(ownerEmail));
-		course.setArea(areaService.getAreaById(areaId));
+		course.setArea(areaService.getById(areaId));
 		courseDao.update(course);
 	}
 
