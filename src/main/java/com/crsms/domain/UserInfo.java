@@ -52,9 +52,6 @@ public class UserInfo {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@Cascade({CascadeType.ALL})
 	private Set<Group> groups;
-	
-	public UserInfo() {	}
-
 
 	public Long getId() {
 		return id;

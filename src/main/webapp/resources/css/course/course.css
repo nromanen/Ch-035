@@ -1,13 +1,4 @@
-
 /*courses view*/
-#courses-nav .search {
-	display: inline-block;
-}
-
-.course-grid {
-	
-}
-
 .course-grid {
     padding: 5px;
 }
@@ -38,6 +29,18 @@
 }
 .course-add .fa {
 	font-size: 50px;
+}
+#courses-nav .search {
+	display: inline-block;
+}
+#search-form {
+	margin-top: 0;
+	margin-bottom: 10px;
+	min-height: 0;
+}
+.errorTxt {
+	font-weight: bold;
+	color: red;
 }
 
 /*course view*/
@@ -83,4 +86,9 @@
 }
 .module-desc {
 	text-align: justify;
+}
+
+/*courses_table view*/
+#courses-table-wrapper table {
+	margin-top: 10px;
 }

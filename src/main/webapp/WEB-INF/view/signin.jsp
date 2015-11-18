@@ -34,6 +34,11 @@
 								<form:errors path="password" cssClass="label label-danger" />
 							</div>
 						</div>
+						<c:if test="${param.error != null}">
+                                <div class="alert alert-danger">
+                                    <spring:message code="crsms.signin.badcredentials" />
+                                </div>
+                            </c:if>
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<div class="checkbox">
@@ -46,7 +51,7 @@
 						</div>
 						<div class="form-group last">
 							<div class="col-sm-offset-3 col-sm-9">
-								<button type="submit" class="btn btn-success btn-sm">
+								<button type="submit" class="btn btn-primary btn-sm">
 									<spring:message code="crsms.button.signin" />
 								</button>
 								<button type="reset" class="btn btn-default btn-sm">

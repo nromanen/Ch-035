@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.UserInfo;
 
-@Repository("userInfoDao")
+@Repository
 public class UserInfoDaoImpl implements UserInfoDao {
 
 	@Autowired

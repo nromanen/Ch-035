@@ -16,8 +16,11 @@ $(document).ready(function() {
         errorClass: "error",
 		rules: {
         	"searchWord": {
-                regex: "^[\w\s#-]{1,40}$",
+        		regex: "^[\\w\\s#-\\.]{1,40}$",
             },
         },
+        messages: {},
+        errorElement : 'div',
+        errorLabelContainer: '.errorTxt'
     });
 });

@@ -32,9 +32,7 @@ public class AnswerController {
     @Autowired
     private AnswerFormValidator formValidator;
 
-    public AnswerController() {}
-
-    @RequestMapping(value = { "/add" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String newAnswer(Model model) {
         Answer answer = new Answer();
         model.addAttribute("answer", answer);

@@ -32,7 +32,6 @@ public class TestResult {
     @JoinColumn(name="test_id")
 	private Test test;
 	
-	
 	private Boolean complete = false;
 	// private Type Result;
 	
@@ -40,8 +39,6 @@ public class TestResult {
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name="user_id")
 	private User user;
-	
-	public TestResult() { }
 
 	public Long getId() {
 		return id;

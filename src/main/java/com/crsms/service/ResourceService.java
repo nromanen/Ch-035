@@ -15,19 +15,9 @@ import com.crsms.domain.Resource;
 
 @Service("courseService")
 @Transactional
-public interface ResourceService {
-	
-	void save(Resource resource);
-	
-	void update(Resource resource);
-	
-	void delete(Resource resource);
+public interface ResourceService extends BaseService<Resource> {
 	
 	void delete(Long resourceId, Long moduleId);
-	
-	Resource getById(Long id);
-	
-	List<Resource> getAll();
 
 	void deleteById(Long id);
 	
