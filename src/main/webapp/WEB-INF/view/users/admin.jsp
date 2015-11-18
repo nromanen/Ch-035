@@ -31,7 +31,7 @@
 </nav>
 	<table class="table table-bordered table-hover">
 		<thead>
-			<tr class="success">
+			<tr class="active">
 				<th class = "hide"><spring:message code="crsms.text.id" /></th>
 				<th> <spring:message code="crsms.admin.email" />
 					<a href="<c:url value="?page=${page}&sortparam=email&direction=${order}"/>">
@@ -55,10 +55,10 @@
 					<td class="nameCell">${user.email}</td>
 					<td class="nameCell">${user.userInfo.firstname}</td>
 					<td class="nameCell">${user.userInfo.lastname}</td>
-					<td>${user.role.name}</td>
+					<td class="nameCell">${user.role.name}</td>
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 
-							<a href="${editUser}" class="btn btn-success btn-sm" 
+							<a href="${editUser}" class="btn btn-primary btn-sm" 
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.edit" />">
 								<span	class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -171,7 +171,7 @@
 <!-- End Paging block -->
 
 <c:url var="createUser" value="adduser" />
-<a class="btn btn-success" href="${pageContext.request.contextPath}/signUp"><spring:message
+<a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/signUp"><spring:message
 		code="crsms.admin.createNew" /></a>
 		
 
