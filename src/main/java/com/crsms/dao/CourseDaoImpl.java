@@ -167,20 +167,6 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		}
 		
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Course> searchCourses(String searchWord) {
-		try {
-			return (List<Course>) this.getSessionFactory().getCurrentSession().createQuery(""
-					+ "SELECT c FROM Course c WHERE UPPER(c.name) LIKE UPPER(:s) OR "
-					+ "UPPER(c.description) LIKE UPPER(:s) ORDER BY c.name, c.description")
-					.setParameter("s", "%" + searchWord + "%").list();
-		} catch (HibernateException e) {
-			this.getLogger().error("Error searchCourses: " + e);
-		}
-		return null;
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -195,4 +181,18 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		}
 		return list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> searchCourses(String searchWord) {
+		try {
+			return (List<Course>) this.getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Course.SEARCH)
+									  .setParameter("s", "%" + searchWord + "%").list();
+		} catch (HibernateException e) {
+			this.getLogger().error("Error searchCourses: " + e);
+		}
+		return null;
+	}
+
 }

@@ -60,7 +60,7 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private UserInfo userInfo;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinTable (name = "user_roles", 
 	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
 	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
