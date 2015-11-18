@@ -32,13 +32,14 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr class="success">
-				<th ><spring:message code="crsms.text.id" /></th>
+				<th class = "hide"><spring:message code="crsms.text.id" /></th>
 				<th> <spring:message code="crsms.admin.email" />
 					<a href="<c:url value="?page=${page}&sortparam=email&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
-				<th><spring:message code="crsms.admin.password" /></th>
+				<th><spring:message code="crsms.admin.userinfo.firstname" /></th>
+				<th><spring:message code="crsms.admin.userinfo.lastname" /></th>
 				<th><spring:message code="crsms.admin.role" />
 					<a href="<c:url value="?page=${page}&sortparam=role&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
@@ -50,9 +51,10 @@
 		<tbody>
 			<c:forEach items="${users}" var="user">
 				<tr class="active">
-					<th >${user.id}</th>
-					<td>${user.email}</td>
-					<td>${user.password}</td>
+					<th class = "hide">${user.id}</th>
+					<td class="nameCell">${user.email}</td>
+					<td class="nameCell">${user.userInfo.firstname}</td>
+					<td class="nameCell">${user.userInfo.lastname}</td>
 					<td>${user.role.name}</td>
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 
@@ -68,7 +70,7 @@
 								class="btn btn-danger btn-sm" 
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.delete" />"> 
-								<span	class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								<span	class="fa fa-trash-o fa-lg" aria-hidden="true"></span>
 							</a>
 					</td>
 				</tr>

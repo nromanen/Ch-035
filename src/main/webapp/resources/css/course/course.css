@@ -38,6 +38,10 @@
 	margin-bottom: 10px;
 	min-height: 0;
 }
+.errorTxt {
+	font-weight: bold;
+	color: red;
+}
 
 /*course view*/
 #course-wrapper {

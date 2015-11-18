@@ -11,7 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -154,7 +153,7 @@ public class CourseController {
 		String ownerEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 		courseJsonDto.setOwnerEmail(ownerEmail);
 		
-		List<Area> areas = areaService.getAllAreas();
+		List<Area> areas = areaService.getAll();
 		
 		model.addObject("courseJsonDto", courseJsonDto);
 		model.addObject("areas", areas);
@@ -172,7 +171,7 @@ public class CourseController {
 		
 		validator.validate(courseJsonDto, result);
 		if (result.hasErrors()) {
-			List<Area> areas = areaService.getAllAreas();
+			List<Area> areas = areaService.getAll();
 			model.addObject("areas", areas);
 			model.setViewName(ADD_COURSE_VIEW);
 			return model;
@@ -201,7 +200,7 @@ public class CourseController {
 		CourseJsonDto courseJsonDto = dtoService.convert(course, CourseJsonDto.class, Course.class);
 		courseJsonDto.setOwnerEmail(ownerEmail);
 		
-		List<Area> areas = areaService.getAllAreas();
+		List<Area> areas = areaService.getAll();
 		
 		model.addObject("courseJsonDto", courseJsonDto);
 		model.addObject("areas", areas);
@@ -218,7 +217,7 @@ public class CourseController {
 		
 		validator.validate(courseJsonDto, result);
 		if (result.hasErrors()) {
-			List<Area> areas = areaService.getAllAreas();
+			List<Area> areas = areaService.getAll();
 			model.addObject("areas", areas);
 			model.setViewName(EDIT_COURSE_VIEW);
 			return model;
@@ -275,6 +274,7 @@ public class CourseController {
 	public ModelAndView searchCourses(@RequestParam("searchWord") String searchWord) {
 		ModelAndView model = new ModelAndView();
 		List<Course> courses = courseService.searchCourses(searchWord);
+		model.addObject("searchWord", searchWord);
 		model.addObject("courses", courses);
 		model.setViewName(COURSES_VIEW);
 		return model;
@@ -303,4 +303,5 @@ public class CourseController {
 		}
 		return courses;
 	}
+
 }

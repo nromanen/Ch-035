@@ -3,25 +3,16 @@
  */
 package com.crsms.service;
 
-import java.util.List;
-
 import com.crsms.domain.Area;
 
 /**
  * @author Yuri Kucheriavy
  *
  */
-public interface AreaService {
-void saveArea(Area area);
-	
-	List<Area> getAllAreas();
-	
-	Area getAreaById(Long id);
+public interface AreaService extends BaseService<Area> {
 
-	void updateArea(Area area);
+	Area getByName(String name);
 	
-	Area getAreaByName(String name);
-	
-	void deleteArea(Long id);
+	void deleteById(Long id);
 	
 }

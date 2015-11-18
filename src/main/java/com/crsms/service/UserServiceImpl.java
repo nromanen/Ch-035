@@ -49,12 +49,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		
 		return true;
 	}
-	
-	@Override
-	public User getUserById(Long id) {
-		User user = userDao.getById(id);
-		return user;
-	}
 
 	@Override
 	public User getUserByEmail(String email) {
