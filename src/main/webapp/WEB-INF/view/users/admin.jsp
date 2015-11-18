@@ -38,8 +38,8 @@
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
-				<th><spring:message code="crsms.admin.userinfo.firstname" /></th>
 				<th><spring:message code="crsms.admin.userinfo.lastname" /></th>
+				<th><spring:message code="crsms.admin.userinfo.firstname" /></th>
 				<th><spring:message code="crsms.admin.role" />
 					<a href="<c:url value="?page=${page}&sortparam=role&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
@@ -53,8 +53,8 @@
 				<tr class="active">
 					<th class = "hide">${user.id}</th>
 					<td class="nameCell">${user.email}</td>
-					<td class="nameCell">${user.userInfo.firstname}</td>
 					<td class="nameCell">${user.userInfo.lastname}</td>
+					<td class="nameCell">${user.userInfo.firstname}</td>
 					<td class="nameCell">${user.role.name}</td>
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 
@@ -171,8 +171,10 @@
 <!-- End Paging block -->
 
 <c:url var="createUser" value="adduser" />
-<a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/signUp"><spring:message
-		code="crsms.admin.createNew" /></a>
+	<a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/signUp" data-toggle="tooltip"
+				title="<spring:message code="crsms.admin.createNew" />">
+				<spring:message	code="crsms.admin.createNew" />
+	</a>
 		
 
 
