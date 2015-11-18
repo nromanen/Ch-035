@@ -3,7 +3,6 @@ package com.crsms.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -21,25 +20,6 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 
 	public CourseDaoImpl() {
 		super(Course.class);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Course> getAllInitialized() {
-		try {
-			List<Course> courses = null;
-			courses = (List<Course>) this.getSessionFactory().getCurrentSession()
-													.createQuery("FROM Course").list();
-			for (Course course : courses) {
-				Hibernate.initialize(course.getModules());
-			}
-			return courses;
-
-		} catch (HibernateException e) {
-			this.getLogger().error("Error getAllCourse: " + e);
-			throw e;
-		}
-		
 	}
 	
 	@Override
