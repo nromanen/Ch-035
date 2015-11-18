@@ -4,6 +4,7 @@ package com.crsms.service;
 import java.util.List;
 
 import com.crsms.domain.User;
+import com.crsms.util.Invocable;
 /**
  * 
  * @author Roman Romaniuk
@@ -20,6 +21,8 @@ public interface UserService {
 	User getUserById(Long id);
 
 	User getUserByEmail(String email);
+	
+	User getUserByEmail(String email, List<Invocable<User>> initializers);
 	
 	void delete(Long id);
 

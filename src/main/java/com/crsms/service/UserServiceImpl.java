@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crsms.dao.RoleDao;
 import com.crsms.dao.UserDao;
 import com.crsms.domain.User;
+import com.crsms.util.Invocable;
 
 /**
  * 
@@ -85,6 +86,20 @@ public class UserServiceImpl implements UserService {
 		User user = null;
 		try {
 			user = userDao.getUserByEmail(email);
+		} catch (Exception e) {
+			log.error("Error get user by email: " + email + e);
+		}
+		return user;
+	}
+	
+	@Override
+	public User getUserByEmail(String email, List<Invocable<User>> initializers) {
+		User user = null;
+		try {
+			user = userDao.getUserByEmail(email);
+			for (Invocable<User> initalizer : initializers) {
+				initalizer.invoke(user);
+			}
 		} catch (Exception e) {
 			log.error("Error get user by email: " + email + e);
 		}
