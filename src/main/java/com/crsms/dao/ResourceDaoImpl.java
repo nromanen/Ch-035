@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Resource;
@@ -20,9 +18,6 @@ import com.crsms.domain.Resource;
 @Repository
 public class ResourceDaoImpl extends BaseDaoImpl<Resource> implements ResourceDao {
 	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
 	private static Logger logger = LogManager.getLogger(ResourceDaoImpl.class);
 	
 	@Override
@@ -30,7 +25,7 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource> implements ResourceDa
 		
 		String hql = " DELETE Resource"   
 	               + " WHERE id = :resource_id";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 		query.setParameter("resource_id", id);
 		try {
 			query.executeUpdate();
@@ -46,7 +41,7 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource> implements ResourceDa
 		List<Resource> results = null;
 
 		String hql = "select mr from Module m join m.resources mr where m.id = :moduleId";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 		query.setParameter("moduleId", moduleId);
 		try {
 			results = (List<Resource>) query.list();

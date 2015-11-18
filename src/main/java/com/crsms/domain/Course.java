@@ -45,6 +45,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 						+ "JOIN course.modules module "
 						+ "JOIN module.tests test "
 						+ "WHERE test.id = :id"),
+	@NamedQuery(name = Course.GET_BY_QUESTION,
+				query = "SELECT course FROM Course course "
+						+ "JOIN course.modules module "
+						+ "JOIN module.tests test "
+						+ "JOIN test.questions question "
+						+ "WHERE question.id = :id"),
 	@NamedQuery(name = Course.GET_BY_USER_EMAIL,
 				query = "select c from User u join u.courses c where u.email = :email"),
 	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
@@ -143,6 +149,7 @@ public class Course {
 	public static final String DISABLE_QUESTIONS = "course.disableQuestionsByCourse";
 	public static final String DISABLE_ANSWERS = "course.disableAnswersByCourse";
 	public static final String GET_BY_TEST = "course.getByTest";
+	public static final String GET_BY_QUESTION = "course.getByQuestion";
 	public static final String GET_USER_COURSES_IDS = "course.getCourseIDsByUserEmail";
 	public static final String SEARCH = "course.search";
 	
