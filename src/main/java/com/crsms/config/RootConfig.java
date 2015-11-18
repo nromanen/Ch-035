@@ -40,7 +40,8 @@ public class RootConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(localeChangeInterceptor);
 		registry.addInterceptor(breadcrumbsInterceptor)
 				.excludePathPatterns("/courses/*/modules/*/tests/*/questions/add/question-form")
-				.excludePathPatterns("/api/**");
+				.excludePathPatterns("/api/**")
+				.excludePathPatterns("/changePassword");
 	}
 	
 	/**

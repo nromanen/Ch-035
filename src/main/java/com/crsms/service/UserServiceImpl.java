@@ -52,20 +52,17 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	
 	@Override
 	public User getUserById(Long id) {
-		User user = userDao.getById(id);
-		return user;
+		return userDao.getById(id);
 	}
 
 	@Override
 	public User getUserByEmail(String email) {
-		User user = null;
-			user = userDao.getUserByEmail(email);
-		return user;
+		return userDao.getUserByEmail(email);
 	}
 
 	@Override
 	public boolean isEmailExists(String email) {
-		return userDao.getUserByEmail(email).equals(email);
+		return userDao.getUserByEmail(email) != null;
 	}
 
 	public long getRowsCount() {

@@ -11,7 +11,7 @@ import com.crsms.domain.User;
  */
 
 public interface UserDao extends BaseDao<User> {
-
+	
 	User getUserByEmail(String email);
 
 	long getRowsCount();

@@ -31,11 +31,11 @@ public class UserInfoValidator implements Validator{
 		Matcher lNameMatch = Pattern.compile(NAME_PATTERN).matcher(userInfo.getLastName());
 		
 		if(!fNameMatch.matches()){
-			errors.rejectValue("firstName", "crsms.error.description.required");
+			errors.rejectValue("firstName", "crsms.error.name.invalid");
 		}
 		
 		if(!lNameMatch.matches()){
-			errors.rejectValue("lastName", "crsms.error.description.required");
+			errors.rejectValue("lastName", "crsms.error.name.invalid");
 		}
 		
 		if (userInfo.getFirstName().length() > UserInfo.MAX_NAME_LENGTH) {

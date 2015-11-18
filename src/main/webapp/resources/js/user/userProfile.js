@@ -27,7 +27,6 @@ $(document).ready(function() {
 	        }
 
 	        reader.readAsDataURL(this.files[0]);
-	        //alert(this.files[0].size);
 	    }
 	});
 });

@@ -44,9 +44,9 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
 
 	@Override
 	public User getUserByEmail(String email) {
-		User user = new User();
+		User user = null;
 		try {
-			this.getLogger().info("getUserById email: ", user);
+			this.getLogger().info("getUserByEmail email: ", user);
 			Query query = this.getSessionFactory().getCurrentSession()
 					.getNamedQuery(User.BY_EMAIL).setString("email", email);
 			user = (User) query.uniqueResult();

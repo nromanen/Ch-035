@@ -65,7 +65,7 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "signUp";
 		}
-		
+	
 		userService.saveUser(user);	
 
 		user.setRole(roleService.getRoleById(STUDENT_ROLE_ID));
@@ -102,7 +102,7 @@ public class UserController {
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public String changePassword(HttpSession session, 
 			@RequestParam("currentPass") String currentPassword, @RequestParam("newPassword") String newPassword) {
-		String email = (String) session.getAttribute("email");
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		return userService.changePassword(email, currentPassword, newPassword) ? "Success" : "Fail";
 	}
 
