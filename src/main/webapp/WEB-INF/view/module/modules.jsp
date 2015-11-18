@@ -9,7 +9,6 @@
 		<tr class = "active">
 			<th class = "hide"><spring:message code = "crsms.text.id"/></th>
 			<th><spring:message code = "crsms.text.name"/></th>
-			<th><spring:message code = "crsms.text.description"/></th>
 			<th><spring:message code = "crsms.modules.text.content"/></th>
 			<th><spring:message code = "crsms.text.controls"/></th>
 		</tr>
@@ -19,7 +18,6 @@
 			<tr>
 				<th class = "hide">${module.id}</th>
 				<td class = "nameCell">${module.name}</td>
-				<td>${module.description}</td>
 				<td class = "contentCell text-center">
 					<c:url var = "showTests" value = "${module.id}/tests/" />
 					<a href = "${showTests}" 
