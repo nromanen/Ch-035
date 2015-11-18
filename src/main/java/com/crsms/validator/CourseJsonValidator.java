@@ -29,6 +29,8 @@ public class CourseJsonValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
 												"description", "crsms.error.description.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "crsms.error.date.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
+												"duration", "crsms.error.duration.required");
 		
 		CourseJsonDto courseJsonDto = (CourseJsonDto) target;
 		
@@ -48,5 +50,7 @@ public class CourseJsonValidator implements Validator {
 			errors.rejectValue("name", "crsms.error.too.long", 
 								new Object[]{Course.MAX_NAME_LENGTH}, "name is too long");
 		}
+	
 	}
+	
 }
