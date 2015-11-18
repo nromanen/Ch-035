@@ -41,6 +41,7 @@
 .errorTxt {
 	font-weight: bold;
 	color: red;
+	margin-right: 15px;
 }
 
 /*course view*/

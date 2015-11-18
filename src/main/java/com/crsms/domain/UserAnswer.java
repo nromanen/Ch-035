@@ -19,7 +19,7 @@ import org.hibernate.annotations.CascadeType;
  */
 
 @Entity
-@Table(name="user_answer")
+@Table(name = "user_answer")
 public class UserAnswer {
 	
 	@Id
@@ -29,17 +29,17 @@ public class UserAnswer {
 	
 	@OneToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="question_id")
+    @JoinColumn(name = "question_id")
 	private Question question;
 	
 	@OneToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="answer_id")
+    @JoinColumn(name = "answer_id")
 	private Answer answer;
 	
 	@OneToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="test_result_id")
+    @JoinColumn(name = "test_result_id")
 	private TestResult testResult;
 
 	public Long getId() {
