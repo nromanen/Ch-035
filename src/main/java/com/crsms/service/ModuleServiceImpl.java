@@ -125,6 +125,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
         resource.setName(name);
         resource.setType(Resource.Type.FILE);
         resource.setUrl(path + File.separator + name);
+        resourceService.save(resource);
 		module.addResource(resource);
 		this.update(module);
 	}

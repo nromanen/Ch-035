@@ -8,5 +8,8 @@ $(document).ready(function() {
                 maxlength: 100
             },
         },
+        messages: {},
+        errorElement : 'div',
+        errorLabelContainer: '.errorTxt'
     });
 });

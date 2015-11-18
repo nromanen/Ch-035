@@ -48,7 +48,7 @@ $(document).ready(function(e) {
 		},
 		getResourceById: function(id) {
 			$.ajax({
-				url: $("#link-base").val() + "resources/" + id + '/json',
+				url: $("#link-base").val() + "api/resources/" + id,
 				type: 'get',
 				dataType: 'json',
 				beforeSend : function () {
