@@ -40,6 +40,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 				query = "from Course c where c.name=:name"),
 	@NamedQuery(name = Course.GET_BY_USER_ID,
 				query = "select c from User u join u.courses c where u.id = :userId"),
+	@NamedQuery(name = Course.GET_BY_TEST,
+				query = "SELECT course FROM Course course "
+						+ "JOIN course.modules module "
+						+ "JOIN module.tests test "
+						+ "WHERE test.id = :id"),
 	@NamedQuery(name = Course.GET_BY_USER_EMAIL,
 				query = "select c from User u join u.courses c where u.email = :email"),
 	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
@@ -132,6 +137,7 @@ public class Course {
 	public static final String DISABLE_TESTS = "course.disableTestsByCourse";
 	public static final String DISABLE_QUESTIONS = "course.disableQuestionsByCourse";
 	public static final String DISABLE_ANSWERS = "course.disableAnswersByCourse";
+	public static final String GET_BY_TEST = "course.getByTest";
 	
 	public static final int MAX_NAME_LENGTH = 255;
 	

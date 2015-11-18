@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Module;
+import com.crsms.domain.Test;
 
 /**
  * 
@@ -65,6 +66,18 @@ public class ModuleDaoImpl extends BaseDaoImpl<Module> implements ModuleDao {
 			.setParameter("id", module.getId()).executeUpdate();
 		sessionFactory.getCurrentSession().getNamedQuery(Module.DISABLE_ANSWERS)
 			.setParameter("id", module.getId()).executeUpdate();
+	}
+	
+	@Override
+	public Module getByTest(Test test) {
+		return (Module) sessionFactory.getCurrentSession().getNamedQuery(Module.GET_BY_TEST)
+				.setParameter("id", test.getId()).uniqueResult();
+	}
+
+	@Override
+	public Module getByTest(Long testId) {
+		return (Module) sessionFactory.getCurrentSession().getNamedQuery(Module.GET_BY_TEST)
+				.setParameter("id", testId).uniqueResult();
 	}
 
 }

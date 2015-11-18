@@ -22,6 +22,10 @@ import java.util.Set;
 	@NamedQuery(name = Module.GET_ALL_BY_COURSE_ID, 
 				query = "select m from Course c join c.modules m"
 					 + " where course_id = :id order by m.id asc"),
+	@NamedQuery(name = Module.GET_BY_TEST,
+				query = "SELECT module FROM Module module "
+						+ "JOIN module.tests test "
+						+ "WHERE test.id = :id"),
 				
 	@NamedQuery(name = Module.DELETE_BY_ID,
 				query = "delete Module where id = :id"
@@ -56,6 +60,7 @@ public class Module {
 	public static final String DISABLE_TESTS = "Module.disableTestsByModule";
 	public static final String DISABLE_QUESTIONS = "Module.disableQuestionsByModule";
 	public static final String DISABLE_ANSWERS = "Module.disableAnswersByModule";
+	public static final String GET_BY_TEST = "Module.getByTest";
 	public static final int MAX_NAME_LENGTH = 255;
 
 	
@@ -164,6 +169,10 @@ public class Module {
 		
 	public void addTest(Test test) {
 		this.tests.add(test);
+	}
+	
+	public void removeTest(Test test) {
+		this.tests.remove(test);
 	}
 
 }

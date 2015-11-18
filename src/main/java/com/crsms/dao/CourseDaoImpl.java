@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Course;
+import com.crsms.domain.Test;
 
 /**
  * 
@@ -157,5 +158,17 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
     }
     return null;
   }
+
+@Override
+public Course getByTest(Test test) {
+	return (Course) sessionFactory.getCurrentSession().getNamedQuery(Course.GET_BY_TEST)
+			.setParameter("id", test.getId()).uniqueResult();
+}
+
+@Override
+public Course getByTest(Long testId) {
+	return (Course) sessionFactory.getCurrentSession().getNamedQuery(Course.GET_BY_TEST)
+			.setParameter("id", testId).uniqueResult();
+}
 
 }
