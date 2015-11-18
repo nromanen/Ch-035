@@ -15,7 +15,7 @@
 <!-- end logo -->
 </div>
 
-<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">	
+ <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">	
 	<div id = "language-picker" class="text-right">
 		<div class = "align-right">
 			<div class="btn-group" role="group" aria-label="...">
@@ -41,23 +41,37 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class = "securityprincipal" align="right">
+
+	<div id="securityprincipal" align="right">
 		<c:choose>
-		<c:when test="${pageContext.request.userPrincipal.name != null}">
-			<h5> <spring:message code="crsms.text.signin.signedas" />
-				<b>${pageContext.request.userPrincipal.name}</b>
-				<a	href=<c:url value="/signout" />>
-					<spring:message	code="crsms.button.signout" />
+			<c:when test="${pageContext.request.userPrincipal.name != null}">
+				<div class="dropdown">
+					<a id="dLabel" data-target="#"
+						href="<c:url value="/courses/?show=my" />" data-toggle="dropdown"
+						role="button" aria-haspopup="true" aria-expanded="false"> <b>${pageContext.request.userPrincipal.name}</b>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="<c:url value="/courses/?show=my" />"> <spring:message
+									code="crsms.courses.text.title.list" /></a></li>
+						<li><a href="<c:url value="/userProfile" />"> <spring:message
+									code="crsms.userProfile.profile" /></a></li>
+						<li><a href="<c:url value="/signout" />"><spring:message
+									code="crsms.button.signout" /></a></li>
+					</ul>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<h5>
+					<spring:message code="crsms.text.signin.unsigned" />
+				<a href=<c:url value="/signin" />> <spring:message
+						code="crsms.button.signin" />
 				</a>
-			</h5>
-		</c:when>
-		<c:otherwise>
-		<h5> <spring:message code="crsms.text.signin.unsigned" /></h5>
-		<a	href=<c:url value="/signin" />>
-					<spring:message	code="crsms.button.signin" />
-				</a>
-		</c:otherwise>
+				</h5>
+				
+			</c:otherwise>
 		</c:choose>
 	</div>
+
+
 </div>

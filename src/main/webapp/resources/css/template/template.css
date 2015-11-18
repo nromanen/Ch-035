@@ -5,6 +5,9 @@ body {
 	background: #DDECF7;
 	min-height: 50px;
 }
+#securityprincipal {
+	margin-top: 10px;
+}   
 #page-title {
 	text-align: center;
     background: #1F89CA;

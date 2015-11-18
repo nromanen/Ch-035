@@ -121,4 +121,14 @@
         <sqlFile path="src/main/resources/liquibase/fixSequence.sql"/>
     </changeSet>
     
+    <changeSet author="yuliia" id="1446992667519-112">
+        <addColumn tableName="user_info" >
+         <column name="image" type="text" defaultValue="null" />
+     	</addColumn>
+    </changeSet>
+    
+    <changeSet author="yuliia" id="1446992667519-113">
+        <createSequence sequenceName="user_info_id_seq"/>
+    </changeSet>
+    
 </databaseChangeLog>

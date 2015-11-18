@@ -50,12 +50,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		
 		return true;
 	}
-
+	
 	@Override
 	public User getUserByEmail(String email) {
-		User user = null;
-		user = userDao.getUserByEmail(email);
-		return user;
+		return userDao.getUserByEmail(email);
 	}
 	
 	@Override
@@ -68,6 +66,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 
 	@Override
+	public boolean isEmailExists(String email) {
+		return userDao.getUserByEmail(email) != null;
+	}
+
 	public long getRowsCount() {
 		return userDao.getRowsCount();
 	}
@@ -77,5 +79,4 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 										String sortingField, String order) {
 		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
 	}
-	
 }

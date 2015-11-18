@@ -12,6 +12,8 @@ import com.crsms.util.Invocable;
  */
 public interface UserService extends BaseService<User> {
 
+	boolean isEmailExists(String email);
+	
 	User saveUser(User user);
 	
 	boolean changePassword(String email, String currentPassword, String newPassword);

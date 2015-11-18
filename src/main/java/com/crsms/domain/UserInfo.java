@@ -6,19 +6,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "user_info")
@@ -32,9 +32,8 @@ public class UserInfo {
 	
 	@Id  
     @Column(name = "id")  
-    @GeneratedValue(generator = "user_info_gen")  
-    @GenericGenerator(name = "user_info_gen", strategy = "foreign",   
-    parameters = @Parameter(name = "property", value = "user"))
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_info_id_seq", allocationSize = 1)
 	private Long id;
 	
 	@OneToOne  
@@ -52,12 +51,25 @@ public class UserInfo {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@Cascade({CascadeType.ALL})
 	private Set<Group> groups;
+	
+	@Column(name = "image", columnDefinition = "text")
+	private String image;
+	
+	public UserInfo() {	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setUserId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

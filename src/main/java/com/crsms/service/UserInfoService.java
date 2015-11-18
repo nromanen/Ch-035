@@ -2,12 +2,6 @@ package com.crsms.service;
 
 import com.crsms.domain.UserInfo;;
 
-public interface UserInfoService {
-	
-	UserInfo createUserInfo(String fName, String sName, String email);
+public interface UserInfoService extends BaseService<UserInfo> {
 
-	UserInfo saveUserInfo(UserInfo user);
-
-	void delete(Long id);
-	
 }

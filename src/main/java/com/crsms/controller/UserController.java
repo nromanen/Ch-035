@@ -3,6 +3,7 @@ package com.crsms.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,7 +44,7 @@ public class UserController {
 	@Autowired
 	private UserInfoValidator userInfoValidator;
 	
-	@InitBinder("user")
+	@InitBinder("userRegistr")
     private void initUserBinder(WebDataBinder binder) {
 		binder.setValidator(userValidator);
     }
@@ -60,37 +61,48 @@ public class UserController {
 	};
 	
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
-	public String submitUser(@Validated @ModelAttribute("userRegistr")  User user, BindingResult result, HttpSession session) {
-		user.setRole(roleService.getRoleById(STUDENT_ROLE_ID));
+	public String submitUser(@Validated @ModelAttribute("userRegistr")  User user, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "signUp";
 		}
-		userService.saveUser(user);
-		session.setAttribute("email", user.getEmail());
-		return "redirect:/userProfile"; ///   !!!!"login";
+	
+		userService.saveUser(user);	
+
+		user.setRole(roleService.getRoleById(STUDENT_ROLE_ID));
+		userService.update(user);
+		UserInfo userInfo = new UserInfo();
+		userInfoService.save(userInfo);
+		userInfo.setUser(user);
+		userInfoService.update(userInfo);
+		
+		model.addAttribute(user);
+		
+		return "redirect:/signin"; 
 	};
 	
-	@RequestMapping("/userProfile")
-	public String userProfile(Model model) {
-		model.addAttribute(new UserInfo());
+	@RequestMapping(value = "/userProfile")
+	public String createdUserProfile(Model model) {
+		model.addAttribute("userInfo", userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getUserInfo());
+		
 		return "userProfile";
 	}
 
 	@RequestMapping(value = "/submitUserInfo", method = RequestMethod.POST)
-	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo userInfo, BindingResult result, @ModelAttribute("email") String email) {
-		userInfo.setUser(userService.getUserByEmail(email));
+	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo newUserInfo,  BindingResult result) {
 		if (result.hasErrors()) {
 			return "userProfile";
 		}
-		userInfoService.saveUserInfo(userInfo);
-		return "redirect:/signUp"; //"logout"
+		newUserInfo.setUser(userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+		userInfoService.update(newUserInfo);
+
+		return "redirect:/courses/?show=my";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public String changePassword(HttpSession session, 
 			@RequestParam("currentPass") String currentPassword, @RequestParam("newPassword") String newPassword) {
-		String email = (String) session.getAttribute("email");
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		return userService.changePassword(email, currentPassword, newPassword) ? "Success" : "Fail";
 	}
 
