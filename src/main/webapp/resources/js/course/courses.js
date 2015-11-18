@@ -16,7 +16,7 @@ $(document).ready(function() {
         errorClass: "error",
 		rules: {
         	"searchWord": {
-        		regex: "^[\\w\\s#-\\.]{1,40}$",
+        		regex: "^[^<>$%]{1,40}$",
             },
         },
         messages: {},
