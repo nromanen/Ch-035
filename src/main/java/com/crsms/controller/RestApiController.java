@@ -110,6 +110,13 @@ public class RestApiController {
 		return dtoService.convert(testService.getById(testId), TestJsonDto.class, Test.class);
 	}
 	
+	@RequestMapping(value = "/tests/{testId}/delete", method = RequestMethod.GET, 
+													  produces = MediaType.APPLICATION_JSON_VALUE)
+	public Boolean deleteTestById(@PathVariable Long testId) {
+		testService.deleteTestById(testId);
+		return true;
+	}	
+	
 	@RequestMapping(value = {"/modules/{moduleId}/resources", 
 			"/courses/{courseId}/modules/{moduleId}/resources"}, 
 			method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -93,15 +93,15 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getAllQuestionsByTestId (@PathVariable Long testId, Model model) {
+    public String getAllQuestionsByTestId(@PathVariable Long testId, Model model) {
         List<Question> questions = questionService.getQuestionsByTestId(testId);
         model.addAttribute("questions", questions);
         return QUESTIONS_PAGE;
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-    public String deleteQuestionById (@PathVariable Long courseId, @PathVariable Long moduleId,
-                                      @PathVariable Long testId, @PathVariable("id") Long id) {
+    public String deleteQuestionById(@PathVariable Long courseId, @PathVariable Long moduleId,
+                                     @PathVariable Long testId, @PathVariable("id") Long id) {
         questionService.delete(id);
         return redirect(courseId, moduleId, testId);
     }

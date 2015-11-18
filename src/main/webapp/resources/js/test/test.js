@@ -5,13 +5,16 @@ $(document).ready(function (e){
 		var deleteUrl = $(this).attr("data-deleteurl");
 		var removeElementId = deleteUrl.split("/")[0];
 		$.ajax({
-			url : document.URL + deleteUrl,
-			dataType: 'application/json',
+			url : "/crsms/api/tests/" + deleteUrl,
+			dataType: 'json',
 			type : "GET",
 			
-			complete: function(e) {
-				$("#hover-" + removeElementId).remove();
-			}, error: function(e) {
+			complete: function(json) {
+				if (json) {
+					$("#hover-" + removeElementId).remove();
+				} else {}
+
+			}, error: function(xhr, ajaxOptions, thrownError) {
 				alert('Error: ' + thrownError + "\n" + xhr);
 			}
 		});

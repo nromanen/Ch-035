@@ -71,16 +71,16 @@ public class AnswerController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getAllAnswersByQuestionId (@PathVariable Long questionId, Model model) {
+    public String getAllAnswersByQuestionId(@PathVariable Long questionId, Model model) {
         List<Answer> answers = answerService.getAnswersByQuestionId(questionId);
         model.addAttribute("answers", answers);
         return ANSWERS_PAGE;
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-    public String deleteQuestionById (@PathVariable Long courseId, @PathVariable Long moduleId,
-                                      @PathVariable Long testId, @PathVariable Long questionId,
-                                      @PathVariable("id") Long id) {
+    public String deleteQuestionById(@PathVariable Long courseId, @PathVariable Long moduleId,
+                                     @PathVariable Long testId, @PathVariable Long questionId,
+                                     @PathVariable("id") Long id) {
         answerService.disable(id);
         return redirect(courseId, moduleId, testId, questionId);
     }

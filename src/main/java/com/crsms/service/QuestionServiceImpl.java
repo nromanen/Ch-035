@@ -98,21 +98,16 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 		}
     	
     	Test test = testDao.getByQuestion(questionId);
-    	
     	if (test == null || test.getDisable()) {
 			throw new ElementNotFoundException();
 		}
-    	
-    	
-    	
+   
 		Question question = questionDao.getById(questionId);
-		
 		if (test == null || question.getDisable()) {
 			throw new ElementNotFoundException();
 		}
 		
 		questionDao.disable(question);
-		
 		if (!course.getPublished()) {
 			test.removeQuestion(question);
 			questionDao.delete(question);

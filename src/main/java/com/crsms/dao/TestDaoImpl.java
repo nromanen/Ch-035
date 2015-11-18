@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +84,7 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
     		logger.error("TestDao. Illegal argument received when test deleting.");
     		throw new IllegalArgumentException("TestDao."
     				+ " Illegal argument received when test disabling.");
-    	}
-		
+    	}	
 	}
 	
 	@Override
@@ -94,7 +92,7 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 		test.setDisable(true);
 		this.update(test);
 		sessionFactory.getCurrentSession().getNamedQuery(Test.DISABLE_QUESTIONS)
-			.setParameter("id", test.getId()).executeUpdate();
+					  .setParameter("id", test.getId()).executeUpdate();
 		sessionFactory.getCurrentSession().getNamedQuery(Test.DISABLE_ANSWERS)
 			.setParameter("id", test.getId()).executeUpdate();
 	}
@@ -102,7 +100,7 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 	@Override
 	public Test getByQuestion(Long questionId) {
 		return (Test) getSessionFactory().getCurrentSession().getNamedQuery(Test.GET_BY_QUESTION)
-				.setParameter("id", questionId).uniqueResult();
+										 .setParameter("id", questionId).uniqueResult();
 	}
 
 }

@@ -50,14 +50,12 @@ public class AnswerServiceImpl extends BaseServiceImpl<Answer> implements Answer
 	public void disable(Long id) {
 		Answer answer = answerDao.getById(id);
 		this.disable(answer);
-		
 	}
 
     @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @Override
 	public void disable(Answer answer) {
-		answerDao.disable(answer);
-		
+		answerDao.disable(answer);	
 	}
     
 }
