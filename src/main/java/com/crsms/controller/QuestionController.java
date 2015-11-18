@@ -95,7 +95,7 @@ public class QuestionController {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String deleteQuestionById (@PathVariable Long courseId, @PathVariable Long moduleId,
                                       @PathVariable Long testId, @PathVariable("id") Long id) {
-        questionService.disable(id);
+        questionService.delete(id);
         return redirect(courseId, moduleId, testId);
     }
 
