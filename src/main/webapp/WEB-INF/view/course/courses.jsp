@@ -7,7 +7,7 @@
 <tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
 <div class = "container">
-	<sec:authorize access="isAuthenticated()">
+	<sec:authorize access="isAuthenticated() and !hasAnyRole('MANAGER')">
 		<div id = "navigation" class = "pull-left">
 			<ul class="nav nav-pills">
 			  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
