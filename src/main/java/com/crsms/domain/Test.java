@@ -1,13 +1,24 @@
 package com.crsms.domain;
 
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import java.util.Set;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
+
 
 /**
  * @author Petro Andriets, Valerii Motresku
@@ -16,8 +27,10 @@ import java.util.Set;
 @Entity
 @Table(name = "test")
 @NamedQueries({ 
-	@NamedQuery(name = Test.GET_ALL, query = "FROM Test"),
-  	@NamedQuery(name = Test.GET_BY_MODULE_ID, query = "SELECT tests FROM Module m WHERE m.id = :id"),
+	@NamedQuery(name = Test.GET_ALL,
+				query = "FROM Test"),
+  	@NamedQuery(name = Test.GET_BY_MODULE_ID,
+  				query = "SELECT tests FROM Module m WHERE m.id = :id"),
 	@NamedQuery(name = Test.DISABLE_QUESTIONS,
 				query = "UPDATE Question question SET question.disable=true WHERE question IN "
 						+ "(SELECT questionList "
