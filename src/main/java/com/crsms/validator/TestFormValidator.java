@@ -21,10 +21,12 @@ public class TestFormValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "crsms.createtest.error.name.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name",
+													"crsms.createtest.error.name.required");
 		Test module = (Test) target;
 		if (module.getName().length() > Test.MAX_NAME_LENGTH) {
-			errors.rejectValue("name", "crsms.error.too.long", new Object[]{Test.MAX_NAME_LENGTH}, "name is too long");
+			errors.rejectValue("name", "crsms.error.too.long",
+								new Object[]{Test.MAX_NAME_LENGTH}, "name is too long");
 		}
 	}
 	
