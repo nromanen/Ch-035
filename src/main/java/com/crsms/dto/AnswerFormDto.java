@@ -1,8 +1,5 @@
 package com.crsms.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -10,33 +7,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 
 @JsonIgnoreProperties
-public class QuestionFormDto {
+public class AnswerFormDto {
 	private Long id;
 	private String text;
-	private List<AnswerFormDto> answers = new ArrayList<>();
-
+	private Boolean correct = false;
+	
 	public String getText() {
 		return text;
 	}
-
 	public void setText(String text) {
 		this.text = text;
 	}
-
-	public List<AnswerFormDto> getAnswers() {
-		return answers;
+	public Boolean getCorrect() {
+		return correct;
 	}
-
-	public void setAnswers(List<AnswerFormDto> answers) {
-		this.answers = answers;
+	public void setCorrect(Boolean correct) {
+		this.correct = correct;
 	}
-
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 }

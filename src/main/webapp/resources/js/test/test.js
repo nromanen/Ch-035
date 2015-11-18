@@ -1,5 +1,47 @@
 $(document).ready(function (e){
 	
+	//Delete test modal window.
+	$("#btn-modal-delete-test").click(function(e){
+		var deleteUrl = $(this).attr("data-deleteurl");
+		var removeElementId = deleteUrl.split("/")[0];
+		$.ajax({
+			url : "/crsms/api/tests/" + deleteUrl,
+			dataType: 'json',
+			type : "GET",
+			
+			complete: function(json) {
+				if (json) {
+					$("#hover-" + removeElementId).remove();
+				} else {}
+
+			}, error: function(xhr, ajaxOptions, thrownError) {
+				alert('Error: ' + thrownError + "\n" + xhr);
+			}
+		});
+		
+		//Hide modal window.
+		$("#delete-confirmation-modal").modal('hide');
+
+	});
+	
+	$(".btn-delete-test").click(function(e) {
+		var deleteUrl = $(this).attr("data-deleteurl");
+		
+		//Hide tooltip.
+		$(e.delegateTarget).tooltip('hide');
+		
+		//Add delete rest.
+		$("#btn-modal-delete-test").attr("data-deleteurl", deleteUrl);
+		
+		//Append delete msg to modal.	
+		var testName = $(this).closest("tr").find(".test-name").text();
+		$("#delete-confirmation-modal").find(".test-delete-msg").text("\"" + testName.trim() + "\"" + "?");
+		
+		$("#delete-confirmation-modal").modal('show');
+	});
+	//End delete test modal window.
+	
+	//Add questions with answers modal window.
 	function doAjaxPost() {
 		var form = $('#modal-form');
 		var testId = $('#modal-form-submit').val();
@@ -44,6 +86,8 @@ $(document).ready(function (e){
 		});
 	}
 	
+	//End add questions with answers modal window.
+	
 	//Only one Test div can be shown in the moment.
 	$('div.full-div').click(function(e){
 		$('.collapse-off').collapse('hide');
@@ -65,5 +109,3 @@ $(document).ready(function (e){
 	});
 	
 })
-
-
