@@ -62,9 +62,8 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
 	public void disable(Question question) {
     	question.setDisable(true);
     	this.update(question);
-    	
     	sessionFactory.getCurrentSession().getNamedQuery(Question.DISABLE_ANSWERS)
-			.setParameter("id", question.getId()).executeUpdate();
+					  .setParameter("id", question.getId()).executeUpdate();
     }
 
 }
