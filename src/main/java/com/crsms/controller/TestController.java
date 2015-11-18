@@ -82,7 +82,7 @@ public class TestController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String deleteTestById(@PathVariable Long courseId, @PathVariable Long moduleId, 
 								 @PathVariable("id") Long id) {
-		testService.disableTestById(id);
+		testService.deleteTestById(id);
 		return redirect(courseId, moduleId);
 	}	
 

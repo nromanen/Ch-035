@@ -60,25 +60,16 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 
 	@Override
 	public void delete(Course course) {
-		if (course.getPublished()) {
-			this.disable(course);
-		} else {
-			this.disable(course);
-			//TODO:replace on HQL
-			for (Module module : course.getModules()) {
-				moduleService.freeResource(module);
-			}
+		this.disable(course);
+		for (Module module : course.getModules()) {
+			moduleService.freeResource(module);
+		}
+		if (!course.getPublished()) {
 			courseDao.delete(course);
 		}
 	}
 
 	public void disable(Course course) {
-		/*course.setDisable(true);
-		courseDao.update(course);
-		
-		for(Module module : course.getModules()){
-			moduleService.disable(module);
-		}*/
 		courseDao.disable(course);
 	}
 

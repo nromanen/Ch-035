@@ -15,11 +15,11 @@ public interface ModuleService extends BaseService<Module> {
 	
 	void save(Long courseId, Module module);
 	
-	//void delete(Long courseId, Module module);
+	void delete(Long courseId, Module module);
 	
 	List<Module> getAllByCourseId(Long courseId);
 	
-	//void deleteById(Long courseId, Long moduleId);
+	void deleteById(Long courseId, Long moduleId);
 	
 	void addResource(Long moduleId, Resource resource);
 	
@@ -27,9 +27,6 @@ public interface ModuleService extends BaseService<Module> {
 	
 	void removeResource(Long moduleId, Resource resource);
 	void removeResource(Module module, Resource resource);
-
-	void disable(Module module);
-	void disable(Long moduleId);
 	
 	void freeResource(Module module);
 	
