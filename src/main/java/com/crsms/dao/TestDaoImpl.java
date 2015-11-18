@@ -79,25 +79,9 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 	public void disable(Test test) {
 		test.setDisable(true);
 		this.update(test);
-		
-		String hqlDelQuestion = ""
-				+ "UPDATE Question question SET question.disable=true WHERE question IN "
-				+ "(SELECT questionList "
-				+ "FROM Test test "
-				+ "JOIN test.questions questionList "
-				+ "WHERE test.id = :id)";
-		
-		String hqlDelAnswer = ""
-				+ "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
-				+ "(SELECT answerList "
-				+ "FROM Test test "
-				+ "JOIN test.questions questionList "
-				+ "JOIN questionList.answers answerList "
-				+ "WHERE test.id = :id)";
-		
-		sessionFactory.getCurrentSession().createQuery(hqlDelQuestion)
+		sessionFactory.getCurrentSession().getNamedQuery(Test.DISABLE_QUESTIONS)
 			.setParameter("id", test.getId()).executeUpdate();
-		sessionFactory.getCurrentSession().createQuery(hqlDelAnswer)
+		sessionFactory.getCurrentSession().getNamedQuery(Test.DISABLE_ANSWERS)
 			.setParameter("id", test.getId()).executeUpdate();
 	}
 

@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Course;
+import com.crsms.domain.Test;
 
 /**
  * 
@@ -100,46 +101,14 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	public void disable(Course course) {
 		course.setDisable(true);
 		this.update(course);
-		try { //TODO: this is piece of shit, maybe rewrite?
-			String hqlDelModule = ""
-					+ "UPDATE Module module SET module.disable=true WHERE module IN "
-					+ "(SELECT moduleList "
-					+ "FROM Course course "
-					+ "JOIN course.modules moduleList "
-					+ "WHERE course.id = :id)";
-			
-			String hqlDelTest = "UPDATE Test test SET test.disable=true WHERE test IN "
-					+ "(SELECT testList "
-					+ "FROM Course course "
-					+ "JOIN course.modules moduleList "
-					+ "JOIN moduleList.tests testList "
-					+ "WHERE course.id = :id)";
-			
-			String hqlDelQuestion = ""
-					+ "UPDATE Question question SET question.disable=true WHERE question IN "
-					+ "(SELECT questionList "
-					+ "FROM Course course "
-					+ "JOIN course.modules moduleList "
-					+ "JOIN moduleList.tests testList "
-					+ "JOIN testList.questions questionList "
-					+ "WHERE course.id = :id)";
-			
-			String hqlDelAnswer = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
-					+ "(SELECT answerList "
-					+ "FROM Course course "
-					+ "JOIN course.modules moduleList "
-					+ "JOIN moduleList.tests testList "
-					+ "JOIN testList.questions questionList "
-					+ "JOIN questionList.answers answerList "
-					+ "WHERE course.id = :id)";
-			
-			this.getSessionFactory().getCurrentSession().createQuery(hqlDelModule)
+		try {
+			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_MODULES)
 				.setParameter("id", course.getId()).executeUpdate();
-			this.getSessionFactory().getCurrentSession().createQuery(hqlDelTest)
+			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_TESTS)
 				.setParameter("id", course.getId()).executeUpdate();
-			this.getSessionFactory().getCurrentSession().createQuery(hqlDelQuestion)
+			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_QUESTIONS)
 				.setParameter("id", course.getId()).executeUpdate();
-			this.getSessionFactory().getCurrentSession().createQuery(hqlDelAnswer)
+			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_ANSWERS)
 				.setParameter("id", course.getId()).executeUpdate();
 		} catch (Exception e) {
 			this.getLogger().error("Error in disable courses: " + e);
@@ -173,5 +142,17 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		}
 		return null;
 	}
+
+@Override
+public Course getByTest(Test test) {
+	return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_TEST)
+			.setParameter("id", test.getId()).uniqueResult();
+}
+
+@Override
+public Course getByTest(Long testId) {
+	return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_TEST)
+			.setParameter("id", testId).uniqueResult();
+}
 
 }

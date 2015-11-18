@@ -16,9 +16,18 @@ import java.util.Set;
 
 @Entity
 @Table(name = "question")
-@NamedQueries(@NamedQuery(name = Question.GET_BY_TEST_ID, query = "SELECT questions FROM Test t WHERE t.id = :id"))
+@NamedQueries({
+		@NamedQuery(name = Question.GET_BY_TEST_ID, query = "SELECT questions FROM Test t WHERE t.id = :id"),
+		@NamedQuery(name = Question.DISABLE_ANSWERS,
+					query = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
+							+ "(SELECT answerList "
+							+ "FROM Question question "
+							+ "JOIN question.answers answerList "
+							+ "WHERE question.id = :id)")
+})
 public class Question {
 	public static final String GET_BY_TEST_ID = "Question.getByTestId";
+	public static final String DISABLE_ANSWERS = "Question.disableAnswersByTest";
     public static final int MAX_TEXT_LENGTH = 1000;
 
     @Id

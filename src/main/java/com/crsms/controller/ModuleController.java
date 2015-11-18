@@ -108,7 +108,7 @@ public class ModuleController {
 	
 	@RequestMapping(value = {"/{moduleId}/delete"}, method = RequestMethod.GET)
 	public String deleteModule(@PathVariable Long courseId, @PathVariable Long moduleId) {
-		moduleService.disable(moduleId);
+		moduleService.deleteById(courseId, moduleId);
 		return redirect(courseId);
 	}
 	
