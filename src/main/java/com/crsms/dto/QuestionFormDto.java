@@ -3,14 +3,16 @@ package com.crsms.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Petro Andriets
  */
 
+@JsonIgnoreProperties
 public class QuestionFormDto {
-	private String text;
 	private Long id;
-	
+	private String text;
 	private List<AnswerFormDto> answers = new ArrayList<>();
 
 	public String getText() {

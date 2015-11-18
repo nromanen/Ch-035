@@ -67,7 +67,7 @@
 						<c:url var="deleteTest" value="${test.id}/delete" />
 						<button data-deleteurl="${deleteTest}" class="btn btn-danger btn-sm btn-delete-test" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.delete" />"
 							value="${test.id}"> 
-							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>	
+							<i class="fa fa-trash-o fa-lg"></i>
 						</button>
 					</div>
 				</td>
@@ -118,7 +118,7 @@
 					      <form:textarea path="answers[0].text" name="answers[0].text" value="" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div class="checkbox-inline">
-						      <input type="radio" form = "modal-form" name="answers[0].correct" checked> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[0].correct" checked> <spring:message code="crsms.tests.correct.answer" />
 						  </div>
 					    </div>
 					  </div>
@@ -129,7 +129,7 @@
 					      <form:textarea path="answers[1].text" name="answers[1].text" value="" id="answer2" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />
 					      <div class="checkbox-inline">
-						      <input type="radio" form = "modal-form" name="answers[1].correct"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[1].correct"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>				      
 					    </div>
 					  </div>
@@ -140,7 +140,7 @@
 					      <form:textarea path="answers[2].text" name="answers[2].text" value="" id="answer3" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div class="checkbox-inline">
-						      <input type="radio" form = "modal-form" name="answers[2].correct"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[2].correct"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>		      
 					    </div>
 					  </div>
@@ -151,7 +151,7 @@
 					      <form:textarea path="answers[3].text" name="answers[3].text" value="" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />	
 					      <div class="checkbox-inline">
-						      <input type="radio" form = "modal-form" name="answers[3].correct"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[3].correct"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>			      
 					    </div>
 					  </div>

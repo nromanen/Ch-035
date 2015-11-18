@@ -19,4 +19,6 @@ public interface TestDao extends BaseDao<Test> {
     
     void disable(Test test);
     
+    public Test getTestById(Long id);
+    
 }

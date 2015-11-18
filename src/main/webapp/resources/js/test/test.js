@@ -45,7 +45,7 @@ $(document).ready(function (e){
 
 		$.ajax({
 			url : document.URL + testId +'/questions/add/question-form',
-			dataType: 'application/json',
+			dataType: 'json',
 			data : form.serialize(),
 			type : "POST",
 			

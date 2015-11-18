@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,19 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 					+ " Illegal argument received when test by Module ID getting.");
 		}
 	}
+	
+	@Override
+    public Test getTestById(Long id) {
+    	logger.info("TestDao. Reading test by ID: " + id + ".");
+    	Test test = (Test) sessionFactory.getCurrentSession().get(Test.class, id);
+        if (test != null) {
+        	logger.info("TestDao. Reading test by ID: " + id + " successfully.");
+        return test;
+        } else {
+        	logger.error("TestDao. Illegal argument received when test by ID getting.");
+        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID getting.");
+        }
+    }
 
     @Override
     public void deleteTestById(Long id) {

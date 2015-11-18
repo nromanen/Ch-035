@@ -6,6 +6,7 @@ import com.crsms.service.QuestionService;
 import com.crsms.validator.QuestionFormValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,16 +26,14 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions")
 public class QuestionController {
-    private final String QUESTIONS_PAGE = "questions";
-    public final String CREATE_QUESTION_PAGE = "createquestion";
+    private static final String QUESTIONS_PAGE = "questions";
+    private static final String CREATE_QUESTION_PAGE = "createquestion";
 
     @Autowired(required = true)
     private QuestionService questionService;
     
     @Autowired
     private QuestionFormValidator questionFormValidator;
-    
-    public QuestionController() {}
 
     @RequestMapping(value = { "/add" }, method = RequestMethod.GET)
     public String newQuestion(Model model) {
@@ -43,24 +42,31 @@ public class QuestionController {
         return CREATE_QUESTION_PAGE;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addQuestion(@PathVariable Long courseId, @PathVariable Long moduleId,
-                              @PathVariable Long testId, @Validated QuestionFormDto question,
+                              @PathVariable Long testId, @Validated QuestionFormDto questionDto,
                               BindingResult result) {
         if (result.hasErrors()) {
             return CREATE_QUESTION_PAGE;
         } else {
-            //questionService.createQuestion(testId, question);
+            questionService.createQuestion(testId, questionDto);
         }
         return redirect(courseId, moduleId, testId);
     }
     
-    //Need to return QuestionFormDto?
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @RequestMapping(value = "/add/question-form")
     public @ResponseBody Question addQuestionJson(@PathVariable Long courseId, @PathVariable Long moduleId,
-                         @PathVariable Long testId, @Validated Question question, BindingResult result) {
-        if (!result.hasErrors()) {
-        	questionService.createQuestion(testId, question);
+                         @PathVariable Long testId, @Validated QuestionFormDto questionDto, BindingResult result) {
+    	Question question = new Question();
+    	if (!result.hasErrors()) {
+        	try{
+        		question = questionService.createQuestionFromForm(testId, questionDto);
+        	} catch (Exception e) {
+        		e.printStackTrace();
+        	}
+   	
         } else {
         	throw new IllegalArgumentException("QuestionController. AJAX pocessing error.");
         }

@@ -44,6 +44,14 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     	return testDao.getAllByModuleId(id);
     }
     
+    @Override
+    public Test getTestById(Long id) {
+    	logger.info("TestService. Reading test by ID: " + id + ".");
+    	Test test = testDao.getTestById(id);
+    	logger.info("TestService. Reading test by ID: " + id + " successfully.");
+    	return test;
+    }
+    
     @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @Override
     public void disableTestById(Long id) {

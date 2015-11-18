@@ -23,8 +23,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions/questionId")
 public class AnswerController {
-    private final String ANSWERS_PAGE = "answers";
-    public final String CREATE_ANSWER_PAGE = "createanswer";
+    private static final String ANSWERS_PAGE = "answers";
+    private static final String CREATE_ANSWER_PAGE = "createanswer";
 
     @Autowired
     private AnswerService answerService;
