@@ -19,7 +19,7 @@ import org.hibernate.annotations.CascadeType;
  */
 
 @Entity
-@Table(name="test_result")
+@Table(name = "test_result")
 public class TestResult {
 	
 	@Id
@@ -29,7 +29,7 @@ public class TestResult {
 	
 	@OneToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="test_id")
+    @JoinColumn(name = "test_id")
 	private Test test;
 	
 	private Boolean complete = false;
@@ -37,7 +37,7 @@ public class TestResult {
 	
 	@OneToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
 	private User user;
 
 	public Long getId() {

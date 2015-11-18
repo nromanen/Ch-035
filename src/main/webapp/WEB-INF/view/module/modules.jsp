@@ -49,7 +49,7 @@
 						class = "btn btn-danger btn-sm"
 						data-toggle = "tooltip"
 						title="<spring:message code="crsms.button.delete" />" >
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						<i class="fa fa-trash-o fa-lg"></i>
 					</a>
 					
 				</td>
