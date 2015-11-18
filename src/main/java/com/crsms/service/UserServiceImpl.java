@@ -54,20 +54,15 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Override
 	public User getUserByEmail(String email) {
 		User user = null;
-			user = userDao.getUserByEmail(email);
+		user = userDao.getUserByEmail(email);
 		return user;
 	}
 	
 	@Override
 	public User getUserByEmail(String email, List<Invocable<User>> initializers) {
-		User user = null;
-		try {
-			user = userDao.getUserByEmail(email);
-			for (Invocable<User> initalizer : initializers) {
-				initalizer.invoke(user);
-			}
-		} catch (Exception e) {
-			log.error("Error get user by email: " + email + e);
+		User user = userDao.getUserByEmail(email);
+		for (Invocable<User> initalizer : initializers) {
+			initalizer.invoke(user);
 		}
 		return user;
 	}
@@ -82,4 +77,5 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 										String sortingField, String order) {
 		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
 	}
+	
 }
