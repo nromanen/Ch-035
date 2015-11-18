@@ -29,10 +29,13 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	private static Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 	
 	@Autowired
-	private CourseDao courseDao;
+	private CourseService courseService;
 	
 	@Autowired
 	private ModuleDao moduleDao;
+	
+	@Autowired
+	private CourseDao courseDao;
 	
 	@Autowired
 	private ResourceService resourceService;
@@ -42,11 +45,11 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 
 	@Override
 	public void save(Long courseId, Module module) {
-		logger.info("in moduleService save(Module)");
-		Course course = courseDao.getById(courseId); //TODO: mybe to DAO?
+		logger.info("in moduleService save(courseId, Module)");
+		Course course = courseService.getById(courseId);
 		course.addModule(module);
 		moduleDao.save(module);
-		logger.info("out moduleService save(Module)");
+		logger.info("out moduleService save(courseId, Module)");
 	}
 	
 	@Override
@@ -60,31 +63,30 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		logger.info("out moduleService update(Module)");
 	}
 
-	/*@Override
+	@Override
 	public void delete(Long courseId, Module module) {
 		logger.info("in moduleService delete(Module)");
-		if(moduleDao.hasTestResults(module.getId())){
-			module.setDisable(true);
-			moduleDao.update(module);
-		} else {
-			
-//			for(Resource resource : module.getResources()){
-//				resourceService.delete(resource.getId(), module.getId());
-//			}
-			//TODO: delete tests
-			Course course = courseDao.getById(courseId);//TODO: mybe to DAO
+		Course course = courseDao.getById(courseId);
+		
+		moduleDao.disable(module);
+		this.freeResource(module);
+		if (!course.getPublished()) {
 			course.deleteModule(module);
 			moduleDao.delete(module);
 		}
 		
+		
+		
 		logger.info("out moduleService delete(Module)");
-	}*/
+	}
 	
 	@Override
 	public List<Module> getAllByCourseId(Long courseId) {
 		logger.info("in moduleService getAllByCourseId(courseId)");
 		logger.info("checking course id");
-		if (courseDao.getById(courseId) == null) {
+
+		Course course = courseDao.getById(courseId);
+		if (course == null || course.getDisable()) {
 			throw new ElementNotFoundException();
 		}
 		
@@ -95,7 +97,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		return modules;
 	}
 
-	/*@Override
+	@Override
 	public void deleteById(Long courseId, Long moduleId) {
 		logger.info("in moduleService deleteById()");
 		logger.info("checking module id");
@@ -106,10 +108,9 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		}
 		
 		logger.info("trying to delete module");
-		//moduleDao.deleteById(moduleId);
 		delete(courseId, module);
 		logger.info("out moduleService deleteById(module id)");
-	}*/
+	}
 	
 	@Override
 	public void addResource(Long moduleId, Resource resource) {
@@ -126,6 +127,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
         resource.setName(name);
         resource.setType(Resource.Type.FILE);
         resource.setUrl(path + File.separator + name);
+        resourceService.save(resource);
 		module.addResource(resource);
 		this.update(module);
 	}
@@ -140,25 +142,6 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	public void removeResource(Module module, Resource resource) {
 		module.removeResource(resource);
 		moduleDao.update(module);
-		//TODO:check for delete
-		//resourceService.delete(resource);
-	}
-
-	@Override
-	public void disable(Module module) {
-		moduleDao.disable(module);
-		//TODO:
-//		for(Test test : module.getTests()){
-//			testService.disable(test);
-//		}
-		
-	}
-
-	@Override
-	public void disable(Long moduleId) {
-		Module module = moduleDao.getById(moduleId);
-		this.disable(module);
-		
 	}
 
 	@Override

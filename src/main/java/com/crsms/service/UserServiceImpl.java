@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.UserDao;
 import com.crsms.domain.User;
+import com.crsms.util.Invocable;
 
 /**
  * 
@@ -49,17 +50,20 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		
 		return true;
 	}
-	
-	@Override
-	public User getUserById(Long id) {
-		User user = userDao.getById(id);
-		return user;
-	}
 
 	@Override
 	public User getUserByEmail(String email) {
 		User user = null;
-			user = userDao.getUserByEmail(email);
+		user = userDao.getUserByEmail(email);
+		return user;
+	}
+	
+	@Override
+	public User getUserByEmail(String email, List<Invocable<User>> initializers) {
+		User user = userDao.getUserByEmail(email);
+		for (Invocable<User> initalizer : initializers) {
+			initalizer.invoke(user);
+		}
 		return user;
 	}
 
@@ -73,4 +77,5 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 										String sortingField, String order) {
 		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
 	}
+	
 }

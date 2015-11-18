@@ -38,6 +38,11 @@
 	margin-bottom: 10px;
 	min-height: 0;
 }
+.errorTxt {
+	font-weight: bold;
+	color: red;
+	margin-right: 15px;
+}
 
 /*course view*/
 #course-wrapper {
@@ -79,6 +84,11 @@
 .course-module-grid {
 	border-top: 1px solid #8E8E8E;
 	padding-bottom: 40px;
+}
+.module-unit-grid .btn {
+	display: block;
+	margin: 2px 0;
+	white-space: normal;
 }
 .module-desc {
 	text-align: justify;

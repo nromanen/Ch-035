@@ -60,8 +60,8 @@ footer {
 #scroll-to-top {
     position: fixed;
     z-index: 2;
-    right: 20px;
-    bottom: 20px;
+    right: 15px;
+    bottom: 18px;
     font-size: 25px;
     padding: 2px 8px;
     display: none;

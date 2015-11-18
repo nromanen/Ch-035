@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
  */
 
 @Entity
-@Table(name="resource")
+@Table(name = "resource")
 public class Resource {
 	
 	public static final int NAME_MIN = 1;

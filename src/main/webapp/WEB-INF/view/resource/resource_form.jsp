@@ -65,7 +65,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-1 col-sm-4">
-					<input type = "submit" value = "<spring:message code = "crsms.button.save" />" class="btn btn-success"/>
+					<input type = "submit" value = "<spring:message code = "crsms.button.save" />" class="btn btn-primary"/>
 				</div>
 			</div>		
 		</form:form>
@@ -82,7 +82,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-1 col-sm-4">
-					<input type = "submit" value = "<spring:message code = "crsms.button.save" />" class="btn btn-success"/>
+					<input type = "submit" value = "<spring:message code = "crsms.button.save" />" class="btn btn-primary"/>
 				</div>
 			</div>	
 		</form:form>

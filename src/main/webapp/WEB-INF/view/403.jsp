@@ -7,6 +7,6 @@
 </head>
 <body>
 	<strong>${username}</strong> <spring:message code = "crsms.403.text" />
-	<a href="<c:url value="/logout" />">logout</a>
+	<a href="<c:url value="/signout" />"><spring:message	code="crsms.button.signout" /></a>
 </body>
 </html>

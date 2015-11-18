@@ -15,6 +15,8 @@ public interface TestService extends BaseService<Test> {
 	public Test getTestById(Long id);
 	
 	void disableTestById(Long id);
+
+	void deleteTestById(Long id);
 	
 	void createTest(Long moduleId, Test test);
 

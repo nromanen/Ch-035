@@ -31,14 +31,15 @@
 </nav>
 	<table class="table table-bordered table-hover">
 		<thead>
-			<tr class="success">
-				<th ><spring:message code="crsms.text.id" /></th>
+			<tr class="active">
+				<th class = "hide"><spring:message code="crsms.text.id" /></th>
 				<th> <spring:message code="crsms.admin.email" />
 					<a href="<c:url value="?page=${page}&sortparam=email&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
-				<th><spring:message code="crsms.admin.password" /></th>
+				<th><spring:message code="crsms.admin.userinfo.firstname" /></th>
+				<th><spring:message code="crsms.admin.userinfo.lastname" /></th>
 				<th><spring:message code="crsms.admin.role" />
 					<a href="<c:url value="?page=${page}&sortparam=role&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
@@ -50,13 +51,14 @@
 		<tbody>
 			<c:forEach items="${users}" var="user">
 				<tr class="active">
-					<th >${user.id}</th>
-					<td>${user.email}</td>
-					<td>${user.password}</td>
-					<td>${user.role.name}</td>
+					<th class = "hide">${user.id}</th>
+					<td class="nameCell">${user.email}</td>
+					<td class="nameCell">${user.userInfo.firstname}</td>
+					<td class="nameCell">${user.userInfo.lastname}</td>
+					<td class="nameCell">${user.role.name}</td>
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 
-							<a href="${editUser}" class="btn btn-success btn-sm" 
+							<a href="${editUser}" class="btn btn-primary btn-sm" 
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.edit" />">
 								<span	class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -68,7 +70,7 @@
 								class="btn btn-danger btn-sm" 
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.delete" />"> 
-								<span	class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								<span	class="fa fa-trash-o fa-lg" aria-hidden="true"></span>
 							</a>
 					</td>
 				</tr>
@@ -169,7 +171,7 @@
 <!-- End Paging block -->
 
 <c:url var="createUser" value="adduser" />
-<a class="btn btn-success" href="${pageContext.request.contextPath}/signUp"><spring:message
+<a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/signUp"><spring:message
 		code="crsms.admin.createNew" /></a>
 		
 
