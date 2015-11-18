@@ -36,7 +36,7 @@
 						</div>
 						<c:if test="${param.error != null}">
                                 <div class="alert alert-danger">
-                                    <p>Invalid username or password.</p>
+                                    <spring:message code="crsms.signin.badcredentials" />
                                 </div>
                             </c:if>
 						<div class="form-group">

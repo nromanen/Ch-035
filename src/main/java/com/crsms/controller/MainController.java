@@ -71,21 +71,6 @@ public class MainController {
 		return "redirect:/signin?signout";
 	}
 	
-	private String getErrorMessage(HttpServletRequest request, String key) {
-
-		Exception exception = (Exception) request.getSession()
-				.getAttribute(key);
-
-		String error = "";
-		if (exception instanceof BadCredentialsException) {
-			error = "Invalid username or password!";
-		} else if (exception instanceof LockedException) {
-			error = exception.getMessage();
-		} else {
-			error = "account is locked!";
-		}
-		return error;
-	}
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public ModelAndView accesssDenied() {
 
