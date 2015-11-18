@@ -10,7 +10,7 @@
 <div align="center">
 <c:if test="${!empty getAllAreas}">
     <table class = "table table-bordered table-hover">
-        <tr class = "success">
+        <tr class = "active">
             <th width="1200">${areaName}</th>
             <th><spring:message code="crsms.courses.text.management" /></th>
         </tr>
