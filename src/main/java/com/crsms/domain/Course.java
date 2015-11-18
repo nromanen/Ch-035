@@ -44,6 +44,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 				query = "select c from User u join u.courses c where u.email = :email"),
 	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
 				query = "select c from Course c join c.owner o where o.email = :email"),
+	@NamedQuery(name = Course.GET_USER_COURSES_IDS,
+				query = "select c.id from Course c join c.users u where u.email = :email"),
 	@NamedQuery(name = Course.SEARCH,
 	      query = "select c from Course c where upper(c.name) like upper(:s) or "
                         + "upper(c.description) like upper(:s) order by c.name, c.description")
@@ -100,6 +102,7 @@ public class Course {
 	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
 	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
 	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
+	public static final String GET_USER_COURSES_IDS = "course.getCourseIDsByUserEmail";
 	public static final String SEARCH = "course.search";
 	
 	public static final int MAX_NAME_LENGTH = 255;

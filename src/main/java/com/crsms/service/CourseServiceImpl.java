@@ -35,14 +35,14 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	private UserService userService;
 	
 	@Override
-	public void save(Course course, long areaId, String ownerEmail) {
+	public void save(Course course, Long areaId, String ownerEmail) {
 		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getById(areaId));
 		courseDao.save(course);
 	}
 	
 	@Override
-	public void update(Course course, long areaId, String ownerEmail) {
+	public void update(Course course, Long areaId, String ownerEmail) {
 		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getById(areaId));
 		courseDao.update(course);
@@ -51,6 +51,11 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	@Override
 	public Course get(String name) {
 		return courseDao.get(name);
+	}
+	
+	@Override
+	public void deleteById(Long courseId) {
+		this.delete(this.getById(courseId));
 	}
 
 	@Override
@@ -116,6 +121,16 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	@Override
 	public List<Course> searchCourses(String searchWord) {
 		return courseDao.searchCourses(searchWord);
+	}
+	
+	@Override
+	public List<Long> getUserCoursesIds(String email) {
+		return courseDao.getUserCoursesIds(email);
+	}
+
+	@Override
+	public boolean isUserACourseOwner(Long courseId, String userEmail) {
+		return this.getById(courseId).getOwner().getEmail().equals(userEmail);
 	}
 
 }

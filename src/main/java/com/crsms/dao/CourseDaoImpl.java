@@ -41,8 +41,9 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			String hql = "from Course where area_id = :id order by id asc";
-			Query query = this.getSessionFactory().getCurrentSession()
-										.createQuery(hql).setParameter("id", areaId);
+			Query query = this.getSessionFactory()
+							  .getCurrentSession()
+							  .createQuery(hql).setParameter("id", areaId);
 			list = query.list();
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting all courses by area id: " + e);
@@ -57,8 +58,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			list = this.getSessionFactory().getCurrentSession()
-								 .getNamedQuery(Course.GET_BY_USER_ID)
-							 	 .setParameter("userId", userId).list();
+										   .getNamedQuery(Course.GET_BY_USER_ID)
+									 	   .setParameter("userId", userId).list();
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting all courses by user id: " + e);
 			throw e;
@@ -72,8 +73,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			list = this.getSessionFactory().getCurrentSession()
-								 .getNamedQuery(Course.GET_BY_USER_EMAIL)
-							 	 .setParameter("email", email).list();
+										   .getNamedQuery(Course.GET_BY_USER_EMAIL)
+									 	   .setParameter("email", email).list();
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting all courses by user email: " + e);
 			throw e;
@@ -87,8 +88,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		List<Course> list = new ArrayList<Course>();
 		try {
 			list = this.getSessionFactory().getCurrentSession()
-								 .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
-							 	 .setParameter("email", email).list();
+										   .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
+									 	   .setParameter("email", email).list();
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting all courses by owner email: " + e);
 		}
@@ -145,18 +146,32 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		}
 		
 	}
-
-  @SuppressWarnings("unchecked")
+	
+	@SuppressWarnings("unchecked")
 	@Override
-  public List<Course> searchCourses(String searchWord) {
-    try {
-      return (List<Course>) this.getSessionFactory().getCurrentSession()
-                        .getNamedQuery(Course.SEARCH)
-                        .setParameter("s", "%" + searchWord + "%").list();
-    } catch (HibernateException e) {
-      this.getLogger().error("Error searchCourses: " + e);
-    }
-    return null;
-  }
+	public List<Long> getUserCoursesIds(String email) {
+		List<Long> list = new ArrayList<Long>();
+		try {
+			list = this.getSessionFactory().getCurrentSession()
+										   .getNamedQuery(Course.GET_USER_COURSES_IDS)
+									 	   .setParameter("email", email).list();
+		} catch (Exception e) {
+			this.getLogger().error("Error in getting all courses' IDs by user email: " + e);
+		}
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> searchCourses(String searchWord) {
+		try {
+			return (List<Course>) this.getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Course.SEARCH)
+									  .setParameter("s", "%" + searchWord + "%").list();
+		} catch (HibernateException e) {
+			this.getLogger().error("Error searchCourses: " + e);
+		}
+		return null;
+	}
 
 }

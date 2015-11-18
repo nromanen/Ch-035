@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.crsms.dao.CourseDao;
 import com.crsms.dao.ModuleDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
@@ -29,7 +28,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	private static Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 	
 	@Autowired
-	private CourseDao courseDao;
+	private CourseService courseService;
 	
 	@Autowired
 	private ModuleDao moduleDao;
@@ -42,11 +41,11 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 
 	@Override
 	public void save(Long courseId, Module module) {
-		logger.info("in moduleService save(Module)");
-		Course course = courseDao.getById(courseId); //TODO: mybe to DAO?
+		logger.info("in moduleService save(courseId, Module)");
+		Course course = courseService.getById(courseId);
 		course.addModule(module);
 		moduleDao.save(module);
-		logger.info("out moduleService save(Module)");
+		logger.info("out moduleService save(courseId, Module)");
 	}
 	
 	@Override
@@ -84,7 +83,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	public List<Module> getAllByCourseId(Long courseId) {
 		logger.info("in moduleService getAllByCourseId(courseId)");
 		logger.info("checking course id");
-		if (courseDao.getById(courseId) == null) {
+		if (courseService.getById(courseId) == null) {
 			throw new ElementNotFoundException();
 		}
 		

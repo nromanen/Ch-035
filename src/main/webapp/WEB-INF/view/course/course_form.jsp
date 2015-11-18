@@ -58,6 +58,7 @@
 				<form:input path="duration" id="duration" class="form-control " />
 				<div class="input-group-addon"><spring:message code="crsms.courses.text.days" /></div>
 			</div>
+			<form:errors path = "duration" cssClass = "label label-danger" />
 		</div>
 	</div>
 	<div class="form-group">

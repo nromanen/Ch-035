@@ -26,4 +26,6 @@ public interface CourseDao extends BaseDao<Course> {
 	void disable(Course course);
 
 	List<Course> searchCourses(String searchWord);
+	
+	List<Long> getUserCoursesIds(String email);
 }

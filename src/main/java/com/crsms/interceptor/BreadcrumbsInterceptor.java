@@ -14,7 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.crsms.util.BreadcrumbsHelper;
 
 public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
-	private static final String REGEXP_PARSE_URL = "([\\d]+\\/)?\\w+[\\/]?$"; //TODO name?
+	private static final String REGEXP_PARSE_URL = "([\\d]+\\/)?\\w+[\\/]?$";
 	private static final String REGEXP_REMOVE_NUMBERS = "\\d*\\/";
 	private static final String REGEXP_REMOVE_SLASHES = "\\/";
 	
@@ -43,7 +43,7 @@ public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
 			path = removeMatch(path, match);
 			matcher = pattern.matcher(path);
 		}
-		
+		((TreeMap<String, String>) breadcrumbs).pollFirstEntry();
 		return breadcrumbs;
 	}
 
