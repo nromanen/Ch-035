@@ -71,6 +71,4 @@ class WebConfig extends WebMvcConfigurationSupport {
         return resolver;
     }
     
-    
- 
 }
