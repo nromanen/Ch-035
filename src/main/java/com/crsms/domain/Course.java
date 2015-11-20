@@ -106,9 +106,6 @@ public class Course {
 	
 	@Column(nullable = false)
 	private String description;
-		
-//	@Column(nullable = false)
-//	private CourseLanguage language = CourseLanguage.EN;
 	
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -154,10 +151,6 @@ public class Course {
 	public static final String SEARCH = "course.search";
 	
 	public static final int MAX_NAME_LENGTH = 255;
-	
-	public enum CourseLanguage {
-		EN, UK,
-	}
 	
 	public Long getId() {
 		return id;

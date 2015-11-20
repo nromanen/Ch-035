@@ -32,10 +32,10 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     private ModuleService moduleService;
     
     @Autowired
-    CourseDao courseDao;
+    private CourseDao courseDao;
     
     @Autowired
-    ModuleDao moduleDao;
+    private ModuleDao moduleDao;
     
     @Override
     public void createTest(Long moduleId, Test test) {
@@ -87,7 +87,7 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
 		}
     	
     	testDao.disable(test);
-    	if(!course.getPublished()) {
+    	if (!course.getPublished()) {
     		module.removeTest(test);
     		testDao.delete(test);
     	}

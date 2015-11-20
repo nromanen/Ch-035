@@ -26,9 +26,10 @@ import javax.validation.constraints.Size;
 	@NamedQuery(name = Role.BY_NAME, query = "FROM Role r WHERE r.name= :name"
 	)})
 public class Role {
-
 	public static final String ALL_SORTED = "Role.getAll";
 	public static final String BY_NAME = "Role.getByName";
+	
+	public static final int MAX_NAME_LENGTH = 20;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -37,7 +38,7 @@ public class Role {
 
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 2, max = 20)
+	@Size(min = 2, max = MAX_NAME_LENGTH)
 	private String name;
 	
 	@OneToMany(cascade = CascadeType.ALL)
