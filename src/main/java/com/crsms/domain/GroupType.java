@@ -19,6 +19,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "group_type")
 public class GroupType {
+	public static final int MAX_NAME_LENGTH = 100;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -27,7 +28,7 @@ public class GroupType {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 2, max = 100)
+	@Size(min = 2, max = MAX_NAME_LENGTH)
 	private String name;
 
 	public Long getId() {
@@ -45,6 +46,5 @@ public class GroupType {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	
 }

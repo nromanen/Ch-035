@@ -19,7 +19,8 @@ public class UserValidator implements Validator {
 	@Autowired
 	private UserService userService;
 	
-	final static String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*\\.[A-Za-z]{2,}$";
+	public static final String EMAIL_PATTERN =
+	      "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*\\.[A-Za-z]{2,}$";
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -37,15 +38,15 @@ public class UserValidator implements Validator {
 		
 		Matcher matcher = Pattern.compile(EMAIL_PATTERN).matcher(user.getEmail());
 		
-		if(user.getEmail() != null && !"".equals(user.getEmail().trim()) && !matcher.matches()){
+		if (user.getEmail() != null && !"".equals(user.getEmail().trim()) && !matcher.matches()) {
 			errors.rejectValue("email", "crsms.error.email.invalid",
 					new Object[] {User.BY_EMAIL},
 					"Incorrect Email format");
-		};
+		}
 		
-		if(userService.isEmailExists(user.getEmail())){
+		if (userService.isEmailExists(user.getEmail())) {
 			errors.rejectValue("email", "crsms.error.email.exists",
-					new Object[] { User.BY_EMAIL },
+					new Object[] {User.BY_EMAIL},
 					"Email exists");
 		}
 

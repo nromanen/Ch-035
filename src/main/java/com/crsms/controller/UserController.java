@@ -61,7 +61,8 @@ public class UserController {
 	};
 	
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
-	public String submitUser(@Validated @ModelAttribute("userRegistr")  User user, BindingResult result, Model model) {
+	public String submitUser(@Validated @ModelAttribute("userRegistr") User user,
+								BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "signUp";
 		}
@@ -82,17 +83,19 @@ public class UserController {
 	
 	@RequestMapping(value = "/userProfile")
 	public String createdUserProfile(Model model) {
-		model.addAttribute("userInfo", userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getUserInfo());
-		
+		String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+		model.addAttribute("userInfo", userService.getUserByEmail(currentUserEmail).getUserInfo());
 		return "userProfile";
 	}
 
 	@RequestMapping(value = "/submitUserInfo", method = RequestMethod.POST)
-	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo newUserInfo,  BindingResult result) {
+	public String submitUserInfo(@Validated @ModelAttribute("userInfo") UserInfo newUserInfo,
+									BindingResult result) {
 		if (result.hasErrors()) {
 			return "userProfile";
 		}
-		newUserInfo.setUser(userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+		String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+		newUserInfo.setUser(userService.getUserByEmail(currentUserEmail));
 		userInfoService.update(newUserInfo);
 
 		return "redirect:/courses/?show=my";
@@ -101,7 +104,8 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public String changePassword(HttpSession session, 
-			@RequestParam("currentPass") String currentPassword, @RequestParam("newPassword") String newPassword) {
+								@RequestParam("currentPass") String currentPassword,
+								@RequestParam("newPassword") String newPassword) {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		return userService.changePassword(email, currentPassword, newPassword) ? "Success" : "Fail";
 	}

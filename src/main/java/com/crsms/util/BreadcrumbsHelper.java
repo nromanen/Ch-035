@@ -34,7 +34,7 @@ public class BreadcrumbsHelper {
 			case "signUp": return SIGNUP;
 			case "admin": return ADMIN;
 			case "userProfile": return USER_PROFILE;
-      case "search": return SEARCH;
+			case "search": return SEARCH;
 			default: return UNKNOWN;
 		}
 	}

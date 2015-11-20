@@ -29,7 +29,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	private UserDao userDao;
 	
 	@Override
-	@Transactional
 	public User saveUser(User user) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userDao.save(user);
@@ -37,7 +36,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 	
 	@Override
-	@Transactional
 	public boolean changePassword(String email, String currentPassword, String newPassword) {
 		User user = getUserByEmail(email);
 		
@@ -79,4 +77,5 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 										String sortingField, String order) {
 		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
 	}
+	
 }

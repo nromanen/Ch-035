@@ -51,7 +51,8 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
         return test;
         } else {
         	logger.error("TestDao. Illegal argument received when test by ID getting.");
-        	throw new IllegalArgumentException("TestDao. Illegal argument received when test by ID getting.");
+        	throw new IllegalArgumentException("TestDao."
+        			+ "Illegal argument received when test by ID getting.");
         }
     }
 
