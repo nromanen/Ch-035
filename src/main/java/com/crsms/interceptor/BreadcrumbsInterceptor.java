@@ -29,8 +29,7 @@ public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
 	
 	private Map<String, String> makeBreadcrumbs(String url) {
 		String path = new String(url);
-		String label = null;
-		Map<String, String> breadcrumbs = new TreeMap<String, String>();
+		Map<String, String> breadcrumbs = new TreeMap<>();
 		
 		Pattern pattern = Pattern.compile(REGEXP_PARSE_URL);
 		Matcher matcher = pattern.matcher(path);
@@ -38,8 +37,7 @@ public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
 		String match = null;
 		while (matcher.find()) {
 			match = matcher.group();
-			label = makeLabel(match);
-			breadcrumbs.put(path, label);
+			breadcrumbs.put(path, makeLabel(match));
 			path = removeMatch(path, match);
 			matcher = pattern.matcher(path);
 		}
