@@ -1,9 +1,6 @@
 package com.crsms.controller;
 
-import com.crsms.domain.Question;
-import com.crsms.dto.QuestionFormDto;
-import com.crsms.service.QuestionService;
-import com.crsms.validator.QuestionFormValidator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import com.crsms.domain.Question;
+import com.crsms.dto.QuestionFormDto;
+import com.crsms.service.QuestionService;
+import com.crsms.validator.QuestionFormValidator;
+
 /**
  * @author Adriets Petro
  */
@@ -34,6 +35,11 @@ public class QuestionController {
     
     @Autowired
     private QuestionFormValidator questionFormValidator;
+    
+    @InitBinder(value = "question")
+    private void initBinder(WebDataBinder binder) {
+		binder.setValidator(questionFormValidator);
+    }
 
     @RequestMapping(value = { "/add" }, method = RequestMethod.GET)
     public String newQuestion(Model model) {
@@ -57,11 +63,13 @@ public class QuestionController {
     
     @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @RequestMapping(value = "/add/question-form")
-    public @ResponseBody Question addQuestionJson(@PathVariable Long courseId, @PathVariable Long moduleId,
-                         @PathVariable Long testId, @Validated QuestionFormDto questionDto, BindingResult result) {
+    @ResponseBody
+    public Question addQuestionJson(@PathVariable Long courseId, @PathVariable Long moduleId,
+    								@PathVariable Long testId,
+    								@Validated QuestionFormDto questionDto, BindingResult result) {
     	Question question = new Question();
     	if (!result.hasErrors()) {
-        	try{
+        	try {
         		question = questionService.createQuestionFromForm(testId, questionDto);
         	} catch (Exception e) {
         		e.printStackTrace();
@@ -110,16 +118,9 @@ public class QuestionController {
      * Method returns path redirection.
      */
     private String redirect(Long courseId, Long moduleId, Long testId) {
-        return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/" + testId + "/questions/";
-    }
-    
-	
-	/*
-	 * Method for form validation binding.
-	 */
-    @InitBinder(value="question")
-    private void initBinder(WebDataBinder binder) {
-		binder.setValidator(questionFormValidator);
+        return "redirect:/courses/" + courseId 
+        		+ "/modules/" + moduleId
+        		+ "/tests/" + testId + "/questions/";
     }
 
 }

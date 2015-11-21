@@ -13,7 +13,7 @@ import com.crsms.domain.UserInfo;
 @Component
 public class UserInfoValidator implements Validator {
 
-	final static String NAME_PATTERN = "^[A-ZА-Я][a-zа-я]*";
+	public static final String NAME_PATTERN = "^[A-ZА-Я][a-zа-я]*";
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -30,11 +30,11 @@ public class UserInfoValidator implements Validator {
 		Matcher fNameMatch = Pattern.compile(NAME_PATTERN).matcher(userInfo.getFirstName());
 		Matcher lNameMatch = Pattern.compile(NAME_PATTERN).matcher(userInfo.getLastName());
 		
-		if(!fNameMatch.matches()){
+		if (!fNameMatch.matches()) {
 			errors.rejectValue("firstName", "crsms.error.name.invalid");
 		}
 		
-		if(!lNameMatch.matches()){
+		if (!lNameMatch.matches()) {
 			errors.rejectValue("lastName", "crsms.error.name.invalid");
 		}
 		

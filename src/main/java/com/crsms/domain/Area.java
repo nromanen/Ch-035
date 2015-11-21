@@ -20,16 +20,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "area")
 public class Area {
+	public static final int MAX_NAME_LENGTH = 100;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
-	@SequenceGenerator(name = "crsms_gen", sequenceName =
-	                    "area_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "area_id_seq", allocationSize = 1)
 	private Long id;
 	
 	@Column(nullable = false)
 	@NotEmpty
-	@Size(min = 2, max = 100)
+	@Size(min = 2, max = MAX_NAME_LENGTH)
 	private String name;
 
 	public Long getId() {

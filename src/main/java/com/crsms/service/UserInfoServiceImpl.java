@@ -14,9 +14,9 @@ import com.crsms.domain.UserInfo;
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements UserInfoService {
 
 	@Override
-	@Transactional
 	public void update(UserInfo userInfo) {
-		if(userInfo.getImage() == null || !Pattern.compile("^data:image.+").matcher(userInfo.getImage()).matches()){
+		if (userInfo.getImage() == null
+			|| !Pattern.compile("^data:image.+").matcher(userInfo.getImage()).matches()) {
 			userInfo.setImage("");
 		}
 		

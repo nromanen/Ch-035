@@ -41,11 +41,11 @@ public class UserInfo {
 	private User user;
 	
 	@Column
-	@Size(max = 20)
+	@Size(max = MAX_NAME_LENGTH)
 	private String firstName;
 	
 	@Column
-	@Size(max = 20)
+	@Size(max = MAX_NAME_LENGTH)
 	private String lastName;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

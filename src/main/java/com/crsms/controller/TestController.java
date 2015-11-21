@@ -1,9 +1,6 @@
 package com.crsms.controller;
 
-import com.crsms.domain.Test;
-import com.crsms.dto.QuestionFormDto;
-import com.crsms.service.TestService;
-import com.crsms.validator.TestFormValidator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
+import com.crsms.domain.Test;
+import com.crsms.dto.QuestionFormDto;
+import com.crsms.service.TestService;
+import com.crsms.validator.TestFormValidator;
 
 /**
  * @author Adriets Petro, St. Roman
@@ -33,7 +33,12 @@ public class TestController {
 	
 	@Autowired
 	private TestFormValidator testFormValidator;
-
+	
+	@InitBinder(value = "test")
+    private void initBinder(WebDataBinder binder) {
+		binder.setValidator(testFormValidator);
+    }
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addTest(@PathVariable Long courseId, @PathVariable Long moduleId, 
 						  @Validated Test test, BindingResult result) {
@@ -85,12 +90,4 @@ public class TestController {
 		return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/";
 	}
 	
-	/*
-	 * Method for form validation binding.
-	 */
-	@InitBinder(value = "test")
-    private void initBinder(WebDataBinder binder) {
-		binder.setValidator(testFormValidator);
-    }
-
 }
