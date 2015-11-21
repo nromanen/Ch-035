@@ -1,5 +1,6 @@
 function ClearField() {
      document.getElementById("search").value = "";
+     document.getElementById("submit").click();
 }
 
 $.validator.addMethod(
