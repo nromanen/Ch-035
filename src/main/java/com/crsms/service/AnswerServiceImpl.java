@@ -61,16 +61,16 @@ public class AnswerServiceImpl extends BaseServiceImpl<Answer> implements Answer
     	Course course = courseDao.getByAnswer(answerId);
     	
     	if (course == null || course.getDisable()) {
-			throw new ElementNotFoundException();
-		}
+    		throw new ElementNotFoundException();
+    	}
     	
-		Answer answer = answerDao.getById(answerId);
-		answer.disable();
-		if (!course.getPublished()) {
-			Question question = questionDao.getByAnswer(answer.getId());
-			question.removeAnswer(answer);
-			answerDao.delete(answer);
-		}
-	}
+    	Answer answer = answerDao.getById(answerId);
+    	answer.disable();
+    	if (!course.getPublished()) {
+    		Question question = questionDao.getByAnswer(answer.getId());
+    		question.removeAnswer(answer);
+    		answerDao.delete(answer);
+    	}
+    }
     
 }
