@@ -67,6 +67,10 @@ public class Answer {
 	public Boolean getDisable() {
 		return disable;
 	}
+	
+	public void disable() {
+		this.disable = true;
+	}
 
 	public void setDisable(Boolean disable) {
 		this.disable = disable;

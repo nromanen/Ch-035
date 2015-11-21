@@ -73,31 +73,6 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
     }
 
 	@Override
-	public void disableTestById(Long testId) {
-		if (testId != null) {
-            logger.info("TestDao. disabling test.");
-            Test test = (Test) sessionFactory.getCurrentSession()
-            								 .load(Test.class, new Long(testId));
-            this.disable(test);
-            logger.info("TestDao. disabling test successfully.");
-    	} else {
-    		logger.error("TestDao. Illegal argument received when test deleting.");
-    		throw new IllegalArgumentException("TestDao."
-    				+ " Illegal argument received when test disabling.");
-    	}	
-	}
-	
-	@Override
-	public void disable(Test test) {
-		test.setDisable(true);
-		this.update(test);
-		sessionFactory.getCurrentSession().getNamedQuery(Test.DISABLE_QUESTIONS)
-					  .setParameter("id", test.getId()).executeUpdate();
-		sessionFactory.getCurrentSession().getNamedQuery(Test.DISABLE_ANSWERS)
-			.setParameter("id", test.getId()).executeUpdate();
-	}
-
-	@Override
 	public Test getByQuestion(Long questionId) {
 		return (Test) getSessionFactory().getCurrentSession().getNamedQuery(Test.GET_BY_QUESTION)
 										 .setParameter("id", questionId).uniqueResult();

@@ -64,20 +64,25 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	}
 
 	@Override
-	public void delete(Long courseId, Module module) {
-		logger.info("in moduleService delete(Module)");
-		Course course = courseDao.getById(courseId);
+	public void deleteById( Long moduleId) {
+		logger.info("in moduleService deleteById()");
+		logger.info("checking module id");
 		
-		moduleDao.disable(module);
+		Module module = moduleDao.getById(moduleId);
+		if (module == null) {
+			throw new ElementNotFoundException();
+		}
+		
+		logger.info("trying to delete module");
+		Course course = courseDao.getByModule(module.getId());
+		
+		module.disable();
 		this.freeResource(module);
 		if (!course.getPublished()) {
 			course.deleteModule(module);
 			moduleDao.delete(module);
 		}
-		
-		
-		
-		logger.info("out moduleService delete(Module)");
+		logger.info("out moduleService deleteById(module id)");
 	}
 	
 	@Override
@@ -97,20 +102,6 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		return modules;
 	}
 
-	@Override
-	public void deleteById(Long courseId, Long moduleId) {
-		logger.info("in moduleService deleteById()");
-		logger.info("checking module id");
-		
-		Module module = moduleDao.getById(moduleId);
-		if (module == null) {
-			throw new ElementNotFoundException();
-		}
-		
-		logger.info("trying to delete module");
-		delete(courseId, module);
-		logger.info("out moduleService deleteById(module id)");
-	}
 	
 	@Override
 	public void addResource(Long moduleId, Resource resource) {
