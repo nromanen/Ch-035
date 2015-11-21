@@ -139,14 +139,18 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	
 	@Override
 	public Course getByQuestion(Question question) {
-		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_QUESTION)
-				.setParameter("id", question.getId()).uniqueResult();
+		return (Course) getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_BY_QUESTION)
+					   .setParameter("id", question.getId()).uniqueResult();
 	}
 	
 	@Override
 	public Course getByQuestion(Long questionId) {
-		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_QUESTION)
-				.setParameter("id", questionId).uniqueResult();
+		return (Course) getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_BY_QUESTION)
+					   .setParameter("id", questionId).uniqueResult();
 	}
 
 	@Override

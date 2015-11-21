@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.CourseDao;
 import com.crsms.dao.QuestionDao;
+import com.crsms.dao.TestDao;
 import com.crsms.domain.Answer;
+import com.crsms.domain.Course;
 import com.crsms.domain.Question;
 import com.crsms.domain.Test;
 import com.crsms.dto.AnswerFormDto;
 import com.crsms.dto.QuestionFormDto;
-import com.crsms.dao.TestDao;
-import com.crsms.domain.Course;
 import com.crsms.exception.ElementNotFoundException;
 
 /**
@@ -36,10 +36,10 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
     private TestService testService;
     
     @Autowired
-    CourseDao courseDao;
+    private CourseDao courseDao;
     
     @Autowired
-    TestDao testDao;
+    private TestDao testDao;
 
     @Override
     public void createQuestion(Long testId, QuestionFormDto dto) {

@@ -54,7 +54,7 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	@Size(min=5, max=MAX_PASSWORD_LENGTH)
+	@Size(min = 5, max = MAX_PASSWORD_LENGTH)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
@@ -62,12 +62,12 @@ public class User {
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinTable (name = "user_roles", 
-	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
-	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
+	joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+	inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
 	private Role role;
 	
 	@Column (nullable = false)
-	private boolean isEnabled = true;
+	private Boolean isEnabled = true;
 	
 	@ManyToMany(mappedBy = "users")
 	private Set<Course> courses = new HashSet<Course>();
@@ -117,7 +117,7 @@ public class User {
 		return isEnabled;
 	}
 
-	public void setEnabled(boolean isEnabled) {
+	public void setEnabled(Boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
 

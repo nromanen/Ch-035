@@ -1,5 +1,6 @@
 package com.crsms.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -83,15 +83,12 @@ public class CourseController {
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView getCourses(HttpServletRequest request,
+	public ModelAndView getCourses(HttpServletRequest request, Principal principal,
 			@RequestParam (value = "show", required = false, defaultValue = SHOW_ALL) String show) {
 		
 		ModelAndView model = new ModelAndView();
 		
-		String currentPrincipalEmail = null;
-		if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-			currentPrincipalEmail = this.getCurrentPrincipalEmail();
-		}
+		String currentPrincipalEmail = (principal == null ? null : principal.getName());
 		
 		List<Long> userCoursesId = null;
 		if (request.isUserInRole("STUDENT")) {
@@ -125,12 +122,12 @@ public class CourseController {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView addCourse() {
+	public ModelAndView addCourse(Principal principal) {
 		ModelAndView model = new ModelAndView();
 		
 		Course course = new Course();
 		CourseJsonDto courseJsonDto = dtoService.convert(course, CourseJsonDto.class, Course.class);
-		String ownerEmail = this.getCurrentPrincipalEmail();
+		String ownerEmail = principal.getName();
 		courseJsonDto.setOwnerEmail(ownerEmail);
 		
 		List<Area> areas = areaService.getAll();
@@ -166,10 +163,10 @@ public class CourseController {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.GET)
-	public ModelAndView editCourse(@PathVariable("courseId") Long courseId) {
+	public ModelAndView editCourse(@PathVariable("courseId") Long courseId, Principal principal) {
 		ModelAndView model = new ModelAndView();
 		
-		if (!courseService.isUserACourseOwner(courseId, this.getCurrentPrincipalEmail())) {
+		if (!courseService.isUserACourseOwner(courseId, principal.getName())) {
 			model.setViewName(ACCESS_DENIED_VIEW);
 			return model;
 		}
@@ -212,10 +209,10 @@ public class CourseController {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@RequestMapping(value = "/{courseId}/delete", method = RequestMethod.GET)
-	public ModelAndView deleteCourse(@PathVariable("courseId") Long courseId) {
+	public ModelAndView deleteCourse(@PathVariable("courseId") Long courseId, Principal principal) {
 		ModelAndView model = new ModelAndView();
 		
-		if (!courseService.isUserACourseOwner(courseId, this.getCurrentPrincipalEmail())) {
+		if (!courseService.isUserACourseOwner(courseId, principal.getName())) {
 			model.setViewName(ACCESS_DENIED_VIEW);
 			return model;
 		}
@@ -226,18 +223,18 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/{courseId}/enroll", method = RequestMethod.GET)
-	public ModelAndView subscribe(@PathVariable("courseId") Long courseId) {
+	public ModelAndView subscribe(@PathVariable("courseId") Long courseId, Principal principal) {
 		ModelAndView model = new ModelAndView();
-		String email = this.getCurrentPrincipalEmail();
+		String email = principal.getName();
 		courseService.subscribe(courseId, email);
 		model.setViewName(MY_COURSES_REDIRECT);
 		return model;
 	}
 	
 	@RequestMapping(value = "/{courseId}/leave", method = RequestMethod.GET)
-	public ModelAndView unsubscribe(@PathVariable("courseId") Long courseId) {
+	public ModelAndView unsubscribe(@PathVariable("courseId") Long courseId, Principal principal) {
 		ModelAndView model = new ModelAndView();
-		String email = this.getCurrentPrincipalEmail();
+		String email = principal.getName();
 		courseService.unsubscribe(courseId, email);
 		
 		List<Invocable<User>> invocables = new ArrayList<>();
@@ -258,10 +255,6 @@ public class CourseController {
 		model.addObject("courses", courses);
 		model.setViewName(COURSES_VIEW);
 		return model;
-	}
-	
-	private String getCurrentPrincipalEmail() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 	
 	private void truncateNameAndDescription(List<Course> courses) {

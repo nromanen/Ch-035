@@ -1,8 +1,5 @@
 package com.crsms.domain;
 
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,13 +10,17 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 /**
  * @author Petro Andriets, Valerii Motresku
  */
 
 @Entity
 @Table(name = "answer")
-@NamedQueries(@NamedQuery(name = Answer.GET_BY_QUESTION_ID, query = "SELECT answers FROM Question q WHERE q.id = :id"))
+@NamedQueries(@NamedQuery(name = Answer.GET_BY_QUESTION_ID,
+						  query = "SELECT answers FROM Question q WHERE q.id = :id"))
 public class Answer {
 	public static final int MAX_TEXT_LENGTH = 200;
 	public static final String GET_BY_QUESTION_ID = "Answer.getByQuestionId";
@@ -31,7 +32,7 @@ public class Answer {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(max = 200)
+	@Size(max = MAX_TEXT_LENGTH)
 	private String text;
 	
 	@Column(nullable = false)
