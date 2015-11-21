@@ -11,9 +11,9 @@ import com.crsms.domain.Question;
 public interface QuestionDao extends BaseDao<Question> {
 
     void deleteQuestionById(Long id);
-
-    void disable(Question question);
     
     List<Question> getAllByTestId(Long id);
+    
+    Question getByAnswer(Long answerId);
 
 }

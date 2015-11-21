@@ -41,37 +41,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 				
 	@NamedQuery(name = Module.DELETE_BY_ID,
 				query = "delete Module where id = :id"
-				),
-	@NamedQuery(name = Module.DISABLE_TESTS,
-				query = "UPDATE Test test SET test.disable=true WHERE test IN "
-						+ "(SELECT testList "
-						+ "FROM Module module "
-						+ "JOIN module.tests testList "
-						+ "WHERE module.id = :id)"),
-	@NamedQuery(name = Module.DISABLE_QUESTIONS,
-				query = "UPDATE Question question SET question.disable=true WHERE question IN "
-						+ "(SELECT questionList "
-						+ "FROM Module module "
-						+ "JOIN module.tests testList "
-						+ "JOIN testList.questions questionList "
-						+ "WHERE module.id = :id)"),
-	@NamedQuery(name = Module.DISABLE_ANSWERS,
-				query = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
-						+ "(SELECT answerList "
-						+ "FROM Module module "
-						+ "JOIN module.tests testList "
-						+ "JOIN testList.questions questionList "
-						+ "JOIN questionList.answers answerList "
-						+ "WHERE module.id = :id)")
+				)
 })
 public class Module {
 	
 	public static final String GET_ALL = "Module.getAll";
 	public static final String GET_ALL_BY_COURSE_ID = "Module.getAllByCourseId";
 	public static final String DELETE_BY_ID = "Module.deleteById";
-	public static final String DISABLE_TESTS = "Module.disableTestsByModule";
-	public static final String DISABLE_QUESTIONS = "Module.disableQuestionsByModule";
-	public static final String DISABLE_ANSWERS = "Module.disableAnswersByModule";
 	public static final String GET_BY_TEST = "Module.getByTest";
 	public static final int MAX_NAME_LENGTH = 255;
 
@@ -175,6 +151,13 @@ public class Module {
 
 	public void setDisable(Boolean disable) {
 		this.disable = disable;
+	}
+	
+	public void disable() {
+		this.disable = true;
+		for(Test test : this.tests){
+			test.disable();
+		}
 	}
 		
 	public void addTest(Test test) {

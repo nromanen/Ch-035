@@ -23,6 +23,10 @@ public interface CourseDao extends BaseDao<Course> {
 	Course getByQuestion(Question question);
 	Course getByQuestion(Long questionId);
 	
+	Course getByModule(Long moduleId);
+	
+	Course getByAnswer(Long answerId);
+	
 	List<Course> getAllByAreaId(Long areaId);
 	
 	List<Course> getAllByUserId(Long userId);
@@ -30,8 +34,6 @@ public interface CourseDao extends BaseDao<Course> {
 	List<Course> getAllByUserEmail(String email);
 	
 	List<Course> getAllByOwnerEmail(String email);
-	
-	void disable(Course course);
 
 	List<Course> searchCourses(String searchWord);
 	

@@ -13,8 +13,6 @@ public interface TestService extends BaseService<Test> {
 	List<Test> getAllByModuleId(Long id);
 	
 	Test getTestById(Long id);
-	
-	void disableTestById(Long id);
 
 	void deleteTestById(Long id);
 	

@@ -31,8 +31,8 @@
 				<tr>
 					<th class = "hide">${user.id}</th>
 					<td class="nameCell">${user.email}</td>
-					<td class="nameCell">${user.userInfo.lastname}</td>
-					<td class="nameCell">${user.userInfo.firstname}</td>
+					<td class="nameCell">${user.userInfo.lastName}</td>
+					<td class="nameCell">${user.userInfo.firstName}</td>
 					<td class="nameCell">${user.role.name}</td>
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 

@@ -97,25 +97,6 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		}
 		return list;
 	}
-
-	@Override
-	public void disable(Course course) {
-		course.setDisable(true);
-		this.update(course);
-		try {
-			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_MODULES)
-				.setParameter("id", course.getId()).executeUpdate();
-			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_TESTS)
-				.setParameter("id", course.getId()).executeUpdate();
-			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_QUESTIONS)
-				.setParameter("id", course.getId()).executeUpdate();
-			getSessionFactory().getCurrentSession().getNamedQuery(Course.DISABLE_ANSWERS)
-				.setParameter("id", course.getId()).executeUpdate();
-		} catch (Exception e) {
-			this.getLogger().error("Error in disable courses: " + e);
-		}
-		
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -170,6 +151,18 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 					   .getCurrentSession()
 					   .getNamedQuery(Course.GET_BY_QUESTION)
 					   .setParameter("id", questionId).uniqueResult();
+	}
+
+	@Override
+	public Course getByModule(Long moduleId) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_MODULE)
+				.setParameter("id", moduleId).uniqueResult();
+	}
+
+	@Override
+	public Course getByAnswer(Long answerId) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_ANSWER)
+				.setParameter("id", answerId).uniqueResult();
 	}
 
 }
