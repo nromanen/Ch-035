@@ -57,13 +57,11 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
             		+ " Illegal argument received when questions by Test ID getting.");
         }
     }
-    
-    @Override
-	public void disable(Question question) {
-    	question.setDisable(true);
-    	this.update(question);
-    	sessionFactory.getCurrentSession().getNamedQuery(Question.DISABLE_ANSWERS)
-					  .setParameter("id", question.getId()).executeUpdate();
-    }
+
+	@Override
+	public Question getByAnswer(Long answerId) {
+		return (Question) getSessionFactory().getCurrentSession().getNamedQuery(Question.GET_BY_ANSWER)
+				.setParameter("id", answerId).uniqueResult();
+	}
 
 }

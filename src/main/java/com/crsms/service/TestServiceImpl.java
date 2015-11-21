@@ -59,13 +59,6 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     	logger.info("TestService. Reading test by ID: " + id + " successfully.");
     	return test;
     }
-    
-    @Override
-    public void disableTestById(Long id) {
-    	logger.info("TestService. Deleting test by ID: " + id + ".");
-    	testDao.disableTestById(id);
-    	logger.info("TestService. Deleting test by ID: " + id + " successfully.");
-    }
 
     @Override
     public void deleteTestById(Long testId) {
@@ -86,8 +79,8 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
 			throw new ElementNotFoundException();
 		}
     	
-    	testDao.disable(test);
-    	if (!course.getPublished()) {
+    	test.disable();
+    	if(!course.getPublished()) {
     		module.removeTest(test);
     		testDao.delete(test);
     	}

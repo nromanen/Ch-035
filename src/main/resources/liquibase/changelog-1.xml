@@ -131,4 +131,13 @@
         <createSequence sequenceName="user_info_id_seq"/>
     </changeSet>
     
+    <changeSet author="maftey" id="1446992667519-114">
+        <sql>
+        	INSERT INTO user_info(id, user_id)
+				SELECT nextval('user_info_id_seq'), "users".id 
+					FROM  "users"
+					LEFT JOIN user_info ON "users".id = user_info.user_id
+        </sql>
+    </changeSet>
+    
 </databaseChangeLog>

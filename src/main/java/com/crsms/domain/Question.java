@@ -26,16 +26,14 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQueries({
 		@NamedQuery(name = Question.GET_BY_TEST_ID,
 					query = "SELECT questions FROM Test t WHERE t.id = :id"),
-		@NamedQuery(name = Question.DISABLE_ANSWERS,
-					query = "UPDATE Answer answer SET answer.disable=true WHERE answer IN "
-							+ "(SELECT answerList "
-							+ "FROM Question question "
-							+ "JOIN question.answers answerList "
-							+ "WHERE question.id = :id)")
+		@NamedQuery(name = Question.GET_BY_ANSWER,
+					query = "SELECT question FROM Question question "
+							+ "JOIN question.answers answer "
+							+ "WHERE answer.id = :id"),
 })
 public class Question {
 	public static final String GET_BY_TEST_ID = "Question.getByTestId";
-	public static final String DISABLE_ANSWERS = "Question.disableAnswersByTest";
+	public static final String GET_BY_ANSWER = "Question.getByAnswer";
     public static final int MAX_TEXT_LENGTH = 1000;
 
     @Id
@@ -81,6 +79,10 @@ public class Question {
     public void addAnswer(Answer answer) {
         this.answers.add(answer);
     }
+    
+    public void removeAnswer(Answer answer) {
+    	this.answers.remove(answer);
+    }
 
 	public Boolean getDisable() {
 		return disable;
@@ -88,6 +90,13 @@ public class Question {
 
 	public void setDisable(Boolean disable) {
 		this.disable = disable;
+	}
+	
+	public void disable() {
+		this.disable = true;
+		for(Answer answer : this.answers){
+			answer.disable();
+		}
 	}
     
 }
