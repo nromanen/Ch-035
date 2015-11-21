@@ -1,11 +1,14 @@
-$(document).ready(function(e) {
-		$("#registration-form").submit(function(e) {
-		var pass = document.getElementById("password").value;
-		var confPass = document.getElementById("confPassword").value;
-		if (pass != confPass) {
-			alert("Passwords should be identical");
-			e.preventDefault();
-		}
-	});
-
+$(document).ready(function() {
+	$('#registration-form').validate({
+		errorClass: "errorTxt",	
+		rules: {
+        	"email": {
+        		required: true,
+                email: true
+            },
+            "confPassword": {
+            	equalTo: "#password"
+            },
+        },
+    });
 });

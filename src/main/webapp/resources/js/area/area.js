@@ -7,7 +7,6 @@ $(document).ready(function() {
                 maxlength: 100
             },
         },
-        
         errorElement : 'div',
         errorLabelContainer: '.errorTxt'
     });
