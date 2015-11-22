@@ -7,7 +7,9 @@ $(document).ready(function() {
                 email: true
             },
             "confPassword": {
-            	equalTo: "#password"
+            	equalTo: "#password",
+            	minlength: 5,
+            	maxlength: 255
             },
         },
     });
