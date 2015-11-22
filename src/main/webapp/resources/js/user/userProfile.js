@@ -29,4 +29,25 @@ $(document).ready(function() {
 	        reader.readAsDataURL(this.files[0]);
 	    }
 	});
+	
+	$('#user-information').validate({
+        errorClass: "errorTxt",
+		rules: {
+        	"firstName": {
+        		regexName: '^[^<>$%~`!@#\\^&*()_+=\\{\\}\\[\\]\\.,|;:"?/\\d\\\\]{1,40}$',
+            },
+            "lastName": {
+        		regexName: '^[^<>$%~`!@#\\^&*()_+=\\{\\}\\[\\]\\.,|;:"?/\\d\\\\]{1,40}$',
+            },
+        },
+    });
 });
+
+$.validator.addMethod(
+    "regexName",
+    function(value, element, regexp) {
+        var re = new RegExp(regexp);
+        return this.optional(element) || re.test(value);
+    },
+    "Please check your input."
+);

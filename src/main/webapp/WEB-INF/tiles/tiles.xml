@@ -242,8 +242,13 @@
 		<put-attribute name="title" value="crsms.userProfile.header" />
 		<put-attribute name="header-title" value="crsms.userProfile.header" />
 		<put-attribute name="content" value="/WEB-INF/view/user/userProfile.jsp" />
-				<put-list-attribute name="javascripts" inherit="true">
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
 			<add-attribute value="/resources/js/user/userProfile.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/user/user.css" />
 		</put-list-attribute>
 	</definition>
 	<!-- end User -->
