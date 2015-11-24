@@ -27,9 +27,6 @@ public interface ModuleService extends BaseService<Module> {
 	void addResource(Long moduleId, Resource resource);
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-	void addResource(Long moduleId, String name, String path);
-	
-	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void removeResource(Long moduleId, Resource resource);
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
