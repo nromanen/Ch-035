@@ -7,4 +7,12 @@
 						http://www.liquibase.org/xml/ns/dbchangelog 
 						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 						
+	<changeSet author="valeriimotresku" id="1446992667519-115">
+        <addColumn tableName="resource" >
+        	<column name="storage_type" type="integer" defaultValue="0" >
+        		<constraints nullable="false" />
+        	</column>
+    	</addColumn>
+    </changeSet>
+    
 </databaseChangeLog>

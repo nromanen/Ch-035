@@ -42,11 +42,19 @@ public class Resource {
 	@Column(nullable = false)
 	private Resource.Type type;
 	
+	@Column(name="storage_type", nullable = false)
+	private Resource.StorageType storageType;
+	
 	// implicitly static
 	public enum Type {
 		FILE, EMBEDDED
 	}
 	
+	// implicitly static
+	public enum StorageType {
+		CATALINA, GOOGLE_DRIVE
+	}
+		
 	public Long getId() {
 		return id;
 	}
@@ -74,6 +82,12 @@ public class Resource {
 
 	public void setType(Resource.Type type) {
 		this.type = type;
+	}
+	public Resource.StorageType getStorageType() {
+		return storageType;
+	}
+	public void setStorageType(Resource.StorageType storageType) {
+		this.storageType = storageType;
 	}	
 	
 }

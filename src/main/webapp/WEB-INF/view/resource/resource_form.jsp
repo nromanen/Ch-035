@@ -18,6 +18,7 @@
 </c:choose>
 
 <div>
+  <a class="btn btn-danger" href="upload-to-drive">Google Drive</a>
 
   <!-- Nav tabs -->
   <ul class="nav nav-pills" role="tablist">
