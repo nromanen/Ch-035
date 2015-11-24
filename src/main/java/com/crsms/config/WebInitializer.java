@@ -13,9 +13,12 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.crsms.service.FileServiceImpl;
+
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+	
 	// Temporary location where files will be stored.
-	private static final String LOCATION = "temp";
+	private static final String TEMP_LOCATION = "temp";
 	// 5MB : Max file size.
 	private static final long MAX_FILE_SIZE = 5242880;
 	// 20MB : Total request size containing Multi part.
@@ -44,8 +47,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     }
  
     private MultipartConfigElement getMultipartConfigElement() {
-    	String rootPath = System.getProperty("catalina.home");
-        File dir = new File(rootPath + File.separator + "storage/resources/" + LOCATION);
+        File dir = new File(FileServiceImpl.RESOURCE_PATH + File.separator + TEMP_LOCATION);
         if (!dir.exists()) {
         	dir.mkdirs();
         }

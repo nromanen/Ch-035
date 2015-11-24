@@ -60,8 +60,6 @@ public class CourseController {
 	private static final String SHOW_ALL = "all";
 	private static final String SHOW_MY = "my";
 	
-	private StringUtil stringUtil = new StringUtil();
-	
 	@Autowired
 	private AreaService areaService;
 	
@@ -259,9 +257,9 @@ public class CourseController {
 	
 	private void truncateNameAndDescription(List<Course> courses) {
 		for (Course course : courses) {
-			course.setDescription(stringUtil.trimString(course.getDescription(),
+			course.setDescription(StringUtil.trimString(course.getDescription(),
 														COURSE_DESC_LENGTH, true));
-			course.setName(stringUtil.trimString(course.getName(), 
+			course.setName(StringUtil.trimString(course.getName(), 
 														COURSE_TITLE_LENGTH, true));
 		}
 	}
