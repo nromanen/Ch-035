@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -20,19 +23,25 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "user_answer")
+@NamedQueries({
+	@NamedQuery(name = UserAnswer.DELETE_BY_TEST_RESULT_QUESTION,
+				query = "DELETE UserAnswer userAnswer "
+						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId")
+})
 public class UserAnswer {
+	public static final String DELETE_BY_TEST_RESULT_QUESTION = "UserAnswer.deleteByTestResultAndQuestion";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_answer_id_seq", allocationSize = 1)
 	private Long id;
 	
-	@OneToOne
+	@ManyToOne
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name = "question_id")
 	private Question question;
 	
-	@OneToOne
+	@ManyToOne
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name = "answer_id")
 	private Answer answer;

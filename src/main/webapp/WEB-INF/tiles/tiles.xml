@@ -305,6 +305,13 @@
 			<add-attribute value="/resources/css/test/test.css" />
 		</put-list-attribute>
 	</definition>
+	
+	<!-- TODO: change title -->
+	<definition name="show_test" extends="base-template">
+		<put-attribute name="title" value="crsms.test.text.test.create" />
+		<put-attribute name="header-title" value="crsms.test.text.test.create" />
+		<put-attribute name="content" value="/WEB-INF/view/test/show_test.jsp" />
+	</definition>
 	<!-- end Test -->
 
 	<!-- Question -->

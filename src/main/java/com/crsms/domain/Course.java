@@ -73,6 +73,18 @@ import org.springframework.format.annotation.DateTimeFormat;
                         + "upper(c.description) like upper(:s) order by c.name, c.description")
 })
 public class Course {
+	public static final String GET_BY_NAME = "course.getCourseByName";
+	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
+	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
+	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
+	public static final String GET_BY_MODULE = "course.getByModule";
+	public static final String GET_BY_TEST = "course.getByTest";
+	public static final String GET_BY_QUESTION = "course.getByQuestion";
+	public static final String GET_BY_ANSWER = "course.getByAnswer";
+	public static final String GET_USER_COURSES_IDS = "course.getCourseIDsByUserEmail";
+	public static final String SEARCH = "course.search";
+	
+	public static final int MAX_NAME_LENGTH = 255;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -116,19 +128,6 @@ public class Course {
 	
 	@ManyToOne
 	private User owner;
-
-	public static final String GET_BY_NAME = "course.getCourseByName";
-	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
-	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
-	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
-	public static final String GET_BY_MODULE = "course.getByModule";
-	public static final String GET_BY_TEST = "course.getByTest";
-	public static final String GET_BY_QUESTION = "course.getByQuestion";
-	public static final String GET_BY_ANSWER = "course.getByAnswer";
-	public static final String GET_USER_COURSES_IDS = "course.getCourseIDsByUserEmail";
-	public static final String SEARCH = "course.search";
-	
-	public static final int MAX_NAME_LENGTH = 255;
 	
 	public Long getId() {
 		return id;
