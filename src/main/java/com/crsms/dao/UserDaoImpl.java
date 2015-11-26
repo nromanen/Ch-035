@@ -6,8 +6,11 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.User;
@@ -18,7 +21,7 @@ import com.crsms.domain.User;
  *
  */
 @Repository
-public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	public UserDaoImpl() {
 		super(User.class);
@@ -76,13 +79,13 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
 	public List<User> getPagingUsers(int startPosition, int itemsPerPage,
 			String sortingField, String order) {
 		List<User> users = new ArrayList<>();
-		
+
 		try {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()
 					.createCriteria(User.class);
 			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));
-			} else	{
+			} else {
 				criteria.addOrder(Order.desc(sortingField));
 			}
 			criteria.setFirstResult(startPosition);
@@ -91,6 +94,33 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
 		} catch (Exception e) {
 			this.getLogger().error("Error getPagingUsers " + e);
 			throw e;
+		}
+		return users;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> search(String keyWord) {
+		List<User> users = new ArrayList<>();
+		if (!keyWord.equals("")) {
+			try {
+				Criteria criteria = this.getSessionFactory()
+						.getCurrentSession().createCriteria(User.class);
+				Disjunction or = Restrictions.disjunction();
+				or.add(Restrictions.ilike("email", keyWord, 
+						MatchMode.ANYWHERE));
+//				or.add(Restrictions.ilike("role", keyWord, 
+//						MatchMode.ANYWHERE));
+				or.add(Restrictions.ilike("userInfo", keyWord,
+						MatchMode.ANYWHERE));
+//				or.add(Restrictions.ilike("isEnabled", keyWord,
+//						MatchMode.ANYWHERE));
+				criteria.add(or);
+				users.addAll(criteria.list());
+			} catch (Exception e) {
+				this.getLogger().error("Search error " + e);
+				throw e;
+			}
 		}
 		return users;
 	}

@@ -7,19 +7,48 @@
 <c:set var = "order" value = "desc"/>
 </c:if>
 <c:if test="${!empty users}">
+<div id="search" class="container text-right">
+		<div class="errorTxt"></div>
+	<c:if test="${empty users}"><strong><spring:message code = "crsms.admin.search.notfound"/></strong></c:if>
+	<form id = "searchForm" class="navbar-form navbar search" role="search" action="search" method="GET">
+		<input id = "keyWord" type="text" class="form-control" name="keyWord" value = "${keyWord}" >
+	    <button type="submit" id="submit" class="btn btn-default">
+	    	<span class="glyphicon glyphicon-search"></span>
+	    	<strong><spring:message code = "crsms.button.search" /></strong>
+	    </button>
+	</form>
+</div>
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr class="active">
 				<th class = "hide"><spring:message code="crsms.text.id" /></th>
-				<th> <spring:message code="crsms.admin.email" />
+				<th>
+					<spring:message code="crsms.admin.email" />
 					<a href="<c:url value="?page=${page}&sortparam=email&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
-				<th><spring:message code="crsms.admin.userinfo.lastname" /></th>
-				<th><spring:message code="crsms.admin.userinfo.firstname" /></th>
-				<th><spring:message code="crsms.admin.role" />
+				<th>
+					<spring:message code="crsms.admin.userinfo.lastname" />
+					<a href="<c:url value="?page=${page}&sortparam=lastName&direction=${order}"/>">
+					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+					</a>
+				</th>
+				<th>
+					<spring:message code="crsms.admin.userinfo.firstname" />
+					<a href="<c:url value="?page=${page}&sortparam=firstName&direction=${order}"/>">
+					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+					</a>
+				</th>
+				<th>
+					<spring:message code="crsms.admin.role" />
 					<a href="<c:url value="?page=${page}&sortparam=role&direction=${order}"/>">
+					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+					</a>
+				</th>
+				<th>
+					<spring:message code="crsms.admin.isenabled" />
+					<a href="<c:url value="?page=${page}&sortparam=isEnabled&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
@@ -33,7 +62,8 @@
 					<td class="nameCell">${user.email}</td>
 					<td class="nameCell">${user.userInfo.lastName}</td>
 					<td class="nameCell">${user.userInfo.firstName}</td>
-					<td class="nameCell">${user.role.name}</td>
+					<td class="managementCell">${user.role.name}</td>
+					<td class="managementCell">${user.isEnabled}</td> 
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 
 							<a href="${editUser}" class="btn btn-primary btn-sm" 

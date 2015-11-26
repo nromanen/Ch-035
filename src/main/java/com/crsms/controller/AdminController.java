@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.crsms.domain.Course;
 import com.crsms.domain.Role;
 import com.crsms.domain.User;
 import com.crsms.service.RoleService;
@@ -124,6 +126,13 @@ public class AdminController {
 		}
 		userService.update(user);
 		return "redirect:/admin/";
+	}
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String search(@RequestParam("keyWord") String keyWord, ModelMap model) {
+		List<User> users = userService.search(keyWord);
+		model.addAttribute("keyWord", keyWord);
+		model.addAttribute("users", users);
+		return "admin";
 	}
 	
 	@ModelAttribute("roles")

@@ -26,5 +26,7 @@ public interface UserService extends BaseService<User> {
 	
 	List<User> getPagingUsers(int startPosition, int itemsPerPage,
 								String sortingField, String order);
+	
+	List<User> search(String keyWord);
 
 }
