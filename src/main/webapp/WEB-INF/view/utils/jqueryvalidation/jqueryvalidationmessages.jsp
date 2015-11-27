@@ -5,6 +5,9 @@ jQuery.extend(jQuery.validator.messages, {
 	    required: "<spring:message code="crsms.error.field.required"/>",
 	    maxlength: "<spring:message code="crsms.error.field.too.long"/>",
 	    minlength: "<spring:message code="crsms.error.too.short"/>",
-	    regex: "<spring:message code="crsms.error.field.forbidden"/>"
+	    regexSearch: "<spring:message code="crsms.error.field.forbidden"/>",
+	    email: "<spring:message code="crsms.error.email.invalid"/>",
+	    equalTo: "<spring:message code="crsms.error.password.not.equals"/>",
+	    regexName: "<spring:message code="crsms.error.name.invalid"/>"
 });
 </script>

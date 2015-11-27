@@ -10,14 +10,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Service("fileService")
 public class FileServiceImpl implements FileService {
 	
-	private final String storagePath = "storage" + File.separator + "resources";
+	public static final String ROOT_PATH = System.getProperty("catalina.home");
+	public static final String STORAGE_PATH =  ROOT_PATH + File.separator + "storage";
+	public static final String RESOURCE_PATH = STORAGE_PATH + File.separator + "resources";
 	
 	@Override
 	public void uploadFile(MultipartFile multipartFile) throws IOException {	
 		String originalName = multipartFile.getOriginalFilename();
         // Creating if not exist the directory to store file
-        String rootPath = System.getProperty("catalina.home");
-        File dir = new File(rootPath + File.separator + storagePath);
+        File dir = new File(RESOURCE_PATH);
         if (!dir.exists())
             dir.mkdirs();
         String filePath = dir.getAbsoluteFile() + File.separator + originalName;
@@ -25,17 +26,11 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public File getFileForDownload(String fileName) throws IOException {
-		String rootPath = System.getProperty("catalina.home");
-		File file = new File(rootPath + File.separator + storagePath + File.separator + fileName);
+	public File getFileToDownload(String fileName) throws IOException {
+		File file = new File(RESOURCE_PATH + File.separator + fileName);
 		if (!file.isFile()) {
-			throw new FileNotFoundException();
+			throw new FileNotFoundException("File not found on server");
 		}
 		return file;
 	}
-
-	public String getStoragePath() {
-		return storagePath;
-	}
-	
 }

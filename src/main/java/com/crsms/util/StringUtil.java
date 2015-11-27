@@ -8,32 +8,34 @@ package com.crsms.util;
 
 public class StringUtil {
 
+	static final String DOTS = "...";
+    static final int DOTS_LENGTH = DOTS.length();
+	
 	/**
 	 * Below is a method to trim long strings.
 	 * The "lastWord" boolean as you put it, if set to true will preserve the last word.
 	 * @param lastWord - true will preserve the last word
 	 * @return trimmed String
 	 */
-	public String trimString(String string, int length, boolean lastWord) {
+	public static String trimString(String string, int length, boolean lastWord) {
 	    if (string == null || string.trim().isEmpty()) {
 	        return string;
 	    }
-
 	    StringBuffer sb = new StringBuffer(string);
-	    int actualLength = length - 3;
-	    if (sb.length() > actualLength) {
-	        // -3 because we add 3 dots at the end.
-	    	//Returned string length has to be length including the dots.
-	        if (!lastWord)
-	            return sb.insert(actualLength, "...").substring(0, actualLength + 3);
-	        else {
-	            int endIndex = sb.indexOf(" ", actualLength);
-	            if (endIndex == -1) {
-	            	return string;
-	            }
-	            return sb.insert(endIndex, "...").substring(0, endIndex + 3);
-	        }
+	    // - dotsCount because adds 3 DOTS at the end.
+	    int actualRequriedLength = length - DOTS_LENGTH;
+	    // Returned string length has to be length including the DOTS.
+	    if (sb.length() <= actualRequriedLength) {
+	    	return string;
 	    }
-	    return string;
+        if (!lastWord) {
+            return sb.insert(actualRequriedLength, DOTS).substring(0, actualRequriedLength + DOTS_LENGTH);
+        }
+        int endIndex = sb.indexOf(" ", actualRequriedLength);
+        // if the last word it the last in the whole incoming string than returns incoming string
+        if (endIndex == -1) {
+        	return string;
+        }
+        return sb.insert(endIndex, DOTS).substring(0, endIndex + DOTS_LENGTH);
 	}
 }

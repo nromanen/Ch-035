@@ -16,10 +16,9 @@ $(document).ready(function(e) {
 			);
 		// append delete msg to modal		
 		var resourceRow = $(e.delegateTarget).parents("tr");
-		var resourceId = resourceRow.children(".resource-id").html();
 		var resourceName = resourceRow.children(".resource-name").html();
 		$("#delete-confirmation-modal").find(".resource-delete-msg").
-			append("\"" + resourceName + "\"" + ", id=" + resourceId + "?");
+			append("\"" + resourceName + "\"");
 		
 		$("#delete-confirmation-modal").modal('show');
 	});
