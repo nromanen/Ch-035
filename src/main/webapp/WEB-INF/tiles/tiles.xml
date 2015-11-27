@@ -311,6 +311,9 @@
 		<put-attribute name="title" value="crsms.test.text.test.create" />
 		<put-attribute name="header-title" value="crsms.test.text.test.create" />
 		<put-attribute name="content" value="/WEB-INF/view/test/show_test.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/test/show_test.js" />
+		</put-list-attribute>
 	</definition>
 	<!-- end Test -->
 

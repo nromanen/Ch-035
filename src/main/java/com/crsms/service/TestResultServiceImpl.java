@@ -70,6 +70,7 @@ public class TestResultServiceImpl implements TestResultService {
 		//TODO save new useranswer
 		UserAnswer userAnswer;
 		Answer answer;
+		//if(userAnswerFormDto.getAnswerIds() == null) return;
 		for(Long userAnswerId : userAnswerFormDto.getAnswerIds()){
 			userAnswer = new UserAnswer();
 			userAnswer.setTestResult(testResult);

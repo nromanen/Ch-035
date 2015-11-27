@@ -2,14 +2,17 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<form:form modelAttribute = "userAnswerFormDto" class="form-horizontal" method="POST" >
+<form:form id="userAnswerForm" modelAttribute = "userAnswerFormDto" class="form-horizontal" method="POST" >
+	<input id="nextIndex" type="hidden" name="nextIndex" value="
+		<c:choose>
+			<c:when test="${0 < questionIndex && questionIndex < questionCount}">
+	 			${questionIndex + 1}
+	 		</c:when>
+	 		<c:otherwise>${questionCount}</c:otherwise>
+ 		</c:choose>
+	" />
 	<form:hidden path = "testResultId"/>
 	<form:hidden path = "questionId"/>
-	<%-- <form:select path="answerIds"
-		items="${question.answers}"
-		itemValue="id"
-		itemLabel="text">
-	</form:select> --%>
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10" >
 			<nav>
@@ -18,11 +21,11 @@
 					<li 
 						class=" 
 			  		 		<c:if test="${i == questionIndex}">
-			  		 			<c:out value="active" />
+			  		 			<c:out value=" active " />
 			  		 		</c:if>
 						"
 					>
-			  		 	<a href="<c:out value="${i}" />">
+			  		 	<a class="indexLink" href="<c:out value="${i}" />">
 			  		 		<c:out value="${i}" />
 					 	</a>
 					</li>

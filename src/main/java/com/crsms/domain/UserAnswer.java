@@ -26,10 +26,14 @@ import org.hibernate.annotations.CascadeType;
 @NamedQueries({
 	@NamedQuery(name = UserAnswer.DELETE_BY_TEST_RESULT_QUESTION,
 				query = "DELETE UserAnswer userAnswer "
-						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId")
+						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId"),
+	@NamedQuery(name = UserAnswer.GET_ANSWER_IDS_BY_TEST_RESULT_AND_QUESTION,
+				query = "SELECT userAnswer.answer.id FROM UserAnswer userAnswer "
+							+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId")
 })
 public class UserAnswer {
 	public static final String DELETE_BY_TEST_RESULT_QUESTION = "UserAnswer.deleteByTestResultAndQuestion";
+	public static final String GET_ANSWER_IDS_BY_TEST_RESULT_AND_QUESTION = "UserAnswer.getAnswerIdsByTestResultAndQuestion";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
