@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -82,7 +83,20 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 		try {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()
-					.createCriteria(User.class);
+					.createCriteria(User.class, "user");
+			criteria.createAlias("role", "role")
+					.createAlias("userInfo", "userInfo");
+//			criteria.setProjection(
+//				Projections.projectionList()
+//					.add(Projections.property("user.id"), "id")
+//					.add(Projections.property("user.email"), "email")
+//					.add(Projections.property("user.isEnabled"), "isEnabled")
+//					.add(Projections.property("role.name"), "name")
+//					.add(Projections.property("userInfo.lastName"), "lastName")
+//					.add(Projections.property("userInfo.firstName"), "firstName")
+//				);
+//			criteria.setResultTransformer(Criteria.ROOT_ENTITY);
+					
 			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));
 			} else {
@@ -90,6 +104,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 			}
 			criteria.setFirstResult(startPosition);
 			criteria.setMaxResults(itemsPerPage);
+			
 			users.addAll(criteria.list());
 		} catch (Exception e) {
 			this.getLogger().error("Error getPagingUsers " + e);
@@ -106,16 +121,18 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 			try {
 				Criteria criteria = this.getSessionFactory()
 						.getCurrentSession().createCriteria(User.class);
-				Disjunction or = Restrictions.disjunction();
-				or.add(Restrictions.ilike("email", keyWord, 
+				// Disjunction or = Restrictions.disjunction();
+				// or.add(Restrictions.ilike("email", keyWord,
+				// MatchMode.ANYWHERE));
+				// or.add(Restrictions.ilike("role", keyWord,
+				// MatchMode.ANYWHERE));
+				// or.add(Restrictions.ilike("userInfo", keyWord,
+				// MatchMode.ANYWHERE));
+				// or.add(Restrictions.ilike("isEnabled", keyWord,
+				// MatchMode.ANYWHERE));
+				// criteria.add(or);
+				criteria.add(Restrictions.ilike("email", keyWord,
 						MatchMode.ANYWHERE));
-//				or.add(Restrictions.ilike("role", keyWord, 
-//						MatchMode.ANYWHERE));
-				or.add(Restrictions.ilike("userInfo", keyWord,
-						MatchMode.ANYWHERE));
-//				or.add(Restrictions.ilike("isEnabled", keyWord,
-//						MatchMode.ANYWHERE));
-				criteria.add(or);
 				users.addAll(criteria.list());
 			} catch (Exception e) {
 				this.getLogger().error("Search error " + e);

@@ -105,4 +105,10 @@ public class UserInfo {
 		this.groups = groups;
 	}
 
+	@Override
+	public String toString() {
+		return "UserInfo [id=" + id + ", firstName=" + firstName
+				+ ", lastName=" + lastName + "]";
+	}
+
 }
