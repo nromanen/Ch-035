@@ -24,6 +24,7 @@ import com.crsms.dto.GroupNameJsonDto;
 import com.crsms.dto.ModuleJsonDto;
 import com.crsms.dto.ResourceJsonDto;
 import com.crsms.dto.TestJsonDto;
+import com.crsms.dto.UserIdAndEmailDto;
 import com.crsms.dto.VacancyJsonDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
@@ -148,9 +149,19 @@ public class RestApiController {
 	  return vacancyService.getAllVacancies();
 	}
 	
+	@RequestMapping(value = {"/groups"}, method = RequestMethod.GET)
+	public List<GroupNameJsonDto> getAllGroups() {
+		return dtoService.convert(groupService.getAll(), GroupNameJsonDto.class, Group.class);
+	}
+	
 	@RequestMapping(value = {"/courses/{courseId}/groups"}, method = RequestMethod.GET)
 	public List<GroupNameJsonDto> getAllGroupsByCourseId(@PathVariable Long courseId) {
 		return dtoService.convert(groupService.getAllByCourseId(courseId),
 									GroupNameJsonDto.class, Group.class);
+	}
+	
+	@RequestMapping(value = {"/groups/{groupId}/students"}, method = RequestMethod.GET)
+	public List<UserIdAndEmailDto> getStudentsFromGroup(@PathVariable Long groupId) {
+		return groupService.getStudentsFromGroup(groupId);
 	}
 }
