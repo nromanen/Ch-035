@@ -25,11 +25,11 @@
 	<c:if test="${empty courses}"><strong><spring:message code = "crsms.courses.message.not.found"/></strong></c:if>
 	<form id = "searchForm" class="navbar-form navbar search" role="search" action="search" method="GET">
 		<input id = "search" type="text" class="form-control" name="searchWord" value = "${searchWord}" >
-	    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+		    <button type="button" onclick="ClearField();" class="btn btn-default">
+		    	<span class="glyphicon glyphicon-remove"></span>
+		    </button>
+	    <button type="submit" id="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
 	    	<strong><spring:message code = "crsms.button.search" /></strong>
-	    </button>
-	    <button type="button" onclick="ClearField();" class="btn btn-default">
-	    	<span class="glyphicon glyphicon-remove"></span>
 	    </button>
 	</form>
 </div>

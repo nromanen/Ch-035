@@ -18,19 +18,13 @@ public interface ModuleService extends BaseService<Module> {
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void save(Long courseId, Module module);
 	
-	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-	void delete(Long courseId, Module module);
-	
 	List<Module> getAllByCourseId(Long courseId);
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-	void deleteById(Long courseId, Long moduleId);
+	void deleteById(Long moduleId);
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void addResource(Long moduleId, Resource resource);
-	
-	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-	void addResource(Long moduleId, String name, String path);
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void removeResource(Long moduleId, Resource resource);

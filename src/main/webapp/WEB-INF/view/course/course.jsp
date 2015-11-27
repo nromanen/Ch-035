@@ -39,7 +39,7 @@
 					<c:when test="${moduleResource.type == 'EMBEDDED'}">
 						<a class="btn btn-default" role="button" data-toggle="collapse" 
 							href="#resource-${moduleResource.id}-collapse" aria-expanded="false" aria-controls="collapseExample"
-							><i class="fa fa-lg fa-film"></i> ${moduleResource.name}</a>
+							><i class="fa fa-lg fa-play-circle-o"></i> ${moduleResource.name}</a>
 						<div class="collapse" id="resource-${moduleResource.id}-collapse">
 							<div class="well">
 						    	<div class="embed-responsive embed-responsive-16by9">

@@ -84,7 +84,7 @@ public class AnswerController {
     public String deleteQuestionById(@PathVariable Long courseId, @PathVariable Long moduleId,
                                      @PathVariable Long testId, @PathVariable Long questionId,
                                      @PathVariable("id") Long id) {
-        answerService.disable(id);
+        answerService.delete(id);
         return redirect(courseId, moduleId, testId, questionId);
     }
 

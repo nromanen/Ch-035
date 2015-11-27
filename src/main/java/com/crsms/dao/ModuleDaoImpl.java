@@ -54,19 +54,6 @@ public class ModuleDaoImpl extends BaseDaoImpl<Module> implements ModuleDao {
 			logger.error("Error in delete module by id: " + e);
 		}
 	}
-
-	@Override
-	public void disable(Module module) {
-		module.setDisable(true);
-		this.update(module);
-		
-		sessionFactory.getCurrentSession().getNamedQuery(Module.DISABLE_TESTS)
-			.setParameter("id", module.getId()).executeUpdate();
-		sessionFactory.getCurrentSession().getNamedQuery(Module.DISABLE_QUESTIONS)
-			.setParameter("id", module.getId()).executeUpdate();
-		sessionFactory.getCurrentSession().getNamedQuery(Module.DISABLE_ANSWERS)
-			.setParameter("id", module.getId()).executeUpdate();
-	}
 	
 	@Override
 	public Module getByTest(Test test) {

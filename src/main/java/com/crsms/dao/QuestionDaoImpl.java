@@ -58,12 +58,55 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question> implements QuestionDa
         }
     }
     
+    /**
+     * @param startPosition a row number, numbered from <tt>0</tt>
+     */
+    @SuppressWarnings("unchecked")
     @Override
-	public void disable(Question question) {
-    	question.setDisable(true);
-    	this.update(question);
-    	sessionFactory.getCurrentSession().getNamedQuery(Question.DISABLE_ANSWERS)
-					  .setParameter("id", question.getId()).executeUpdate();
-    }
+	public List<Question> getAllByTest(Long testId, Integer startPosition, Integer maxResult) {
+    	if (testId != null) {
+            logger.info("QuestionDao. Reading all questions by Test ID.");
+            List<Question> questionList = new ArrayList<Question>();
+            questionList = sessionFactory.getCurrentSession().getNamedQuery(Question.GET_BY_TEST)
+                                         .setParameter("id", testId)
+                                         .setFirstResult(startPosition)
+                                         .setMaxResults(maxResult).list();
+            logger.info("QuestionDao. Reading all questions by Test ID successfully.");
+            return questionList;
+        } else {
+            logger.error("QuestionDao."
+            		+ " Illegal argument received when questions by Test ID getting.");
+            throw new IllegalArgumentException("QuestionDao."
+            		+ " Illegal argument received when questions by Test ID getting.");
+        }
+	}
+
+	@Override
+	public Question getByAnswer(Long answerId) {
+		return (Question) getSessionFactory().getCurrentSession().getNamedQuery(Question.GET_BY_ANSWER)
+				.setParameter("id", answerId).uniqueResult();
+	}
+	
+	@Override
+	public Long countByTest(Long testId) {
+		return (Long) getSessionFactory().getCurrentSession().getNamedQuery(Question.GET_QUESTION_COUNT_BY_TEST)
+				 .setParameter("id", testId).uniqueResult();
+	}
+
+	@Override
+	public Question getByTestByIndex(Long testId, Integer index) {
+		if (testId != null) {
+            logger.info("QuestionDao. getByTestByIndex.");
+            return (Question) sessionFactory.getCurrentSession().getNamedQuery(Question.GET_BY_TEST)
+                                         .setParameter("id", testId)
+                                         .setFirstResult(index)
+                                         .setMaxResults(1).uniqueResult();
+        } else {
+            logger.error("QuestionDao."
+            		+ " Illegal argument received when questions by Test ID getting.");
+            throw new IllegalArgumentException("QuestionDao."
+            		+ " Illegal argument received when questions by Test ID getting.");
+        }
+	}
 
 }

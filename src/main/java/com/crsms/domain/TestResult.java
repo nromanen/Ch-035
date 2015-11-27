@@ -5,7 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,14 +22,20 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "test_result")
+@NamedQueries({
+	@NamedQuery(name = TestResult.GET_CURRENT,
+				query = "FROM TestResult testResult "
+						+ "WHERE testResult.test.id = :testId AND testResult.user.id = :userId")	
+})
 public class TestResult {
+	public static final String GET_CURRENT = "TestResult.getCurrent";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "test_result_id_seq", allocationSize = 1)
 	private Long id;
 	
-	@OneToOne
+	@ManyToOne
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name = "test_id")
 	private Test test;
@@ -35,7 +43,7 @@ public class TestResult {
 	private Boolean complete = false;
 	// private Type Result;
 	
-	@OneToOne
+	@ManyToOne
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name = "user_id")
 	private User user;

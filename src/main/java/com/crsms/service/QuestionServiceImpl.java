@@ -77,19 +77,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
         logger.info("QuestionService. Reading all questions by Module ID.");
         return questionDao.getAllByTestId(testId);
     }
-
-
-    @Override
-	public void disable(Long id) {
-		Question question = questionDao.getById(id);
-		this.disable(question);	
-	}
-	
-	@Override
-	public void disable(Question question) {
-		questionDao.disable(question);	
-	}
-
+    
 	@Override
 	public void delete(Long questionId) {
 		Course course = courseDao.getByQuestion(questionId);
@@ -107,11 +95,22 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 			throw new ElementNotFoundException();
 		}
 		
-		questionDao.disable(question);
+		question.disable();
 		if (!course.getPublished()) {
 			test.removeQuestion(question);
 			questionDao.delete(question);
 		}
+	}
+	
+
+	@Override
+	public Long getCountQestionsByTest(Long testId) {
+		return questionDao.countByTest(testId);
+	}
+
+	@Override
+	public Question getByTestByIndex(Long testId, Integer index) {
+		return questionDao.getByTestByIndex(testId, index);
 	}
 	
 }

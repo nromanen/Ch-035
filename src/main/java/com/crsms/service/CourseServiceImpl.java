@@ -60,17 +60,13 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 
 	@Override
 	public void delete(Course course) {
-		this.disable(course);
+		course.disable();
 		for (Module module : course.getModules()) {
 			moduleService.freeResource(module);
 		}
 		if (!course.getPublished()) {
 			courseDao.delete(course);
 		}
-	}
-
-	public void disable(Course course) {
-		courseDao.disable(course);
 	}
 
 	@Override
