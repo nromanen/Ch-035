@@ -1,8 +1,6 @@
 package com.crsms.domain;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,10 +17,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -39,7 +32,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 	@NamedQuery(name = Course.GET_BY_NAME,
 				query = "from Course c where c.name=:name"),
 	@NamedQuery(name = Course.GET_BY_USER_ID,
-				query = "select c from User u join u.courses c where u.id = :userId"),
+				query = "from Course"),
 	@NamedQuery(name = Course.GET_BY_TEST,
 				query = "SELECT course FROM Course course "
 						+ "JOIN course.modules module "
@@ -52,9 +45,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 						+ "JOIN test.questions question "
 						+ "WHERE question.id = :id"),
 	@NamedQuery(name = Course.GET_BY_USER_EMAIL,
-				query = "select c from User u join u.courses c where u.email = :email"),
+				query = "select g.course from Group g join g.users u where u.email = :email"),
 	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
-				query = "select c from Course c join c.owner o where o.email = :email"),
+				query = "select c from Course c join c.owner o"
+					 + " where o.email = :email order by c.id"),
 	@NamedQuery(name = Course.DISABLE_MODULES,
 				query = ""
 						+ "UPDATE Module module SET module.disable=true WHERE module IN "
@@ -86,13 +80,29 @@ import org.springframework.format.annotation.DateTimeFormat;
 						+ "JOIN testList.questions questionList "
 						+ "JOIN questionList.answers answerList "
 						+ "WHERE course.id = :id)"),
-	@NamedQuery(name = Course.GET_USER_COURSES_IDS,
-				query = "select c.id from Course c join c.users u where u.email = :email"),
 	@NamedQuery(name = Course.SEARCH,
-	      query = "select c from Course c where upper(c.name) like upper(:s) or "
-                        + "upper(c.description) like upper(:s) order by c.name, c.description")
+				query = "select c from Course c where upper(c.name) like upper(:s) or "
+					  + "upper(c.description) like upper(:s) order by c.name, c.description"),
+	@NamedQuery(name = Course.GET_STUDENT_COURSES_AND_GROUPS_IDS,
+				query = "select c.id, g.id from Group g"
+					 + " join g.course c join g.users u where u.email = :email")
 })
 public class Course {
+	public static final String GET_BY_NAME = "course.getCourseByName";
+	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
+	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
+	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
+	public static final String DISABLE_MODULES = "course.disableModulesByCourse";
+	public static final String DISABLE_TESTS = "course.disableTestsByCourse";
+	public static final String DISABLE_QUESTIONS = "course.disableQuestionsByCourse";
+	public static final String DISABLE_ANSWERS = "course.disableAnswersByCourse";
+	public static final String GET_BY_TEST = "course.getByTest";
+	public static final String GET_BY_QUESTION = "course.getByQuestion";
+	public static final String SEARCH = "course.search";
+	public static final String GET_STUDENT_COURSES_AND_GROUPS_IDS = 
+												"course.getStudentCoursesAndGroupsIds";
+	
+	public static final int MAX_NAME_LENGTH = 255;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -106,10 +116,6 @@ public class Course {
 	
 	@Column(nullable = false)
 	private String description;
-	
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private DateTime startDate;
 	
 	@Column(nullable = false)
 	@NotNull
@@ -131,26 +137,8 @@ public class Course {
 	@Column(nullable = false)
 	private Boolean published = false;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	private Set<User> users = new HashSet<User>();
-	
 	@ManyToOne
 	private User owner;
-
-	public static final String GET_BY_NAME = "course.getCourseByName";
-	public static final String GET_BY_USER_ID = "course.getCourseByUserId";
-	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
-	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
-	public static final String DISABLE_MODULES = "course.disableModulesByCourse";
-	public static final String DISABLE_TESTS = "course.disableTestsByCourse";
-	public static final String DISABLE_QUESTIONS = "course.disableQuestionsByCourse";
-	public static final String DISABLE_ANSWERS = "course.disableAnswersByCourse";
-	public static final String GET_BY_TEST = "course.getByTest";
-	public static final String GET_BY_QUESTION = "course.getByQuestion";
-	public static final String GET_USER_COURSES_IDS = "course.getCourseIDsByUserEmail";
-	public static final String SEARCH = "course.search";
-	
-	public static final int MAX_NAME_LENGTH = 255;
 	
 	public Long getId() {
 		return id;
@@ -168,16 +156,8 @@ public class Course {
 		this.name = name;
 	}
 
-	public DateTime getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(DateTime startDate) {
-		this.startDate = startDate;
-	}
-	
 	/**
-	 * @return duration in days
+	 * @return duration in weeks
 	 */
 	public Integer getDuration() {
 		return duration;
@@ -229,25 +209,6 @@ public class Course {
 	public boolean deleteModule(Module module) {
 		if (this.modules.contains(module)) {
 			return this.modules.remove(module);
-		}
-		return false;
-	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-	
-	public boolean addUser(User user) {
-		return this.users.add(user);
-	}
-	
-	public boolean deleteUser(User user) {
-		if (this.users.contains(user)) {
-			return this.users.remove(user);
 		}
 		return false;
 	}

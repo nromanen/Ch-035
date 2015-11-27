@@ -18,9 +18,9 @@ public class CourseJsonDto {
 	@JMap
 	private String description;
 
-	@JMap
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private DateTime startDate;
+//	@JMap
+//	@DateTimeFormat(pattern = "dd/MM/yyyy")
+//	private DateTime startDate;
 
 	@JMap
 	private Integer duration;
@@ -31,6 +31,10 @@ public class CourseJsonDto {
 	@JMap
 	@JsonIgnore
 	private Area area;
+	
+	@JMap
+	@JsonIgnore
+	private Boolean published;
 	
 	@JsonIgnore
 	private String ownerEmail;
@@ -59,13 +63,13 @@ public class CourseJsonDto {
 		this.description = description;
 	}
 
-	public DateTime getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(DateTime startDate) {
-		this.startDate = startDate;
-	}
+//	public DateTime getStartDate() {
+//		return startDate;
+//	}
+//
+//	public void setStartDate(DateTime startDate) {
+//		this.startDate = startDate;
+//	}
 
 	public Integer getDuration() {
 		return duration;
@@ -97,6 +101,14 @@ public class CourseJsonDto {
 
 	public void setOwnerEmail(String ownerEmail) {
 		this.ownerEmail = ownerEmail;
+	}
+
+	public Boolean getPublished() {
+		return published;
+	}
+
+	public void setPublished(Boolean published) {
+		this.published = published;
 	}
 
 }
