@@ -50,22 +50,32 @@
 				<h3 class="course-title"><a href="${course.id}">${course.name}</a></h3>
 				<p class="course-desc">${course.description}</p>
 			</div>
-			<div class="course-date">
-					<b><spring:message code="crsms.courses.text.startDate" /></b>: <joda:format value="${course.startDate}" pattern="dd.MM.yyyy"/>
+			<div class="course-duration">
+					<b><spring:message code="crsms.courses.text.duration" /></b>: ${course.duration}
 			</div>			
 			<div class="course-control">
 				<sec:authorize access="hasAnyRole('STUDENT')">
 					<div class="text-left course-enroll pull-left">
 						<c:choose>
-							<c:when test="${userCoursesId.contains(course.id)}">
-								<a href = "${course.id}/leave" class="btn btn-default " >
+							<c:when test="${studentCoursesAndGroupsIds.containsKey(course.id)}">
+								<button id=""
+										type="button"
+										class="btn btn-default"
+										data-toggle="modal"
+										data-target="#unsubscribeModal"
+										data-course-id="${course.id}"
+										data-group-id="${studentCoursesAndGroupsIds[course.id]}">
 									<strong><spring:message code="crsms.courses.button.leave" /></strong>
-								</a>
+								</button>
 							</c:when>
 							<c:otherwise>
-								<a href = "${course.id}/enroll" class="btn btn-default ${!course.open ? 'disabled' : ''}">
+								<button type="button"
+										class="btn btn-default ${!course.open ? 'disabled' : ''}"
+										data-toggle="modal"
+										data-target="#subscribeModal"
+										data-course-id="${course.id}">
 									<strong><spring:message code="crsms.courses.button.enroll" /></strong>
-								</a>
+								</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -77,4 +87,52 @@
 		</div>
 	</div>
 </c:forEach>
+</div>
+
+<!-- Subscribe modal -->
+<div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="subscribeModalLabel">Modal title</h4>
+			</div>
+			<div class="modal-body">
+				<span>Select group to enroll: </span>
+				<select id="select-group">
+				</select>
+			</div>
+			<div class="modal-footer">
+				<button id="btn-enroll" type="button" class="btn btn-primary">
+					<spring:message code = "crsms.courses.button.enroll" />
+				</button>
+				 <button type="button" class="btn btn-default" data-dismiss="modal">
+				 	<spring:message code = "crsms.button.close" />
+				 </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Unsubscribe modal -->
+<div class="modal fade" id="unsubscribeModal" tabindex="-1" role="dialog" aria-labelledby="unsubscribeModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="unsubscribeModalLabel">Modal title</h4>
+			</div>
+			<div class="modal-body">
+				Are you sure?
+			</div>
+			<div class="modal-footer">
+				<button id="btn-leave" type="button" class="btn btn-primary">
+					<spring:message code = "crsms.courses.button.leave" />
+				</button>
+				 <button type="button" class="btn btn-default" data-dismiss="modal">
+				 	<spring:message code = "crsms.button.close" />
+				 </button>
+			</div>
+		</div>
+	</div>
 </div>

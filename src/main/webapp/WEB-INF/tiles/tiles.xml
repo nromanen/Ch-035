@@ -146,6 +146,7 @@
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
 			<add-attribute value="/resources/js/course/courses.js" />
+			<add-attribute value="/resources/js/course/subscribe.js" />
 		</put-list-attribute>
 	</definition>
 	
@@ -346,6 +347,40 @@
 		</put-list-attribute>
 	</definition>
 	<!-- end Question -->
+	
+	<!-- Group -->
+	<definition name = "groups" extends = "base-template">
+		<put-attribute name="title" value="crsms.groups.title.all" />
+		<put-attribute name="header-title" value="crsms.groups.title.all" />
+		<put-attribute name="content" value="/WEB-INF/view/group/groups.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/group/groups.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/group/group.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name = "addgroup" extends = "base-template">
+		<put-attribute name="title" value="crsms.groups.title.add" />
+		<put-attribute name="header-title" value="crsms.groups.title.add" />
+		<put-attribute name="content" value="/WEB-INF/view/group/addgroup.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js" />
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js" />
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.uk.min.js" />
+			<add-attribute value="/resources/js/group/groupForm.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="editgroup" extends="addgroup">
+		<put-attribute name="title" value="crsms.groups.title.edit" />
+		<put-attribute name="header-title" value="crsms.groups.title.edit" />
+	</definition>
+	<!-- end Group -->
 	
 	<!-- Error pages -->
 	<definition name = "errorpage" extends = "base-template">

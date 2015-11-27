@@ -20,11 +20,12 @@
 		<thead>
 			<tr class = "active">
 				<th class = "text-center"><spring:message code="crsms.courses.text.name" /></th>
-				<th class = "text-center"><spring:message code="crsms.courses.text.startDate" /></th>
+				<%-- <th class = "text-center"><spring:message code="crsms.courses.text.startDate" /></th> --%>
 				<th class = "text-center"><spring:message code="crsms.courses.text.duration" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.open" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.area" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.modules" /></th>
+				<th class = "text-center"><spring:message code="crsms.courses.text.groups" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.management" /></th>
 			</tr>
 		</thead>
@@ -32,7 +33,7 @@
 			<c:forEach var="course" items="${courses}">
 				<tr>
 					<td><c:out value="${course.name}"/></td>
-					<td><joda:format pattern="dd.MM.yyyy" value="${course.startDate}"  /></td>
+					<%-- <td><joda:format pattern="dd.MM.yyyy" value="${course.startDate}"  /></td> --%>
 					<td>${course.duration} <spring:message code="crsms.courses.text.days" /></td>
 					<td align="center">
 						<c:choose>
@@ -53,6 +54,20 @@
 					</td>
 					<td>
 						<div align="center">
+							<a class="btn btn-primary btn-sm" href="${course.id}/groups/"><spring:message code="crsms.courses.text.groups" /></a>
+						</div>
+					</td>
+					<td>
+						<div align="center">
+							<c:if test="${!course.published}">
+								<a href="${course.id}/publish"
+								class="btn btn-primary btn-sm"
+								data-toggle="tooltip"
+								title="<spring:message code="crsms.courses.button.publish" />"
+							>
+								<span class="glyphicon glyphicon-pushpin" ></span>
+							</a>
+							</c:if>
 							<a href="${course.id}/edit"
 								class="btn btn-primary btn-sm"
 								data-toggle="tooltip"
