@@ -1,14 +1,10 @@
 package com.crsms.domain;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -47,10 +43,6 @@ public class UserInfo {
 	@Column
 	@Size(max = MAX_NAME_LENGTH)
 	private String lastName;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@Cascade({CascadeType.ALL})
-	private Set<Group> groups;
 	
 	@Column(name = "image", columnDefinition = "text")
 	private String image;
@@ -95,20 +87,6 @@ public class UserInfo {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public Set<Group> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(Set<Group> groups) {
-		this.groups = groups;
-	}
-
-	@Override
-	public String toString() {
-		return "UserInfo [id=" + id + ", firstName=" + firstName
-				+ ", lastName=" + lastName + "]";
 	}
 
 }

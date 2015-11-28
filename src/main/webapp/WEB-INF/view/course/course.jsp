@@ -10,8 +10,8 @@
 					'crsms.courses.text.opened' : 'crsms.courses.text.closed'}" /></h3>
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
-		<p><spring:message code="crsms.text.date" /></p>
-		<h3><joda:format value="${course.startDate}" pattern="dd.MM.yyyy"/> - <joda:format value="${courseEndDate}" pattern="dd.MM.yyyy"/></h3>
+		<p><spring:message code="crsms.courses.text.duration" /></p>
+		<h3>${course.duration}</h3>
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
 		<p><spring:message code="crsms.courses.text.modules.count" /></p>

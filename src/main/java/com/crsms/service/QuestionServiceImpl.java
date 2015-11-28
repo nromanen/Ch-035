@@ -102,4 +102,15 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 		}
 	}
 	
+
+	@Override
+	public Long getCountQestionsByTest(Long testId) {
+		return questionDao.countByTest(testId);
+	}
+
+	@Override
+	public Question getByTestByIndex(Long testId, Integer index) {
+		return questionDao.getByTestByIndex(testId, index);
+	}
+	
 }

@@ -28,7 +28,7 @@ public class CourseJsonValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "crsms.error.name.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
 												"description", "crsms.error.description.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "crsms.error.date.required");
+		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "crsms.error.date.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
 												"duration", "crsms.error.duration.required");
 		
