@@ -30,19 +30,19 @@
 				</th>
 				<th>
 					<spring:message code="crsms.admin.userinfo.lastname" />
-					<a href="<c:url value="?page=${page}&sortparam=lastName&direction=${order}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=userInfo.lastName&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
 				<th>
 					<spring:message code="crsms.admin.userinfo.firstname" />
-					<a href="<c:url value="?page=${page}&sortparam=firstName&direction=${order}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=user.userInfo.firstName&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
 				<th>
 					<spring:message code="crsms.admin.role" />
-					<a href="<c:url value="?page=${page}&sortparam=role&direction=${order}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=role.name&direction=${order}"/>">
 					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
 					</a>
 				</th>
@@ -62,8 +62,8 @@
 					<td class="nameCell">${user.email}</td>
 					<td class="nameCell">${user.userInfo.lastName}</td>
 					<td class="nameCell">${user.userInfo.firstName}</td>
-					<td class="managementCell">${user.role.name}</td>
-					<td class="managementCell">${user.isEnabled}</td> 
+					<td class="nameCell">${user.role.name}</td>
+					<td class="nameCell">${user.isEnabled}</td> 
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 
 							<a href="${editUser}" class="btn btn-primary btn-sm" 

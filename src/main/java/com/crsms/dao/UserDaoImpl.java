@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Disjunction;
@@ -83,9 +84,9 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 		try {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()
-					.createCriteria(User.class, "user");
-			criteria.createAlias("role", "role")
-					.createAlias("userInfo", "userInfo");
+					.createCriteria(User.class, "user")
+					.createAlias("user.role", "role")
+					.createAlias("user.userInfo", "userinfo");
 //			criteria.setProjection(
 //				Projections.projectionList()
 //					.add(Projections.property("user.id"), "id")
@@ -96,6 +97,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 //					.add(Projections.property("userInfo.firstName"), "firstName")
 //				);
 //			criteria.setResultTransformer(Criteria.ROOT_ENTITY);
+
 					
 			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));
@@ -106,6 +108,9 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 			criteria.setMaxResults(itemsPerPage);
 			
 			users.addAll(criteria.list());
+			for (Object o : users){
+				System.out.println(o);
+			}
 		} catch (Exception e) {
 			this.getLogger().error("Error getPagingUsers " + e);
 			throw e;
