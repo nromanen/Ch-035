@@ -3,7 +3,7 @@ package com.crsms.domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
+//import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,8 +18,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 /**
  * 
  * @author Roman Romaniuk
@@ -56,9 +59,11 @@ public class User {
 	private String password;
 
 	@OneToOne(mappedBy = "user")
+	@Cascade({ CascadeType.ALL })
 	private UserInfo userInfo;
 
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne
+	@Cascade({ CascadeType.MERGE })
 	@JoinTable (name = "user_roles", 
 	joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
 	inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
@@ -168,7 +173,7 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", password=" + password
 				+ ", userInfo=" + userInfo + ", role=" + role + ", isEnabled="
-				+ isEnabled + ", courses=" + courses + "]";
+				+ isEnabled + "]";
 	}
 
 }
