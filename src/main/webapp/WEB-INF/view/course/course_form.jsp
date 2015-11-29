@@ -2,6 +2,9 @@
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
+<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
 <form:form id="course-form" modelAttribute = "courseJsonDto" class="form-horizontal" method="POST" >
 	<form:hidden path = "id"/>
@@ -55,9 +58,10 @@
 		<label for="duration" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.duration" /></label>
 		<div class="col-sm-2" >
 			<div class="input-group" >
-				<form:input path="duration" id="duration" class="form-control " />
+				<form:input path="duration" id="duration" name="duration" class="form-control " />
 				<div class="input-group-addon"><spring:message code="crsms.courses.text.days" /></div>
 			</div>
+			<label id="duration-error" class="errorTxt" for="duration"></label>
 			<form:errors path = "duration" cssClass = "label label-danger" />
 		</div>
 	</div>
