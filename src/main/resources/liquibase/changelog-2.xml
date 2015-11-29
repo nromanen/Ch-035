@@ -152,4 +152,11 @@
     </changeSet>
     <!-- END -->
     
+    <changeSet author="valeriimotresku" id="1448626410497-40">
+	    <renameColumn
+	    		oldColumnName="url"
+	            tableName="resource"
+	            newColumnName="path" />
+	</changeSet>
+    
 </databaseChangeLog>

@@ -43,7 +43,7 @@
 						<div class="collapse" id="resource-${moduleResource.id}-collapse">
 							<div class="well">
 						    	<div class="embed-responsive embed-responsive-16by9">
-								  	<iframe class="embed-responsive-item" src="${moduleResource.url}"></iframe>
+								  	<iframe class="embed-responsive-item" src="${moduleResource.path}"></iframe>
 								</div>
 						  	</div>
 						</div>

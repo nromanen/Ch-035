@@ -68,9 +68,20 @@ public class ResourceController {
 	private void addAttributesToSaveResource(Model model) {
 		Resource resource = new Resource();
 		model.addAttribute("resource", resource);
+		addResourceTypeAttributes(model);
+		addResourceStorageTypeAttributes(model);
+		model.addAttribute("fileBucket", new FileBucket());
+	}
+
+	private void addResourceStorageTypeAttributes(Model model) {
+		model.addAttribute("resourceStorageTypeDB", Resource.StorageType.DB);
+		model.addAttribute("resourceStorageTypeCatalina", Resource.StorageType.CATALINA);
+		model.addAttribute("resourceStorageTypeGoogleDrive", Resource.StorageType.GOOGLE_DRIVE);
+	}
+
+	private void addResourceTypeAttributes(Model model) {
 		model.addAttribute("resourceTypeEmbedded", Resource.Type.EMBEDDED);
 		model.addAttribute("resourceTypeFile", Resource.Type.FILE);
-		model.addAttribute("fileBucket", new FileBucket());
 	}
 	
 	
@@ -141,7 +152,7 @@ public class ResourceController {
 		Resource resource = new Resource();
         resource.setName(originalName);
         resource.setType(Resource.Type.FILE);
-        resource.setUrl(originalName);
+        resource.setPath(originalName);
         resource.setStorageType(Resource.StorageType.CATALINA);
 		return resource;
 	}
@@ -190,7 +201,7 @@ public class ResourceController {
 	
 	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/upload-to-drive"}, method = RequestMethod.GET)
 	public String uploadToDrive(Model model) throws IOException {
-		googleDriveService.uploadToDrive(new File(""));
+		googleDriveService.uploadToDrive(new File("C:/Users/amberu/Desktop/Fast car -Tracy Chapman.flv"));
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	
