@@ -46,6 +46,9 @@
 				</div>
 			</div>
 			
+			<form:input path = "storageType" type="hidden"
+								class="form-control" value="${resourceStorageTypeDB}"/>
+			
 			<div class="form-group">
 				<label for = "name" class="col-sm-1 control-label"><spring:message code = "crsms.text.name" />: </label>
 				<div class="col-sm-4">
@@ -56,10 +59,10 @@
 			</div>
 			
 			<div class="form-group">
-				<label for = "url" class="col-sm-1 control-label"><spring:message code = "crsms.text.url" />: </label>
+				<label for = "path" class="col-sm-1 control-label"><spring:message code = "crsms.resource.text.path" />: </label>
 				<div class="col-sm-4">
 					<spring:message code="crsms.text.link" var="linkPlaceholder"/>
-				    <form:input path = "url"
+				    <form:input path = "path"
 								class="form-control" placeholder="${linkPlaceholder}"/>
 				</div>
 			</div>

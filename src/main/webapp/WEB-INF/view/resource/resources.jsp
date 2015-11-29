@@ -26,7 +26,7 @@
 			<th class="hide text-center"><spring:message code = "crsms.text.id" /></th>
 			<th class="text-center"><spring:message code = "crsms.text.name" /></th>
 			<th class="text-center"><spring:message code = "crsms.resource.text.type" /></th>
-			<th class="text-center"><spring:message code = "crsms.text.url" /></th>
+			<th class="text-center"><spring:message code = "crsms.resource.text.path" /></th>
 			<th class="text-center"><spring:message code = "crsms.text.controls" /></th>
 		</tr>
 	</thead>
@@ -36,7 +36,7 @@
 				<td class="resource-id hide" >${resource.id}</td>
 				<td class="resource-name" >${resource.name}</td>
 				<td>${resource.type}</td>
-				<td>${resource.url}</td>
+				<td>${resource.path}</td>
 				<td>
 					<div class="text-center">
 					  <button class="btn btn-primary btn-sm btn-edit-resource" 
@@ -98,7 +98,9 @@
         </p>
 		
 		<form:form id="modal-edit-resource-body-form" action="" modelAttribute = "resource" method = "POST" class = "form-horizontal">
+			
 			<input name = "id" id="modal-edit-resource-input-id" type = "hidden"/>
+			<input name = "storageType" id="modal-edit-resource-input-storage-type" type = "hidden"/>
 			
 			<div class="form-group" >
 				<label for = "type" class="col-sm-3 control-label"><spring:message code = "crsms.resource.text.type" />: </label>
@@ -117,11 +119,11 @@
 				</div>
 			</div>
 			
-			<div class="form-group hide">
-				<label for = "url" class="col-sm-3 control-label"><spring:message code = "crsms.text.url" />: </label>
+			<div class="form-group">
+				<label for = "path" class="col-sm-3 control-label"><spring:message code = "crsms.resource.text.path" />: </label>
 				<div class="col-sm-9">
 					<spring:message code="crsms.text.link" var="linkPlaceholder"/>
-				    <input id="modal-edit-resource-input-url" name = "url"
+				    <input id="modal-edit-resource-input-path" name = "path"
 								class="form-control" placeholder="${linkPlaceholder}"/>
 				</div>
 			</div>
