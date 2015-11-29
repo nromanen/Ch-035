@@ -20,7 +20,7 @@
 		<label for="startDate" class="col-sm-2 control-label"><spring:message code="crsms.groups.text.startDate" /></label>
 		<div class="col-sm-10" >
 			<div class='input-group date' id='datetimepicker1' >
-				<form:input path="startDate" id="startDate" class="form-control" placeholder="dd/MM/yyyy" readonly="true" />
+				<form:input path="startDate" id="startDate" name="startDate" class="form-control" placeholder="dd/MM/yyyy" readonly="true" />
 				<span class="input-group-addon">
 					<i class="glyphicon glyphicon-calendar"></i>
 				</span>

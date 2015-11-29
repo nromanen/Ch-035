@@ -1,6 +1,9 @@
 <%@ taglib uri="http://www.springframework.org/tags/form"  prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
+<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
 <c:choose>
   <c:when test="${not empty param.success}">
@@ -35,7 +38,7 @@
   <!-- Tab panes -->
   <div class="tab-content" style="margin-top: 20px;">
     <div role="tabpanel" class="tab-pane fade in active" id="tab-type-embedded">
-		<form:form action="addembedded" modelAttribute = "resource" method = "POST" class = "form-horizontal">
+		<form:form action="addembedded" id="embedded-form" modelAttribute = "resource" method = "POST" class = "form-horizontal">
 			<form:input path = "id" type = "hidden"/>
 			
 			<div class="form-group hidden">
@@ -53,7 +56,7 @@
 				<label for = "name" class="col-sm-1 control-label"><spring:message code = "crsms.text.name" />: </label>
 				<div class="col-sm-4">
 					<spring:message code="crsms.text.name" var="namePlaceholder"/>
-					<form:input path = "name"
+					<form:input path = "name" name="name"
 								class="form-control" placeholder="${namePlaceholder}"/>
 				</div>
 			</div>
@@ -76,11 +79,11 @@
 	</div>
 	
     <div role="tabpanel" class="tab-pane fade" id="tab-type-file">
-    	<form:form method="POST" action="addfile" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
+    	<form:form method="POST" action="addfile" id="file-form" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
 			<div class="form-group">
 				<label for = "type" class="col-sm-1 control-label"><spring:message code = "crsms.resource.text.file" />: </label>
 				<div class="col-sm-4">
-					<form:input type="file" path="file" id="file" class="form-control" style="height: auto;" />
+					<form:input type="file" path="file" id="file" name="file" class="form-control" style="height: auto;" />
 					<form:errors path="file" />
 				</div>
 			</div>
