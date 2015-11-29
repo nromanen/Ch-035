@@ -53,3 +53,8 @@ p, .panelHeaderText {
 .form-horizontal .checkbox-inline {
 	margin-top: -5px;
 }
+
+.errorTxt {
+	font-weight: bold;
+	color: red;
+}

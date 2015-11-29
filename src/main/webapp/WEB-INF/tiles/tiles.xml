@@ -177,13 +177,10 @@
 		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js" />
-			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js" />
-			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.uk.min.js" />
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
 			<add-attribute value="/resources/js/course/courseForm.js" />
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
-			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css" />
 			<add-attribute value="/resources/css/course/course.css" />
 		</put-list-attribute>
 	</definition>
@@ -195,13 +192,10 @@
 		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js" />
-			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js" />
-			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.uk.min.js" />
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
 			<add-attribute value="/resources/js/course/courseForm.js" />
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
-			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css" />
 			<add-attribute value="/resources/css/course/course.css" />
 		</put-list-attribute>
 	</definition>
@@ -212,6 +206,14 @@
 		<put-attribute name="title" value="crsms.modules.title.modules.add" />
 		<put-attribute name="header-title" value="crsms.modules.title.modules.add" />
 		<put-attribute name="content" value="/WEB-INF/view/module/createmodule.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/module/moduleForm.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/module/modules.css" />
+		</put-list-attribute>
 	</definition>
 
 	<definition name="editmodule" extends="createmodule">
@@ -318,9 +320,15 @@
 		<put-attribute name="title" value="crsms.test.text.test.create" />
 		<put-attribute name="header-title" value="crsms.test.text.test.create" />
 		<put-attribute name="content" value="/WEB-INF/view/test/createtest.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/test/test.css" />
 		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/test/testForm.js" />
+		</put-list-attribute>
+		
 	</definition>
 	
 	<!-- TODO: change title -->
@@ -371,14 +379,17 @@
 		<put-attribute name="title" value="crsms.groups.title.add" />
 		<put-attribute name="header-title" value="crsms.groups.title.add" />
 		<put-attribute name="content" value="/WEB-INF/view/group/addgroup.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js" />
 			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js" />
 			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.uk.min.js" />
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
 			<add-attribute value="/resources/js/group/groupForm.js" />
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css" />
+			<add-attribute value="/resources/css/group/group.css" />
 		</put-list-attribute>
 	</definition>
 	

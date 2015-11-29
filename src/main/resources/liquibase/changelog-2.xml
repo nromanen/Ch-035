@@ -150,6 +150,11 @@
     <changeSet author="stefankiv (generated)" id="1448626410497-39">
         <dropNotNullConstraint columnDataType="varchar(64)" columnName="username" tableName="persistent_logins"/>
     </changeSet>
+    <changeSet author="kucher" id="1448626410497-40">
+        <sql>
+	    	UPDATE course SET duration='15';
+	    </sql>
+    </changeSet>
     <!-- END -->
     
 </databaseChangeLog>
