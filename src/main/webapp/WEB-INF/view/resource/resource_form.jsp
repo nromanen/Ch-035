@@ -65,7 +65,7 @@
 				<label for = "path" class="col-sm-1 control-label"><spring:message code = "crsms.resource.text.path" />: </label>
 				<div class="col-sm-4">
 					<spring:message code="crsms.text.link" var="linkPlaceholder"/>
-				    <form:input path = "path" name="url"
+				    <form:input path = "path"
 								class="form-control" placeholder="${linkPlaceholder}"/>
 				</div>
 			</div>

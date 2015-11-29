@@ -7,7 +7,7 @@ $(document).ready(function(e) {
                 minlength: 1,
                 maxlength: 100
             },
-            "url": {
+            "path": {
             	required: true,
             	url: true
             },
@@ -18,7 +18,7 @@ $(document).ready(function(e) {
 		errorClass: "errorTxt",	
 		rules: {
         	"file": {
-                required: true,
+                required: true
             },
         },
     });
