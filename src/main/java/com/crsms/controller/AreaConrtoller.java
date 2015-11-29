@@ -16,65 +16,63 @@ import com.crsms.validator.AreaValidator;
 
 /**
  * @author Yuri Kucheriavy
- *
  */
 @Controller
 @RequestMapping(value = "/areas")
 public class AreaConrtoller {
-	
-	@Autowired
-	private AreaService areaService;
-	@Autowired
-	private CourseService courseService;
-	@Autowired
-	private AreaValidator validator;
-	
-	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
-	public String getAllAreas(Model model) {
-    model.addAttribute("area", new Area());
-    model.addAttribute("getAllAreas", areaService.getAll());
-    return "area";
-  }
-	
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String showArea(@ModelAttribute("area") Area area,
-                          BindingResult result, Model model) {
-		return "reenter";
-	}
-	
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addArea(@ModelAttribute("area") Area area,
-                          BindingResult result, Model model) {
-		validator.validate(area, result);
-	  if (result.hasErrors()) {
-	    model.addAttribute("errors", "result");
-	    return "reenter";
-	  }
-	  if (area.getId() == null) {
-	   	areaService.save(area);
-	  } else {
-	    areaService.update(area);
-	  }
-	  return "redirect:/areas/";
+
+    @Autowired
+    private AreaService areaService;
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private AreaValidator validator;
+
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    public String getAllAreas(Model model) {
+        model.addAttribute("area", new Area());
+        model.addAttribute("getAllAreas", areaService.getAll());
+        return "area";
     }
 
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-	public String editPreparing(@PathVariable("id") Long id, Model model) {
-		Area area = areaService.getById(id);
-		model.addAttribute("area", area);
-    model.addAttribute("getAllAreas", areaService.getAll());
-    return "area";
-	}
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String showArea(@ModelAttribute("area") Area area,
+                           BindingResult result, Model model) {
+        return "reenter";
+    }
 
-  @RequestMapping("/{id}/delete")
-  public String deleteAreaById(@PathVariable("id") Long id) {
-    areaService.deleteById(id);
-    return "redirect:/areas/";
-  }
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addArea(@ModelAttribute("area") Area area,
+                          BindingResult result, Model model) {
+        validator.validate(area, result);
+        if (result.hasErrors()) {
+            model.addAttribute("errors", "result");
+            return "reenter";
+        }
+        if (area.getId() == null) {
+            areaService.save(area);
+        } else {
+            areaService.update(area);
+        }
+        return "redirect:/areas/";
+    }
 
-  @RequestMapping("/{id}/courses")
-  public String getAreaCourses(@PathVariable("id") Long id) {
-  courseService.getAllByAreaId(id);
-  return "redirect:/";
-  }
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String editPreparing(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("area", areaService.getById(id));
+        model.addAttribute("getAllAreas", areaService.getAll());
+        return "area";
+    }
+
+    @RequestMapping("/{id}/delete")
+    public String deleteAreaById(@PathVariable("id") Long id) {
+        areaService.deleteById(id);
+        return "redirect:/areas/";
+    }
+
+    @RequestMapping("/{id}/courses")
+    public String getAreaCourses(@PathVariable("id") Long id) {
+        courseService.getAllByAreaId(id);
+        return "redirect:/";
+    }
 }

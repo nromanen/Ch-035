@@ -51,7 +51,7 @@
 				<p class="course-desc">${course.description}</p>
 			</div>
 			<div class="course-duration">
-					<b><spring:message code="crsms.courses.text.duration" /></b>: ${course.duration}
+					<b><spring:message code="crsms.courses.text.duration" /></b>: ${course.duration} <spring:message code="crsms.courses.text.weeks" />
 			</div>			
 			<div class="course-control">
 				<sec:authorize access="hasAnyRole('STUDENT')">

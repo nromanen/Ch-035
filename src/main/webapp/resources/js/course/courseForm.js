@@ -1,13 +1,4 @@
 $(document).ready(function(e) {
-	$(function () {
-        $('#datetimepicker1').datepicker({
-            format: "dd/mm/yyyy",
-            language: $.cookie('localeCookie'),
-            autoclose: true,
-            todayHighlight: true
-        });
-    });
-	
 	$('#course-form').validate({
 		errorClass: "errorTxt",	
 		rules: {
@@ -17,7 +8,7 @@ $(document).ready(function(e) {
                 maxlength: 255
             },
             "description": {
-                required: false
+                required: true
             },
             "duration": {
                 required: true,
