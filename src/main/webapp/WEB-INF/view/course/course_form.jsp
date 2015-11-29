@@ -60,7 +60,7 @@
 		<div class="col-sm-2" >
 			<div class="input-group" >
 				<form:input path="duration" id="duration" name="duration" class="form-control " />
-				<div class="input-group-addon"><spring:message code="crsms.courses.text.days" /></div>
+				<div class="input-group-addon"><spring:message code="crsms.courses.text.weeks" /></div>
 			</div>
 			<label id="duration-error" class="errorTxt" for="duration"></label>
 			<form:errors path = "duration" cssClass = "label label-danger" />

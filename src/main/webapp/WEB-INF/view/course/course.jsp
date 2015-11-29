@@ -11,7 +11,7 @@
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
 		<p><spring:message code="crsms.courses.text.duration" /></p>
-		<h3>${course.duration}</h3>
+		<h3>${course.duration} <spring:message code="crsms.courses.text.weeks" /></h3>
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
 		<p><spring:message code="crsms.courses.text.modules.count" /></p>
