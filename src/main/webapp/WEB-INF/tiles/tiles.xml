@@ -254,6 +254,7 @@
 		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/webjars/jquery-validation/1.14.0/additional-methods.min.js" />
 			<add-attribute value="/resources/js/user/userProfile.js" />
 		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
@@ -279,13 +280,14 @@
 	<definition name="addResource" extends="base-template">
 		<put-attribute name="title" value="crsms.resource.text.resource.add" />
 		<put-attribute name="header-title" value="crsms.resource.text.resource.add" />
-		<put-attribute name="content"
-			value="/WEB-INF/view/resource/resource_form.jsp" />
+		<put-attribute name="content" value="/WEB-INF/view/resource/resource_form.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
 		<put-list-attribute name="stylesheets" inherit="true">
-
+			<add-attribute value="/resources/css/resource/resources.css" />
 		</put-list-attribute>
 		<put-list-attribute name="javascripts" inherit="true">
-
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/resources/js/resource/resourceForm.js" />
 		</put-list-attribute>
 	</definition>
 
