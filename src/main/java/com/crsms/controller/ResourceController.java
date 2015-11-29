@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
-import com.crsms.service.GoogleDriveServiceImpl;
+import com.crsms.service.GoogleDriveService;
 import com.crsms.service.ModuleService;
 import com.crsms.service.FileService;
 import com.crsms.service.ResourceService;
@@ -53,6 +53,9 @@ public class ResourceController {
 	
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private GoogleDriveService googleDriveService;
 	
 	@Autowired
     private MultipartFileValidator multuipartFileValidator;
@@ -187,7 +190,7 @@ public class ResourceController {
 	
 	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/upload-to-drive"}, method = RequestMethod.GET)
 	public String uploadToDrive(Model model) throws IOException {
-		GoogleDriveServiceImpl.main(new String[]{});
+		googleDriveService.uploadToDrive(new File(""));
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	
