@@ -1,6 +1,7 @@
 package com.crsms.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.crsms.domain.Course;
 import com.crsms.domain.Question;
@@ -36,6 +37,6 @@ public interface CourseDao extends BaseDao<Course> {
 	List<Course> getAllByOwnerEmail(String email);
 
 	List<Course> searchCourses(String searchWord);
-	
-	List<Long> getUserCoursesIds(String email);
+
+	Map<Long, Long> getStudentCoursesAndGroupsIds(String email);
 }

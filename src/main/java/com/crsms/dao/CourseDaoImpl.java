@@ -1,9 +1,13 @@
 package com.crsms.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Course;
@@ -92,19 +96,6 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Long> getUserCoursesIds(String email) {
-		try {
-			return getSessionFactory().getCurrentSession()
-										   .getNamedQuery(Course.GET_USER_COURSES_IDS)
-									 	   .setParameter("email", email).list();
-		} catch (Exception e) {
-			getLogger().error("Error in getting all courses' IDs by user email: " + e);
-			throw e;
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<Course> searchCourses(String searchWord) {
 		try {
 			return (List<Course>) getSessionFactory().getCurrentSession()
@@ -144,6 +135,40 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 					   .setParameter("id", questionId).uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<Long, Long> getStudentCoursesAndGroupsIds(String email) {
+		List<List<Long>> list = new ArrayList<>();
+		try {
+			list = this.getSessionFactory().getCurrentSession()
+										   .getNamedQuery(Course.GET_STUDENT_COURSES_AND_GROUPS_IDS)
+									 	   .setParameter("email", email)
+									 	   .setResultTransformer(Transformers.TO_LIST)
+									 	   .list();
+		} catch (Exception e) {
+			this.getLogger().error("Error in getting student's courses and groups id's: " + e);
+			throw e;
+		}
+		return transformListToMap(list);
+	}
+	
+	/**
+	 * Query Course.GET_STUDENT_COURSES_AND_GROUPS_IDS with result transformer Transformers.TO_LIST
+	 * returns List<List<Long>> with only two values in the inner List<Long>:
+	 * get(0) - course ID, get(1) - group ID.
+	 * Method takes that values from all the inner lists and puts them into Map<Long, Long>, where:
+	 * key - course ID, value - group ID. 
+	 * @param list result of executing query Course.GET_STUDENT_COURSES_AND_GROUPS_IDS
+	 * @return converted List as a Map
+	 */
+	private Map<Long, Long> transformListToMap(List<List<Long>> list) {
+		Map<Long, Long> map = new HashMap<>();
+		for (List<Long> innerList : list) {
+			map.put(innerList.get(0), innerList.get(1));
+		}
+		return map;
+	}
+	
 	@Override
 	public Course getByModule(Long moduleId) {
 		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_MODULE)
