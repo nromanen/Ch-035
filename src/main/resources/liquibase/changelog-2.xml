@@ -15,4 +15,141 @@
     	</addColumn>
     </changeSet>
     
+    <!-- NEW DATABASE CONCEPTION -->
+    <changeSet author="stefankiv (generated)" id="1448626410497-1">
+        <createTable tableName="groups_users">
+            <column name="groups_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="users_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-2">
+        <addColumn tableName="groups">
+            <column name="course_id" type="int8"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-3">
+        <addColumn tableName="groups">
+            <column name="startdate" type="timestamp(29, 6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-4">
+        <addPrimaryKey columnNames="groups_id, users_id" constraintName="groups_users_pkey" tableName="groups_users"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-5">
+        <addForeignKeyConstraint baseColumnNames="groups_id" baseTableName="groups_users" constraintName="fk_78p7vbckpk4tlwhweqwv6ymo2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-6">
+        <addForeignKeyConstraint baseColumnNames="users_id" baseTableName="groups_users" constraintName="fk_ewsdo90bf97qmunwue89wq623" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-7">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="groups" constraintName="fk_pfrqi70hq38payknjojrr1ox" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-8">
+        <dropForeignKeyConstraint baseTableName="course_users" constraintName="fk_6xl7wf5027p2w5scwoj8fxtpm"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-9">
+        <dropForeignKeyConstraint baseTableName="user_info_groups" constraintName="fk_ic1n3xyu84argef87naf3nwe"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-10">
+        <dropForeignKeyConstraint baseTableName="course_users" constraintName="fk_k3h0elyvgu2ntt4q7usfm9p73"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-11">
+        <dropForeignKeyConstraint baseTableName="user_info_groups" constraintName="fk_o93timi6qcpn95v2w9awu2uh0"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-12">
+        <dropForeignKeyConstraint baseTableName="groups_course" constraintName="fk_obpjw8fsqsbycc2slx5ytj8yy"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-13">
+        <dropForeignKeyConstraint baseTableName="groups_course" constraintName="fk_ppxmhtaiu3srk1ngtaj9f2ta5"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-14">
+        <dropForeignKeyConstraint baseTableName="groups" constraintName="fk_s2y5ymegf3px4s5269daugtqg"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-15">
+        <dropSequence sequenceName="group_type_id_seq"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-16">
+        <dropTable tableName="course_users"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-17">
+        <dropTable tableName="group_type"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-18">
+        <dropTable tableName="groups_course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-19">
+        <dropTable tableName="user_info_groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-20">
+        <dropPrimaryKey constraintName="course_module_pkey" tableName="course_module"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-21">
+        <dropPrimaryKey constraintName="module_resource_pkey" tableName="module_resource"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-22">
+        <dropPrimaryKey constraintName="module_test_pkey" tableName="module_test"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-23">
+        <dropColumn columnName="maxusercount" tableName="groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-24">
+        <dropColumn columnName="recruited" tableName="groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-25">
+        <dropColumn columnName="startdate" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-26">
+        <dropColumn columnName="type_id" tableName="groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-27">
+        <modifyDataType columnName="description" newDataType="varchar(255)" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-28">
+        <modifyDataType columnName="description" newDataType="varchar(255)" tableName="module"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-29">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="answer"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="answer"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-30">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="course"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-31">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="module"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="module"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-32">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="question"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="question"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-33">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="test"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="test"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-34">
+        <addNotNullConstraint columnDataType="int" columnName="duration" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-35">
+        <dropNotNullConstraint columnDataType="timestamp(29,6)" columnName="last_used" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-36">
+        <addNotNullConstraint columnDataType="bool" columnName="published" tableName="course"/>
+        <dropDefaultValue columnDataType="bool" columnName="published" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-37">
+        <modifyDataType columnName="text" newDataType="varchar(200)" tableName="answer"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-38">
+        <dropNotNullConstraint columnDataType="varchar(64)" columnName="token" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1448626410497-39">
+        <dropNotNullConstraint columnDataType="varchar(64)" columnName="username" tableName="persistent_logins"/>
+    </changeSet>
+    <!-- END -->
+    
 </databaseChangeLog>

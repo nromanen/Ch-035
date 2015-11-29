@@ -10,4 +10,5 @@
 	<include file="src/main/resources/liquibase/changelog-0.init.xml"/>
 	<include file="src/main/resources/liquibase/changelog-1.xml"/>
 	<include file="src/main/resources/liquibase/changelog-2.xml"/>
+
 </databaseChangeLog>

@@ -9,6 +9,7 @@
 <form:form id="course-form" modelAttribute = "courseJsonDto" class="form-horizontal" method="POST" >
 	<form:hidden path = "id"/>
 	<form:hidden path = "ownerEmail"/>
+	<form:hidden path = "published"/>
 	
 	<div class="form-group">
 		<label for="name"  class="col-sm-2 control-label"><spring:message code="crsms.courses.text.name" /></label>
@@ -42,7 +43,7 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<%-- <div class="form-group">
 		<label for="startDate" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.startDate" /></label>
 		<div class="col-sm-10" >
 			<div class='input-group date' id='datetimepicker1' >
@@ -53,7 +54,7 @@
 			</div>
 			<form:errors path = "startDate" cssClass = "label label-danger" />
 		</div>
-	</div>
+	</div> --%>
 	<div class="form-group">
 		<label for="duration" class="col-sm-2 control-label"><spring:message code="crsms.courses.text.duration" /></label>
 		<div class="col-sm-2" >

@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,14 +27,25 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQueries({
 		@NamedQuery(name = Question.GET_BY_TEST_ID,
 					query = "SELECT questions FROM Test t WHERE t.id = :id"),
+		@NamedQuery(name = Question.GET_BY_TEST, //TODO: change name
+					query = "SELECT question FROM Test test "
+							+ "JOIN test.questions question "
+							+ "WHERE test.id = :id and question.disable = false "
+							+ "ORDER BY question.id"),
 		@NamedQuery(name = Question.GET_BY_ANSWER,
 					query = "SELECT question FROM Question question "
 							+ "JOIN question.answers answer "
 							+ "WHERE answer.id = :id"),
+		@NamedQuery(name = Question.GET_QUESTION_COUNT_BY_TEST, 
+					query = "SELECT count(*) FROM Test test "
+							+ "JOIN test.questions question "
+							+ " WHERE test.id = :id")
 })
 public class Question {
 	public static final String GET_BY_TEST_ID = "Question.getByTestId";
+	public static final String GET_BY_TEST = "Question.getByTest";
 	public static final String GET_BY_ANSWER = "Question.getByAnswer";
+	public static final String GET_QUESTION_COUNT_BY_TEST = "Question.getByQuestionCountByTest";
     public static final int MAX_TEXT_LENGTH = 1000;
 
     @Id
@@ -49,7 +61,7 @@ public class Question {
     @Column(nullable = false)
 	private Boolean disable = false;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Answer> answers;
 
     public Long getId() {
