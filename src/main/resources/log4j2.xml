@@ -27,9 +27,9 @@
 		<Logger name="com.crms.dao" level="warn" additivity="true">
 			<AppenderRef ref="RollingFile" level="warn" />
 		</Logger>
-        <Root level="info">
+        <Root level="info" additivity="true">
             <AppenderRef ref="RollingFile" level="warn"/>
-            <AppenderRef ref="Console" level = "debug"/>
+            <AppenderRef ref="Console" level = "info"/>
         </Root>
     </Loggers>
     
