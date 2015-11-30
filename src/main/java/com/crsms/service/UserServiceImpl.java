@@ -68,8 +68,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		return userDao.getUserByEmail(email) != null;
 	}
 
-	public long getRowsCount() {
-		return userDao.getRowsCount();
+	public long getRowsCount(String keyWord) {
+		return userDao.getRowsCount(keyWord);
 	}
 
 	@Override

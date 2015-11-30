@@ -73,7 +73,8 @@ public class AdminController {
 		List<User> users = userService.getPagingUsers(
 				startPosition, ITEMSPERPAGE, sortingField, order, keyWord);
 		
-		long rowsCount = userService.getRowsCount();
+		
+		long rowsCount = userService.getRowsCount(keyWord);
 		int lastpage = (int) ((rowsCount / ITEMSPERPAGE));
 		if (rowsCount > (lastpage * ITEMSPERPAGE)) {
 			lastpage++;

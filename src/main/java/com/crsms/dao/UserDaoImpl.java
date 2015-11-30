@@ -61,17 +61,34 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 	}
 
 	@Override
-	public long getRowsCount() {
+	public long getRowsCount(String keyWord) {
 		long rowsCount = 0;
 		try {
-			rowsCount = (long) this.getSessionFactory().getCurrentSession()
-					.createCriteria(User.class)
-					.setProjection(Projections.rowCount()).uniqueResult();
+			Criteria criteria = this.getSessionFactory().getCurrentSession()
+					.createCriteria(User.class);
+			if (!keyWord.equals(""))
+				criteria.add(getCrit(keyWord));
+			rowsCount = (long) criteria.setProjection(Projections.rowCount())
+					.uniqueResult();
 		} catch (Exception e) {
 			this.getLogger().error("Error get rowsCount " + e);
 			throw e;
 		}
 		return rowsCount;
+	}
+	
+	private Disjunction getCrit(String keyWord) {
+		 
+				 Disjunction or = Restrictions.disjunction();
+				 or.add(Restrictions.ilike("user.email", keyWord,
+				 MatchMode.ANYWHERE));
+				 or.add(Restrictions.ilike("role.name", keyWord,
+				 MatchMode.ANYWHERE));
+				 or.add(Restrictions.ilike("userInfo.firstName", keyWord,
+				 MatchMode.ANYWHERE));
+				 or.add(Restrictions.ilike("userInfo.lastName", keyWord,
+				 MatchMode.ANYWHERE));
+				 return or;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -86,16 +103,8 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 					.createAlias("user.role", "role")
 					.createAlias("user.userInfo", "userInfo");
 			if (!keyWord.equals("")) {
-					 Disjunction or = Restrictions.disjunction();
-					 or.add(Restrictions.ilike("user.email", keyWord,
-					 MatchMode.ANYWHERE));
-					 or.add(Restrictions.ilike("role.name", keyWord,
-					 MatchMode.ANYWHERE));
-					 or.add(Restrictions.ilike("userInfo.firstName", keyWord,
-					 MatchMode.ANYWHERE));
-					 or.add(Restrictions.ilike("userInfo.lastName", keyWord,
-					 MatchMode.ANYWHERE));
-					 criteria.add(or);
+				
+					 criteria.add(getCrit(keyWord));
 				}
 			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));

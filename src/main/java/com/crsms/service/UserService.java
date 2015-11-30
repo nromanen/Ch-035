@@ -22,7 +22,7 @@ public interface UserService extends BaseService<User> {
 	
 	User getUserByEmail(String email, List<Invocable<User>> initializers);
 	
-	long getRowsCount();
+	long getRowsCount(String keyWord);
 	
 	List<User> getPagingUsers(int startPosition, int itemsPerPage,
 							String sortingField, String order,String keyWord);
