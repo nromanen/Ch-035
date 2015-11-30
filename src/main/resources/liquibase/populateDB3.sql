@@ -22,7 +22,7 @@ INSERT INTO question(id, text) VALUES (4, 'Виберіть правильне �
 INSERT INTO question(id, text) VALUES (5, 'Виберіть правильне визначення класу.');
 
 INSERT INTO question(id, text) VALUES (6, 'Виберіть коректне оголошення класу.');
-INSERT INTO question(id, text) VALUES (7, 'Яким буде результат виконання програми?');
+INSERT INTO question(id, text) VALUES (7, 'Яким буде результат виконання коду?');
 INSERT INTO question(id, text) VALUES (8, 'Який з даних методів є методом класу Object?');
 INSERT INTO question(id, text) VALUES (9, 'Чи буде відкомпільовано наступний код?');
 INSERT INTO question(id, text) VALUES (10,'Чи може метод main бути оголошеним як final?');
