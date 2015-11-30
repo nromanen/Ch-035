@@ -35,7 +35,8 @@
 							</div>
 						</div>
 						<c:if test="${param.error != null}">
-                                <div class="alert alert-danger">
+                                <div class="alert alert-danger" role="alert">
+                                	 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                                     <spring:message code="crsms.signin.badcredentials" />
                                 </div>
                             </c:if>
@@ -73,38 +74,3 @@
 		</div>
 	</div>
 </div>
-
-
-
-
-<%-- 
-
-<form name='loginForm' action="<c:url value='/login' />" method='POST'>
-	<div class="form-group">
-		<label for="email"><spring:message code="crsms.text.email" /></label>
-		<input type="email" class="form-control" id="email" name="email"
-			placeholder="Email">
-	</div>
-	<div class="form-group">
-		<label for="password"><spring:message	code="crsms.text.password" /></label> 
-			<input type="password"	class="form-control" id="password" name="password"
-			placeholder="Password">
-	</div>
-	<div class="input-group input-sm">
-		<div class="checkbox">
-			<label for="rememberme">
-			<input type="checkbox" id="rememberme"
-				name="remember-me" placeholder="Rememberme"><spring:message
-				code="crsms.text.rememberme" />
-				</label>
-		</div>
-	</div>
-
-	<button type="submit" class="btn btn-default">
-		<spring:message code="crsms.button.log.in" />
-	</button>
-
-	<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
-
-</form> --%>
