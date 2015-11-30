@@ -7,4 +7,15 @@ $(document).ready(function(e) {
             todayHighlight: true
         });
     });
+	
+	$('#group-form').validate({
+		errorClass: "errorTxt",	
+		rules: {
+        	"name": {
+                required: true,
+                minlength: 2,
+                maxlength: 100
+            },
+        },
+    });
 });

@@ -1,12 +1,16 @@
 package com.crsms.config;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.WebApplicationContext;
@@ -17,14 +21,16 @@ import com.crsms.service.FileServiceImpl;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
+	private final Logger logger = LogManager.getLogger(WebInitializer.class);
+	
 	// Temporary location where files will be stored.
-	private static final String TEMP_LOCATION = "temp";
+	private String tempLocation = "temp";
 	// 5MB : Max file size.
-	private static final long MAX_FILE_SIZE = 5242880;
+	private long maxFileSize = 5242880;
 	// 20MB : Total request size containing Multi part.
-	private static final long MAX_REQUEST_SIZE = 20971520;
+	private long maxRequestSize = 20971520;
 	// Size threshold after which files will be written to disk.
-	private static final int FILE_SIZE_THRESHOLD = 0;
+	private int fileSizeTreshold = 0;
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -46,14 +52,25 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         registration.setMultipartConfig(getMultipartConfigElement());
     }
  
-    private MultipartConfigElement getMultipartConfigElement() {
-        File dir = new File(FileServiceImpl.RESOURCE_PATH + File.separator + TEMP_LOCATION);
-        if (!dir.exists()) {
-        	dir.mkdirs();
+    
+	private MultipartConfigElement getMultipartConfigElement() {
+        Properties props = new Properties();
+        try {
+			props.load(WebInitializer.class.getResourceAsStream("/application.properties"));
+			tempLocation = props.getProperty("multipart.temp.location");
+			maxFileSize = Long.parseLong(props.getProperty("multipart.max.file.size"));
+			maxRequestSize = Long.parseLong(props.getProperty("multipart.max.request.size"));
+			fileSizeTreshold = Integer.parseInt(props.getProperty("multipart.file.size.treshold"));
+		} catch (IOException e) {
+			logger.error("Could not load application.properies for MultipartConfigElement. Default values is being used");
+		}
+    	File tempDir = new File(FileServiceImpl.RESOURCE_PATH + File.separator + tempLocation);
+        if (!tempDir.exists()) {
+        	tempDir.mkdirs();
         }
     	MultipartConfigElement multipartConfigElement = 
-    			new MultipartConfigElement(dir.getAbsolutePath(), MAX_FILE_SIZE, 
-    										MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
+    			new MultipartConfigElement(tempDir.getAbsolutePath(), maxFileSize, 
+    										maxRequestSize, fileSizeTreshold);
         return multipartConfigElement;
     }
     

@@ -11,7 +11,7 @@
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
 		<p><spring:message code="crsms.courses.text.duration" /></p>
-		<h3>${course.duration}</h3>
+		<h3>${course.duration} <spring:message code="crsms.courses.text.weeks" /></h3>
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
 		<p><spring:message code="crsms.courses.text.modules.count" /></p>
@@ -43,7 +43,7 @@
 						<div class="collapse" id="resource-${moduleResource.id}-collapse">
 							<div class="well">
 						    	<div class="embed-responsive embed-responsive-16by9">
-								  	<iframe class="embed-responsive-item" src="${moduleResource.url}"></iframe>
+								  	<iframe class="embed-responsive-item" src="${moduleResource.path}"></iframe>
 								</div>
 						  	</div>
 						</div>
