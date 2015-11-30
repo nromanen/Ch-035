@@ -3,16 +3,16 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 
-<form:form modelAttribute="user" method="POST" class="form-horizontal">
+<form:form modelAttribute="user" method="POST" class="form-horizontal" >
 	<form:input path="id" type="hidden" />
 
-	<div class="form-group">
+	<div class="form-group " >
 		<c:set var="userEmail">
 			<spring:message code="crsms.createuser.email" />
 		</c:set>
 		<label for="email" class="col-sm-2 control-label">${userEmail}:
 		</label>
-		<div class="col-sm-10">
+		<div class="col-sm-4">
 			<form:input path="email" id="email" class="form-control"
 				placeholder="${userEmail}" />
 			<form:errors path="email" cssClass="label label-danger" />
@@ -25,7 +25,7 @@
 		</c:set>
 		<label for="password" class="col-sm-2 control-label">${userPassword}:
 		</label>
-		<div class="col-sm-10">
+		<div class="col-sm-4">
 			<form:input type="password" path="password" id="password"
 				class="form-control" placeholder="${userPassword}" />
 			<form:errors path="password" cssClass="label label-danger" />
@@ -38,15 +38,25 @@
 		</c:set>
 		<label for="role" class="col-sm-2 control-label">${userRole}:
 		</label>
-		<div class="col-sm-10">
+		<div class="col-sm-4">
 			<form:select path="role" items="${roles}" itemValue="id"
 				itemLabel="name" class="form-control input-sm" />
 			<form:errors path="role" cssClass="label label-danger" />
 		</div>
 	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-4">
+			<div class="checkbox">
+				<label for="isEnabled">
+					<form:checkbox path="isEnabled" id="isEnabled" />
+					<spring:message code="crsms.createuser.isEnabled" />
+				</label>
+			</div>
+		</div>
+	</div>
 
 	<div class="form-group">
-		<div class="col-sm-offset-2 col-sm-10">
+		<div class="col-sm-offset-2 col-sm-4">
 			<c:set var="userSave">
 				<spring:message code="crsms.createuser.save" />
 			</c:set>

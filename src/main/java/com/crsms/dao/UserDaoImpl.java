@@ -6,8 +6,11 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.User;
@@ -18,7 +21,7 @@ import com.crsms.domain.User;
  *
  */
 @Repository
-public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	public UserDaoImpl() {
 		super(User.class);
@@ -74,15 +77,29 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getPagingUsers(int startPosition, int itemsPerPage,
-			String sortingField, String order) {
+			String sortingField, String order, String keyWord) {
 		List<User> users = new ArrayList<>();
-		
+
 		try {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()
-					.createCriteria(User.class);
+					.createCriteria(User.class, "user")
+					.createAlias("user.role", "role")
+					.createAlias("user.userInfo", "userInfo");
+			if (!keyWord.equals("")) {
+					 Disjunction or = Restrictions.disjunction();
+					 or.add(Restrictions.ilike("user.email", keyWord,
+					 MatchMode.ANYWHERE));
+					 or.add(Restrictions.ilike("role.name", keyWord,
+					 MatchMode.ANYWHERE));
+					 or.add(Restrictions.ilike("userInfo.firstName", keyWord,
+					 MatchMode.ANYWHERE));
+					 or.add(Restrictions.ilike("userInfo.lastName", keyWord,
+					 MatchMode.ANYWHERE));
+					 criteria.add(or);
+				}
 			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));
-			} else	{
+			} else {
 				criteria.addOrder(Order.desc(sortingField));
 			}
 			criteria.setFirstResult(startPosition);

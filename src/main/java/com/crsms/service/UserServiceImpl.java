@@ -90,8 +90,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	@Override
 	public List<User> getPagingUsers(int startPosition, int itemsPerPage, 
-										String sortingField, String order) {
-		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
+									String sortingField, String order, String keyWord) {
+		return userDao.getPagingUsers(startPosition, itemsPerPage, 
+									sortingField, order, keyWord);
 	}
-	
 }
