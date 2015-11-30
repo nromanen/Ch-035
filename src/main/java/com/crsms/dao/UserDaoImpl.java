@@ -79,26 +79,26 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getPagingUsers(int startPosition, int itemsPerPage,
-			String sortingField, String order) {
+			String sortingField, String order, String keyWord) {
 		List<User> users = new ArrayList<>();
 
 		try {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()
 					.createCriteria(User.class, "user")
 					.createAlias("user.role", "role")
-					.createAlias("user.userInfo", "userinfo");
-//			criteria.setProjection(
-//				Projections.projectionList()
-//					.add(Projections.property("user.id"), "id")
-//					.add(Projections.property("user.email"), "email")
-//					.add(Projections.property("user.isEnabled"), "isEnabled")
-//					.add(Projections.property("role.name"), "name")
-//					.add(Projections.property("userInfo.lastName"), "lastName")
-//					.add(Projections.property("userInfo.firstName"), "firstName")
-//				);
-//			criteria.setResultTransformer(Criteria.ROOT_ENTITY);
-
-					
+					.createAlias("user.userInfo", "userInfo");
+			if (!keyWord.equals("")) {
+					 Disjunction or = Restrictions.disjunction();
+					 or.add(Restrictions.ilike("user.email", keyWord,
+					 MatchMode.ANYWHERE));
+					 or.add(Restrictions.ilike("role.name", keyWord,
+					 MatchMode.ANYWHERE));
+					 or.add(Restrictions.ilike("userInfo.firstName", keyWord,
+					 MatchMode.ANYWHERE));
+					 or.add(Restrictions.ilike("userInfo.lastName", keyWord,
+					 MatchMode.ANYWHERE));
+					 criteria.add(or);
+				}
 			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));
 			} else {
@@ -106,43 +106,10 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 			}
 			criteria.setFirstResult(startPosition);
 			criteria.setMaxResults(itemsPerPage);
-			
 			users.addAll(criteria.list());
-			for (Object o : users){
-				System.out.println(o);
-			}
 		} catch (Exception e) {
 			this.getLogger().error("Error getPagingUsers " + e);
 			throw e;
-		}
-		return users;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<User> search(String keyWord) {
-		List<User> users = new ArrayList<>();
-		if (!keyWord.equals("")) {
-			try {
-				Criteria criteria = this.getSessionFactory()
-						.getCurrentSession().createCriteria(User.class);
-				// Disjunction or = Restrictions.disjunction();
-				// or.add(Restrictions.ilike("email", keyWord,
-				// MatchMode.ANYWHERE));
-				// or.add(Restrictions.ilike("role", keyWord,
-				// MatchMode.ANYWHERE));
-				// or.add(Restrictions.ilike("userInfo", keyWord,
-				// MatchMode.ANYWHERE));
-				// or.add(Restrictions.ilike("isEnabled", keyWord,
-				// MatchMode.ANYWHERE));
-				// criteria.add(or);
-				criteria.add(Restrictions.ilike("email", keyWord,
-						MatchMode.ANYWHERE));
-				users.addAll(criteria.list());
-			} catch (Exception e) {
-				this.getLogger().error("Search error " + e);
-				throw e;
-			}
 		}
 		return users;
 	}

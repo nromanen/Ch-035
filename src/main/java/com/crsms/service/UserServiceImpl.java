@@ -74,12 +74,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	@Override
 	public List<User> getPagingUsers(int startPosition, int itemsPerPage, 
-										String sortingField, String order) {
-		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
-	}
-
-	@Override
-	public List<User> search(String keyWord) {
-		return userDao.search(keyWord);
+									String sortingField, String order, String keyWord) {
+		return userDao.getPagingUsers(startPosition, itemsPerPage, 
+									sortingField, order, keyWord);
 	}
 }

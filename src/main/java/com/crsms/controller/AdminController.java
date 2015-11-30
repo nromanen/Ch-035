@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.crsms.domain.Course;
 import com.crsms.domain.Role;
 import com.crsms.domain.User;
 import com.crsms.service.RoleService;
@@ -49,6 +47,7 @@ public class AdminController {
 						@RequestParam (value = "page", required = false, defaultValue = "1") int page,
 						@RequestParam (value = "sortparam", required = false, defaultValue = "email") String sortParam,
 						@RequestParam (value = "direction", required = false, defaultValue = "asc") String direction,
+						@RequestParam (value = "keyWord",required = false, defaultValue = "")String keyWord,
 						HttpSession session, ModelMap model) {
 		
 		if (session.getAttribute("direction") == null) {
@@ -70,18 +69,20 @@ public class AdminController {
 			sortingField = (String) session.getAttribute("sortparam");
 		}
 		
+		int startPosition = (page - 1) * ITEMSPERPAGE;
+		List<User> users = userService.getPagingUsers(
+				startPosition, ITEMSPERPAGE, sortingField, order, keyWord);
+		
 		long rowsCount = userService.getRowsCount();
 		int lastpage = (int) ((rowsCount / ITEMSPERPAGE));
-		if (rowsCount > (lastpage * ITEMSPERPAGE))
-		{
+		
+		if (rowsCount > (lastpage * ITEMSPERPAGE)) {
 			lastpage++;
 		}
-		int startPosition = (page - 1) * ITEMSPERPAGE;
-
-		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortingField, order);
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);
+		model.addAttribute("keyWord", keyWord);
 		return "admin";
 	}
 	
@@ -92,24 +93,6 @@ public class AdminController {
 		return "redirect:/admin/";
 	}
 	
-	@RequestMapping(value = { "/adduser" }, method = RequestMethod.GET)
-	public String addUser(ModelMap model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "adduser";
-	}
-	
-	@RequestMapping(value = { "/adduser" }, method = RequestMethod.POST)
-	public String saveUser(@Validated User user, BindingResult result,
-			ModelMap model) {
-		validator.validate(user, result);
-		if (result.hasErrors()) {
-			return "adduser";
-		}
-		userService.saveUser(user);
-		return "redirect:/admin/";
-	}
-
 	@RequestMapping(value = { "/{userId}/edit" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable Long userId, ModelMap model) {
 		User user = userService.getById(userId);
@@ -126,13 +109,6 @@ public class AdminController {
 		}
 		userService.update(user);
 		return "redirect:/admin/";
-	}
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String search(@RequestParam("keyWord") String keyWord, ModelMap model) {
-		List<User> users = userService.search(keyWord);
-		model.addAttribute("keyWord", keyWord);
-		model.addAttribute("users", users);
-		return "admin";
 	}
 	
 	@ModelAttribute("roles")
