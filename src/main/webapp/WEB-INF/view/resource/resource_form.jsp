@@ -18,7 +18,6 @@
 </c:choose>
 
 <div>
-  <a class="btn btn-danger" href="upload-to-drive">Google Drive</a>
 
   <!-- Nav tabs -->
   <ul class="nav nav-pills" role="tablist">
@@ -76,7 +75,7 @@
 	</div>
 	
     <div role="tabpanel" class="tab-pane fade" id="tab-type-file">
-    	<form:form method="POST" action="addfile" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
+    	<form:form method="POST" action="uploadfile" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
 			<div class="form-group">
 				<label for = "type" class="col-sm-1 control-label"><spring:message code = "crsms.resource.text.file" />: </label>
 				<div class="col-sm-4">
