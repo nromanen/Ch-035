@@ -104,9 +104,9 @@ public class UserController {
 		newUserInfo.setUser(userService.getUserByEmail(currentUserEmail));
 		userInfoService.update(newUserInfo);
 
-		return "redirect:/courses/?show=my";
+		return "redirect:/courses/";
 	}
-	
+		
 	@ResponseBody
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public String changePassword(HttpSession session, 

@@ -59,7 +59,7 @@ public class User {
 	private String password;
 
 	@OneToOne(mappedBy = "user")
-	@Cascade({ CascadeType.ALL })
+	@Cascade({ CascadeType.REMOVE })
 	private UserInfo userInfo;
 
 	@OneToOne
