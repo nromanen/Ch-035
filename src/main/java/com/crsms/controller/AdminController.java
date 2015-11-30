@@ -32,7 +32,7 @@ import com.crsms.validator.AdminValidator;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-	public static final int ITEMSPERPAGE = 20;
+	public static final int ITEMSPERPAGE = 6;
 	@Autowired
 	private UserService userService;
 	

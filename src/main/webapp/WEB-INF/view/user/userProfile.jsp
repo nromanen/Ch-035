@@ -10,14 +10,14 @@
         	<div class="modal-content">
             	<div class="modal-header">
                 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                	<h4 class="modal-title">Select image</h4>
+                	<h4 class="modal-title"><spring:message code = "crsms.userProfile.selectPhoto"/></h4>
             	</div>
            		<div class="modal-body text-center" id="avatarModalBody">
             		<img src="" id="avatarImage" width="400" height="400">
             	</div>
             	<div class="modal-footer">
-                	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                	<button type="button" class="btn btn-primary" id="imageSelectBtn">Select</button>
+                	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.userProfile.modclose"/></button>
+                	<button type="button" class="btn btn-primary" id="imageSelectBtn"><spring:message code = "crsms.userProfile.selectPhoto"/></button>
             	</div>
         	</div>
     	</div>
@@ -39,6 +39,7 @@
 					<h4 class="modal-title" id="myModalLabel"><spring:message code = "crsms.userProfile.changePassword"/></h4>
 				</div>
 				<div class="modal-body">
+				<div id="form_errors" class="alert alert-danger fade in" style="display:none"> </div>
 					<form action="changePassword" id="changePasswordForm" method="POST">
 						<table>
 							<tr>
@@ -76,7 +77,7 @@
 				<form:form modelAttribute="userInfo" id="user-information" action="submitUserInfo" name="userInformation" method="POST" class="form-horizontal">
 					<form:input path="id" type="hidden" class="form-control" name="id" />
 					<div class="form-group">
-						<label for="image" class="col-md-2">Image</label>
+						<label for="image" class="col-md-2"><spring:message code = "crsms.userProfile.image"/></label>
 						<div class="col-md-2">
 							<c:choose>
 								<c:when test="${ empty userInfo.image }">
@@ -94,7 +95,7 @@
 					<div class="form-group">
 						<div class="col-md-3 col-md-offset-2">
 							<input 	type="button" id="showImagePopupBtn" class="btn btn-default"
-								value="Select image">
+							value = <spring:message code = "crsms.userProfile.selectPhoto"/> >
 						</div>
 					</div>
 					<div class="form-group">
