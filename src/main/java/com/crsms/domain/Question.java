@@ -39,7 +39,8 @@ import org.hibernate.annotations.NamedQuery;
 		@NamedQuery(name = Question.GET_QUESTION_COUNT_BY_TEST, 
 					query = "SELECT count(*) FROM Test test "
 							+ "JOIN test.questions question "
-							+ " WHERE test.id = :id")
+							+ " WHERE test.id = :id"),
+					
 })
 public class Question {
 	public static final String GET_BY_TEST_ID = "Question.getByTestId";
@@ -47,7 +48,7 @@ public class Question {
 	public static final String GET_BY_ANSWER = "Question.getByAnswer";
 	public static final String GET_QUESTION_COUNT_BY_TEST = "Question.getByQuestionCountByTest";
     public static final int MAX_TEXT_LENGTH = 1000;
-
+	
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
     @SequenceGenerator(name = "crsms_gen", sequenceName = "question_id_seq", allocationSize = 1)

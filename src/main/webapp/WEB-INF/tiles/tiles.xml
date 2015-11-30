@@ -316,14 +316,22 @@
 		</put-list-attribute>
 	</definition>
 	
-	<!-- TODO: change title -->
 	<definition name="show_test" extends="base-template">
-		<put-attribute name="title" value="crsms.test.text.test.create" />
-		<put-attribute name="header-title" value="crsms.test.text.test.create" />
+		<put-attribute name="title" value="crsms.test.text.tests.testing" />
+		<put-attribute name="header-title" value="crsms.test.text.tests.testing" />
 		<put-attribute name="content" value="/WEB-INF/view/test/show_test.jsp" />
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/resources/js/test/show_test.js" />
 		</put-list-attribute>
+	</definition>
+	
+	<definition name="show_test_result" extends="base-template">
+		<put-attribute name="title" value="crsms.test.text.tests.testResult" />
+		<put-attribute name="header-title" value="crsms.test.text.tests.testResult" />
+		<put-attribute name="content" value="/WEB-INF/view/test/show_test_result.jsp" />
+		<!-- <put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/test/show_test_result.js" />
+		</put-list-attribute> -->
 	</definition>
 	<!-- end Test -->
 

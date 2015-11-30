@@ -57,7 +57,7 @@ public class User {
 	@Size(min = 5, max = MAX_PASSWORD_LENGTH)
 	private String password;
 
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private UserInfo userInfo;
 
 	@OneToOne(cascade = CascadeType.MERGE)

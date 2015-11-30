@@ -10,4 +10,6 @@ public interface UserAnswerDao extends BaseDao<UserAnswer> {
 
 	List<Long> getAnswerIds(Long testResultId, Long questionId);
 
+	Boolean hasAnswereForQuestion(Long testResultId, Long questionId);
+
 }

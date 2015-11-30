@@ -17,4 +17,22 @@ public class TestResultDaoImpl extends BaseDaoImpl<TestResult> implements TestRe
 				.setParameter("testId", testId).setParameter("userId", userId).uniqueResult();
 	}
 
+	@Override
+	public TestResult getByIdAndUser(Long testResultId, Long userId) {
+		return ( TestResult) getSessionFactory().getCurrentSession().getNamedQuery(TestResult.GET_BY_ID_AND_USER)
+				.setParameter("testResultId", testResultId).setParameter("userId", userId).uniqueResult();
+	}
+
+	@Override
+	public Long counCorrectAnswers(Long testResultId) {
+		return (Long) getSessionFactory().getCurrentSession().getNamedQuery(TestResult.COUNT_CORRECT_ANSWER)
+				.setParameter("testResultId", testResultId).uniqueResult();
+	}
+	
+	@Override
+	public Long counIncorrectAnswers(Long testResultId) {
+		return (Long) getSessionFactory().getCurrentSession().getNamedQuery(TestResult.COUNT_INCORRECT_ANSWER)
+				.setParameter("testResultId", testResultId).uniqueResult();
+	}
+
 }

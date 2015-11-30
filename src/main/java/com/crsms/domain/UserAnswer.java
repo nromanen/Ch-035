@@ -29,11 +29,16 @@ import org.hibernate.annotations.CascadeType;
 						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId"),
 	@NamedQuery(name = UserAnswer.GET_ANSWER_IDS_BY_TEST_RESULT_AND_QUESTION,
 				query = "SELECT userAnswer.answer.id FROM UserAnswer userAnswer "
-							+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId")
+							+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId"),
+	@NamedQuery(name = UserAnswer.HAS_FOR_QUESTION,
+				query = "SELECT COUNT(*) > 0 "
+						+ "FROM UserAnswer userAnswer "
+						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId")
 })
 public class UserAnswer {
 	public static final String DELETE_BY_TEST_RESULT_QUESTION = "UserAnswer.deleteByTestResultAndQuestion";
 	public static final String GET_ANSWER_IDS_BY_TEST_RESULT_AND_QUESTION = "UserAnswer.getAnswerIdsByTestResultAndQuestion";
+	public static final String HAS_FOR_QUESTION = "UserAnswer.hasAnswereForQuestion";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")

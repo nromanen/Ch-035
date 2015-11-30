@@ -34,12 +34,18 @@ import org.hibernate.annotations.NamedQuery;
   	@NamedQuery(name = Test.GET_BY_QUESTION, 
   				query = "SELECT test FROM Test test "
   						+ "JOIN test.questions question "
-  						+ " WHERE question.id = :id")
+  						+ " WHERE question.id = :id"),
+	@NamedQuery(name = Test.COUNT_CORRECT_ANSWER, 
+				query = "SELECT COUNT(*) FROM Test test "
+						+ "JOIN test.questions question "
+						+ "JOIN question.answers answer "
+						+ " WHERE test.id = :testId AND answer.correct = true AND answer.disable = false")
 })
 public class Test {
 	public static final String GET_ALL = "Test.getAll";
 	public static final String GET_BY_MODULE_ID = "Test.getByModuleId";
 	public static final String GET_BY_QUESTION = "Test.getByQuestion";
+	public static final String COUNT_CORRECT_ANSWER = "Test.countCorrectAnswer";
 	public static final int MAX_NAME_LENGTH = 100;
 	
     @Id
