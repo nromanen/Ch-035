@@ -1,6 +1,7 @@
 package com.crsms.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.crsms.domain.Course;
 
@@ -23,10 +24,6 @@ public interface CourseService extends BaseService<Course> {
 	
 	List<Course> getAllByAreaId(Long areaId);
 	
-	void subscribe(Long courseId, String email);
-	
-	void unsubscribe(Long courseId, String email);
-	
 	List<Course> getAllByUserId(Long userId);
 	
 	List<Course> getAllByUserEmail(String email);
@@ -35,8 +32,10 @@ public interface CourseService extends BaseService<Course> {
 	
 	List<Course> searchCourses(String seachWord);
 	
-	List<Long> getUserCoursesIds(String email);
-	
 	boolean isUserACourseOwner(Long courseId, String userEmail);
+
+	Map<Long, Long> getStudentCoursesAndGroupsIds(String email);
+
+	void publish(Long courseId);
 
 }

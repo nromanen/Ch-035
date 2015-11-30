@@ -14,18 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.crsms.domain.Area;
 import com.crsms.domain.Course;
+import com.crsms.domain.Group;
 import com.crsms.domain.Module;
 import com.crsms.domain.Resource;
 import com.crsms.domain.Test;
 import com.crsms.dto.AreaJsonDto;
 import com.crsms.dto.CourseJsonDto;
+import com.crsms.dto.GroupNameJsonDto;
 import com.crsms.dto.ModuleJsonDto;
 import com.crsms.dto.ResourceJsonDto;
 import com.crsms.dto.TestJsonDto;
+import com.crsms.dto.UserIdAndEmailDto;
 import com.crsms.dto.VacancyJsonDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
+import com.crsms.service.GroupService;
 import com.crsms.service.ModuleService;
 import com.crsms.service.ResourceService;
 import com.crsms.service.TestService;
@@ -49,6 +53,9 @@ public class RestApiController {
 	
 	@Autowired
 	private DtoService dtoService;
+	
+	@Autowired
+	private GroupService groupService;
 	
 	@Autowired
 	private ModuleService moduleService;
@@ -140,5 +147,21 @@ public class RestApiController {
 	@RequestMapping(value = {"/vacancies"}, method = RequestMethod.GET)
 	public List<VacancyJsonDto> getVacancies() throws IOException {
 	  return vacancyService.getAllVacancies();
+	}
+	
+	@RequestMapping(value = {"/groups"}, method = RequestMethod.GET)
+	public List<GroupNameJsonDto> getAllGroups() {
+		return dtoService.convert(groupService.getAll(), GroupNameJsonDto.class, Group.class);
+	}
+	
+	@RequestMapping(value = {"/courses/{courseId}/groups"}, method = RequestMethod.GET)
+	public List<GroupNameJsonDto> getAllGroupsByCourseId(@PathVariable Long courseId) {
+		return dtoService.convert(groupService.getAllByCourseId(courseId),
+									GroupNameJsonDto.class, Group.class);
+	}
+	
+	@RequestMapping(value = {"/groups/{groupId}/students"}, method = RequestMethod.GET)
+	public List<UserIdAndEmailDto> getStudentsFromGroup(@PathVariable Long groupId) {
+		return groupService.getStudentsFromGroup(groupId);
 	}
 }

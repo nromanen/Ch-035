@@ -1,6 +1,5 @@
 package com.crsms.service;
 
-import java.io.File;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -52,12 +51,4 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource>  implements R
 		return resourceDao.getAllByModuleId(moduleId);
 	}
 	
-	@Override
-	public void save(String name, String path) {
-		Resource resource = new Resource();
-        resource.setName(name);
-        resource.setType(Resource.Type.FILE);
-        resource.setUrl(path + File.separator + name);
-        this.save(resource);
-	}
 }

@@ -10,8 +10,8 @@
 					'crsms.courses.text.opened' : 'crsms.courses.text.closed'}" /></h3>
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
-		<p><spring:message code="crsms.text.date" /></p>
-		<h3><joda:format value="${course.startDate}" pattern="dd.MM.yyyy"/> - <joda:format value="${courseEndDate}" pattern="dd.MM.yyyy"/></h3>
+		<p><spring:message code="crsms.courses.text.duration" /></p>
+		<h3>${course.duration} <spring:message code="crsms.courses.text.weeks" /></h3>
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
 		<p><spring:message code="crsms.courses.text.modules.count" /></p>
@@ -39,11 +39,11 @@
 					<c:when test="${moduleResource.type == 'EMBEDDED'}">
 						<a class="btn btn-default" role="button" data-toggle="collapse" 
 							href="#resource-${moduleResource.id}-collapse" aria-expanded="false" aria-controls="collapseExample"
-							><i class="fa fa-lg fa-film"></i> ${moduleResource.name}</a>
+							><i class="fa fa-lg fa-play-circle-o"></i> ${moduleResource.name}</a>
 						<div class="collapse" id="resource-${moduleResource.id}-collapse">
 							<div class="well">
 						    	<div class="embed-responsive embed-responsive-16by9">
-								  	<iframe class="embed-responsive-item" src="${moduleResource.url}"></iframe>
+								  	<iframe class="embed-responsive-item" src="${moduleResource.path}"></iframe>
 								</div>
 						  	</div>
 						</div>
