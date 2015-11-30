@@ -4,7 +4,30 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
+	<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
+	<div class="modal fade" id="imageModal">
+    	<div class="modal-dialog modal-lg">
+        	<div class="modal-content">
+            	<div class="modal-header">
+                	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                	<h4 class="modal-title">Select image</h4>
+            	</div>
+           		<div class="modal-body text-center" id="avatarModalBody">
+            		<img src="" id="avatarImage" width="400" height="400">
+            	</div>
+            	<div class="modal-footer">
+                	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                	<button type="button" class="btn btn-primary" id="imageSelectBtn">Select</button>
+            	</div>
+        	</div>
+    	</div>
+	</div>
+	<input type="hidden" id="selectedImage" value="">
+	<div class="hidden">
+    	<input type="file" id="imageInput" accept="image/*" >
+    	<canvas id="imageCanvas"></canvas>
+		<canvas id="bufferedCanvas" width="400" height="400" ></canvas>
+	</div>
 
 	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 		<div class="modal-dialog modal-sm">
@@ -28,6 +51,11 @@
 								<td><input type="password" name="newPassword" 
 									id="newPassword" required
 									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"></td>
+							</tr>
+							<tr>
+								<td><spring:message code = "crsms.signUp.confPassword"/></td>
+								<td><input type="password" name="confPassword" 
+									id="confPassword" required></td>
 							</tr>
 						</table>
 						<input type="hidden" id="csrf" name="${_csrf.parameterName}"
@@ -61,13 +89,14 @@
 							</c:choose>
 							<input type="image" src="${ imgSrc }" class="form-control" id="imagePreview" alt="Avatar" style="width:170px;height:170px;" />
 							<form:input path="image" type="hidden" class="form-control" id="image" name="image" value="${ imgSrc }" />
-						</div>
+					 </div>
 					</div>	
 					<div class="form-group">
 						<div class="col-md-3 col-md-offset-2">
-							<input type="file" accept="image/*" id="pic">
+							<input 	type="button" id="showImagePopupBtn" class="btn btn-default"
+								value="Select image">
 						</div>
-					</div>	
+					</div>
 					<div class="form-group">
 						<label for="firstName" class="col-md-2"><spring:message code = "crsms.userProfile.fName"/></label>
 						<div class="col-md-2">
