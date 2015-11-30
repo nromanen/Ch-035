@@ -12,7 +12,7 @@
 								+'Enter correct current password.</div>');
 					} else {
 						$("#closeModalBtn").click();
-						//window.location.href = "signin?signout";
+						window.location.href = "signout";
 					}
 				}).fail(function() {
 					$('#form_errors').show().html('<div class="alert alert-danger">'
