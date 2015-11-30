@@ -77,6 +77,9 @@
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/admin/admin.css" />
 		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/admin/admin.js" />
+		</put-list-attribute>
 	</definition>
 	<definition name="adduser" extends="base-template">
 		<put-attribute name="title" value="crsms.admin.title.adduser" />

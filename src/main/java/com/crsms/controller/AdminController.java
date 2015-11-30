@@ -32,7 +32,7 @@ import com.crsms.validator.AdminValidator;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-	public static final int ITEMSPERPAGE = 4;
+	public static final int ITEMSPERPAGE = 20;
 	@Autowired
 	private UserService userService;
 	
@@ -47,6 +47,7 @@ public class AdminController {
 						@RequestParam (value = "page", required = false, defaultValue = "1") int page,
 						@RequestParam (value = "sortparam", required = false, defaultValue = "email") String sortParam,
 						@RequestParam (value = "direction", required = false, defaultValue = "asc") String direction,
+						@RequestParam (value = "keyWord",required = false, defaultValue = "")String keyWord,
 						HttpSession session, ModelMap model) {
 		
 		if (session.getAttribute("direction") == null) {
@@ -68,18 +69,19 @@ public class AdminController {
 			sortingField = (String) session.getAttribute("sortparam");
 		}
 		
+		int startPosition = (page - 1) * ITEMSPERPAGE;
+		List<User> users = userService.getPagingUsers(
+				startPosition, ITEMSPERPAGE, sortingField, order, keyWord);
+		
 		long rowsCount = userService.getRowsCount();
 		int lastpage = (int) ((rowsCount / ITEMSPERPAGE));
-		if (rowsCount > (lastpage * ITEMSPERPAGE))
-		{
+		if (rowsCount > (lastpage * ITEMSPERPAGE)) {
 			lastpage++;
 		}
-		int startPosition = (page - 1) * ITEMSPERPAGE;
-
-		List<User> users = userService.getPagingUsers(startPosition, ITEMSPERPAGE, sortingField, order);
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);
+		model.addAttribute("keyWord", keyWord);
 		return "admin";
 	}
 	
@@ -90,24 +92,6 @@ public class AdminController {
 		return "redirect:/admin/";
 	}
 	
-	@RequestMapping(value = { "/adduser" }, method = RequestMethod.GET)
-	public String addUser(ModelMap model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "adduser";
-	}
-	
-	@RequestMapping(value = { "/adduser" }, method = RequestMethod.POST)
-	public String saveUser(@Validated User user, BindingResult result,
-			ModelMap model) {
-		validator.validate(user, result);
-		if (result.hasErrors()) {
-			return "adduser";
-		}
-		userService.saveUser(user);
-		return "redirect:/admin/";
-	}
-
 	@RequestMapping(value = { "/{userId}/edit" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable Long userId, ModelMap model) {
 		User user = userService.getById(userId);
