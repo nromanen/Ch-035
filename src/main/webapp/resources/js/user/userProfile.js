@@ -110,16 +110,27 @@
             },
         },
     });
+	$(document).ready(function(){
+	    $('[data-toggle="popover"]').popover();   
+	});
+	
 	
 	$('#changePasswordForm').validate({
         errorClass: "errorTxt",
 		rules: {
 			"currentPass": {
-        		required: true,
-        		minlength: 2
+        		required: true
             },
             "newPassword": {
-            	required: true
+            	required: true,
+            	minlength: 6,
+            	maxlength: 255
+            },
+            "confPassword": {
+            	required: true,
+            	equalTo: "#newPassword",
+            	minlength: 6,
+            	maxlength: 255
             },
         },
     });

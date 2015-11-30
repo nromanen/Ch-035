@@ -19,8 +19,11 @@
 					<div class="form-group">
 						<label for="password" class="col-md-3"><spring:message code = "crsms.signUp.password"/></label> 
 						<div class="col-md-4">
+							<span title="<spring:message code = "crsms.signUp.password.tip.title"/>"
+							data-toggle="popover" data-trigger="focus"
+							data-content="<spring:message code = "crsms.signUp.password.tip.text"/>">
 							<form:input path="password" type="password" class="form-control" id="password" name="password" placeholder="Password" required="true" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" />
-							<form:errors path = "password" cssClass = "label label-danger" />
+							<form:errors path = "password" cssClass = "label label-danger" /> </span>
 						</div>
 					</div>
 					<div class="form-group">
