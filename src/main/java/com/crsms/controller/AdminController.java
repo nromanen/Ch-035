@@ -32,7 +32,7 @@ import com.crsms.validator.AdminValidator;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-	public static final int ITEMSPERPAGE = 4;
+	public static final int ITEMSPERPAGE = 20;
 	@Autowired
 	private UserService userService;
 	
@@ -75,7 +75,6 @@ public class AdminController {
 		
 		long rowsCount = userService.getRowsCount();
 		int lastpage = (int) ((rowsCount / ITEMSPERPAGE));
-		
 		if (rowsCount > (lastpage * ITEMSPERPAGE)) {
 			lastpage++;
 		}
