@@ -2,32 +2,49 @@ package com.crsms.domain;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
  * @author Valerii Motresku
+ * @author St. Roman
  *
  */
 
 @Entity
 @Table(name = "groups")
+@NamedQueries({
+	@NamedQuery(name = Group.GET_ALL_BY_COURSE_ID,
+			query = "select g from Group g join g.course c where c.id = :courseId order by g.id"),
+	@NamedQuery(name = Group.DELETE_BY_ID,
+			query = "delete Group where id = :id"),
+	@NamedQuery(name = Group.GET_STUDENTS_FROM_GROUP,
+				query = "select new com.crsms.dto.UserIdAndEmailDto(u.id, u.email)"
+					  + "from Group g join g.users u where g.id = :id")
+})
 public class Group {
+	public static final String GET_ALL_BY_COURSE_ID = "group.getAllByCourseId";
+	public static final String DELETE_BY_ID = "group.deleteById";
+	public static final String GET_STUDENTS_FROM_GROUP = "group.getStudentsFromGroup";
+	
 	public static final int MAX_NAME_LENGTH = 100;
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -36,25 +53,19 @@ public class Group {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Size(min = 2, max = MAX_NAME_LENGTH)
+	@Size(min = 1, max = MAX_NAME_LENGTH)
 	private String name;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "type_id")
-	private GroupType groupType;
+	@ManyToOne
+	private Course course;
 	
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "groups", fetch = FetchType.LAZY)
-	private Set<UserInfo> users;
+	@ManyToMany
+	private Set<User> users;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Course> courses;
-	
-	@Column(nullable = false)
-	@Min(1)
-	private Long maxUserCount;
-	
-	
-	private Boolean recruited;
+	@Column
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private DateTime startDate;
 
 	public Long getId() {
 		return id;
@@ -72,45 +83,35 @@ public class Group {
 		this.name = name;
 	}
 
-	public GroupType getGroupType() {
-		return groupType;
+	public Course getCourse() {
+		return course;
 	}
 
-	public void setGroupType(GroupType groupType) {
-		this.groupType = groupType;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
-	public Set<UserInfo> getUsers() {
+	public Set<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Set<UserInfo> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 
-	public Set<Course> getCourses() {
-		return courses;
+	public DateTime getStartDate() {
+		return startDate;
 	}
 
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
-	}
-
-	public Long getMaxUserCount() {
-		return maxUserCount;
-	}
-
-	public void setMaxUserCount(Long maxUserCount) {
-		this.maxUserCount = maxUserCount;
-	}
-
-	public Boolean getRecruited() {
-		return recruited;
-	}
-
-	public void setRecruited(Boolean recruited) {
-		this.recruited = recruited;
+	public void setStartDate(DateTime startDate) {
+		this.startDate = startDate;
 	}
 	
+	public void addUser(User user) {
+		this.users.add(user);
+	}
 	
+	public void deleteUser(User user) {
+		this.users.remove(user);
+	}
 }

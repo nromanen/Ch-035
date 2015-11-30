@@ -1,9 +1,6 @@
 
 package com.crsms.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -14,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -68,9 +64,6 @@ public class User {
 	
 	@Column (nullable = false)
 	private Boolean isEnabled = true;
-	
-	@ManyToMany(mappedBy = "users")
-	private Set<Course> courses = new HashSet<Course>();
 	 
 	public Long getId() {
 		return id;
@@ -160,18 +153,6 @@ public class User {
 					+ ", role: " + getRole()
 					+ ", user info: " + getUserInfo() 
 					+ "}";
-	}
-
-	public Set<Course> getCourses() {
-		return courses;
-	}
-
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
-	}
-	
-	public void addCourse(Course course) {
-		this.courses.add(course);
 	}
 
 }

@@ -6,6 +6,7 @@ public class BreadcrumbsHelper {
 	public static final String AREAS = "crsms.bc.areas";
 	public static final String COURSES = "crsms.bc.courses";
 	public static final String MODULES = "crsms.bc.modules";
+	public static final String GROUPS = "crsms.bc.groups";
 	public static final String TESTS = "crsms.bc.tests";
 	public static final String RESOURCES = "crsms.bc.resources";
 	public static final String ADD = "crsms.bc.add";
@@ -27,6 +28,7 @@ public class BreadcrumbsHelper {
 			case "modules": return MODULES;
 			case "tests": return TESTS;
 			case "resources": return RESOURCES;
+			case "groups": return GROUPS;
 			case "add": return ADD;
 			case "edit": return EDIT;
 			case "delete": return DELETE;
