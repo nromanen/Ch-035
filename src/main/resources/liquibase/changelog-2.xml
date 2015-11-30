@@ -158,5 +158,23 @@
 	            tableName="resource"
 	            newColumnName="path" />
 	</changeSet>
+	
+	<changeSet author="valeriimotresku" id="1448626410497-41">
+        <createTable tableName="app_option">
+            <column name="option_key" type="character varying(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="app_option_pkey" />
+            </column>
+            <column name="option_value" type="text">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="valeriimotresku" id="1448626410497-42">
+        <sql>
+        	TRUNCATE app_option;
+			INSERT INTO app_option VALUES('storage.type', 'GOOGLE_DRIVE');
+        </sql>
+    </changeSet>
     
 </databaseChangeLog>
