@@ -10,7 +10,7 @@ import com.crsms.domain.UserInfo;
 
 
 @Service("userInfoService")
-@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@Transactional( propagation = Propagation.REQUIRED)
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements UserInfoService {
 
 	@Override
