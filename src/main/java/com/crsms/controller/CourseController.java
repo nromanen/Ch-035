@@ -1,13 +1,14 @@
 package com.crsms.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,14 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.crsms.domain.Area;
 import com.crsms.domain.Course;
-import com.crsms.domain.User;
 import com.crsms.dto.CourseJsonDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
-import com.crsms.service.UserService;
 import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
-import com.crsms.service.hibernate.initializer.UserCoursesInitializer;
 import com.crsms.util.Invocable;
 import com.crsms.util.StringUtil;
 import com.crsms.validator.CourseJsonValidator;
@@ -47,20 +45,18 @@ public class CourseController {
 	private static final int COURSE_DESC_LENGTH = 300;
 	private static final int COURSE_TITLE_LENGTH = 40;
 	
-	private static final String COURSE_VIEW = "course";
-	private static final String COURSES_VIEW = "courses";
-	private static final String COURSES_TABLE_VIEW = "courses_table";
-	private static final String ADD_COURSE_VIEW = "newFormCourse";
-	private static final String EDIT_COURSE_VIEW = "editFormCourse";
-	private static final String ACCESS_DENIED_VIEW = "403";
+	public static final String COURSE_VIEW = "course";
+	public static final String COURSES_VIEW = "courses";
+	public static final String COURSES_TABLE_VIEW = "courses_table";
+	public static final String ADD_COURSE_VIEW = "newFormCourse";
+	public static final String EDIT_COURSE_VIEW = "editFormCourse";
+	public static final String ACCESS_DENIED_VIEW = "403";
+	  
+	public static final String MY_COURSES_REDIRECT = "redirect:/courses/?show=my";
+	public static final String ALL_COURSES_REDIRECT = "redirect:/courses/?show=all";
 	
-	private static final String MY_COURSES_REDIRECT = "redirect:/courses/?show=my";
-	private static final String ALL_COURSES_REDIRECT = "redirect:/courses/?show=all";
-	
-	private static final String SHOW_ALL = "all";
-	private static final String SHOW_MY = "my";
-	
-	private StringUtil stringUtil = new StringUtil();
+	public static final String SHOW_ALL = "all";
+	public static final String SHOW_MY = "my";
 	
 	@Autowired
 	private AreaService areaService;
@@ -72,9 +68,6 @@ public class CourseController {
 	private DtoService dtoService;
 	
 	@Autowired
-	private UserService userService;
-	
-	@Autowired
 	private CourseJsonValidator validator;
 
 	@InitBinder
@@ -83,19 +76,17 @@ public class CourseController {
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView getCourses(HttpServletRequest request,
+	public ModelAndView getCourses(HttpServletRequest request, Principal principal,
 			@RequestParam (value = "show", required = false, defaultValue = SHOW_ALL) String show) {
 		
 		ModelAndView model = new ModelAndView();
 		
-		String currentPrincipalEmail = null;
-		if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-			currentPrincipalEmail = this.getCurrentPrincipalEmail();
-		}
+		String currentPrincipalEmail = (principal == null ? null : principal.getName());
 		
-		List<Long> userCoursesId = null;
+		Map<Long, Long> studentCoursesAndGroupsIds = null;
 		if (request.isUserInRole("STUDENT")) {
-			userCoursesId = courseService.getUserCoursesIds(currentPrincipalEmail);
+			studentCoursesAndGroupsIds =
+					courseService.getStudentCoursesAndGroupsIds(currentPrincipalEmail);
 		}
 		
 		List<Course> courses = this.setUpCoursesAndView(request, show, model, 
@@ -104,7 +95,7 @@ public class CourseController {
 		truncateNameAndDescription(courses);
 		
 		model.addObject("courses", courses);
-		model.addObject("userCoursesId", userCoursesId);
+		model.addObject("studentCoursesAndGroupsIds", studentCoursesAndGroupsIds);
 		
 		return model;
 	}
@@ -116,7 +107,6 @@ public class CourseController {
 		initializers.add(new CourseModulesDeepInitializer());
 		Course course = courseService.getById(courseId, initializers);
 		model.addObject("course", course);
-		model.addObject("courseEndDate", course.getStartDate().plusWeeks(course.getDuration()));
 		model.addObject("pageTitle", course.getName());
 		model.addObject("headerTitle", course.getName());
 		model.setViewName(COURSE_VIEW);
@@ -125,12 +115,12 @@ public class CourseController {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView addCourse() {
+	public ModelAndView addCourse(Principal principal) {
 		ModelAndView model = new ModelAndView();
 		
 		Course course = new Course();
 		CourseJsonDto courseJsonDto = dtoService.convert(course, CourseJsonDto.class, Course.class);
-		String ownerEmail = this.getCurrentPrincipalEmail();
+		String ownerEmail = principal.getName();
 		courseJsonDto.setOwnerEmail(ownerEmail);
 		
 		List<Area> areas = areaService.getAll();
@@ -166,10 +156,10 @@ public class CourseController {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@RequestMapping(value = "/{courseId}/edit", method = RequestMethod.GET)
-	public ModelAndView editCourse(@PathVariable("courseId") Long courseId) {
+	public ModelAndView editCourse(@PathVariable("courseId") Long courseId, Principal principal) {
 		ModelAndView model = new ModelAndView();
 		
-		if (!courseService.isUserACourseOwner(courseId, this.getCurrentPrincipalEmail())) {
+		if (!courseService.isUserACourseOwner(courseId, principal.getName())) {
 			model.setViewName(ACCESS_DENIED_VIEW);
 			return model;
 		}
@@ -211,42 +201,32 @@ public class CourseController {
 	}
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-	@RequestMapping(value = "/{courseId}/delete", method = RequestMethod.GET)
-	public ModelAndView deleteCourse(@PathVariable("courseId") Long courseId) {
+	@RequestMapping(value = "/{courseId}/publish", method = RequestMethod.GET)
+	public ModelAndView publish(@PathVariable("courseId") Long courseId, Principal principal) {
 		ModelAndView model = new ModelAndView();
 		
-		if (!courseService.isUserACourseOwner(courseId, this.getCurrentPrincipalEmail())) {
+		if (!courseService.isUserACourseOwner(courseId, principal.getName())) {
+			model.setViewName(ACCESS_DENIED_VIEW);
+			return model;
+		}
+		
+		courseService.publish(courseId);
+		model.setViewName(MY_COURSES_REDIRECT);
+		return model;
+	}
+	
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
+	@RequestMapping(value = "/{courseId}/delete", method = RequestMethod.GET)
+	public ModelAndView deleteCourse(@PathVariable("courseId") Long courseId, Principal principal) {
+		ModelAndView model = new ModelAndView();
+		
+		if (!courseService.isUserACourseOwner(courseId, principal.getName())) {
 			model.setViewName(ACCESS_DENIED_VIEW);
 			return model;
 		}
 		
 		courseService.deleteById(courseId);
 		model.setViewName(MY_COURSES_REDIRECT);
-		return model;
-	}
-	
-	@RequestMapping(value = "/{courseId}/enroll", method = RequestMethod.GET)
-	public ModelAndView subscribe(@PathVariable("courseId") Long courseId) {
-		ModelAndView model = new ModelAndView();
-		String email = this.getCurrentPrincipalEmail();
-		courseService.subscribe(courseId, email);
-		model.setViewName(MY_COURSES_REDIRECT);
-		return model;
-	}
-	
-	@RequestMapping(value = "/{courseId}/leave", method = RequestMethod.GET)
-	public ModelAndView unsubscribe(@PathVariable("courseId") Long courseId) {
-		ModelAndView model = new ModelAndView();
-		String email = this.getCurrentPrincipalEmail();
-		courseService.unsubscribe(courseId, email);
-		
-		List<Invocable<User>> invocables = new ArrayList<>();
-		invocables.add(new UserCoursesInitializer());
-		if (userService.getUserByEmail(email, invocables).getCourses().isEmpty()) {
-			model.setViewName(ALL_COURSES_REDIRECT);
-		} else {
-			model.setViewName(MY_COURSES_REDIRECT);
-		}
 		return model;
 	}
 	
@@ -260,15 +240,11 @@ public class CourseController {
 		return model;
 	}
 	
-	private String getCurrentPrincipalEmail() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
-	}
-	
 	private void truncateNameAndDescription(List<Course> courses) {
 		for (Course course : courses) {
-			course.setDescription(stringUtil.trimString(course.getDescription(),
+			course.setDescription(StringUtil.trimString(course.getDescription(),
 														COURSE_DESC_LENGTH, true));
-			course.setName(stringUtil.trimString(course.getName(), 
+			course.setName(StringUtil.trimString(course.getName(), 
 														COURSE_TITLE_LENGTH, true));
 		}
 	}

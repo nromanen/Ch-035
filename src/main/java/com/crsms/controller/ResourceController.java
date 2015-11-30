@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
+import com.crsms.service.GoogleDriveService;
 import com.crsms.service.ModuleService;
 import com.crsms.service.FileService;
 import com.crsms.service.ResourceService;
@@ -54,6 +55,9 @@ public class ResourceController {
 	private FileService fileService;
 	
 	@Autowired
+	private GoogleDriveService googleDriveService;
+	
+	@Autowired
     private MultipartFileValidator multuipartFileValidator;
  
     @InitBinder("fileBucket")
@@ -61,12 +65,23 @@ public class ResourceController {
         binder.setValidator(multuipartFileValidator);
     }
 	
-	private void addAttributesForSaveResource(Model model) {
+	private void addAttributesToSaveResource(Model model) {
 		Resource resource = new Resource();
 		model.addAttribute("resource", resource);
+		addResourceTypeAttributes(model);
+		addResourceStorageTypeAttributes(model);
+		model.addAttribute("fileBucket", new FileBucket());
+	}
+
+	private void addResourceStorageTypeAttributes(Model model) {
+		model.addAttribute("resourceStorageTypeDB", Resource.StorageType.DB);
+		model.addAttribute("resourceStorageTypeCatalina", Resource.StorageType.CATALINA);
+		model.addAttribute("resourceStorageTypeGoogleDrive", Resource.StorageType.GOOGLE_DRIVE);
+	}
+
+	private void addResourceTypeAttributes(Model model) {
 		model.addAttribute("resourceTypeEmbedded", Resource.Type.EMBEDDED);
 		model.addAttribute("resourceTypeFile", Resource.Type.FILE);
-		model.addAttribute("fileBucket", new FileBucket());
 	}
 	
 	
@@ -92,7 +107,7 @@ public class ResourceController {
 	@RequestMapping(value = {RESOURCE_PATH + "/add", 
 			MODULE_CONTEXT_RESOURCE_PATH + "/add"}, method = RequestMethod.GET)
 	public String showResourceForm(Model model) {
-		addAttributesForSaveResource(model);
+		addAttributesToSaveResource(model);
 		return "addResource";
 	}
 	
@@ -114,10 +129,8 @@ public class ResourceController {
 		if (result.hasErrors()) {
 			throw new IOException("FileValidationException");
         }
-		MultipartFile receivedFile = fileBucket.getFile();
-		String originalName = receivedFile.getOriginalFilename();		
-		fileService.uploadFile(receivedFile);		
-		resourceService.save(originalName, fileService.getStoragePath());		
+		Resource resource = uploadRecivedFile(fileBucket);		
+		resourceService.save(resource);		
         return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
@@ -127,18 +140,28 @@ public class ResourceController {
 		if (result.hasErrors()) {
 			throw new IOException("FileValidationException");
         }
-		MultipartFile receivedFile = fileBucket.getFile();
-		String originalName = receivedFile.getOriginalFilename();		
-		fileService.uploadFile(receivedFile);		
-        moduleService.addResource(moduleId, originalName, fileService.getStoragePath());		
+		Resource resource = uploadRecivedFile(fileBucket);		
+        moduleService.addResource(moduleId, resource);		
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
+	
+	private Resource uploadRecivedFile(FileBucket fileBucket) throws IOException {
+		MultipartFile receivedFile = fileBucket.getFile();
+		String originalName = receivedFile.getOriginalFilename();		
+		fileService.uploadFile(receivedFile);
+		Resource resource = new Resource();
+        resource.setName(originalName);
+        resource.setType(Resource.Type.FILE);
+        resource.setPath(originalName);
+        resource.setStorageType(Resource.StorageType.CATALINA);
+		return resource;
+	}
 	
 	@RequestMapping(value = RESOURCE_PATH + "/downloadfile", method = RequestMethod.GET)
     public void getFileResource(@RequestParam("filename") String fileName,
     			HttpServletRequest request,
     			HttpServletResponse response) throws IOException {
-		File file = fileService.getFileForDownload(fileName);
+		File file = fileService.getFileToDownload(fileName);
 		// set content attributes for the response
 		String mimeType = request.getServletContext().getMimeType(file.getAbsolutePath());
 		response.setContentType(mimeType != null ? mimeType : "application/octet-stream");
@@ -176,5 +199,10 @@ public class ResourceController {
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	
+	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/upload-to-drive"}, method = RequestMethod.GET)
+	public String uploadToDrive(Model model) throws IOException {
+		googleDriveService.uploadToDrive(new File("C:/Users/amberu/Desktop/Fast car -Tracy Chapman.flv"));
+		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
+	}
 	
 }

@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.AnswerDao;
+import com.crsms.dao.CourseDao;
+import com.crsms.dao.QuestionDao;
 import com.crsms.domain.Answer;
+import com.crsms.domain.Course;
 import com.crsms.domain.Question;
+import com.crsms.exception.ElementNotFoundException;
 
 /**
  * @author Andriets Petro
@@ -27,6 +31,12 @@ public class AnswerServiceImpl extends BaseServiceImpl<Answer> implements Answer
 
     @Autowired
     private QuestionService questionService;
+    
+    @Autowired
+    CourseDao courseDao;
+    
+    @Autowired
+    private QuestionDao questionDao;
 
     @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @Override
@@ -47,15 +57,20 @@ public class AnswerServiceImpl extends BaseServiceImpl<Answer> implements Answer
 
     @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @Override
-	public void disable(Long id) {
-		Answer answer = answerDao.getById(id);
-		this.disable(answer);
-	}
-
-    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
-    @Override
-	public void disable(Answer answer) {
-		answerDao.disable(answer);	
-	}
+	public void delete(Long answerId) {
+    	Course course = courseDao.getByAnswer(answerId);
+    	
+    	if (course == null || course.getDisable()) {
+    		throw new ElementNotFoundException();
+    	}
+    	
+    	Answer answer = answerDao.getById(answerId);
+    	answer.disable();
+    	if (!course.getPublished()) {
+    		Question question = questionDao.getByAnswer(answer.getId());
+    		question.removeAnswer(answer);
+    		answerDao.delete(answer);
+    	}
+    }
     
 }

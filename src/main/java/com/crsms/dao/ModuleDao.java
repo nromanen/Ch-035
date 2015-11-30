@@ -17,8 +17,6 @@ public interface ModuleDao extends BaseDao<Module> {
 
 	void deleteById(Long id);
 	
-	void disable(Module module);
-	
 	Module getByTest(Test test);
 	Module getByTest(Long testId);
 	

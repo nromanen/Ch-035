@@ -14,8 +14,6 @@ public interface AnswerService extends BaseService<Answer> {
 
     List<Answer> getAnswersByQuestionId(Long questionId);
     
-    void disable(Long answerId);
-    
-    void disable(Answer answer);
+    void delete(Long answerId);
 
 }

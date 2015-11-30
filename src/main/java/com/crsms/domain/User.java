@@ -1,9 +1,6 @@
 
 package com.crsms.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -14,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -54,7 +50,7 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	@Size(min=5, max=MAX_PASSWORD_LENGTH)
+	@Size(min = 5, max = MAX_PASSWORD_LENGTH)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
@@ -62,15 +58,12 @@ public class User {
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinTable (name = "user_roles", 
-	joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
-	inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
+	joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+	inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
 	private Role role;
 	
 	@Column (nullable = false)
-	private boolean isEnabled = true;
-	
-	@ManyToMany(mappedBy = "users")
-	private Set<Course> courses = new HashSet<Course>();
+	private Boolean isEnabled = true;
 	 
 	public Long getId() {
 		return id;
@@ -117,7 +110,7 @@ public class User {
 		return isEnabled;
 	}
 
-	public void setEnabled(boolean isEnabled) {
+	public void setEnabled(Boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
 
@@ -160,18 +153,6 @@ public class User {
 					+ ", role: " + getRole()
 					+ ", user info: " + getUserInfo() 
 					+ "}";
-	}
-
-	public Set<Course> getCourses() {
-		return courses;
-	}
-
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
-	}
-	
-	public void addCourse(Course course) {
-		this.courses.add(course);
 	}
 
 }

@@ -15,12 +15,15 @@ public interface QuestionService extends BaseService<Question> {
 	
 	List<Question> getQuestionsByTestId(Long testId);
     
-    void disable(Long id);
-    
-    void disable(Question question);
-    
     Question createQuestionFromForm(Long testId, QuestionFormDto dto);
+    
+    /**
+     * @param index a row number, numbered from <tt>0</tt>
+     */
+    Question getByTestByIndex(Long testId, Integer index);
 
 	void delete(Long questionId);
+
+	Long getCountQestionsByTest(Long testId);
 
 }

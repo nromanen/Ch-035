@@ -1,8 +1,7 @@
 package com.crsms.controller;
 
-import com.crsms.domain.Answer;
-import com.crsms.service.AnswerService;
-import com.crsms.validator.AnswerFormValidator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +13,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
+
+import com.crsms.domain.Answer;
+import com.crsms.service.AnswerService;
+import com.crsms.validator.AnswerFormValidator;
 
 /**
  * @author Adriets Petro
  */
 
 @Controller
-@RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions/questionId")
+@RequestMapping(value = 
+				"/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions/questionId")
 public class AnswerController {
     private static final String ANSWERS_PAGE = "answers";
     private static final String CREATE_ANSWER_PAGE = "createanswer";
@@ -60,8 +63,8 @@ public class AnswerController {
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     public String editAnswer(@PathVariable Long courseId, @PathVariable Long moduleId,
-                             @PathVariable Long testId, @PathVariable Long questionId, @PathVariable Long id,
-                             @Validated Answer answer, BindingResult result) {
+    						@PathVariable Long testId, @PathVariable Long questionId,
+    						@PathVariable Long id, @Validated Answer answer, BindingResult result) {
         if (result.hasErrors()) {
             return CREATE_ANSWER_PAGE;
         } else if (answerService.getById(id) != null) {
@@ -81,7 +84,7 @@ public class AnswerController {
     public String deleteQuestionById(@PathVariable Long courseId, @PathVariable Long moduleId,
                                      @PathVariable Long testId, @PathVariable Long questionId,
                                      @PathVariable("id") Long id) {
-        answerService.disable(id);
+        answerService.delete(id);
         return redirect(courseId, moduleId, testId, questionId);
     }
 

@@ -1,8 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<form:form modelAttribute = "moduleJsonDto" method = "POST" class = "form-horizontal">
+<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
+
+<form:form modelAttribute = "moduleJsonDto" id="module-form" method = "POST" class = "form-horizontal">
 	<form:hidden path = "id"/>
 	<form:hidden path = "courseId"/>
 	
@@ -10,7 +13,7 @@
 		<c:set var = "moduleName"><spring:message code = "crsms.createmodule.name"/></c:set>
 		<label for = "name" class="col-sm-2 control-label">${moduleName}: </label>
 		<div class="col-sm-10">
-			<form:input path = "name" id = "name" 
+			<form:input path = "name" id = "name" name="name"
 						class="form-control" placeholder="${moduleName}"/>
 			<form:errors path = "name" cssClass = "label label-danger" />
 		</div>

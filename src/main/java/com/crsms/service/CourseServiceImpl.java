@@ -1,6 +1,7 @@
 package com.crsms.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crsms.dao.CourseDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
-import com.crsms.domain.User;
 
 /**
  * 
@@ -60,7 +60,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 
 	@Override
 	public void delete(Course course) {
-		this.disable(course);
+		course.disable();
 		for (Module module : course.getModules()) {
 			moduleService.freeResource(module);
 		}
@@ -69,29 +69,9 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		}
 	}
 
-	public void disable(Course course) {
-		courseDao.disable(course);
-	}
-
 	@Override
 	public List<Course> getAllByAreaId(Long areaId) {
 		return courseDao.getAllByAreaId(areaId);
-	}
-	
-	@Override
-	public void subscribe(Long courseId, String email) {
-		Course course = courseDao.getById(courseId);
-		User user = userService.getUserByEmail(email);
-		course.addUser(user);
-		courseDao.update(course);
-	}
-	
-	@Override
-	public void unsubscribe(Long courseId, String email) {
-		Course course = courseDao.getById(courseId);
-		User user = userService.getUserByEmail(email);
-		course.deleteUser(user);
-		courseDao.update(course);
 	}
 	
 	@Override
@@ -113,15 +93,21 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	public List<Course> searchCourses(String searchWord) {
 		return courseDao.searchCourses(searchWord);
 	}
-	
-	@Override
-	public List<Long> getUserCoursesIds(String email) {
-		return courseDao.getUserCoursesIds(email);
-	}
 
 	@Override
 	public boolean isUserACourseOwner(Long courseId, String userEmail) {
 		return this.getById(courseId).getOwner().getEmail().equals(userEmail);
+	}
+
+	@Override
+	public Map<Long, Long> getStudentCoursesAndGroupsIds(String email) {
+		return courseDao.getStudentCoursesAndGroupsIds(email);
+	}
+
+	@Override
+	public void publish(Long courseId) {
+		Course course = this.getById(courseId);
+		course.setPublished(true);		
 	}
 
 }

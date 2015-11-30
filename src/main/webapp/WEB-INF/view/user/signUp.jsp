@@ -1,6 +1,9 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-offset-3">
