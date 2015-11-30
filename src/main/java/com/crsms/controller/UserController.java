@@ -1,5 +1,6 @@
 package com.crsms.controller;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crsms.domain.Role;
 import com.crsms.domain.User;
 import com.crsms.domain.UserInfo;
 import com.crsms.service.RoleService;
@@ -43,6 +45,13 @@ public class UserController {
 	
 	@Autowired
 	private UserInfoValidator userInfoValidator;
+
+	private Role studentRole;
+	
+	@PostConstruct
+	private void postConstruct() {
+		this.studentRole = this.roleService.getRoleById(STUDENT_ROLE_ID);
+	}
 	
 	@InitBinder("userRegistr")
     private void initUserBinder(WebDataBinder binder) {
@@ -67,14 +76,11 @@ public class UserController {
 			return "signUp";
 		}
 	
+		
 		userService.saveUser(user);	
-
-		user.setRole(roleService.getRoleById(STUDENT_ROLE_ID));
+		user.setRole(this.studentRole);
 		userService.update(user);
-		UserInfo userInfo = new UserInfo();
-		userInfoService.save(userInfo);
-		userInfo.setUser(user);
-		userInfoService.update(userInfo);
+		userService.saveStudent(user);
 		
 		model.addAttribute(user);
 		
@@ -98,9 +104,9 @@ public class UserController {
 		newUserInfo.setUser(userService.getUserByEmail(currentUserEmail));
 		userInfoService.update(newUserInfo);
 
-		return "redirect:/courses/?show=my";
+		return "redirect:/courses/";
 	}
-	
+		
 	@ResponseBody
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public String changePassword(HttpSession session, 

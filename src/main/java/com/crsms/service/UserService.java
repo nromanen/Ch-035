@@ -16,6 +16,8 @@ public interface UserService extends BaseService<User> {
 	
 	User saveUser(User user);
 	
+	User saveStudent(User user);
+	
 	boolean changePassword(String email, String currentPassword, String newPassword);
 
 	User getUserByEmail(String email);
@@ -25,6 +27,6 @@ public interface UserService extends BaseService<User> {
 	long getRowsCount();
 	
 	List<User> getPagingUsers(int startPosition, int itemsPerPage,
-								String sortingField, String order);
-
+							String sortingField, String order,String keyWord);
+	
 }

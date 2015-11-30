@@ -8,21 +8,13 @@ $(document).ready(function(e) {
         });
     });
 	
-	$('#course-form').validate({
+	$('#group-form').validate({
 		errorClass: "errorTxt",	
 		rules: {
         	"name": {
                 required: true,
                 minlength: 2,
-                maxlength: 255
-            },
-            "description": {
-                required: false
-            },
-            "duration": {
-                required: true,
-                min: 1,
-                max: 52
+                maxlength: 100
             },
         },
     });
