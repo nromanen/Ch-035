@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "app_option")
+@Table(name = "setup_option")
 public class Option {
 	
 	public static final int MAX_KEY_LENGTH = 255;
