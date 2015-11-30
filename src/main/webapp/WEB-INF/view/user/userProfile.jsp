@@ -49,9 +49,13 @@
 							</tr>
 							<tr>
 								<td><spring:message code = "crsms.userProfile.modNewPass"/></td>
-								<td><input type="password" name="newPassword" 
+								<td><a title="<spring:message code = "crsms.signUp.password.tip.title"/>"
+									data-toggle="popover" data-trigger="focus"
+									data-content="<spring:message code = "crsms.signUp.password.tip.text"/>">
+									<input type="password" name="newPassword" 
 									id="newPassword" required
-									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"></td>
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"></a>
+								</td>
 							</tr>
 							<tr>
 								<td><spring:message code = "crsms.signUp.confPassword"/></td>

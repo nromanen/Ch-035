@@ -1,22 +1,25 @@
     $(document).ready(function() {
 	$("#changePasswordBtn").click(
 		function() {
-			var url = "changePassword?currentPass="
-					+ $("#currentPass").val() + "&newPassword="
-					+ $("#newPassword").val() + "&_csrf="
-					+ $("#csrf").val();
-			$.post(url).done(function(response) {
-				if (response == 'Fail') {
+			if ($('#changePasswordForm').valid()) {
+				var url = "changePassword?currentPass="
+						+ $("#currentPass").val() + "&newPassword="
+						+ $("#newPassword").val() + "&_csrf="
+						+ $("#csrf").val();
+				$.post(url).done(function(response) {
+					if (response == 'Fail') {
+						$('#form_errors').show().html('<div class="alert alert-danger">'
+								+'Enter correct current password.</div>');
+					} else {
+						$("#closeModalBtn").click();
+						//window.location.href = "signin?signout";
+					}
+				}).fail(function() {
 					$('#form_errors').show().html('<div class="alert alert-danger">'
-							+'Enter correct current password.</div>');
-				} else {
-					$("#closeModalBtn").click();
-					//window.location.href = "signin?signout";
-				}
-			}).fail(function() {
-				$('#form_errors').show().html('<div class="alert alert-danger">'
-						+'Failed to submit form.</div>');
-			});
+							+'Failed to submit form.</div>');
+				});
+			}
+
 		});
 	
 	var $imageAreaSelect;
@@ -108,6 +111,30 @@
             },
             "lastName": {
         		regexName: '^[^<>$%~`!@#\\^&*()_+=\\{\\}\\[\\]\\.,|;:"?/\\d\\\\]{1,40}$'
+            },
+        },
+    });
+	$(document).ready(function(){
+	    $('[data-toggle="popover"]').popover();   
+	});
+	
+	
+	$('#changePasswordForm').validate({
+        errorClass: "errorTxt",
+		rules: {
+			"currentPass": {
+        		required: true
+            },
+            "newPassword": {
+            	required: true,
+            	minlength: 6,
+            	maxlength: 255
+            },
+            "confPassword": {
+            	required: true,
+            	equalTo: "#newPassword",
+            	minlength: 6,
+            	maxlength: 255
             },
         },
     });
