@@ -105,7 +105,24 @@ $(document).ready(function (e){
 	
 	//Send ajax request when form submitted.
 	$("#modal-form-submit").click(function (e){
-		doAjaxPost();
+		if ($('#modal-form').valid()) {
+			doAjaxPost();
+		}
 	});
 	
+	$('#modal-form').validate({
+		errorClass: "errorTxt",	
+		rules: {
+        	"text": {
+                required: true,
+                minlength: 2,
+                maxlength: 1000
+            },
+            "answers[0].text": {
+                required: true,
+                minlength: 2,
+                maxlength: 1000
+            },
+        },
+    });
 })
