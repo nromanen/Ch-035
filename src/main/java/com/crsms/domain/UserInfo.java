@@ -46,8 +46,6 @@ public class UserInfo {
 	
 	@Column(name = "image", columnDefinition = "text")
 	private String image;
-	
-	public UserInfo() {	}
 
 	public String getImage() {
 		return image;

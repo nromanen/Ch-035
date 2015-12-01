@@ -9,7 +9,8 @@ $(document).ready(function(e) {
             },
             "path": {
             	required: true,
-            	url: true
+            	url: true,
+            	maxlength: 255
             },
         },
     });

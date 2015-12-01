@@ -6,7 +6,7 @@ import java.util.List;
 public class UserAnswerFormDto {
 	private Long testResultId;
 	private Long questionId;
-	private List<Long> answerIds = new ArrayList<Long>();
+	private List<Long> checkedAnswerIds = new ArrayList<Long>();
 	public Long getTestResultId() {
 		return testResultId;
 	}
@@ -19,11 +19,12 @@ public class UserAnswerFormDto {
 	public void setQuestionId(Long questionId) {
 		this.questionId = questionId;
 	}
-	public List<Long> getAnswerIds() {
-		return answerIds;
+	public List<Long> getCheckedAnswerIds() {
+		return checkedAnswerIds;
 	}
-	public void setAnswerIds(List<Long> answerIds) {
-		this.answerIds = answerIds;
+	public void setCheckedAnswerIds(List<Long> checkedAnswerIds) {
+		this.checkedAnswerIds = checkedAnswerIds;
 	}
+
 	
 }

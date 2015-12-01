@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <form:form id="userAnswerForm" modelAttribute = "userAnswerFormDto" class="form-horizontal" method="POST" >
+	<input id="finished" type="hidden" name="finished" value="false" />
 	<input id="nextIndex" type="hidden" name="nextIndex" value="
 		<c:choose>
 			<c:when test="${0 < questionIndex && questionIndex < questionCount}">
@@ -23,9 +24,21 @@
 			  		 		<c:if test="${i == questionIndex}">
 			  		 			<c:out value=" active " />
 			  		 		</c:if>
+			  		 		
 						"
 					>
-			  		 	<a class="indexLink" href="<c:out value="${i}" />">
+			  		 	<a class="indexLink" style="
+			  		 		<c:choose>
+								<c:when test="${isAnsweredQuestions[i-1] == true}">
+						 			<c:out value=" color: #449D44; " />
+						 		</c:when>
+						 		<c:otherwise>
+									<c:out value=" color: #A94442; " />
+								</c:otherwise>
+					 		</c:choose>
+			  		 	"
+			  		 	
+			  		 	href="<c:out value="${i}" />">
 			  		 		<c:out value="${i}" />
 					 	</a>
 					</li>
@@ -45,7 +58,7 @@
 			<div class="col-sm-offset-2 col-sm-10" >
 				<div class="checkbox">
 					<label>
-						<form:checkbox path="answerIds" value="${answer.id}" /> ${answer.text}
+						<form:checkbox path="checkedAnswerIds" value="${answer.id}" /> ${answer.text}
 					</label>
 				</div>
 			</div>
@@ -53,7 +66,7 @@
 	</c:forEach>
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
-			<button type="submit" class="btn btn-default btn-success"><spring:message code="crsms.button.next" /></button>
+			<button id="finisButton" class="btn btn-default btn-primary"><spring:message code="crsms.test.text.tests.finish" /></button>
 		</div>
 	</div>
 </form:form>

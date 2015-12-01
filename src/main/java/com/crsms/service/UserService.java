@@ -16,15 +16,17 @@ public interface UserService extends BaseService<User> {
 	
 	User saveUser(User user);
 	
+	User saveStudent(User user);
+	
 	boolean changePassword(String email, String currentPassword, String newPassword);
 
 	User getUserByEmail(String email);
 	
 	User getUserByEmail(String email, List<Invocable<User>> initializers);
 	
-	long getRowsCount();
+	long getRowsCount(String keyWord);
 	
-	List<User> getPagingUsers(int startPosition, int itemsPerPage,
-								String sortingField, String order);
-
+	List<User> getPagingUsers(int offSet, int itemsPerPage,
+							String sortingField, String order,String keyWord);
+	
 }

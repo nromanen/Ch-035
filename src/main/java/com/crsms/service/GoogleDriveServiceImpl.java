@@ -17,7 +17,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.ParentReference;
 
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,6 +27,13 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+/**
+ * 
+ * @author Valerii Motresku
+ *
+ */
 
 @Service
 public class GoogleDriveServiceImpl implements GoogleDriveService {
@@ -43,7 +50,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
-       FileServiceImpl.STORAGE_PATH, "credentials/google-drive");
+       FileService.STORAGE_PATH, "credentials/google-drive");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static final FileDataStoreFactory DATA_STORE_FACTORY;
@@ -126,20 +133,29 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
                 .build();
     }
     
-    public File uploadToDrive(java.io.File IOFile) throws IOException {
+    @Override
+    public File uploadToDrive(MultipartFile multipartFile) throws IOException {
     	Drive driveAPIClientService = getDriveAPIClientService();
-    	String mimeType = java.nio.file.Files.probeContentType(IOFile.toPath());
     	InputStreamContent mediaContent =
-    		    new InputStreamContent(mimeType,
-    		        new BufferedInputStream(new FileInputStream(IOFile)))
-    			.setLength(IOFile.length());
+    		    new InputStreamContent(multipartFile.getContentType(),
+    		        new BufferedInputStream(new ByteArrayInputStream(multipartFile.getBytes())))
+    			.setLength(multipartFile.getSize());
     	File fileMetadata = new File()
     			.setParents(Arrays.asList(DRIVE_GLOBAL_PARENT_REFERENCE))
-    			.setTitle(IOFile.getName());
+    			.setTitle(multipartFile.getOriginalFilename());
 		File responseFile = driveAPIClientService.files().insert(fileMetadata, mediaContent).execute(); 
 		logger.info("successfully uploaded file to Google Drive. id:" + responseFile.getId() 
 				+ ", title:" + responseFile.getTitle());
 		return responseFile;
     }
+
+	@Override
+	public File getMediaFileFromDrive(String id) throws IOException {
+		return getDriveAPIClientService().files().get(id).execute();
+	}
+	
+	public InputStream getMediaBytesFromDrive(String id) throws IOException {
+		return getDriveAPIClientService().files().get(id).executeMediaAsInputStream();
+	}
     
 }

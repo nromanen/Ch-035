@@ -3,7 +3,7 @@ package com.crsms.domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
+//import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,8 +18,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.annotations.CascadeType;
 /**
  * 
  * @author Roman Romaniuk
@@ -31,12 +33,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 @NamedQueries({
 		@NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
 		@NamedQuery(name = User.BY_EMAIL, query = "FROM User u WHERE u.email= :email"),
-		@NamedQuery(name = User.ALL_SORTED, query = "FROM User u ORDER BY u.id"), })
+		@NamedQuery(name = User.ALL_SORTED, query = "FROM User u ORDER BY u.id"), 
+		@NamedQuery(name = User.GET_ALL, query = "Select u FROM User u LEFT JOIN FETCH u.role LEFT JOIN FETCH u.userInfo ORDER BY u.id")})
 public class User {
 	public static final int MIN_PASSWORD_LENGTH = 5;
 	public static final int MAX_PASSWORD_LENGTH = 255;
 	public static final String DELETE = "User.delete";
 	public static final String ALL_SORTED = "User.getAllSorted";
+	public static final String GET_ALL = "User.getAll";
 	public static final String BY_EMAIL = "User.getByEmail";
 	
 	@Id
@@ -50,13 +54,15 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	@Size(min = 5, max = MAX_PASSWORD_LENGTH)
+	@Size(min = MIN_PASSWORD_LENGTH, max = MAX_PASSWORD_LENGTH)
 	private String password;
 
 	@OneToOne(mappedBy = "user")
+	@Cascade({ CascadeType.REMOVE })
 	private UserInfo userInfo;
 
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne
+	@Cascade({ CascadeType.MERGE })
 	@JoinTable (name = "user_roles", 
 	joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
 	inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
@@ -106,12 +112,26 @@ public class User {
 	}
 		
 
-	  public boolean isEnabled() {
+	  public boolean getIsEnabled() {
 		return isEnabled;
 	}
 
-	public void setEnabled(Boolean isEnabled) {
+	public void setIsEnabled(Boolean isEnabled) {
 		this.isEnabled = isEnabled;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((isEnabled == null) ? 0 : isEnabled.hashCode());
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		return result;
 	}
 
 	@Override
@@ -133,26 +153,26 @@ public class User {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (isEnabled == null) {
+			if (other.isEnabled != null)
+				return false;
+		} else if (!isEnabled.equals(other.isEnabled))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		return true;
 	}
 
-	  @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+	
+
 	@Override
 	public String toString() {
-		return "User{" 
-					+ ", id: " + getId() 
-					+ ", email: " + getEmail()
-					+ ", password: " + getPassword() 
-					+ ", role: " + getRole()
-					+ ", user info: " + getUserInfo() 
-					+ "}";
+		return "User [id=" + id + ", email=" + email + ", password=" + password
+				+ ", userInfo=" + userInfo + ", role=" + role + ", isEnabled="
+				+ isEnabled + "]";
 	}
 
 }
