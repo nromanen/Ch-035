@@ -195,4 +195,10 @@
         	<column name="cost" type="double precision" defaultValue="0.25" />
     	</addColumn>
 	</changeSet>
+	
+	<changeSet author="stefankiv" id="1446992667519-160">
+	    <sql>
+	    	UPDATE course SET published='TRUE';
+	    </sql>
+	</changeSet>
 </databaseChangeLog>
