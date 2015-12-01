@@ -86,10 +86,10 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 		
 		User user = null;
 		for (String email : emails) {
-			user = userService.getUserByEmail(email);
-			if (user == null) {
-				user = userService.createAndSaveStudent(email, email);
+			if (!userService.isEmailExists(email)) {
+				userService.createAndSaveStudent(email, email);
 			}
+			user = userService.getUserByEmail(email);
 			this.subscribe(groupId, user);
 		}
 		
