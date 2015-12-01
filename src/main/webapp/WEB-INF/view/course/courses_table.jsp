@@ -27,6 +27,7 @@
 				<th class = "text-center"><spring:message code="crsms.courses.text.modules" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.groups" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.management" /></th>
+				<th class = "text-center"><spring:message code="crsms.courses.text.publishing" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -59,15 +60,6 @@
 					</td>
 					<td>
 						<div align="center">
-							<c:if test="${!course.published}">
-								<a href="${course.id}/publish"
-								class="btn btn-primary btn-sm"
-								data-toggle="tooltip"
-								title="<spring:message code="crsms.courses.button.publish" />"
-							>
-								<span class="glyphicon glyphicon-pushpin" ></span>
-							</a>
-							</c:if>
 							<a href="${course.id}/edit"
 								class="btn btn-primary btn-sm"
 								data-toggle="tooltip"
@@ -84,6 +76,29 @@
 							</a>
 						</div>
 					</td>
+					<td>
+						<div align="center">
+							<c:choose>
+								<c:when test="${!course.published}">
+									<span data-toggle = "tooltip" 
+										  data-trigger = "hover"
+										  title = "<spring:message code="crsms.courses.button.publish" />">
+										<button class = "btn btn-primary btn-sm publish-btn"
+												data-toggle = "modal"
+												data-target="#publishModal"
+												data-course-id = "${course.id}">
+											<span class="glyphicon glyphicon-pushpin" ></span>
+										</button>
+									</span>
+								</c:when>
+								<c:otherwise>
+									<span data-toggle = "tooltip"
+										  title = "<spring:message code="crsms.courses.text.published" />" 
+										  class="glyphicon glyphicon-pushpin" ></span>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -93,4 +108,35 @@
 <div class = "container">
 	<c:url var="createModule" value="add" />
 	<a class="btn btn-primary" href="${createModule}"><spring:message code="crsms.courses.button.create" /></a>
+</div>
+
+<!-- Publish modal -->
+<div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="publishModalLabel"><spring:message code="crsms.courses.text.publishing" /></h4>
+			</div>
+			<div class="modal-body">
+				<div id = "confirm-publishing">
+					<spring:message code="crsms.courses.message.confirm.publishing" />
+				</div>
+				<div id = "no-groups">
+					<spring:message code="crsms.courses.message.no.groups" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a id = "create-group-btn" class = "btn btn-primary">
+							<spring:message code="crsms.courses.button.create.group" />
+				</a>
+				<button id="publish-btn" type="button" class="btn btn-primary">
+					<spring:message code="crsms.courses.button.publish" />
+				</button>
+				 <button type="button" class="btn btn-default" data-dismiss="modal">
+				 	<spring:message code = "crsms.button.close" />
+				 </button>
+			</div>
+		</div>
+	</div>
 </div>

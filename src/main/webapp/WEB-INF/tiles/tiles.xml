@@ -158,6 +158,9 @@
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/course/course.css" />
 		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/course/publish.js" />
+		</put-list-attribute>
 	</definition>
 	
 	<definition name="course" extends="base-template" >
