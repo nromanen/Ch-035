@@ -29,9 +29,7 @@ public class OptionServiceImpl implements OptionService {
 	
 	@Override
 	public Properties getOptionsAsProperties() {
-		if (properties == null) {
-			properties = getPropertiesFromList(optionDao.getAll());
-		}
+		properties = getPropertiesFromList(optionDao.getAll());
 		return properties;
 	}
 
