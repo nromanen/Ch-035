@@ -85,7 +85,7 @@
         </p>
       </div>
       <div class="modal-footer">
-      	<button id="btn-modal-finish-test" class="btn btn-danger"><spring:message code = "crsms.test.text.tests.finish" /></button>
+      	<button id="btn-modal-finish-test" class="btn btn-primary"><spring:message code = "crsms.test.text.tests.finish" /></button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.button.cancel" /></button>
       </div>
     </div><!-- /.modal-content -->
