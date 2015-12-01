@@ -45,7 +45,7 @@ import com.crsms.service.VacancyService;
 
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestApiController {
+public class RestJsonApiController {
 	
 	@Autowired
 	private AreaService areaService;

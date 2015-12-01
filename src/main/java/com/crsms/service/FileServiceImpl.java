@@ -1,15 +1,32 @@
 package com.crsms.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Files;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.crsms.domain.Option;
 import com.crsms.domain.Resource;
+import com.crsms.domain.Resource.StorageType;
+
+/**
+ * 
+ * @author Valerii Motresku
+ *
+ */
 
 @Service("fileService")
 public class FileServiceImpl implements FileService {
@@ -20,54 +37,104 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	private GoogleDriveService googleDriveService;
 	
-	public static final String ROOT_PATH = System.getProperty("catalina.home");
-	public static final String STORAGE_PATH =  ROOT_PATH + File.separator + "storage";
-	public static final String RESOURCE_PATH = STORAGE_PATH + File.separator + "resources";
-	public static final String STORAGE_TYPE_OPTION_KEY = "storage.type";
-
-	private void uploadToCatalinaHome(MultipartFile multipartFile)
+	private String generateUniqueFileName(String name) {
+		return name + "_" + new DateTime();
+	}
+	
+	private String getUniqueFileName(String name, File resourceDir) {
+		File file = new File(resourceDir.getAbsoluteFile() + File.separator + name);
+		if (file.isFile()) {
+			name = generateUniqueFileName(name);
+		}
+		return name;
+	}
+	
+	private String uploadToCatalinaHome(MultipartFile multipartFile)
 			throws IOException {
-		String originalName = multipartFile.getOriginalFilename();
         // Creating if not exist the directory to store file
-        File dir = new File(RESOURCE_PATH);
-        if (!dir.exists())
-            dir.mkdirs();
-        String filePath = dir.getAbsoluteFile() + File.separator + originalName;
+        File resourceDir = new File(FileService.RESOURCE_PATH);
+        if (!resourceDir.exists())
+            resourceDir.mkdirs();
+        String pathName = getUniqueFileName(multipartFile.getOriginalFilename(), resourceDir);
+        String filePath = resourceDir.getAbsoluteFile() + File.separator + pathName;
         multipartFile.transferTo(new File(filePath));
+        return pathName;
 	}
 	
 	private com.google.api.services.drive.model.File uploadToGoogleDrive(MultipartFile multipartFile) 
 			throws IOException {
 		return googleDriveService.uploadToDrive(multipartFile);
 	}
+
+	private void prepareResponseHeaders(HttpServletResponse response,
+			String mimeType, Integer contentLength, String fileName) {
+		// set content attributes for the response
+		response.setContentType(mimeType != null ? mimeType : MediaType.APPLICATION_OCTET_STREAM_VALUE);
+		response.setContentLength(contentLength);
+		// set other headers for the response
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"");
+	}
+
+	private void prepareResponseData(HttpServletResponse response,
+			InputStream inputStream) throws IOException {
+		// copy stream to response's OutputStream
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+		response.flushBuffer();
+		response.getOutputStream().close();
+		inputStream.close();
+	}
+
+	private void prepareCatalinaFileAttachmentResponse(String path, 
+			HttpServletResponse response) throws IOException {
+		File file = new File(FileService.RESOURCE_PATH + File.separator + path);
+		if (!file.isFile()) {
+			throw new FileNotFoundException("File not found on server");
+		}
+		prepareResponseHeaders(response, Files.probeContentType(file.toPath()), (int) file.length(), 
+				file.getName());
+		prepareResponseData(response, new FileInputStream(file));
+	}
+	
+	private void prepareDriveFileAttachmentResponse(String path, 
+			HttpServletResponse response) throws IOException {
+		com.google.api.services.drive.model.File file = googleDriveService.getMediaFileFromDrive(path);
+		prepareResponseHeaders(response, file.getMimeType(), file.getFileSize().intValue(), file.getTitle());
+		prepareResponseData(response, googleDriveService.getMediaBytesFromDrive(path));
+	}
 	
 	@Override
 	public Resource.StorageType getResourceStorageTypeOption() {
-		return Resource.StorageType.valueOf(optionService.getOptionsAsProperties().getProperty(STORAGE_TYPE_OPTION_KEY));
+		return Resource.StorageType.valueOf(optionService.getOptionsAsProperties().getProperty(Option.STORAGE_TYPE_OPTION_KEY));
 	}
 
 	@Override
-	public String uploadFile(MultipartFile multipartFile) throws IOException {	
-		switch(getResourceStorageTypeOption()) {
+	public String uploadFile(MultipartFile multipartFile, StorageType storageType) throws IOException {	
+		switch(storageType) {
 			case CATALINA:
-				uploadToCatalinaHome(multipartFile);
-				return multipartFile.getOriginalFilename();
+				return uploadToCatalinaHome(multipartFile);
 			case GOOGLE_DRIVE:
 				return uploadToGoogleDrive(multipartFile).getId();
 			default:
 				// by conventions
 				throw new FileSystemNotFoundException(
 						"There is not suitable method for the " 
-						+ getResourceStorageTypeOption() + " storage type");
+						+ storageType + " storage type");
 		}
 	}
 
 	@Override
-	public File getFileToDownload(String fileName) throws IOException {
-		File file = new File(RESOURCE_PATH + File.separator + fileName);
-		if (!file.isFile()) {
-			throw new FileNotFoundException("File not found on server");
+	public void prepareFileAttachmentResponse(String path, StorageType storageType, 
+			HttpServletResponse response) throws IOException {
+		switch(storageType) {
+		case CATALINA:
+			prepareCatalinaFileAttachmentResponse(path, response);
+		case GOOGLE_DRIVE:
+			prepareDriveFileAttachmentResponse(path, response);
+		default:
+			// by conventions
+			throw new FileSystemNotFoundException(
+					"There is not suitable method for the " 
+					+ storageType + " storage type");
 		}
-		return file;
 	}
 }

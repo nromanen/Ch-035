@@ -29,6 +29,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 
+ * @author Valerii Motresku
+ *
+ */
+
 @Service
 public class GoogleDriveServiceImpl implements GoogleDriveService {
 	
@@ -44,7 +50,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
-       FileServiceImpl.STORAGE_PATH, "credentials/google-drive");
+       FileService.STORAGE_PATH, "credentials/google-drive");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static final FileDataStoreFactory DATA_STORE_FACTORY;
@@ -127,6 +133,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
                 .build();
     }
     
+    @Override
     public File uploadToDrive(MultipartFile multipartFile) throws IOException {
     	Drive driveAPIClientService = getDriveAPIClientService();
     	InputStreamContent mediaContent =
@@ -141,5 +148,14 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 				+ ", title:" + responseFile.getTitle());
 		return responseFile;
     }
+
+	@Override
+	public File getMediaFileFromDrive(String id) throws IOException {
+		return getDriveAPIClientService().files().get(id).execute();
+	}
+	
+	public InputStream getMediaBytesFromDrive(String id) throws IOException {
+		return getDriveAPIClientService().files().get(id).executeMediaAsInputStream();
+	}
     
 }
