@@ -80,17 +80,16 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 	}
 	
 	private Disjunction setDisjunction(String keyWord) {
-		 
-				 Disjunction or = Restrictions.disjunction();
-				 or.add(Restrictions.ilike("user.email", keyWord,
-				 MatchMode.ANYWHERE));
-				 or.add(Restrictions.ilike("role.name", keyWord,
-				 MatchMode.ANYWHERE));
-				 or.add(Restrictions.ilike("userInfo.firstName", keyWord,
-				 MatchMode.ANYWHERE));
-				 or.add(Restrictions.ilike("userInfo.lastName", keyWord,
-				 MatchMode.ANYWHERE));
-				 return or;
+		Disjunction or = Restrictions.disjunction();
+		or.add(Restrictions.ilike("user.email", keyWord,
+				MatchMode.ANYWHERE));
+		or.add(Restrictions.ilike("role.name", keyWord, 
+				MatchMode.ANYWHERE));
+		or.add(Restrictions.ilike("userInfo.firstName", keyWord,
+				MatchMode.ANYWHERE));
+		or.add(Restrictions.ilike("userInfo.lastName", keyWord,
+				MatchMode.ANYWHERE));
+		return or;
 	}
 
 	@SuppressWarnings("unchecked")
