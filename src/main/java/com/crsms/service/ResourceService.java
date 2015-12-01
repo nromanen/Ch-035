@@ -26,4 +26,7 @@ public interface ResourceService extends BaseService<Resource> {
 	
 	List<Resource> getAllByModuleId(Long moduleId);
 	
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
+	Resource prepareFileResource(String name, String path, Resource.StorageType storageType);
+	
 }
