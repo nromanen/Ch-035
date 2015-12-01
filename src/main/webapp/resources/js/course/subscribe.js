@@ -1,6 +1,6 @@
 $(document).ready(function() {
-	$('#subscribeModal').on('show.bs.modal', function(event) {
-		var button = $(event.relatedTarget);
+	$('#subscribeModal').on('show.bs.modal', function(e) {
+		var button = $(e.relatedTarget);
 		var courseId = button.data('course-id');
 		var modal = $(this);
 		var url = '/crsms/api/courses/' + courseId + '/groups/';
@@ -11,22 +11,20 @@ $(document).ready(function() {
 				modal.find('#select-group').append(optionHtml);
 			}
 		})
-		
-		$('#btn-enroll').click(function() {
-			var groupId = $('#select-group').val();
-			location.href = '/crsms/courses/' + courseId + '/groups/' + groupId + '/enroll';
-		})
 	})
 	
+	$('#btn-enroll').click(function() {
+		var groupId = $('#select-group').val();
+		location.href = '/crsms/courses/' + courseId + '/groups/' + groupId + '/enroll';
+	})
 	
-	
-	$('#unsubscribeModal').on('show.bs.modal', function(event) {
-		var button = $(event.relatedTarget);
+	$('#unsubscribeModal').on('show.bs.modal', function(e) {
+		var button = $(e.relatedTarget);
 		var courseId = button.data('course-id');
 		var groupId = button.data('group-id');
-		
-		$('#btn-leave').click(function() {
-			location.href = '/crsms/courses/' + courseId + '/groups/' + groupId + '/leave';
-		})
+	})
+	
+	$('#btn-leave').click(function() {
+		location.href = '/crsms/courses/' + courseId + '/groups/' + groupId + '/leave';
 	})
 })
