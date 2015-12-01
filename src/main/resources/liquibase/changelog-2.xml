@@ -201,4 +201,8 @@
 	    	UPDATE course SET published='TRUE';
 	    </sql>
 	</changeSet>
+	
+	<changeSet author="stefankiv" id="1446992667519-161">
+	    <sqlFile path="src/main/resources/liquibase/populateDB4.sql"/>
+	</changeSet>
 </databaseChangeLog>
