@@ -19,7 +19,7 @@ import com.crsms.util.Invocable;
  *
  */
 @Service("userService")
-@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
 	@Autowired
@@ -34,6 +34,14 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 			userDao.save(user);
 		return user;
 	}
+	
+	@Override
+	public User createAndSaveStudent(String email, String password) {
+		User user = new User();
+		user.setEmail(email);
+		user.setPassword(password);
+		return this.saveUser(user);
+	};
 	
 	@Override
 	public boolean changePassword(String email, String currentPassword, String newPassword) {
