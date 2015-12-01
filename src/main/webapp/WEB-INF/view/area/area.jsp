@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page session="false" %>
 
 <c:set var = "areaName"><spring:message code = "crsms.text.name"/></c:set>
@@ -16,7 +17,7 @@
         </tr>
         <c:forEach items="${getAllAreas}" var="area">
             <tr>
-                <td>${area.name}</td>
+                <td>${fn:escapeXml(area.name)}</td>
                 <td>
 					<div align="center">
 
@@ -47,7 +48,8 @@
 	<table>
         <tr>
             <td>
-            	<form:input name="name" path="name" class="form-control" placeholder = "${areaName}"/>
+            	<form:input name="name" path="name" class="form-control"
+            				placeholder = "${areaName}" />
             </td>
             <td width = "20">
             </td>

@@ -47,8 +47,8 @@
 		</div>
 		<div class="course-inner-wrapper">
 			<div class="course-info">
-				<h3 class="course-title"><a href="${course.id}">${course.name}</a></h3>
-				<p class="course-desc">${course.description}</p>
+				<h3 class="course-title"><a href="${course.id}"><c:out value="${course.name}"/></a></h3>
+				<p class="course-desc"><c:out value="${course.description}"/></p>
 			</div>
 			<div class="course-duration">
 					<b><spring:message code="crsms.courses.text.duration" /></b>: ${course.duration} <spring:message code="crsms.courses.text.weeks" />
