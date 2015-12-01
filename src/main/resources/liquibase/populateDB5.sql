@@ -8,4 +8,7 @@ INSERT INTO groups(id, name, course_id, startdate) VALUES (4, 'Ch-004.Java', 4, 
 INSERT INTO groups(id, name, course_id, startdate) VALUES (5, 'Ch-005.NET', 5, '2015-12-12 00:00:00');
 INSERT INTO groups(id, name, course_id, startdate) VALUES (6, 'Ch-006.UX', 6, '2015-12-12 00:00:00');
 
+
+INSERT INTO groups_users(groups_id, users_id) VALUES (4, 2);
+
 SELECT setval('group_id_seq', (SELECT MAX(id) FROM groups));
