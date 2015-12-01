@@ -38,4 +38,6 @@ public interface CourseService extends BaseService<Course> {
 
 	void publish(Long courseId);
 
+	List<Course> getAllPublished();
+
 }

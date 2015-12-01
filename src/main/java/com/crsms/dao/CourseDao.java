@@ -39,4 +39,6 @@ public interface CourseDao extends BaseDao<Course> {
 	List<Course> searchCourses(String searchWord);
 
 	Map<Long, Long> getStudentCoursesAndGroupsIds(String email);
+
+	List<Course> getAllPublished();
 }
