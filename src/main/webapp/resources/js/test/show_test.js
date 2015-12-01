@@ -5,6 +5,12 @@ $(document).ready(function() {
     });
     
     $('#finisButton').click(function() {
+    	$("#finish-confirmation-modal").modal('show');
+    	return false;
+    });
+    
+    $("#btn-modal-finish-test").click(function() {
     	$('#finished').val("true");
+    	$( "#userAnswerForm" ).submit();
     });
 });

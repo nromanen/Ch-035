@@ -39,7 +39,7 @@
 			  		 	"
 			  		 	
 			  		 	href="<c:out value="${i}" />">
-			  		 		<c:out value="${i}" />
+			  		 		<b><c:out value="${i}" /></b>
 					 	</a>
 					</li>
 			  	</c:forEach>
@@ -70,3 +70,24 @@
 		</div>
 	</div>
 </form:form>
+
+<!-- finished modal window -->
+<div class="modal fade" id="finish-confirmation-modal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><spring:message code = "crsms.tests.text.confirmation" /></h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 15px; font-weight: 600;">
+        	<spring:message code = "crsms.tests.msg.confirm.finish" /> 
+        </p>
+      </div>
+      <div class="modal-footer">
+      	<button id="btn-modal-finish-test" class="btn btn-primary"><spring:message code = "crsms.test.text.tests.finish" /></button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.button.cancel" /></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
