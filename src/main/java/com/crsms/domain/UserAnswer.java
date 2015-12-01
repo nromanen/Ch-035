@@ -1,5 +1,6 @@
 package com.crsms.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,9 @@ import org.hibernate.annotations.CascadeType;
 						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId"),
 	@NamedQuery(name = UserAnswer.GET_ANSWER_IDS_BY_TEST_RESULT_AND_QUESTION,
 				query = "SELECT userAnswer.answer.id FROM UserAnswer userAnswer "
+							+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId AND userAnswer.checked = true"),
+	@NamedQuery(name = UserAnswer.GET_ANSWER_BY_TEST_RESULT_AND_QUESTION,
+				query = "SELECT userAnswer FROM UserAnswer userAnswer "
 							+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.question.id = :questionId"),
 	@NamedQuery(name = UserAnswer.HAS_FOR_QUESTION,
 				query = "SELECT COUNT(*) > 0 "
@@ -38,6 +42,7 @@ import org.hibernate.annotations.CascadeType;
 public class UserAnswer {
 	public static final String DELETE_BY_TEST_RESULT_QUESTION = "UserAnswer.deleteByTestResultAndQuestion";
 	public static final String GET_ANSWER_IDS_BY_TEST_RESULT_AND_QUESTION = "UserAnswer.getAnswerIdsByTestResultAndQuestion";
+	public static final String GET_ANSWER_BY_TEST_RESULT_AND_QUESTION = "UserAnswer.getAnswerByTestResultAndQuestion";
 	public static final String HAS_FOR_QUESTION = "UserAnswer.hasAnswereForQuestion";
 	
 	@Id
@@ -59,6 +64,15 @@ public class UserAnswer {
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name = "test_result_id")
 	private TestResult testResult;
+	
+	@Column(nullable = false)
+	private Boolean checked = false;
+	
+	@Column(name = "[correctAnswer]", nullable = false)
+	private Boolean correctAnswer = false;
+	
+	@Column(nullable = false)
+	private Double cost;
 
 	public Long getId() {
 		return id;
@@ -90,6 +104,30 @@ public class UserAnswer {
 
 	public void setTestResult(TestResult testResult) {
 		this.testResult = testResult;
+	}
+
+	public Boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
+	}
+
+	public Boolean getCorrectAnswer() {
+		return correctAnswer;
+	}
+
+	public void setCorrectAnswer(Boolean correctAnswer) {
+		this.correctAnswer = correctAnswer;
+	}
+
+	public Double getCost() {
+		return cost;
+	}
+
+	public void setCost(Double cost) {
+		this.cost = cost;
 	}
 
 }

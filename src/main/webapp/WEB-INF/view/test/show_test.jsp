@@ -58,7 +58,7 @@
 			<div class="col-sm-offset-2 col-sm-10" >
 				<div class="checkbox">
 					<label>
-						<form:checkbox path="answerIds" value="${answer.id}" /> ${answer.text}
+						<form:checkbox path="checkedAnswerIds" value="${answer.id}" /> ${answer.text}
 					</label>
 				</div>
 			</div>

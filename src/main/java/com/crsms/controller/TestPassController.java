@@ -56,18 +56,21 @@ public class TestPassController {
 	
 	@RequestMapping(value = "/{testId}/show/{questionIndex}", method = RequestMethod.GET)
 	public String showTest(
+			@PathVariable Long courseId, @PathVariable Long moduleId, 
 			@PathVariable("testId") Long testId, 
 			@PathVariable("questionIndex") Integer questionIndex, Model model, Principal principal
 	) {
 		//TODO: check: student subscribe on course
-		//TODO: check: already pass this course
 		Test test = testService.getById(testId);
 		Long questionCount = questionService.getCountQestionsByTest(testId);
 		Question question = questionService.getByTestByIndex(testId, questionIndex - 1);
 		TestResult testResult = testResultService.getCurrent(testId, principal.getName());
+		
+		if(testResult.getComplete())
+			return redirectToTestResult(courseId, moduleId, testId, testResult.getId());
+		
 		List<Boolean> isAnsweredQuestions = userAnswerService.getIsAnsweredQuestions(test.getId(), testResult.getId(), questionCount);
 
-		//TODO: check: you already have answer and move to srvise
 		UserAnswerFormDto userAnswerFormDto = userAnswerService.getUserAnswerFormDto(testResult.getId(), question.getId());
 		
 		model.addAttribute("isAnsweredQuestions", isAnsweredQuestions);
@@ -87,8 +90,7 @@ public class TestPassController {
 			@PathVariable("questionIndex") Integer questionIndex, 
 			UserAnswerFormDto userAnswerFormDto, Model model, Principal principal
 	) {
-		// TODO Check testresult is  for this user
-		testResultService.save(userAnswerFormDto);
+		testResultService.save(userAnswerFormDto, principal.getName());
 		
 		if(finished) {
 			testResultService.complete(userAnswerFormDto.getTestResultId());
@@ -99,7 +101,7 @@ public class TestPassController {
 		if(0 < nextIndex && nextIndex < questionCount){
 			return redirectToQuestion(courseId, moduleId, testId, nextIndex);
 		} else {
-			return redirectToQuestion(courseId, moduleId, testId, questionCount);//TODO:finish
+			return redirectToQuestion(courseId, moduleId, testId, questionCount);
 		}
 	}
 	

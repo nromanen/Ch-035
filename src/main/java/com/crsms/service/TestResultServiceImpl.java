@@ -20,6 +20,7 @@ import com.crsms.domain.User;
 import com.crsms.domain.UserAnswer;
 import com.crsms.dto.UserAnswerAndQuestionDto;
 import com.crsms.dto.UserAnswerFormDto;
+import com.crsms.exception.ElementNotFoundException;
 
 @Service("testResultService")
 @Transactional
@@ -76,30 +77,46 @@ public class TestResultServiceImpl implements TestResultService {
 	@Override
 	public TestResult getById(Long testResultId, String email) {
 		User user = userService.getUserByEmail(email);
-		return testResultDao.getByIdAndUser(testResultId, user.getId());
+		TestResult testResult = testResultDao.getByIdAndUser(testResultId, user.getId());
+		if (testResult == null) {
+			throw new ElementNotFoundException();
+		}
+		return testResult;
 	}
 
 	@Override
-	public void save(UserAnswerFormDto userAnswerFormDto) {
-		//TODO: check TestResult is open
-		TestResult testResult = testResultDao.getById(userAnswerFormDto.getTestResultId());
+	public void save(UserAnswerFormDto userAnswerFormDto, String email) {
+		User user = userService.getUserByEmail(email);
+		TestResult testResult = testResultDao.getByIdAndUser(userAnswerFormDto.getTestResultId(), user.getId());
+		if(testResult.getComplete())
+			return;
+		
 		Question question = questionService.getById(userAnswerFormDto.getQuestionId());
 		//TODO replace on something better
 		userAnswerDao.deleteByTestResultAndQuestion(userAnswerFormDto.getTestResultId(), userAnswerFormDto.getQuestionId());
 		
+		int countAnswer = 0;
+		for(Answer answer: question.getAnswers()) 
+			if(!answer.getDisable())  countAnswer++;
 		
-		
-		//TODO save new useranswer
+		if(countAnswer == 0) return;
 		UserAnswer userAnswer;
-		Answer answer;
-		if(userAnswerFormDto.getAnswerIds() == null) return;
-		for(Long userAnswerId : userAnswerFormDto.getAnswerIds()){
+		Boolean checked;
+		Boolean correctAnswer;
+		Double cost = 1.0 / countAnswer;
+		for(Answer answer: question.getAnswers()) {
+			if(answer.getDisable()) continue;
 			userAnswer = new UserAnswer();
 			userAnswer.setTestResult(testResult);
 			userAnswer.setQuestion(question);
-			//TODO: check answer
-			answer = answerDao.getById(userAnswerId);
 			userAnswer.setAnswer(answer);
+			
+			checked = userAnswerFormDto.getCheckedAnswerIds().contains( answer.getId() );
+			correctAnswer = checked == answer.getCorrect();
+			
+			userAnswer.setChecked(checked);
+			userAnswer.setCorrectAnswer(correctAnswer);
+			userAnswer.setCost(cost);
 			userAnswerDao.save(userAnswer);
 		}
 		
@@ -113,11 +130,41 @@ public class TestResultServiceImpl implements TestResultService {
 	@Override
 	public Double getScore(Long testResultId) {
 		TestResult testResult = testResultDao.getById(testResultId);
-		Long allCorrectAnswer = testDao.countCorrectAnswer(testResult.getTest().getId());
-		Long userCorectAnswer = testResultDao.counCorrectAnswers(testResultId);
-		Long userIncorectAnswer = testResultDao.counIncorrectAnswers(testResultId);
-		double score = (userCorectAnswer - userIncorectAnswer) * 100.0 / (allCorrectAnswer);
-		if(score < 0) score = 0;
+		Test test = testResult.getTest();
+		
+		double score = 0;
+		double maxScore = 0; 
+		for(Question question : test.getQuestions() ) {
+			if(question.getDisable()) continue;
+			maxScore++;
+			
+			score += getScoreForQuestion(testResultId, question.getId());
+		}
+		
+		if(maxScore == 0)
+			return 0.;
+		
+		return score / maxScore * 100;
+	}
+
+	private double getScoreForQuestion(Long testResultId, Long questionId) {
+		List<UserAnswer> userAnswerList = userAnswerDao.getAnswers(testResultId, questionId);
+		boolean allChecked = true;
+		boolean allUnchecked = true;
+		double score = 0;
+		for(UserAnswer userAnswer : userAnswerList) {
+			if(userAnswer.getChecked())
+				allUnchecked = false;
+			else
+				allChecked = false;
+			
+			if(userAnswer.getCorrectAnswer())
+				score += userAnswer.getCost();
+		}
+		
+		if(allUnchecked || allChecked)
+			return 0;
+		
 		return score;
 	}
 

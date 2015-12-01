@@ -18,9 +18,17 @@ public class UserAnswerDaoImpl extends BaseDaoImpl<UserAnswer> implements UserAn
 				.setParameter("testResultId", testResultId).setParameter("questionId", questionId).executeUpdate();
 	}
 
+	@SuppressWarnings(value = "unchecked")
 	@Override
-	public List<Long> getAnswerIds(Long testResultId, Long questionId) {
+	public List<Long> getCheckedAnswerIds(Long testResultId, Long questionId) {
 		return getSessionFactory().getCurrentSession().getNamedQuery(UserAnswer.GET_ANSWER_IDS_BY_TEST_RESULT_AND_QUESTION)
+			.setParameter("testResultId", testResultId).setParameter("questionId", questionId).list();
+	}
+	
+	@SuppressWarnings(value = "unchecked")
+	@Override
+	public List<UserAnswer> getAnswers(Long testResultId, Long questionId) {
+		return getSessionFactory().getCurrentSession().getNamedQuery(UserAnswer.GET_ANSWER_BY_TEST_RESULT_AND_QUESTION)
 			.setParameter("testResultId", testResultId).setParameter("questionId", questionId).list();
 	}
 

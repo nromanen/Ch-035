@@ -29,8 +29,8 @@ public class UserAnswerServiceImpl extends BaseServiceImpl<UserAnswer> implement
 		userAnswerFormDto.setQuestionId(questionId);
 		userAnswerFormDto.setTestResultId(testResultId);
 		
-		List<Long> answerIds = userAnswerDao.getAnswerIds(testResultId, questionId);
-		userAnswerFormDto.setAnswerIds(answerIds);
+		List<Long> checkedAnswerIds = userAnswerDao.getCheckedAnswerIds(testResultId, questionId);
+		userAnswerFormDto.setCheckedAnswerIds(checkedAnswerIds);
 		
 		return userAnswerFormDto;
 	}

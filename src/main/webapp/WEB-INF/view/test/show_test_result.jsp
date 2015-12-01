@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 
@@ -8,7 +9,7 @@
 <div id="allUserAnswerAndQuestion">
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10" >
-			<h3>SCORE: <b>${testResaltScore}</b> / 100</h3>
+			<h3>SCORE: <b><fmt:formatNumber type="number" maxFractionDigits="2" value="${testResaltScore}" /> </b> / 100</h3>
 		</div>
 	</div>
 	<c:forEach var="userAnswerAndQuestion" items="${userAnswerAndQuestionList}" >
@@ -23,7 +24,7 @@
 				<div class="col-sm-offset-2 col-sm-10" >
 					<div class="checkbox
 						<c:choose>
-							<c:when test="${userAnswerAndQuestion.userAnswerForm.answerIds.contains(answer.id) == answer.correct}">
+							<c:when test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id) == answer.correct}">
 					 			<c:out value=" bg-success " />
 					 		</c:when>
 					 		<c:otherwise>
@@ -33,11 +34,11 @@
 					">
 						<label>
 							<input type="checkbox" disabled="disabled"
-								<c:if test="${userAnswerAndQuestion.userAnswerForm.answerIds.contains(answer.id) }">
+								<c:if test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id) }">
 				  		 			<c:out value=" checked=\"checked\" " />
 				  		 		</c:if>
 				  		 		class="
-				  		 			<c:if test="${userAnswerAndQuestion.userAnswerForm.answerIds.contains(answer.id) }">
+				  		 			<c:if test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id) }">
 					  		 			<c:out value=" userAnswer " />
 					  		 		</c:if>
 				  		 		"

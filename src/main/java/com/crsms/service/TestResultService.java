@@ -10,7 +10,7 @@ public interface TestResultService {
 
 	TestResult getCurrent(Long testId, String email);
 
-	void save(UserAnswerFormDto userAnswerFormDto);
+	void save(UserAnswerFormDto userAnswerFormDto, String string);
 
 	void complete(Long testResultId);
 

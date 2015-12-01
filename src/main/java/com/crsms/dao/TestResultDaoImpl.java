@@ -14,7 +14,7 @@ public class TestResultDaoImpl extends BaseDaoImpl<TestResult> implements TestRe
 	@Override
 	public TestResult getCurrent(Long testId, Long userId) {
 		return ( TestResult) getSessionFactory().getCurrentSession().getNamedQuery(TestResult.GET_CURRENT)
-				.setParameter("testId", testId).setParameter("userId", userId).uniqueResult();
+				.setParameter("testId", testId).setParameter("userId", userId).setMaxResults(1).uniqueResult();
 	}
 
 	@Override

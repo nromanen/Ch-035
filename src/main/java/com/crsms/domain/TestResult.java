@@ -26,7 +26,7 @@ import org.hibernate.annotations.CascadeType;
 	@NamedQuery(name = TestResult.GET_CURRENT,
 				query = "FROM TestResult testResult "
 						+ "WHERE testResult.test.id = :testId AND "
-						+ "testResult.user.id = :userId AND testResult.complete = false"),
+						+ "testResult.user.id = :userId"),
 	@NamedQuery(name = TestResult.GET_BY_ID_AND_USER,
 				query = "FROM TestResult testResult "
 						+ "WHERE testResult.id = :testResultId AND testResult.user.id = :userId"),
