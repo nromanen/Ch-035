@@ -11,7 +11,7 @@
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
 		<p><spring:message code="crsms.courses.text.duration" /></p>
-		<h3>${course.duration}</h3>
+		<h3>${course.duration} <spring:message code="crsms.courses.text.weeks" /></h3>
 	</div>
 	<div class="col-md-4 unit-dashboard-item">
 		<p><spring:message code="crsms.courses.text.modules.count" /></p>
@@ -43,14 +43,14 @@
 						<div class="collapse" id="resource-${moduleResource.id}-collapse">
 							<div class="well">
 						    	<div class="embed-responsive embed-responsive-16by9">
-								  	<iframe class="embed-responsive-item" src="${moduleResource.url}"></iframe>
+								  	<iframe class="embed-responsive-item" src="${moduleResource.path}"></iframe>
 								</div>
 						  	</div>
 						</div>
 					</c:when>
 					<c:when test="${moduleResource.type == 'FILE'}">
 						<c:url value="/resources/downloadfile" var="fileDownloadURL">
-						  	<c:param name="filename" value="${moduleResource.name}" />
+						  	<c:param name="id" value="${moduleResource.id}" />
 						</c:url>
 						<a class="btn btn-default" href="${fileDownloadURL}" 
 							class="module-resource-link"><i class="fa fa-lg fa-download"></i> ${moduleResource.name}</a>
@@ -63,9 +63,11 @@
 		<div class="module-tests module-unit-grid col-md-6">
 			<h4 class="module-units-title text-uppercase${fn:length(module.tests) == 0 ? ' hidden' : ''}"
 				><spring:message code="crsms.modules.text.tests" /></h4>
+				
 			<c:forEach var="moduleTest" items="${module.tests}">
 			<div class="module-test">
-				<a class="btn btn-default" ><i class="fa fa-lg fa-check-square-o"></i> ${moduleTest.name}</a>
+				<c:url var = "showTest" value = "${course.id}/modules/${module.id}/tests/${moduleTest.id}/show/1" />
+				<a class="btn btn-default" href = "${showTest}" ><i class="fa fa-lg fa-check-square-o"></i> ${moduleTest.name}</a>
 			</div>
 			</c:forEach>
 		</div>

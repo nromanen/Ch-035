@@ -35,7 +35,7 @@
 				<tr>
 					<td><c:out value="${course.name}"/></td>
 					<%-- <td><joda:format pattern="dd.MM.yyyy" value="${course.startDate}"  /></td> --%>
-					<td>${course.duration} <spring:message code="crsms.courses.text.days" /></td>
+					<td>${course.duration} <spring:message code="crsms.courses.text.weeks" /></td>
 					<td align="center">
 						<c:choose>
 							<c:when test="${course.open == 'true'}">

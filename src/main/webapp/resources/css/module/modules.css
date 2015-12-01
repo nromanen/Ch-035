@@ -18,3 +18,8 @@ th {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.errorTxt {
+	font-weight: bold;
+	color: red;
+}

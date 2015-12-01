@@ -63,8 +63,14 @@ $(document).ready(function(e) {
 					$("#modal-edit-resource-input-name").val(resource.name);
 					$("#modal-edit-resource-input-type-hidden").val(resource.type);
 					$("#modal-edit-resource-div-type").html(resource.type);
+					$("#modal-edit-resource-input-storage-type").val(resource.storageType);
 					$("#modal-edit-resource-input-id").val(resource.id);
-					$("#modal-edit-resource-input-url").val(resource.url);
+					$("#modal-edit-resource-input-path").val(resource.path);
+					if (resource.type == "EMBEDDED") {
+						$("#modal-edit-resource-input-path").closest(".form-group").removeClass("hide");
+					} else {
+						$("#modal-edit-resource-input-path").closest(".form-group").addClass("hide");
+					}
 					resourceForm.attr("action", id + "/edit");
 					resourceForm.removeClass("hide");
 					$("#btn-modal-edit-resource").removeClass("hide");

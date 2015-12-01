@@ -26,7 +26,4 @@ public interface ResourceService extends BaseService<Resource> {
 	
 	List<Resource> getAllByModuleId(Long moduleId);
 	
-	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-	void save(String name, String path);
-	
 }

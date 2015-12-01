@@ -10,16 +10,17 @@ import com.crsms.domain.UserInfo;
 
 
 @Service("userInfoService")
-@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@Transactional( propagation = Propagation.REQUIRED)
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements UserInfoService {
 
 	@Override
+	@Transactional
 	public void update(UserInfo userInfo) {
 		if (userInfo.getImage() == null
 			|| !Pattern.compile("^data:image.+").matcher(userInfo.getImage()).matches()) {
 			userInfo.setImage("");
 		}
-		
+		System.out.print("UPDATE");
 		super.update(userInfo);
 	}
 	

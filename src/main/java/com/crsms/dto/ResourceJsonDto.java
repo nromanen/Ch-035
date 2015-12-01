@@ -12,10 +12,13 @@ public class ResourceJsonDto {
 	private String name;
 
 	@JMap
-	private String url;
+	private String path;
 
 	@JMap
 	private Resource.Type type;
+	
+	@JMap
+	private Resource.StorageType storageType;
 
 	public Long getId() {
 		return id;
@@ -33,12 +36,12 @@ public class ResourceJsonDto {
 		this.name = name;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getPath() {
+		return path;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public Resource.Type getType() {
@@ -47,6 +50,14 @@ public class ResourceJsonDto {
 
 	public void setType(Resource.Type type) {
 		this.type = type;
+	}
+
+	public Resource.StorageType getStorageType() {
+		return storageType;
+	}
+
+	public void setStorageType(Resource.StorageType storageType) {
+		this.storageType = storageType;
 	}
 
 }

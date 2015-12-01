@@ -14,8 +14,8 @@ public interface UserDao extends BaseDao<User> {
 	
 	User getUserByEmail(String email);
 
-	long getRowsCount();
+	long getRowsCount(String keyWord);
 	
-	List<User> getPagingUsers(int startPosition, int itemsPerPage,
-								String sortingField, String order);
+	List<User> getPagingUsers(int offSet, int itemsPerPage,
+							String sortingField, String order, String keyWord);
 }

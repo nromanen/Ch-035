@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	private static final Integer VALIDITYTIME = 28800;
+	private static final Integer VALIDITYTIME = 28800;	// 8 Hours
 
 	@Autowired
 	@Qualifier("userDetailsService")
@@ -51,9 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  .authorizeRequests()
 				  	.antMatchers("/signUp", "/signin", "/courses").permitAll()
 				  	.antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
-				  	.antMatchers("/manager/**").access("hasAnyRole ('ROLE_ADMIN', 'ROLE_MANAGER')")
-				  	.antMatchers("/teacher/**").access("hasAnyRole ('ROLE_ADMIN', 'ROLE_TEACHER')")
-				  	.antMatchers("/student/**").access("hasAnyRole ('ROLE_ADMIN', 'ROLE_STUDENT')")
 				  	.and();
 	  http
 	  		.formLogin().loginPage("/signin")

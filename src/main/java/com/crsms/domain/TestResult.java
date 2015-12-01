@@ -25,10 +25,25 @@ import org.hibernate.annotations.CascadeType;
 @NamedQueries({
 	@NamedQuery(name = TestResult.GET_CURRENT,
 				query = "FROM TestResult testResult "
-						+ "WHERE testResult.test.id = :testId AND testResult.user.id = :userId")	
+						+ "WHERE testResult.test.id = :testId AND "
+						+ "testResult.user.id = :userId"),
+	@NamedQuery(name = TestResult.GET_BY_ID_AND_USER,
+				query = "FROM TestResult testResult "
+						+ "WHERE testResult.id = :testResultId AND testResult.user.id = :userId"),
+	@NamedQuery(name = TestResult.COUNT_CORRECT_ANSWER,
+				query = "SELECT COUNT(*) "
+						+ "FROM UserAnswer userAnswer "
+						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.answer.correct = true"),
+	@NamedQuery(name = TestResult.COUNT_INCORRECT_ANSWER,
+				query = "SELECT COUNT(*) "
+						+ "FROM UserAnswer userAnswer "
+						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.answer.correct = false")		
 })
 public class TestResult {
 	public static final String GET_CURRENT = "TestResult.getCurrent";
+	public static final String GET_BY_ID_AND_USER = "TestResult.getByIdAndUser";
+	public static final String COUNT_CORRECT_ANSWER = "TestResult.countCorrectAnswer";
+	public static final String COUNT_INCORRECT_ANSWER = "TestResult.countIncorrectAnswer";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
