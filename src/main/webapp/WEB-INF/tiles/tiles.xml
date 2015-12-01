@@ -429,5 +429,13 @@
 		<put-attribute name="content" value="/WEB-INF/view/404.jsp" />
 	</definition>
 	<!-- end error page -->
+	
+	<!-- Options -->
+	<definition name="options" extends="base-template">
+		<put-attribute name="title" value="crsms.option.title" />
+		<put-attribute name="header-title" value="crsms.option.title" />
+		<put-attribute name="content" value="/WEB-INF/view/option/options.jsp" />
+	</definition>
+	<!-- End Options -->
 
 </tiles-definitions>

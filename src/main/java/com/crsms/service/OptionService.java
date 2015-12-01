@@ -13,4 +13,6 @@ public interface OptionService {
 	
 	Option getOptionValue(String key);
 	
+	void update(Option option);
+	
 }

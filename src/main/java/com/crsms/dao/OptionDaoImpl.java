@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,6 +36,17 @@ public class OptionDaoImpl implements OptionDao {
 			return (Option)sessionFactory.getCurrentSession().get(Option.class, key);
 		} catch (Exception e) {
 			logger.error("Error in getAppOptionValue. " + e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void update(Option option) {
+		try {
+			sessionFactory.getCurrentSession().update(option);
+			logger.info("save option");
+		} catch (HibernateException e) {
+			logger.error("Error in save:" + e.getMessage());
 			throw e;
 		}
 	}
