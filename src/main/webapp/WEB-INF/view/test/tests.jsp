@@ -122,7 +122,7 @@
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div id="answer1-error" class="errorTxt" for="answer1"></div>
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[0].correct" checked> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[0].correct"> <spring:message code="crsms.tests.correct.answer" />
 						  </div>
 					    </div>
 					  </div>

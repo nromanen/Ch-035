@@ -22,21 +22,21 @@ INSERT INTO question(id, text) VALUES (4, 'Виберіть правильне �
 INSERT INTO question(id, text) VALUES (5, 'Виберіть правильне визначення класу.');
 
 INSERT INTO question(id, text) VALUES (6, 'Виберіть коректне оголошення класу.');
-INSERT INTO question(id, text) VALUES (7, 'Яким буде результат виконання програми?');
+INSERT INTO question(id, text) VALUES (7, 'Яким буде результат виконання коду: System.out.println("4/2=" + 4/2 == "4/2=2"); ?');
 INSERT INTO question(id, text) VALUES (8, 'Який з даних методів є методом класу Object?');
-INSERT INTO question(id, text) VALUES (9, 'Чи буде відкомпільовано наступний код?');
+INSERT INTO question(id, text) VALUES (9, 'Чи буде відкомпільовано наступний код: System.out.println(0.0/0.0 + 10); ?');
 INSERT INTO question(id, text) VALUES (10,'Чи може метод main бути оголошеним як final?');
 
-INSERT INTO question(id, text) VALUES (11, 'Яким буде результат виконання коду?');
-INSERT INTO question(id, text) VALUES (12, 'Який Exception буде отримано в результаті виконання програми?');
-INSERT INTO question(id, text) VALUES (13, 'Скільки ітерацій циклу відбудеться?');
-INSERT INTO question(id, text) VALUES (14, 'Чи буде відкомпільовано наступний код?');
-INSERT INTO question(id, text) VALUES (15, 'Вставте вірний фрагмент коду в строку 3.');
+INSERT INTO question(id, text) VALUES (11, 'Яким буде результат виконання коду: System.out.println(Math.sqrt(-2.0)); ?');
+INSERT INTO question(id, text) VALUES (12, 'Який Exception буде отримано в результаті виконання коду: System.out.println(a/0); ?');
+INSERT INTO question(id, text) VALUES (13, 'Скільки ітерацій циклу відбудеться: for (int i = 2; i < 10; ++i) ?');
+INSERT INTO question(id, text) VALUES (14, 'Чи буде відкомпільовано наступний код: public static void test(String str1, String... str2) {}?');
+INSERT INTO question(id, text) VALUES (15, 'Виберіть вірний фрагмент коду можливий після строки: Formatter formatter = new Formatter(Locale.ROOT);.');
 
-INSERT INTO question(id, text) VALUES (16, 'Скільки директорій створиться даним кодом?');
+INSERT INTO question(id, text) VALUES (16, 'Скільки директорій створиться даним кодом: File file = new File("C:/Temp").mkdir();?');
 INSERT INTO question(id, text) VALUES (17, 'Для фільтрації файлів за їх розширенням використовують:');
-INSERT INTO question(id, text) VALUES (18, 'Чи буде відкомпільовано наступний код?');
-INSERT INTO question(id, text) VALUES (19, 'Яким буде результат виконання коду?');
+INSERT INTO question(id, text) VALUES (18, 'Чи буде відкомпільовано наступний код: public static final int AC = ~220; ?');
+INSERT INTO question(id, text) VALUES (19, 'Яким буде результат виконання коду: System.out.println(new Date().getTime());?');
 INSERT INTO question(id, text) VALUES (20, 'Для чого використовується метод flush()?');
 
 INSERT INTO test_question(test_id, questions_id) VALUES (1, 1);
