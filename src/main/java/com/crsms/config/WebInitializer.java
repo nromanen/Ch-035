@@ -17,7 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.crsms.service.FileServiceImpl;
+import com.crsms.service.FileService;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
@@ -64,7 +64,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		} catch (IOException e) {
 			logger.error("Could not load application.properies for MultipartConfigElement. Default values is being used");
 		}
-    	File tempDir = new File(FileServiceImpl.RESOURCE_PATH + File.separator + tempLocation);
+    	File tempDir = new File(FileService.RESOURCE_PATH + File.separator + tempLocation);
         if (!tempDir.exists()) {
         	tempDir.mkdirs();
         }

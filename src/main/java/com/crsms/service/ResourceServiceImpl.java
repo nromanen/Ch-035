@@ -50,5 +50,15 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource>  implements R
 		logger.info("trying to get resources");
 		return resourceDao.getAllByModuleId(moduleId);
 	}
+
+	@Override
+	public Resource prepareFileResource(String name, String path, Resource.StorageType storageType) {
+		Resource resource = new Resource();
+		resource.setName(name);
+		resource.setPath(path);
+		resource.setStorageType(storageType);
+		resource.setType(Resource.Type.FILE);
+		return resource;
+	}
 	
 }

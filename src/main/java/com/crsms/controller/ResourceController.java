@@ -1,19 +1,13 @@
 package com.crsms.controller;
 
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -87,15 +81,13 @@ public class ResourceController {
 		model.addAttribute("resourceTypeFile", Resource.Type.FILE);
 	}
 	
-	private Resource uploadRecivedFile(FileBucket fileBucket) throws IOException {	
-		Resource resource = new Resource();
-        resource.setName(fileBucket.getFile().getOriginalFilename());
-        resource.setType(Resource.Type.FILE);
-        resource.setPath(fileService.uploadFile(fileBucket.getFile()));
-        resource.setStorageType(fileService.getResourceStorageTypeOption());
-		return resource;
+	private Resource uploadRecivedFileAndPrepareResource(FileBucket fileBucket) throws IOException {	
+		Resource.StorageType storageType = fileService.getResourceStorageTypeOption();
+		return resourceService.prepareFileResource(
+				fileBucket.getFile().getOriginalFilename(),
+				fileService.uploadFile(fileBucket.getFile(), storageType), 
+				storageType);
 	}
-	
 	
 	@RequestMapping(value = { RESOURCE_PATH + "/", RESOURCE_PATH + "/all" }, 
 			method = RequestMethod.GET)
@@ -140,7 +132,7 @@ public class ResourceController {
 		if (result.hasErrors()) {
 			throw new IOException("FileValidationException");
         }
-		resourceService.save(uploadRecivedFile(fileBucket));		
+		resourceService.save(uploadRecivedFileAndPrepareResource(fileBucket));		
         return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
@@ -150,27 +142,15 @@ public class ResourceController {
 		if (result.hasErrors()) {
 			throw new IOException("FileValidationException");
         }	
-        moduleService.addResource(moduleId, uploadRecivedFile(fileBucket));		
+        moduleService.addResource(moduleId, uploadRecivedFileAndPrepareResource(fileBucket));		
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
 	
 	@RequestMapping(value = RESOURCE_PATH + "/downloadfile", method = RequestMethod.GET)
     public void getFileResource(@RequestParam("id") Long fileId,
-    			HttpServletRequest request,
     			HttpServletResponse response) throws IOException {
 		Resource resource = resourceService.getById(fileId);
-		File file = fileService.getFileToDownload("");
-		// set content attributes for the response
-		String mimeType = request.getServletContext().getMimeType(file.getAbsolutePath());
-		response.setContentType(mimeType != null ? mimeType : "application/octet-stream");
-		response.setContentLength((int) file.length());
-		// set headers for the response
-		response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
-		// get file as InputStream
-		InputStream in = new FileInputStream(file);
-		// copy it to response's OutputStream
-		FileCopyUtils.copy(in, response.getOutputStream());
-		response.flushBuffer();
+		fileService.prepareFileAttachmentResponse(resource.getPath(), resource.getStorageType(), response);
     }
 	
 	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)

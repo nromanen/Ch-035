@@ -14,6 +14,9 @@ public class Option {
 	
 	public static final int MAX_KEY_LENGTH = 255;
 	
+	// option keys
+	public static final String STORAGE_TYPE_OPTION_KEY = "storage.type";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "option_key")
