@@ -8,14 +8,18 @@
 						+ $("#csrf").val();
 				$.post(url).done(function(response) {
 					if (response == 'Fail') {
-						alert("Enter correct current password");
+						$('#form_errors').show().html('<div class="alert alert-danger">'
+								+'Enter correct current password.</div>');
 					} else {
 						$("#closeModalBtn").click();
+						window.location.href = "signout";
 					}
 				}).fail(function() {
-					alert("Failed to submit form");
+					$('#form_errors').show().html('<div class="alert alert-danger">'
+							+'Failed to submit form.</div>');
 				});
 			}
+
 		});
 	
 	var $imageAreaSelect;

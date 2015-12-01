@@ -53,7 +53,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 		} else if (roles.contains("ROLE_TEACHER")) {
 			url = "/courses/?show=my";
 		} else if (roles.contains("ROLE_STUDENT")) {
-			url = "/courses/?show=my";
+			url = "/courses/";
 		} else {
 			url = "/403";
 		}

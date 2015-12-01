@@ -32,7 +32,7 @@ import com.crsms.validator.AdminValidator;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-	public static final int ITEMSPERPAGE = 20;
+	public static final int ITEMSPERPAGE = 6;
 	@Autowired
 	private UserService userService;
 	
@@ -69,11 +69,12 @@ public class AdminController {
 			sortingField = (String) session.getAttribute("sortparam");
 		}
 		
-		int startPosition = (page - 1) * ITEMSPERPAGE;
+		int offSet = (page - 1) * ITEMSPERPAGE;
 		List<User> users = userService.getPagingUsers(
-				startPosition, ITEMSPERPAGE, sortingField, order, keyWord);
+				offSet, ITEMSPERPAGE, sortingField, order, keyWord);
 		
-		long rowsCount = userService.getRowsCount();
+		
+		long rowsCount = userService.getRowsCount(keyWord);
 		int lastpage = (int) ((rowsCount / ITEMSPERPAGE));
 		if (rowsCount > (lastpage * ITEMSPERPAGE)) {
 			lastpage++;

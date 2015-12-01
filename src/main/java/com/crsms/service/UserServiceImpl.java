@@ -84,14 +84,14 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		return userDao.getUserByEmail(email.toLowerCase()) != null;
 	}
 
-	public long getRowsCount() {
-		return userDao.getRowsCount();
+	public long getRowsCount(String keyWord) {
+		return userDao.getRowsCount(keyWord);
 	}
 
 	@Override
-	public List<User> getPagingUsers(int startPosition, int itemsPerPage, 
+	public List<User> getPagingUsers(int offSet, int itemsPerPage, 
 									String sortingField, String order, String keyWord) {
-		return userDao.getPagingUsers(startPosition, itemsPerPage, 
+		return userDao.getPagingUsers(offSet, itemsPerPage, 
 									sortingField, order, keyWord);
 	}
 }
