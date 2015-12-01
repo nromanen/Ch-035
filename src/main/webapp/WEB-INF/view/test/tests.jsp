@@ -121,7 +121,7 @@
 					      <form:textarea path="answers[0].text" name="answers[0].text" value="" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[0].correct" checked> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[0].correct"> <spring:message code="crsms.tests.correct.answer" />
 						  </div>
 					    </div>
 					  </div>
