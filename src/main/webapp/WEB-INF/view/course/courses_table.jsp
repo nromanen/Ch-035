@@ -27,7 +27,6 @@
 				<th class = "text-center"><spring:message code="crsms.courses.text.modules" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.groups" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.management" /></th>
-				<th class = "text-center"><spring:message code="crsms.courses.text.publishing" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -50,29 +49,15 @@
 					<td>${course.area.name}</td>
 					<td>
 						<div align="center">
-							<a class="btn btn-primary btn-sm" href="${course.id}/modules/"><spring:message code="crsms.courses.text.modules" /></a>
-						</div>
-					</td>
-					<td>
-						<div align="center">
-							<a class="btn btn-primary btn-sm" href="${course.id}/groups/"><spring:message code="crsms.courses.text.groups" /></a>
-						</div>
-					</td>
-					<td>
-						<div align="center">
-							<a href="${course.id}/edit"
-								class="btn btn-primary btn-sm"
-								data-toggle="tooltip"
-								title="<spring:message code="crsms.button.edit" />"
-							>
-								<span class="glyphicon glyphicon-pencil" ></span>
+							<a class="btn btn-primary btn-sm" href="${course.id}/modules/">
+								<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <spring:message code="crsms.courses.text.modules" />
 							</a>
-							<a 	href="${course.id}/delete"
-								class="btn btn-danger btn-sm"
-								data-toggle="tooltip"
-								title="<spring:message code="crsms.button.delete" />"
-							>
-								<span class="glyphicon glyphicon-remove" ></span>
+						</div>
+					</td>
+					<td>
+						<div align="center">
+							<a class="btn btn-primary btn-sm" href="${course.id}/groups/">
+								<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <spring:message code="crsms.courses.text.groups" />
 							</a>
 						</div>
 					</td>
@@ -92,11 +77,27 @@
 									</span>
 								</c:when>
 								<c:otherwise>
-									<span data-toggle = "tooltip"
+									<button class = "btn btn-default btn-sm published-btn">
+										<span data-toggle = "tooltip"
 										  title = "<spring:message code="crsms.courses.text.published" />" 
 										  class="glyphicon glyphicon-pushpin" ></span>
+									</button>
 								</c:otherwise>
 							</c:choose>
+							<a href="${course.id}/edit"
+								class="btn btn-primary btn-sm"
+								data-toggle="tooltip"
+								title="<spring:message code="crsms.button.edit" />"
+							>
+								<span class="glyphicon glyphicon-pencil" ></span>
+							</a>
+							<a 	href="${course.id}/delete"
+								class="btn btn-danger btn-sm"
+								data-toggle="tooltip"
+								title="<spring:message code="crsms.button.delete" />"
+							>
+								<span class="glyphicon glyphicon-remove" ></span>
+							</a>
 						</div>
 					</td>
 				</tr>

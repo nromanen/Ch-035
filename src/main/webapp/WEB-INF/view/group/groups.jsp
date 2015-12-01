@@ -26,8 +26,7 @@
 		<tr class = "active">
 			<th class = "hide"><spring:message code = "crsms.text.id"/></th>
 			<th class = "text-center"><spring:message code = "crsms.text.name"/></th>
-			<th class = "text-center"><spring:message code = "crsms.groups.text.startDate"/></th>
-			<th class = "text-center management-cell"><spring:message code = "crsms.groups.text.add.students"/></th>
+			<th class = "text-center management-cell"><spring:message code = "crsms.groups.text.startDate"/></th>
 			<th class = "text-center management-cell"><spring:message code = "crsms.text.controls"/></th>
 		</tr>
 	</thead>
@@ -38,30 +37,28 @@
 				<td>${group.name}</td>
 				<td><joda:format pattern="dd.MM.yyyy" value="${group.startDate}"  /></td>
 				<td class = "text-center">
-					<button class = "btn btn-primary btn-sm"
+					<span data-toggle = "tooltip" data-trigger="hover" title="<spring:message code="crsms.groups.text.add.students" />">
+						<button class = "btn btn-primary btn-sm"
 							data-toggle="modal"
 							data-target="#addStudentModal"
 							data-group-id="${group.id}">
-						<spring:message code = "crsms.groups.text.add.students"/>
-					</button>
-				</td>
-				<td class = "text-center">
+							<i class="fa fa-user-plus"></i>
+						</button>
+					</span>
+					
 					<c:url var = "editGroup" value = "${group.id}/edit" />
-					<a href = "${editGroup}" 
-						class = "btn btn-primary btn-sm"
-						data-toggle = "tooltip"
-						title="<spring:message code="crsms.button.edit" />" >
-						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					</a>
+					<span data-toggle = "tooltip" title="<spring:message code="crsms.button.edit" />">
+						<a href = "${editGroup}" class = "btn btn-primary btn-sm">
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+						</a>
+					</span>
 					
 					<c:url var = "deleteGroup" value = "${group.id}/delete" />
-					<a href = "${deleteGroup}"
-						class = "btn btn-danger btn-sm"
-						data-toggle = "tooltip"
-						title="<spring:message code="crsms.button.delete" />" >
-						<i class="fa fa-trash-o fa-lg"></i>
-					</a>
-					
+					<span data-toggle = "tooltip" title="<spring:message code="crsms.button.edit" />">
+						<a href = "${deleteGroup}" class = "btn btn-danger btn-sm">
+							<i class="fa fa-trash-o fa-lg"></i>
+						</a>
+					</span>
 				</td>
 			</tr>
 		</c:forEach>

@@ -95,12 +95,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="subscribeModalLabel">Modal title</h4>
+				<h4 class="modal-title" id="subscribeModalLabel"><spring:message code = "crsms.courses.button.enroll" /></h4>
 			</div>
 			<div class="modal-body">
-				<span>Select group to enroll: </span>
-				<select id="select-group">
-				</select>
+				<div class="row">
+					<div class="col-md-3"><div><h5><spring:message code="crsms.courses.message.select.group"/></h5></div></div>
+					<div class="col-md-9"><select id="select-group" class = "form-control"></select></div>
+				</div>
+				
 			</div>
 			<div class="modal-footer">
 				<button id="btn-enroll" type="button" class="btn btn-primary">
@@ -120,10 +122,10 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="unsubscribeModalLabel">Modal title</h4>
+				<h4 class="modal-title" id="unsubscribeModalLabel"><spring:message code = "crsms.courses.button.leave" /></h4>
 			</div>
 			<div class="modal-body">
-				Are you sure?
+				<spring:message code = "crsms.courses.message.confirm.leave" />
 			</div>
 			<div class="modal-footer">
 				<button id="btn-leave" type="button" class="btn btn-primary">

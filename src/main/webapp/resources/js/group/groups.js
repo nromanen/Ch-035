@@ -89,7 +89,6 @@ $(document).ready(function() {
 		
 		if (groupId == -1) {
 			studentsSelect.empty();
-			alert("wtf?");
 		} else {
 			var url = '/crsms/api/groups/' + groupId + '/students/';
 			$.get(url, function(students) {
