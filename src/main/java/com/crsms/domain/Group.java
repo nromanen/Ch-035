@@ -34,14 +34,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 			query = "select g from Group g join g.course c where c.id = :courseId order by g.id"),
 	@NamedQuery(name = Group.DELETE_BY_ID,
 			query = "delete Group where id = :id"),
-	@NamedQuery(name = Group.GET_STUDENTS_FROM_GROUP,
+	@NamedQuery(name = Group.GET_STUDENTS_IDS_AND_EMAILS_FROM_GROUP,
 				query = "select new com.crsms.dto.UserIdAndEmailDto(u.id, u.email)"
-					  + "from Group g join g.users u where g.id = :id")
+					  + "from Group g join g.users u where g.id = :id"),
+	@NamedQuery(name = Group.SELECT_ALREADY_SUBSCRIBED_USERS,
+				query = "select u.email from Group g"
+					 + " join g.users u join g.course c"
+					 + " where c.id = :courseId and u.email in :emails")
 })
 public class Group {
 	public static final String GET_ALL_BY_COURSE_ID = "group.getAllByCourseId";
 	public static final String DELETE_BY_ID = "group.deleteById";
-	public static final String GET_STUDENTS_FROM_GROUP = "group.getStudentsFromGroup";
+	public static final String GET_STUDENTS_IDS_AND_EMAILS_FROM_GROUP = 
+			"group.getStudentsIdsAndEmailsFromGroup";
+	public static final String SELECT_ALREADY_SUBSCRIBED_USERS =
+			"group.selectAlreadySubscribedUsers";
 	
 	public static final int MAX_NAME_LENGTH = 100;
 

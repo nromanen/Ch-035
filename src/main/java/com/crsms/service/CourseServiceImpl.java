@@ -110,4 +110,9 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		course.setPublished(true);		
 	}
 
+	@Override
+	public List<Course> getAllPublished() {
+		return courseDao.getAllPublished();
+	}
+
 }

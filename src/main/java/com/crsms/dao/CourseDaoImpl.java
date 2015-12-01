@@ -181,4 +181,18 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 				.setParameter("id", answerId).uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllPublished() {
+		try {
+			return this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_ALL_PUBLISHED)
+					   .list();
+		} catch (Exception e) {
+			this.getLogger().error("Error in getting all published courses: " + e);
+			throw e;
+		}
+	}
+
 }

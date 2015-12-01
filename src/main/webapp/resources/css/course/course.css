@@ -105,3 +105,8 @@
 #courses-table-wrapper table {
 	margin-top: 10px;
 }
+
+.published-btn {
+	border: none;
+	cursor: default;
+}

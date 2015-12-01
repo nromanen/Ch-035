@@ -25,6 +25,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleService roleService;
 
 	@Autowired
 	private UserDao userDao;
@@ -43,13 +46,22 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	
 	@Override
 	@Transactional
-	public User saveStudent(User user){
+	public User saveStudent(User user) {
 		UserInfo userInfo = new UserInfo();
 		userInfoService.save(userInfo);
 		userInfo.setUser(user);
 		userInfoService.update(userInfo);
 		return user;
 	};
+	
+	@Override
+	public User createAndSaveStudent(String email, String password) {
+		User user = new User();
+		user.setEmail(email);
+		user.setPassword(passwordEncoder.encode(password));
+		user.setRole(roleService.getRoleById(2L));
+		return this.saveStudent(user);
+	}
 	
 	@Override
 	public boolean changePassword(String email, String currentPassword, String newPassword) {
