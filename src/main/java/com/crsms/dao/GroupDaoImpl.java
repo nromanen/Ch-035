@@ -2,6 +2,7 @@ package com.crsms.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -44,15 +45,31 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserIdAndEmailDto> getStudentsFromGroup(Long groupId) {
+	public List<UserIdAndEmailDto> getStudentsIdsAndEmailsFromGroup(Long groupId) {
 		try {
 			return this.getSessionFactory()
 					   .getCurrentSession()
-					   .getNamedQuery(Group.GET_STUDENTS_FROM_GROUP)
+					   .getNamedQuery(Group.GET_STUDENTS_IDS_AND_EMAILS_FROM_GROUP)
 					   .setParameter("id", groupId)
 					   .list();
 		} catch (Exception e) {
-			getLogger().error("Error in get students from group: " + e);
+			getLogger().error("Error in get students id and email from group: " + e);
+			throw e;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> selectAlreadySubscribedUsers(Long courseId, Set<String> emails) {
+		try {
+			return this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Group.SELECT_ALREADY_SUBSCRIBED_USERS)
+					   .setParameter("courseId", courseId)
+					   .setParameterList("emails", emails)
+					   .list();
+		} catch (Exception e) {
+			getLogger().error("Error in select already subscribed users: " + e);
 			throw e;
 		}
 	}
