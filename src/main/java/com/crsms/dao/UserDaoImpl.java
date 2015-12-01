@@ -65,9 +65,11 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		long rowsCount = 0;
 		try {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()
-					.createCriteria(User.class);
+					.createCriteria(User.class, "user")
+					.createAlias("user.role", "role")
+					.createAlias("user.userInfo", "userInfo");
 			if (!keyWord.equals(""))
-				criteria.add(getCrit(keyWord));
+				criteria.add(setDisjunction(keyWord));
 			rowsCount = (long) criteria.setProjection(Projections.rowCount())
 					.uniqueResult();
 		} catch (Exception e) {
@@ -77,7 +79,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		return rowsCount;
 	}
 	
-	private Disjunction getCrit(String keyWord) {
+	private Disjunction setDisjunction(String keyWord) {
 		 
 				 Disjunction or = Restrictions.disjunction();
 				 or.add(Restrictions.ilike("user.email", keyWord,
@@ -93,7 +95,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getPagingUsers(int startPosition, int itemsPerPage,
+	public List<User> getPagingUsers(int offSet, int itemsPerPage,
 			String sortingField, String order, String keyWord) {
 		List<User> users = new ArrayList<>();
 
@@ -104,14 +106,14 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 					.createAlias("user.userInfo", "userInfo");
 			if (!keyWord.equals("")) {
 				
-					 criteria.add(getCrit(keyWord));
+					 criteria.add(setDisjunction(keyWord));
 				}
 			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));
 			} else {
 				criteria.addOrder(Order.desc(sortingField));
 			}
-			criteria.setFirstResult(startPosition);
+			criteria.setFirstResult(offSet);
 			criteria.setMaxResults(itemsPerPage);
 			users.addAll(criteria.list());
 		} catch (Exception e) {

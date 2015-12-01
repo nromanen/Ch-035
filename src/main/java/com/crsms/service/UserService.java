@@ -24,7 +24,7 @@ public interface UserService extends BaseService<User> {
 	
 	long getRowsCount(String keyWord);
 	
-	List<User> getPagingUsers(int startPosition, int itemsPerPage,
+	List<User> getPagingUsers(int offSet, int itemsPerPage,
 							String sortingField, String order,String keyWord);
 	
 }
