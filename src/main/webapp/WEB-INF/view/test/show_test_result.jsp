@@ -22,37 +22,30 @@
 		<c:forEach var="answer" items="${userAnswerAndQuestion.question.answers}">
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10" >
-					<div class="checkbox
-						<c:choose>
-							<c:when test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id) == answer.correct}">
-					 			<c:out value=" bg-success " />
-					 		</c:when>
-					 		<c:otherwise>
-								<c:out value=" bg-danger " />
-							</c:otherwise>
-				 		</c:choose>
-					">
+					<div class="checkbox">
 						<label>
-							<input type="checkbox" disabled="disabled"
-								<c:if test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id) }">
-				  		 			<c:out value=" checked=\"checked\" " />
-				  		 		</c:if>
-				  		 		class="
-				  		 			<c:if test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id) }">
-					  		 			<c:out value=" userAnswer " />
-					  		 		</c:if>
+							<span type="checkbox" 
+								class="
+									<c:choose>
+										<c:when test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id)}">
+								 			<c:out value=" fa fa-check-square-o correctAnswer" />
+								 		</c:when>
+								 		<c:otherwise>
+											<c:out value=" fa fa-square-o incorrectAnswer" />
+										</c:otherwise>
+							 		</c:choose>
 				  		 		"
-							/>
+							></span>
 							${answer.text}
 							
 							<span class=" glyphicon 
 								<c:choose>
-									<c:when test="${answer.correct == true}">
+									<c:when test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id) && answer.correct}">
 							 			<c:out value=" glyphicon-ok-circle text-success correctAnswer" />
 							 		</c:when>
-							 		<c:otherwise>
+							 		<c:when test="${userAnswerAndQuestion.userAnswerForm.checkedAnswerIds.contains(answer.id) && !answer.correct}">
 										<c:out value=" glyphicon-ban-circle text-danger incorrectAnswer" />
-									</c:otherwise>
+									</c:when>
 						 		</c:choose>
 							"></span>
 						</label>
