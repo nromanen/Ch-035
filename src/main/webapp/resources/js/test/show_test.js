@@ -3,4 +3,8 @@ $(document).ready(function() {
     	$('#nextIndex').val($(this).attr('href'));
         $('#userAnswerForm').submit();
     });
+    
+    $('#finisButton').click(function() {
+    	$('#finished').val("true");
+    });
 });

@@ -4,7 +4,8 @@ $(document).ready(function(e) {
             format: "dd/mm/yyyy",
             language: $.cookie('localeCookie'),
             autoclose: true,
-            todayHighlight: true
+            todayHighlight: true,
+            startDate: new Date()
         });
     });
 	

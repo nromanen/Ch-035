@@ -28,31 +28,81 @@
 				<th>
 					<spring:message code="crsms.admin.email" />
 					<a href="<c:url value="?sortparam=email&direction=${order}&keyWord=${keyWord}"/>">
-					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+						<c:choose>
+							<c:when test="${sortparam == 'email' && direction == 'desc'}">
+								<i class="fa fa-sort-alpha-desc fa-lg"></i>
+							</c:when>
+							<c:when test="${sortparam == 'email' && direction == 'asc'}">
+								<i class="fa fa-sort-alpha-asc fa-lg"></i>
+							</c:when>
+							<c:otherwise>
+							<i class="fa fa-sort fa-lg"></i>
+							</c:otherwise>
+						</c:choose>
 					</a>
 				</th>
 				<th>
 					<spring:message code="crsms.admin.userinfo.lastname" />
 					<a href="<c:url value="?sortparam=userInfo.lastName&direction=${order}&keyWord=${keyWord}"/>">
-					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+						<c:choose>
+							<c:when test="${sortparam == 'userInfo.lastName' && direction == 'desc'}">
+								<i class="fa fa-sort-alpha-desc fa-lg"></i>
+							</c:when>
+							<c:when test="${sortparam == 'userInfo.lastName' && direction == 'asc'}">
+								<i class="fa fa-sort-alpha-asc fa-lg"></i>
+							</c:when>
+							<c:otherwise>
+							<i class="fa fa-sort fa-lg"></i>
+							</c:otherwise>
+						</c:choose>
 					</a>
 				</th>
 				<th>
 					<spring:message code="crsms.admin.userinfo.firstname" />
 					<a href="<c:url value="?sortparam=userInfo.firstName&direction=${order}&keyWord=${keyWord}"/>">
-					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+					<c:choose>
+							<c:when test="${sortparam == 'userInfo.firstName' && direction == 'desc'}">
+								<i class="fa fa-sort-alpha-desc fa-lg"></i>
+							</c:when>
+							<c:when test="${sortparam == 'userInfo.firstName' && direction == 'asc'}">
+								<i class="fa fa-sort-alpha-asc fa-lg"></i>
+							</c:when>
+							<c:otherwise>
+							<i class="fa fa-sort fa-lg"></i>
+							</c:otherwise>
+						</c:choose>
 					</a>
 				</th>
 				<th>
 					<spring:message code="crsms.admin.role" />
 					<a href="<c:url value="?sortparam=role.name&direction=${order}&keyWord=${keyWord}"/>">
-					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+					<c:choose>
+						<c:when test="${sortparam == 'role.name' && direction == 'desc'}">
+							<i class="fa fa-sort-alpha-desc fa-lg"></i>
+						</c:when>
+						<c:when test="${sortparam == 'role.name' && direction == 'asc'}">
+							<i class="fa fa-sort-alpha-asc fa-lg"></i>
+						</c:when>
+						<c:otherwise>
+						<i class="fa fa-sort fa-lg"></i>
+						</c:otherwise>
+					</c:choose>
 					</a>
 				</th>
 				<th>
 					<spring:message code="crsms.admin.isenabled" />
 					<a href="<c:url value="?sortparam=isEnabled&direction=${order}&keyWord=${keyWord}"/>">
-					<i class="glyphicon glyphicon-sort" aria-hidden="true"></i>
+						<c:choose>
+							<c:when test="${sortparam == 'isEnabled' && direction == 'desc'}">
+								<i class="fa fa-sort-alpha-desc fa-lg"></i>
+							</c:when>
+							<c:when test="${sortparam == 'isEnabled' && direction == 'asc'}">
+								<i class="fa fa-sort-alpha-asc fa-lg"></i>
+							</c:when>
+							<c:otherwise>
+							<i class="fa fa-sort fa-lg"></i>
+							</c:otherwise>
+						</c:choose>
 					</a>
 				</th>
 				<th colspan="2"><spring:message code="crsms.admin.management" /></th>
@@ -61,11 +111,11 @@
 		<tbody>
 			<c:forEach items="${users}" var="user">
 				<tr>
-					<th class = "hide">${user.id}</th>
+					<td class = "hide">${user.id}</td>
 					<td class="nameCell">${user.email}</td>
 					<td class="nameCell">${user.userInfo.lastName}</td>
 					<td class="nameCell">${user.userInfo.firstName}</td>
-					<td class="nameCell">${user.role.name}</td>
+					<td class="managementCell">${user.role.name}</td>
 					<td class="managementCell" align="center">
 					<c:choose>
 							<c:when test="${user.isEnabled == 'true'}">

@@ -79,4 +79,10 @@ public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 										 .setParameter("id", questionId).uniqueResult();
 	}
 
+	@Override
+	public Long countCorrectAnswer(Long testId) {
+		return (Long) getSessionFactory().getCurrentSession().getNamedQuery(Test.COUNT_CORRECT_ANSWER)
+				 .setParameter("testId", testId).uniqueResult();
+	}
+
 }
