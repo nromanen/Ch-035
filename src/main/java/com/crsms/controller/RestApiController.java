@@ -2,6 +2,7 @@ package com.crsms.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.crsms.domain.Area;
@@ -149,6 +151,7 @@ public class RestApiController {
 	  return vacancyService.getAllVacancies();
 	}
 	
+	// Group REST
 	@RequestMapping(value = {"/groups"}, method = RequestMethod.GET)
 	public List<GroupNameJsonDto> getAllGroups() {
 		return dtoService.convert(groupService.getAll(), GroupNameJsonDto.class, Group.class);
@@ -161,7 +164,15 @@ public class RestApiController {
 	}
 	
 	@RequestMapping(value = {"/groups/{groupId}/students"}, method = RequestMethod.GET)
-	public List<UserIdAndEmailDto> getStudentsFromGroup(@PathVariable Long groupId) {
-		return groupService.getStudentsFromGroup(groupId);
+	public List<UserIdAndEmailDto> getStudentsIdsAndEmailsFromGroup(@PathVariable Long groupId) {
+		return groupService.getStudentsIdsAndEmailsFromGroup(groupId);
 	}
+	
+	@RequestMapping(value = {"courses/{courseId}/groups/{groupId}/addstudents"},
+			method = RequestMethod.POST)
+	public List<String> addStudents(@RequestParam(value = "emails") Set<String> emails,
+			@PathVariable Long courseId, @PathVariable Long groupId) {
+		return groupService.addStudents(courseId, groupId, emails);
+	}
+	// END Group REST   
 }
