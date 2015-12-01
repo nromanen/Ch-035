@@ -6,8 +6,11 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.User;
@@ -18,7 +21,7 @@ import com.crsms.domain.User;
  *
  */
 @Repository
-public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	public UserDaoImpl() {
 		super(User.class);
@@ -58,34 +61,58 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao  {
 	}
 
 	@Override
-	public long getRowsCount() {
+	public long getRowsCount(String keyWord) {
 		long rowsCount = 0;
 		try {
-			rowsCount = (long) this.getSessionFactory().getCurrentSession()
-					.createCriteria(User.class)
-					.setProjection(Projections.rowCount()).uniqueResult();
+			Criteria criteria = this.getSessionFactory().getCurrentSession()
+					.createCriteria(User.class, "user")
+					.createAlias("user.role", "role")
+					.createAlias("user.userInfo", "userInfo");
+			if (!keyWord.equals(""))
+				criteria.add(setDisjunction(keyWord));
+			rowsCount = (long) criteria.setProjection(Projections.rowCount())
+					.uniqueResult();
 		} catch (Exception e) {
 			this.getLogger().error("Error get rowsCount " + e);
 			throw e;
 		}
 		return rowsCount;
 	}
+	
+	private Disjunction setDisjunction(String keyWord) {
+		Disjunction or = Restrictions.disjunction();
+		or.add(Restrictions.ilike("user.email", keyWord,
+				MatchMode.ANYWHERE));
+		or.add(Restrictions.ilike("role.name", keyWord, 
+				MatchMode.ANYWHERE));
+		or.add(Restrictions.ilike("userInfo.firstName", keyWord,
+				MatchMode.ANYWHERE));
+		or.add(Restrictions.ilike("userInfo.lastName", keyWord,
+				MatchMode.ANYWHERE));
+		return or;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getPagingUsers(int startPosition, int itemsPerPage,
-			String sortingField, String order) {
+	public List<User> getPagingUsers(int offSet, int itemsPerPage,
+			String sortingField, String order, String keyWord) {
 		List<User> users = new ArrayList<>();
-		
+
 		try {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()
-					.createCriteria(User.class);
+					.createCriteria(User.class, "user")
+					.createAlias("user.role", "role")
+					.createAlias("user.userInfo", "userInfo");
+			if (!keyWord.equals("")) {
+				
+					 criteria.add(setDisjunction(keyWord));
+				}
 			if (sortingField != null && order.equals("asc")) {
 				criteria.addOrder(Order.asc(sortingField));
-			} else	{
+			} else {
 				criteria.addOrder(Order.desc(sortingField));
 			}
-			criteria.setFirstResult(startPosition);
+			criteria.setFirstResult(offSet);
 			criteria.setMaxResults(itemsPerPage);
 			users.addAll(criteria.list());
 		} catch (Exception e) {

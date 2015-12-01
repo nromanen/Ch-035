@@ -53,11 +53,11 @@
             </td>
             <td colspan="2" >
                 <c:if test="${!empty area.name}">
-                    <input type="submit" class="btn btn-primary btn-sm"
+                    <input type="submit" class="btn btn-primary"
                            value="<spring:message code="crsms.area.edit"/>" id="btn"/>
                 </c:if>
                 <c:if test="${empty area.name}">
-                    <input type="submit" class="btn btn-primary btn-sm"
+                    <input type="submit" class="btn btn-primary"
                            value="<spring:message code="crsms.area.add"/>" id="btn"/>
                 </c:if>
             </td>

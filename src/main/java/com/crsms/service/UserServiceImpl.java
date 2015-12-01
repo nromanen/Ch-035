@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.UserDao;
 import com.crsms.domain.User;
+import com.crsms.domain.UserInfo;
 import com.crsms.util.Invocable;
 
 /**
@@ -19,7 +20,7 @@ import com.crsms.util.Invocable;
  *
  */
 @Service("userService")
-@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
 	@Autowired
@@ -28,12 +29,27 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+	private UserInfoService userInfoService;
+	
 	@Override
+	@Transactional
 	public User saveUser(User user) {
+			user.setEmail(user.getEmail().toLowerCase());
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userDao.save(user);
 		return user;
 	}
+	
+	@Override
+	@Transactional
+	public User saveStudent(User user){
+		UserInfo userInfo = new UserInfo();
+		userInfoService.save(userInfo);
+		userInfo.setUser(user);
+		userInfoService.update(userInfo);
+		return user;
+	};
 	
 	@Override
 	public boolean changePassword(String email, String currentPassword, String newPassword) {
@@ -65,17 +81,17 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	@Override
 	public boolean isEmailExists(String email) {
-		return userDao.getUserByEmail(email) != null;
+		return userDao.getUserByEmail(email.toLowerCase()) != null;
 	}
 
-	public long getRowsCount() {
-		return userDao.getRowsCount();
+	public long getRowsCount(String keyWord) {
+		return userDao.getRowsCount(keyWord);
 	}
 
 	@Override
-	public List<User> getPagingUsers(int startPosition, int itemsPerPage, 
-										String sortingField, String order) {
-		return userDao.getPagingUsers(startPosition, itemsPerPage, sortingField, order);
+	public List<User> getPagingUsers(int offSet, int itemsPerPage, 
+									String sortingField, String order, String keyWord) {
+		return userDao.getPagingUsers(offSet, itemsPerPage, 
+									sortingField, order, keyWord);
 	}
-	
 }

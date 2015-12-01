@@ -50,7 +50,7 @@
 					</c:when>
 					<c:when test="${moduleResource.type == 'FILE'}">
 						<c:url value="/resources/downloadfile" var="fileDownloadURL">
-						  	<c:param name="filename" value="${moduleResource.name}" />
+						  	<c:param name="id" value="${moduleResource.id}" />
 						</c:url>
 						<a class="btn btn-default" href="${fileDownloadURL}" 
 							class="module-resource-link"><i class="fa fa-lg fa-download"></i> ${moduleResource.name}</a>
