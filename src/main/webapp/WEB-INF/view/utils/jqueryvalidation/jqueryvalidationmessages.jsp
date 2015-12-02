@@ -13,6 +13,7 @@ jQuery.extend(jQuery.validator.messages, {
 	    max: "<spring:message code="crsms.error.number.max"/>",
 	    url: "<spring:message code="crsms.error.url"/>",
 	    accept: "<spring:message code="crsms.error.file.type"/>",
-	    pattern: "<spring:message code="crsms.error.format.invalid"/>"
+	    pattern: "<spring:message code="crsms.error.format.invalid"/>",
+	    regexEmail: "<spring:message code="crsms.error.email.invalid"/>"
 });
 </script>

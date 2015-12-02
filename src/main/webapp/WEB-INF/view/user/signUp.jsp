@@ -26,6 +26,7 @@
 							name="password" placeholder="Password" required="true"
 							pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" />
 							<form:errors path = "password" cssClass = "label label-danger" /> </span>
+							<label id="password-error" class="errorTxt" for="password"></label>
 						</div>
 					</div>
 					<div class="form-group">

@@ -55,6 +55,7 @@
 									<input type="password" name="newPassword" 
 									id="newPassword" required
 									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"></a>
+									<label id="newPassword-error" class="errorTxt" for="newPassword"></label>
 								</td>
 							</tr>
 							<tr>
