@@ -100,6 +100,7 @@ public class TestResultServiceImpl implements TestResultService {
 			if(!answer.getDisable())  countAnswer++;
 		
 		if(countAnswer == 0) return;
+		
 		UserAnswer userAnswer;
 		Boolean checked;
 		Boolean correctAnswer;
@@ -111,7 +112,10 @@ public class TestResultServiceImpl implements TestResultService {
 			userAnswer.setQuestion(question);
 			userAnswer.setAnswer(answer);
 			
-			checked = userAnswerFormDto.getCheckedAnswerIds().contains( answer.getId() );
+			if(userAnswerFormDto.getCheckedAnswerIds() == null) 
+				checked = false;
+			else
+				checked = userAnswerFormDto.getCheckedAnswerIds().contains( answer.getId() );
 			correctAnswer = checked == answer.getCorrect();
 			
 			userAnswer.setChecked(checked);
