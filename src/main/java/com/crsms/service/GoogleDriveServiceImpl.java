@@ -5,6 +5,7 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.InputStreamContent;
@@ -43,10 +44,13 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
         "CrsMS softserve IT Academy web app";
     
     /** Path to client_secret.json */
-    private static final String CLIENT_SECRET_PATH = "/drive_client_secret.json";
+    private static final String CLIENT_SECRET_PATH = "/google_client_secret.json";
+    
+    /** Path to service key */
+    private static final String SERVICE_ACCOUNT_KEY_PATH = "/google_service_account_key.json";
     
     /** Path to drive.properties */
-    private static final String DRIVE_PROPERTIES_PATH = "/drive.properties";
+    private static final String DRIVE_PROPERTIES_PATH = "/google_drive.properties";
     
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
@@ -120,6 +124,16 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         return credential;
     }
+    
+    /**
+     * Creates a service account Credential object.
+     * @return a service account Credential object.
+     * @throws IOException
+     */
+    public GoogleCredential getServiceAccountCredential() throws IOException {
+    	return GoogleCredential.fromStream(GoogleDriveServiceImpl.class.getResourceAsStream(SERVICE_ACCOUNT_KEY_PATH))
+    			.createScoped(SCOPES);
+    }
 
     /**
      * Build and return an authorized Drive client service.
@@ -128,7 +142,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
      */
     public Drive getDriveAPIClientService() throws IOException {
         return new Drive.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, authorize())
+                HTTP_TRANSPORT, JSON_FACTORY, getServiceAccountCredential())
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }

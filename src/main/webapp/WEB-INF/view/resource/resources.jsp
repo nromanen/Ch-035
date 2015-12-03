@@ -120,7 +120,7 @@
 			</div>
 			
 			<div class="form-group">
-				<label for = "path" class="col-sm-3 control-label"><spring:message code = "crsms.resource.text.path" />: </label>
+				<label for = "path" class="col-sm-3 control-label"><spring:message code = "crsms.resource.text.embedded.src" />: </label>
 				<div class="col-sm-9">
 					<spring:message code="crsms.text.link" var="linkPlaceholder"/>
 				    <input id="modal-edit-resource-input-path" name = "path"
