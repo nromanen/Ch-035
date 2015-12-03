@@ -324,6 +324,7 @@
 		</put-list-attribute>
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/webjars/jquery-validation/1.14.0/additional-methods.min.js" />
 			<add-attribute value="/resources/js/test/test.js" />
 		</put-list-attribute>
 	</definition>
