@@ -44,10 +44,10 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
         "CrsMS softserve IT Academy web app";
     
     /** Path to client_secret.json */
-    private static final String CLIENT_SECRET_PATH = "/google_drive_client_secret.json";
+    private static final String CLIENT_SECRET_PATH = "/google_client_secret.json";
     
     /** Path to service key */
-    private static final String SERVICE_ACCOUNT_KEY_PATH = "/google_drive_service_account_key.json";
+    private static final String SERVICE_ACCOUNT_KEY_PATH = "/google_service_account_key.json";
     
     /** Path to drive.properties */
     private static final String DRIVE_PROPERTIES_PATH = "/google_drive.properties";
