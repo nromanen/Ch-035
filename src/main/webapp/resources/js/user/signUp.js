@@ -4,7 +4,7 @@ $(document).ready(function() {
 		rules: {
         	"email": {
         		required: true,
-                email: true
+        		regexEmail: '^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*\\.[A-Za-z]{2,}$'
             },
             "password": {
             	pattern: '(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}',
@@ -26,6 +26,15 @@ $(document).ready(function(){
 
 $.validator.addMethod(
 	    "pattern",
+	    function(value, element, regexp) {
+	        var re = new RegExp(regexp);
+	        return this.optional(element) || re.test(value);
+	    },
+	    "Please check your input."
+	);
+
+$.validator.addMethod(
+	    "regexEmail",
 	    function(value, element, regexp) {
 	        var re = new RegExp(regexp);
 	        return this.optional(element) || re.test(value);

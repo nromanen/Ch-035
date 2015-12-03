@@ -118,11 +118,13 @@
  					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#1:</label>
 					    <div class="col-sm-10">
-					      <form:textarea path="answers[0].text" name="answers[0].text" value="" id="answer1" class="form-control clear-textarea" placeholder="${answerVersion}" />
+					      <form:textarea path="answers[0].text" name="answers[0].text" value="" id="answer1"
+					 				     class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />		
-					      <div id="answer1-error" class="errorTxt" for="answer1"></div>
+					      <div id="answer1-error" class="errorTxt"></div>
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[0].correct"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[0].correct"
+						      		 id="answers0" class="answer"> <spring:message code="crsms.tests.correct.answer" />
 						  </div>
 					    </div>
 					  </div>
@@ -132,8 +134,9 @@
 					    <div class="col-sm-10">
 					      <form:textarea path="answers[1].text" name="answers[1].text" value="" id="answer2" class="form-control clear-textarea" placeholder="${answerVersion}" />
 					      <form:errors path="text" cssClass = "label label-danger" />
+					      <div id="answer2-error" class="errorTxt"></div>
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[1].correct"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[1].correct" id="answers1"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>				      
 					    </div>
 					  </div>
@@ -142,9 +145,10 @@
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#3:</label>
 					    <div class="col-sm-10">
 					      <form:textarea path="answers[2].text" name="answers[2].text" value="" id="answer3" class="form-control clear-textarea" placeholder="${answerVersion}" />
-					      <form:errors path="text" cssClass = "label label-danger" />		
+					      <form:errors path="text" cssClass = "label label-danger" />	
+					      <div id="answer3-error" class="errorTxt"></div>	
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[2].correct"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "modal-form" name="answers[2].correct" id="answers2"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>		      
 					    </div>
 					  </div>
@@ -153,10 +157,13 @@
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#4:</label>
 					    <div class="col-sm-10">
 					      <form:textarea path="answers[3].text" name="answers[3].text" value="" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
-					      <form:errors path="text" cssClass = "label label-danger" />	
+					      <form:errors path="text" cssClass = "label label-danger" />
+					      <div id="answer4-error" class="errorTxt"></div>
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[3].correct"> <spring:message code="crsms.tests.correct.answer" />
-						   </div>			      
+						      <input type="checkbox" form = "modal-form" name="answers[3].correct" id="answers3"> <spring:message code="crsms.tests.correct.answer" />
+						  </div>
+						  <br>
+						  <label id="answers[0].correct-error" class="errorTxt" for="answers[0].correct" style="display: inline-block;"></label>			      
 					    </div>
 					  </div>
 					
