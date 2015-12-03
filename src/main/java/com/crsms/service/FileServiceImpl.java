@@ -113,15 +113,15 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public String uploadFile(MultipartFile multipartFile, StorageType storageType) throws IOException {	
 		switch(storageType) {
-			case CATALINA:
-				return uploadToCatalinaHome(multipartFile);
-			case GOOGLE_DRIVE:
-				return uploadToGoogleDrive(multipartFile).getId();
-			default:
-				// by conventions
-				throw new FileSystemNotFoundException(
-						"There is not suitable method for the " 
-						+ storageType + " storage type");
+		case CATALINA:
+			return uploadToCatalinaHome(multipartFile);
+		case GOOGLE_DRIVE:
+			return uploadToGoogleDrive(multipartFile).getId();
+		default:
+			// by conventions
+			throw new FileSystemNotFoundException(
+					"There is not suitable method for the " 
+					+ storageType + " storage type");
 		}
 	}
 
