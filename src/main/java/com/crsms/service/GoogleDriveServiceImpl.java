@@ -106,10 +106,10 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
      */
     public Credential getUserAccountCredential() throws IOException {
         // Load client secrets.
-        InputStream driveClientInputStream =
+        InputStream clientSecretInputStream =
         		GoogleDriveServiceImpl.class.getResourceAsStream(CLIENT_SECRET_PATH);
         GoogleClientSecrets clientSecrets =
-            GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(driveClientInputStream));
+            GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(clientSecretInputStream));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
