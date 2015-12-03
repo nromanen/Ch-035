@@ -102,7 +102,7 @@ public class FileServiceImpl implements FileService {
 			HttpServletResponse response) throws IOException {
 		com.google.api.services.drive.model.File file = googleDriveService.getMediaFileFromDrive(path);
 		prepareResponseHeaders(response, file.getMimeType(), file.getFileSize().intValue(), file.getTitle());
-		prepareResponseData(response, googleDriveService.getMediaBytesFromDrive(path));
+		prepareResponseData(response, googleDriveService.getMediaStreamFromDrive(path));
 	}
 	
 	@Override
