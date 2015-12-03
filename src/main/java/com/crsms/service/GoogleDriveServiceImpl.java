@@ -104,7 +104,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
      * @return an authorized Credential object.
      * @throws IOException
      */
-    public Credential authorize() throws IOException {
+    public Credential getUserAccountCredential() throws IOException {
         // Load client secrets.
         InputStream driveClientInputStream =
         		GoogleDriveServiceImpl.class.getResourceAsStream(CLIENT_SECRET_PATH);
@@ -168,7 +168,8 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		return getDriveAPIClientService().files().get(id).execute();
 	}
 	
-	public InputStream getMediaBytesFromDrive(String id) throws IOException {
+	@Override
+	public InputStream getMediaStreamFromDrive(String id) throws IOException {
 		return getDriveAPIClientService().files().get(id).executeMediaAsInputStream();
 	}
     
