@@ -15,6 +15,7 @@ jQuery.extend(jQuery.validator.messages, {
 	    accept: "<spring:message code="crsms.error.file.type"/>",
 	    pattern: "<spring:message code="crsms.error.format.invalid"/>",
 	    regexEmail: "<spring:message code="crsms.error.email.invalid"/>",
-	    oneCheckbox: "<spring:message code="crsms.error.answer.one"/>"
+	    oneCheckbox: "<spring:message code="crsms.error.answer.one"/>",
+	    number: "<spring:message code="crsms.error.field.number"/>"
 });
 </script>
