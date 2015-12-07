@@ -23,7 +23,7 @@
 <div>
 
   <!-- Nav tabs -->
-  <ul class="nav nav-pills" role="tablist">
+  <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active">
     	<a href="#tab-type-embedded" aria-controls="tab-type-embedded" role="tab" data-toggle="tab">
     		<spring:message code = "crsms.resource.text.embedded" />
