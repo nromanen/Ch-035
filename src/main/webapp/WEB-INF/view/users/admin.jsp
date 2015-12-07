@@ -2,14 +2,26 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<c:set var = "order"/>
-<c:if test="${sessionScope['direction'] == null || sessionScope['direction'] == 'asc'}">
+<c:set var = "order" value = "asc"/>
+<c:if test="${direction == null ||direction == 'asc'}">
 <c:set var = "order" value = "desc"/>
 </c:if>
+<c:set var = "pagesize"/>
+							
 <div id="search" class="container text-right">
-		<div class="errorTxt">
-	<c:if test="${empty users}"><strong><spring:message code = "crsms.admin.search.notfound"/></strong></c:if>
+	<div class="errorTxt">
+		<c:if test="${empty users}"><strong><spring:message code = "crsms.admin.search.notfound"/></strong></c:if>
 	</div>
+	<%-- <div class=" navbar-form form-group">
+	  <label for="pagesize">${sessionScope['pagesize']}</label>
+	  <form:select path="${sessionScope['pagesize']}">  
+                <form:option value="4">4</form:option>  
+                <form:option value="6">6</form:option>           	  
+                <form:option value="10">10</form:option>   
+                <form:option value="15">15</form:option>  
+             <form:option selected="${sessionScope['pagesize']}" value="${sessionScope['pagesize']}">${sessionScope['pagesize']}</form:option>  
+            </form:select>  	
+	</div> --%>
 	<form id = "searchForm" class="navbar-form navbar search" role="search"  method="GET">					
 		<input id = "keyWord" type="text" class="form-control" name="keyWord" value = "${keyWord}" >
 		<button type="button" onclick="ClearField();" class="btn btn-default">
@@ -21,18 +33,19 @@
 	    </button>
 	</form>
 </div>
+
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr class="active">
 				<th class = "hide"><spring:message code="crsms.text.id" /></th>
 				<th>
 					<spring:message code="crsms.admin.email" />
-					<a href="<c:url value="?sortparam=email&direction=${order}&keyWord=${keyWord}"/>">
+					<a href="<c:url value="?sortparam=email&direction=${order}&keyWord=${keyWord}&itemsperpage=${pagesize}"/>">
 						<c:choose>
-							<c:when test="${sortparam == 'email' && direction == 'desc'}">
+							<c:when test="${sortparam == 'email' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
 							</c:when>
-							<c:when test="${sortparam == 'email' && direction == 'asc'}">
+							<c:when test="${sortparam == 'email' && direction == 'desc'}">
 								<i class="fa fa-sort-alpha-asc fa-lg"></i>
 							</c:when>
 							<c:otherwise>
@@ -45,10 +58,10 @@
 					<spring:message code="crsms.admin.userinfo.lastname" />
 					<a href="<c:url value="?sortparam=userInfo.lastName&direction=${order}&keyWord=${keyWord}"/>">
 						<c:choose>
-							<c:when test="${sortparam == 'userInfo.lastName' && direction == 'desc'}">
+							<c:when test="${sortparam == 'userInfo.lastName' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
 							</c:when>
-							<c:when test="${sortparam == 'userInfo.lastName' && direction == 'asc'}">
+							<c:when test="${sortparam == 'userInfo.lastName' && direction == 'desc'}">
 								<i class="fa fa-sort-alpha-asc fa-lg"></i>
 							</c:when>
 							<c:otherwise>
@@ -61,10 +74,10 @@
 					<spring:message code="crsms.admin.userinfo.firstname" />
 					<a href="<c:url value="?sortparam=userInfo.firstName&direction=${order}&keyWord=${keyWord}"/>">
 					<c:choose>
-							<c:when test="${sortparam == 'userInfo.firstName' && direction == 'desc'}">
+							<c:when test="${sortparam == 'userInfo.firstName' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
 							</c:when>
-							<c:when test="${sortparam == 'userInfo.firstName' && direction == 'asc'}">
+							<c:when test="${sortparam == 'userInfo.firstName' && direction == 'desc'}">
 								<i class="fa fa-sort-alpha-asc fa-lg"></i>
 							</c:when>
 							<c:otherwise>
@@ -77,10 +90,10 @@
 					<spring:message code="crsms.admin.role" />
 					<a href="<c:url value="?sortparam=role.name&direction=${order}&keyWord=${keyWord}"/>">
 					<c:choose>
-						<c:when test="${sortparam == 'role.name' && direction == 'desc'}">
+						<c:when test="${sortparam == 'role.name' && direction == 'asc'}">
 							<i class="fa fa-sort-alpha-desc fa-lg"></i>
 						</c:when>
-						<c:when test="${sortparam == 'role.name' && direction == 'asc'}">
+						<c:when test="${sortparam == 'role.name' && direction == 'desc'}">
 							<i class="fa fa-sort-alpha-asc fa-lg"></i>
 						</c:when>
 						<c:otherwise>
@@ -93,10 +106,10 @@
 					<spring:message code="crsms.admin.isenabled" />
 					<a href="<c:url value="?sortparam=isEnabled&direction=${order}&keyWord=${keyWord}"/>">
 						<c:choose>
-							<c:when test="${sortparam == 'isEnabled' && direction == 'desc'}">
+							<c:when test="${sortparam == 'isEnabled' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
 							</c:when>
-							<c:when test="${sortparam == 'isEnabled' && direction == 'asc'}">
+							<c:when test="${sortparam == 'isEnabled' && direction == 'desc'}">
 								<i class="fa fa-sort-alpha-asc fa-lg"></i>
 							</c:when>
 							<c:otherwise>

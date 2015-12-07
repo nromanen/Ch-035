@@ -32,7 +32,7 @@ import com.crsms.validator.AdminValidator;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-	public static final int ITEMSPERPAGE = 6;
+//	public static final int ITEMSPERPAGE = 6;
 	@Autowired
 	private UserService userService;
 	
@@ -48,19 +48,30 @@ public class AdminController {
 						@RequestParam (value = "sortparam", required = false, defaultValue = "email") String sortParam,
 						@RequestParam (value = "direction", required = false, defaultValue = "asc") String direction,
 						@RequestParam (value = "keyWord",required = false, defaultValue = "")String keyWord,
+						@RequestParam (value = "pagesize", required = false, defaultValue = "6") int pageSize,
 						HttpSession session, ModelMap model) {
 		
 		if (session.getAttribute("direction") == null) {
 			session.setAttribute("direction", direction);
 		}
+		
+
+		if (session.getAttribute("pagesize") == null) {
+			session.setAttribute("pagesize", pageSize);
+		}
 
 		String order = (String) session.getAttribute("direction");
-		if (session.getAttribute("sortparam") != null) {
+		String sortingField = (String) session.getAttribute("sortparam");
+		Integer itemsPerPage =  (Integer) session.getAttribute("pagesize");
+		
+		if (itemsPerPage == 0);
+		itemsPerPage = pageSize;
+		
+		if (session.getAttribute("direction") != null) {
 			order = direction;
 			session.setAttribute("direction", order);
 		} 
 		
-		String sortingField = (String) session.getAttribute("sortparam");
 		if (sortingField == null) {
 			session.setAttribute("sortparam", sortParam);
 			sortingField = (String) session.getAttribute("sortparam");
@@ -69,20 +80,20 @@ public class AdminController {
 			sortingField = (String) session.getAttribute("sortparam");
 		}
 		
-		int offSet = (page - 1) * ITEMSPERPAGE;
+		int offSet = (page - 1) * itemsPerPage;
 		List<User> users = userService.getPagingUsers(
-				offSet, ITEMSPERPAGE, sortingField, order, keyWord);
-		
+				offSet, itemsPerPage, sortingField, order, keyWord);
 		
 		long rowsCount = userService.getRowsCount(keyWord);
-		int lastpage = (int) ((rowsCount / ITEMSPERPAGE));
-		if (rowsCount > (lastpage * ITEMSPERPAGE)) {
+		int lastpage = (int) ((rowsCount / itemsPerPage));
+		if (rowsCount > (lastpage * itemsPerPage)) {
 			lastpage++;
 		}
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		model.addAttribute("keyWord", keyWord);
+//		model.addAttribute("itemsperpage", itemsPerPage);
 		return "admin";
 	}
 	
