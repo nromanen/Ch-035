@@ -1,10 +1,8 @@
 package com.crsms.config;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +16,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
-import com.crsms.dao.BaseDaoImpl;
 /**
  * @author Roman Romaniuk
  */
@@ -50,9 +46,9 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 		roleToUrlMapper.put("ROLE_TEACHER", "/courses/?show=my");
 		roleToUrlMapper.put("ROLE_STUDENT", "/courses/");
 
-		outer: for (GrantedAuthority a : authorities) {
+		outer: for (GrantedAuthority auth : authorities) {
 			for (Map.Entry<String, String> entry : roleToUrlMapper.entrySet()) {
-				if (a.getAuthority().equals(entry.getKey())) {
+				if (auth.getAuthority().equals(entry.getKey())) {
 					url = entry.getValue();
 					break outer;
 				} else {
