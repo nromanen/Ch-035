@@ -182,4 +182,31 @@
         </sql>
     </changeSet>
     
+    <changeSet author="maftey" id="1446992667519-159">
+		<addColumn tableName="user_answer" >
+        	<column name="checked" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    	
+    	<addColumn tableName="user_answer" >
+        	<column name="correctAnswer" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    	
+    	<addColumn tableName="user_answer" >
+        	<column name="cost" type="double precision" defaultValue="0.25" />
+    	</addColumn>
+	</changeSet>
+
+	<changeSet author="andriets" id="1446992667519-160">
+        <sqlFile path="src/main/resources/liquibase/populateDB4.sql"/>
+    </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-161">
+	    <sql>
+	    	UPDATE course SET published='TRUE';
+	    </sql>
+	</changeSet>
+	
+	<changeSet author="stefankiv" id="1446992667519-162">
+	    <sqlFile path="src/main/resources/liquibase/populateDB5.sql"/>
+	</changeSet>
 </databaseChangeLog>

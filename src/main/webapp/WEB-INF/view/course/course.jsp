@@ -63,9 +63,11 @@
 		<div class="module-tests module-unit-grid col-md-6">
 			<h4 class="module-units-title text-uppercase${fn:length(module.tests) == 0 ? ' hidden' : ''}"
 				><spring:message code="crsms.modules.text.tests" /></h4>
+				
 			<c:forEach var="moduleTest" items="${module.tests}">
 			<div class="module-test">
-				<a class="btn btn-default" ><i class="fa fa-lg fa-check-square-o"></i> ${moduleTest.name}</a>
+				<c:url var = "showTest" value = "${course.id}/modules/${module.id}/tests/${moduleTest.id}/show/1" />
+				<a class="btn btn-default" href = "${showTest}" ><i class="fa fa-lg fa-check-square-o"></i> ${moduleTest.name}</a>
 			</div>
 			</c:forEach>
 		</div>

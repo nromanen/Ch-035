@@ -1,6 +1,6 @@
 $(document).ready(function() {
-	$('#subscribeModal').on('show.bs.modal', function(event) {
-		var button = $(event.relatedTarget);
+	$('#subscribeModal').on('show.bs.modal', function(e) {
+		var button = $(e.relatedTarget);
 		var courseId = button.data('course-id');
 		var modal = $(this);
 		var url = '/crsms/api/courses/' + courseId + '/groups/';
@@ -18,10 +18,8 @@ $(document).ready(function() {
 		})
 	})
 	
-	
-	
-	$('#unsubscribeModal').on('show.bs.modal', function(event) {
-		var button = $(event.relatedTarget);
+	$('#unsubscribeModal').on('show.bs.modal', function(e) {
+		var button = $(e.relatedTarget);
 		var courseId = button.data('course-id');
 		var groupId = button.data('group-id');
 		

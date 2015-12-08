@@ -30,7 +30,7 @@
 	
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
-			<input type = "submit" value = "Submit" class="btn btn-primary"/>
+			<input type = "submit" value = "<spring:message code="crsms.button.save" />" class="btn btn-primary"/>
 		</div>
 	</div>	
 </form:form>

@@ -264,10 +264,10 @@ public class CourseController {
 				}
 				break;
 			case SHOW_ALL: 
-				courses = courseService.getAll();
+				courses = courseService.getAllPublished();
 				break;
 			default: 
-				courses = courseService.getAll();
+				courses = courseService.getAllPublished();
 				break;
 		}
 		return courses;
