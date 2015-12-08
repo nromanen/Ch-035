@@ -3,6 +3,8 @@ package com.crsms.config;
 
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +27,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+	private final Logger logger = LogManager.getLogger(SecurityConfig.class);
 	private static final Integer VALIDITYTIME = 28800;	// 8 Hours
 
 	@Autowired
@@ -37,6 +39,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private DataSource dataSource;
+	
+//	@Autowired
+//	private CustomAuthenticationFilter customAuthenticationFilter;
+	
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth)
@@ -86,4 +92,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         tokenRepositoryImpl.setDataSource(dataSource);
         return tokenRepositoryImpl;
     }
+	@Bean
+	CustomAuthenticationFilter customAuthenticationFilter(){
+		CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter();
+		try {
+			customAuthenticationFilter.setAuthenticationManager(authenticationManager());
+		} catch (Exception e) {
+			logger.error("Error get user by Id: " + e);
+		}
+		return customAuthenticationFilter;
+	}
 }

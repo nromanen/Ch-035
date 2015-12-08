@@ -3,7 +3,9 @@ package com.crsms.config;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +26,7 @@ import com.crsms.dao.BaseDaoImpl;
 @Component
 public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler {
 	
-	private final Logger logger = LogManager.getLogger(BaseDaoImpl.class);
+	private final Logger logger = LogManager.getLogger(CustomAuthenticationHandler.class);
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@Override
@@ -42,20 +44,21 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 	protected String determineTargetUrl(Authentication authentication) {
 		String url = "";
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		List<String> roles = new ArrayList<String>();
-		for (GrantedAuthority a : authorities) {
-			roles.add(a.getAuthority());
-		}
-		if (roles.contains("ROLE_ADMIN")) {
-			url = "/admin/";
-		} else if (roles.contains("ROLE_MANAGER")) {
-			url = "/areas/";
-		} else if (roles.contains("ROLE_TEACHER")) {
-			url = "/courses/?show=my";
-		} else if (roles.contains("ROLE_STUDENT")) {
-			url = "/courses/";
-		} else {
-			url = "/403";
+		Map<String, String> roleToUrlMapper = new HashMap<String, String>();
+		roleToUrlMapper.put("ROLE_ADMIN", "/admin/");
+		roleToUrlMapper.put("ROLE_MANAGER", "/areas/");
+		roleToUrlMapper.put("ROLE_TEACHER", "/courses/?show=my");
+		roleToUrlMapper.put("ROLE_STUDENT", "/courses/");
+
+		outer: for (GrantedAuthority a : authorities) {
+			for (Map.Entry<String, String> entry : roleToUrlMapper.entrySet()) {
+				if (a.getAuthority().equals(entry.getKey())) {
+					url = entry.getValue();
+					break outer;
+				} else {
+					url = "/403";
+				}
+			}
 		}
 		return url;
 	}
