@@ -54,8 +54,6 @@ public class AdminController {
 		if (session.getAttribute("direction") == null) {
 			session.setAttribute("direction", direction);
 		}
-		
-
 		if (session.getAttribute("pagesize") == null) {
 			session.setAttribute("pagesize", pageSize);
 		}

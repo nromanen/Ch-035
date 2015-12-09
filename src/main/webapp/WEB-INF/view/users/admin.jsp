@@ -118,7 +118,7 @@
 						</c:choose>
 					</a>
 				</th>
-				<th colspan="2"><spring:message code="crsms.admin.management" /></th>
+				<th><spring:message code="crsms.admin.management" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -152,8 +152,7 @@
 								title="<spring:message code="crsms.button.edit" />">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 							</a>
-					</td>
-					<td class="managementCell">
+					
 						<c:url var="deleteUser"	value="/admin/${user.id}/delete" /> 
 							<a href="${deleteUser}"
 								class="btn btn-danger btn-sm" 
