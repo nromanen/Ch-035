@@ -209,4 +209,5 @@
 	<changeSet author="stefankiv" id="1446992667519-162">
 	    <sqlFile path="src/main/resources/liquibase/populateDB5.sql"/>
 	</changeSet>
+
 </databaseChangeLog>
