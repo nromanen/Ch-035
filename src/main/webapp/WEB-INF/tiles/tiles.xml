@@ -418,6 +418,24 @@
 		<put-attribute name="title" value="crsms.groups.title.edit" />
 		<put-attribute name="header-title" value="crsms.groups.title.edit" />
 	</definition>
+	
+	<definition name = "students" extends = "base-template">
+		<put-attribute name="title" value="crsms.groups.title.all" />
+		<put-attribute name="header-title" value="crsms.groups.title.all" />
+		<put-attribute name="content" value="/WEB-INF/view/group/students.jsp" />
+	</definition>
+	
+	<definition name = "addstudents" extends = "base-template">
+		<put-attribute name="title" value="crsms.groups.title.all" />
+		<put-attribute name="header-title" value="crsms.groups.title.all" />
+		<put-attribute name="content" value="/WEB-INF/view/group/addstudents.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/group/addstudents.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/group/addstudents.css" />
+		</put-list-attribute>
+	</definition>
 	<!-- end Group -->
 	
 	<!-- Error pages -->

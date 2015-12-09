@@ -15,6 +15,8 @@ public interface GroupService extends BaseService<Group> {
 
 	void unsubscribe(Long groupId, String email);
 	
+	void unsubscribe(Long groupId, Long studentId);
+	
 	List<Group> getAllByCourseId(Long courseId);
 
 	void save(Long courseId, Group group);
@@ -45,4 +47,6 @@ public interface GroupService extends BaseService<Group> {
 	 * @return list of student's emails who are subscribed to the course.
 	 */
 	List<String> selectAlreadySubscribedUsers(Long courseId, Set<String> emails);
+
+	List<UserIdAndEmailDto> searchStudents(String textToSearch);
 }

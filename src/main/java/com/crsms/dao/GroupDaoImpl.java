@@ -74,4 +74,19 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserIdAndEmailDto> searchStudents(String textToSearch) {
+		try {
+			return this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Group.SEARCH_STUDENTS)
+					   .setParameter("textToSearch", "%" + textToSearch + "%")
+					   .list();
+		} catch (Exception e) {
+			getLogger().error("Error in search students: " + e);
+			throw e;
+		}
+	}
+
 }

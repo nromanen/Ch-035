@@ -22,11 +22,14 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	private CourseService courseService;
 	
 	@Autowired
+	private MailService mailService;
+	
+	@Autowired
 	private UserService	userService;
 	
 	@Override
 	public void subscribe(Long groupId, User user) {
-		Group group = groupDao.getById(groupId);
+		Group group = getById(groupId);
 		group.addUser(user);
 		groupDao.update(group);
 	}
@@ -34,15 +37,21 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	@Override
 	public void subscribe(Long groupId, String email) {
 		User user = userService.getUserByEmail(email);
-		this.subscribe(groupId, user);
+		subscribe(groupId, user);
 	}
 
 	@Override
 	public void unsubscribe(Long groupId, String email) {
-		Group group = groupDao.getById(groupId);
+		Group group = getById(groupId);
 		User user = userService.getUserByEmail(email);
 		group.deleteUser(user);
 		groupDao.update(group);
+	}
+	
+	@Override
+	public void unsubscribe(Long groupId, Long studentId) {
+		String email = userService.getById(studentId).getEmail();
+		unsubscribe(groupId, email);
 	}
 
 	@Override
@@ -88,9 +97,10 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 		for (String email : emails) {
 			if (!userService.isEmailExists(email)) {
 				userService.createAndSaveStudent(email, email);
+				
 			}
 			user = userService.getUserByEmail(email);
-			this.subscribe(groupId, user);
+			subscribe(groupId, user);
 		}
 		
 		return subscribedUsersEmails;
@@ -99,6 +109,11 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	@Override
 	public List<String> selectAlreadySubscribedUsers(Long courseId, Set<String> emails) {
 		return groupDao.selectAlreadySubscribedUsers(courseId, emails);
+	}
+
+	@Override
+	public List<UserIdAndEmailDto> searchStudents(String textToSearch) {
+		return groupDao.searchStudents(textToSearch);
 	}
 
 }
