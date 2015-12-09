@@ -195,4 +195,5 @@
         	<column name="cost" type="double precision" defaultValue="0.25" />
     	</addColumn>
 	</changeSet>
+
 </databaseChangeLog>

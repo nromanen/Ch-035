@@ -3,6 +3,8 @@ package com.crsms.service;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.UserDao;
+import com.crsms.domain.Role;
 import com.crsms.domain.User;
 import com.crsms.domain.UserInfo;
 import com.crsms.util.Invocable;
@@ -22,6 +25,8 @@ import com.crsms.util.Invocable;
 @Service("userService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
+	
+	private static final long STUDENT_ROLE_ID = 2;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -32,12 +37,40 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Autowired
 	private UserInfoService userInfoService;
 	
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private TeacherRequestService teacherRequestService;
+
+	private Role studentRole;
+	
+	@PostConstruct
+	private void postConstruct() {
+		this.studentRole = this.roleService.getRoleById(STUDENT_ROLE_ID);
+	}
+	
 	@Override
 	@Transactional
 	public User saveUser(User user) {
 			user.setEmail(user.getEmail().toLowerCase());
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userDao.save(user);
+		return user;
+	}
+	
+	@Override
+	@Transactional
+	public User saveUser(User user, boolean teacherRequest) {
+		this.saveUser(user);	
+		user.setRole(this.studentRole);
+		this.update(user);
+		this.saveStudent(user);
+		
+		if (teacherRequest) {
+			teacherRequestService.createRequest(user);
+		}
+		
 		return user;
 	}
 	

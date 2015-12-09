@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 //import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,9 +20,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.annotations.CascadeType;
 /**
  * 
  * @author Roman Romaniuk
@@ -67,6 +68,10 @@ public class User {
 	joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
 	inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
 	private Role role;
+	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+	@Cascade({CascadeType.ALL})
+	private TeacherRequest teacherRequest;
 	
 	@Column (nullable = false)
 	private Boolean isEnabled = true;
@@ -120,7 +125,14 @@ public class User {
 		this.isEnabled = isEnabled;
 	}
 	
-	
+	public TeacherRequest getTeacherRequest() {
+		return teacherRequest;
+	}
+
+	public void setTeacherRequest(TeacherRequest teacherRequest) {
+		this.teacherRequest = teacherRequest;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
