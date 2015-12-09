@@ -1,5 +1,6 @@
 package com.crsms.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.ResourceDao;
+import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
 
 /**
@@ -28,6 +30,9 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource>  implements R
 	
 	@Autowired
 	private ModuleService moduleService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@Override
 	public void delete(Long resourceId, Long moduleId) {
@@ -59,6 +64,15 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource>  implements R
 		resource.setStorageType(storageType);
 		resource.setType(Resource.Type.FILE);
 		return resource;
+	}
+	
+	@Override
+	public Resource uploadRecivedFileAndPrepareResource(FileBucket fileBucket) throws IOException {	
+		Resource.StorageType storageType = fileService.getResourceStorageTypeOption();
+		return prepareFileResource(
+				fileBucket.getFile().getOriginalFilename(),
+				fileService.uploadFile(fileBucket.getFile(), storageType), 
+				storageType);
 	}
 	
 }

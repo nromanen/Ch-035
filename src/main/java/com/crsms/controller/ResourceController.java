@@ -81,14 +81,6 @@ public class ResourceController {
 		model.addAttribute("resourceTypeFile", Resource.Type.FILE);
 	}
 	
-	private Resource uploadRecivedFileAndPrepareResource(FileBucket fileBucket) throws IOException {	
-		Resource.StorageType storageType = fileService.getResourceStorageTypeOption();
-		return resourceService.prepareFileResource(
-				fileBucket.getFile().getOriginalFilename(),
-				fileService.uploadFile(fileBucket.getFile(), storageType), 
-				storageType);
-	}
-	
 	@RequestMapping(value = { RESOURCE_PATH + "/", RESOURCE_PATH + "/all" }, 
 			method = RequestMethod.GET)
 	public String showAllResources(Model model) {
@@ -132,7 +124,7 @@ public class ResourceController {
 		if (result.hasErrors()) {
 			throw new IOException("FileValidationException");
         }
-		resourceService.save(uploadRecivedFileAndPrepareResource(fileBucket));		
+		resourceService.save(resourceService.uploadRecivedFileAndPrepareResource(fileBucket));		
         return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
@@ -142,7 +134,7 @@ public class ResourceController {
 		if (result.hasErrors()) {
 			throw new IOException("FileValidationException");
         }	
-        moduleService.addResource(moduleId, uploadRecivedFileAndPrepareResource(fileBucket));		
+        moduleService.addResource(moduleId, resourceService.uploadRecivedFileAndPrepareResource(fileBucket));		
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
 	
