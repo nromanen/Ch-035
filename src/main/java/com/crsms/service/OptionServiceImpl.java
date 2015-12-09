@@ -42,5 +42,10 @@ public class OptionServiceImpl implements OptionService {
 	public Option getOptionValue(String key) {
 		return optionDao.getOptionValue(key);
 	}
+
+	@Override
+	public void update(Option option) {
+		optionDao.update(option);
+	}
 	
 }

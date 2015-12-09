@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -38,7 +40,8 @@ public class FileServiceImpl implements FileService {
 	private GoogleDriveService googleDriveService;
 	
 	private String generateUniqueFileName(String name) {
-		return name + "_" + new DateTime();
+		return name.substring(0, name.lastIndexOf('.')) + "_" + new DateTime().toString(DateTimeFormat.forPattern("yyyy.MM.dd_kk.mm.ss.SSS")) 
+				+ "_" + ThreadLocalRandom.current().nextInt(1000, 10000) + name.substring(name.lastIndexOf('.'), name.length());
 	}
 	
 	private String getUniqueFileName(String name, File resourceDir) {
@@ -99,7 +102,7 @@ public class FileServiceImpl implements FileService {
 			HttpServletResponse response) throws IOException {
 		com.google.api.services.drive.model.File file = googleDriveService.getMediaFileFromDrive(path);
 		prepareResponseHeaders(response, file.getMimeType(), file.getFileSize().intValue(), file.getTitle());
-		prepareResponseData(response, googleDriveService.getMediaBytesFromDrive(path));
+		prepareResponseData(response, googleDriveService.getMediaStreamFromDrive(path));
 	}
 	
 	@Override
@@ -110,15 +113,15 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public String uploadFile(MultipartFile multipartFile, StorageType storageType) throws IOException {	
 		switch(storageType) {
-			case CATALINA:
-				return uploadToCatalinaHome(multipartFile);
-			case GOOGLE_DRIVE:
-				return uploadToGoogleDrive(multipartFile).getId();
-			default:
-				// by conventions
-				throw new FileSystemNotFoundException(
-						"There is not suitable method for the " 
-						+ storageType + " storage type");
+		case CATALINA:
+			return uploadToCatalinaHome(multipartFile);
+		case GOOGLE_DRIVE:
+			return uploadToGoogleDrive(multipartFile).getId();
+		default:
+			// by conventions
+			throw new FileSystemNotFoundException(
+					"There is not suitable method for the " 
+					+ storageType + " storage type");
 		}
 	}
 

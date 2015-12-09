@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Access(AccessType.FIELD)
 @NamedQueries({
 		@NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
-		@NamedQuery(name = User.BY_EMAIL, query = "FROM User u WHERE u.email= :email"),
+		@NamedQuery(name = User.BY_EMAIL, query = "FROM User u WHERE lower (u.email)= lower (:email)"),
 		@NamedQuery(name = User.ALL_SORTED, query = "FROM User u ORDER BY u.id"), 
 		@NamedQuery(name = User.GET_ALL, query = "Select u FROM User u LEFT JOIN FETCH u.role LEFT JOIN FETCH u.userInfo ORDER BY u.id")})
 public class User {

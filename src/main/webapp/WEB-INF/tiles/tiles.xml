@@ -161,6 +161,9 @@
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/course/course.css" />
 		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/course/publish.js" />
+		</put-list-attribute>
 	</definition>
 	
 	<definition name="course" extends="base-template" >
@@ -321,6 +324,7 @@
 		</put-list-attribute>
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
+			<add-attribute value="/webjars/jquery-validation/1.14.0/additional-methods.min.js" />
 			<add-attribute value="/resources/js/test/test.js" />
 		</put-list-attribute>
 	</definition>
@@ -429,5 +433,13 @@
 		<put-attribute name="content" value="/WEB-INF/view/404.jsp" />
 	</definition>
 	<!-- end error page -->
+	
+	<!-- Options -->
+	<definition name="options" extends="base-template">
+		<put-attribute name="title" value="crsms.option.title" />
+		<put-attribute name="header-title" value="crsms.option.title" />
+		<put-attribute name="content" value="/WEB-INF/view/option/options.jsp" />
+	</definition>
+	<!-- End Options -->
 
 </tiles-definitions>

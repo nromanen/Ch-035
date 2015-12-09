@@ -105,24 +105,52 @@ $(document).ready(function (e){
 	
 	//Send ajax request when form submitted.
 	$("#modal-form-submit").click(function (e){
+		$('[id^="answers"]').rules("add" ,{
+			oneCheckbox: true
+		});
 		if ($('#modal-form').valid()) {
 			doAjaxPost();
 		}
 	});
-	
+
 	$('#modal-form').validate({
 		errorClass: "errorTxt",	
 		rules: {
+			
         	"text": {
                 required: true,
                 minlength: 2,
                 maxlength: 1000
             },
             "answers[0].text": {
-                required: true,
+                required: "#answers0:checked",
+                minlength: 2,
+                maxlength: 1000
+            },
+            "answers[1].text": {
+                required: "#answers1:checked",
+                minlength: 2,
+                maxlength: 1000
+            },
+            "answers[2].text": {
+                required: "#answers2:checked",
+                minlength: 2,
+                maxlength: 1000
+            },
+            "answers[3].text": {
+                required: "#answers3:checked",
                 minlength: 2,
                 maxlength: 1000
             },
         },
     });
-})
+});
+
+$.validator.addMethod("oneCheckbox", function(value, elem, param) {
+
+	if($("input:checked").length > 0){
+       return true;
+   }else {
+       return false;
+   }
+},"You must select at least one!");

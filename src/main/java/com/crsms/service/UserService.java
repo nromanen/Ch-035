@@ -1,4 +1,3 @@
-
 package com.crsms.service;
 
 import java.util.List;
@@ -20,6 +19,8 @@ public interface UserService extends BaseService<User> {
 	
 	User saveStudent(User user);
 	
+	User createAndSaveStudent(String email, String password);
+
 	boolean changePassword(String email, String currentPassword, String newPassword);
 
 	User getUserByEmail(String email);
@@ -29,6 +30,6 @@ public interface UserService extends BaseService<User> {
 	long getRowsCount(String keyWord);
 	
 	List<User> getPagingUsers(int offSet, int itemsPerPage,
-							String sortingField, String order,String keyWord);
+							String sortingField, String order, String keyWord);
 	
 }

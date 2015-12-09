@@ -17,7 +17,7 @@
 		<c:forEach var = "module" items = "${modules}">
 			<tr>
 				<th class = "hide">${module.id}</th>
-				<td class = "nameCell">${module.name}</td>
+				<td class = "nameCell"><c:out value="${module.name}"/></td>
 				<td class = "contentCell text-center">
 					<c:url var = "showTests" value = "${module.id}/tests/" />
 					<a href = "${showTests}" 

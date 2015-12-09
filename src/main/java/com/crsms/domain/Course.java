@@ -63,7 +63,9 @@ import javax.validation.constraints.Size;
 					  + "upper(c.description) like upper(:s) order by c.name, c.description"),
 	@NamedQuery(name = Course.GET_STUDENT_COURSES_AND_GROUPS_IDS,
 				query = "select c.id, g.id from Group g"
-					 + " join g.course c join g.users u where u.email = :email")
+					 + " join g.course c join g.users u where u.email = :email"),
+	@NamedQuery(name = Course.GET_ALL_PUBLISHED,
+				query = "from Course where published = true")
 })
 public class Course {
 	public static final String GET_BY_NAME = "course.getCourseByName";
@@ -77,6 +79,7 @@ public class Course {
 	public static final String SEARCH = "course.search";
 	public static final String GET_STUDENT_COURSES_AND_GROUPS_IDS = 
 												"course.getStudentCoursesAndGroupsIds";
+	public static final String GET_ALL_PUBLISHED = "course.getAllPublished";
 	
 	public static final int MAX_NAME_LENGTH = 255;
 	

@@ -30,15 +30,15 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleService roleService;
 
 	@Autowired
 	private UserDao userDao;
 	
 	@Autowired
 	private UserInfoService userInfoService;
-	
-	@Autowired
-	private RoleService roleService;
 	
 	@Autowired
 	private TeacherRequestService teacherRequestService;
@@ -83,6 +83,15 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		userInfoService.update(userInfo);
 		return user;
 	};
+	
+	@Override
+	public User createAndSaveStudent(String email, String password) {
+		User user = new User();
+		user.setEmail(email);
+		user.setPassword(passwordEncoder.encode(password));
+		user.setRole(roleService.getRoleById(2L));
+		return this.saveStudent(user);
+	}
 	
 	@Override
 	public boolean changePassword(String email, String currentPassword, String newPassword) {

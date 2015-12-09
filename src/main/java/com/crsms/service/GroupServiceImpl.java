@@ -1,6 +1,7 @@
 package com.crsms.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,16 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	private UserService	userService;
 	
 	@Override
-	public void subscribe(Long groupId, String email) {
+	public void subscribe(Long groupId, User user) {
 		Group group = groupDao.getById(groupId);
-		User user = userService.getUserByEmail(email);
 		group.addUser(user);
 		groupDao.update(group);
+	}
+	
+	@Override
+	public void subscribe(Long groupId, String email) {
+		User user = userService.getUserByEmail(email);
+		this.subscribe(groupId, user);
 	}
 
 	@Override
@@ -62,8 +68,37 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	}
 
 	@Override
-	public List<UserIdAndEmailDto> getStudentsFromGroup(Long groupId) {
-		return groupDao.getStudentsFromGroup(groupId);
+	public List<UserIdAndEmailDto> getStudentsIdsAndEmailsFromGroup(Long groupId) {
+		return groupDao.getStudentsIdsAndEmailsFromGroup(groupId);
+	}
+
+	@Override
+	public List<String> addStudents(Long courseId, Long groupId, Set<String> emails) {
+		if (emails.isEmpty()) {
+			throw new IllegalArgumentException("No emails");
+		}
+		
+		List<String> subscribedUsersEmails = selectAlreadySubscribedUsers(courseId, emails);
+		emails.removeAll(subscribedUsersEmails);
+		if (emails.isEmpty()) {
+			return subscribedUsersEmails;
+		}
+		
+		User user = null;
+		for (String email : emails) {
+			if (!userService.isEmailExists(email)) {
+				userService.createAndSaveStudent(email, email);
+			}
+			user = userService.getUserByEmail(email);
+			this.subscribe(groupId, user);
+		}
+		
+		return subscribedUsersEmails;
+	}
+	
+	@Override
+	public List<String> selectAlreadySubscribedUsers(Long courseId, Set<String> emails) {
+		return groupDao.selectAlreadySubscribedUsers(courseId, emails);
 	}
 
 }

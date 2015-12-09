@@ -12,6 +12,7 @@ $(document).ready(function(e) {
             },
             "duration": {
                 required: true,
+                number: true,
                 min: 1,
                 max: 52
             },

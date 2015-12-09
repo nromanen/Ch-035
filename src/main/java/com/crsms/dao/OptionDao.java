@@ -10,4 +10,6 @@ public interface OptionDao {
 	
 	Option getOptionValue(String key);
 	
+	void update(Option option);
+	
 }
