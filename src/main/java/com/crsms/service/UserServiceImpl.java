@@ -56,6 +56,12 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 			user.setEmail(user.getEmail().toLowerCase());
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userDao.save(user);
+			
+			UserInfo userInfo = new UserInfo();
+			userInfoService.save(userInfo);
+			userInfo.setUser(user);
+			userInfoService.update(userInfo);
+			
 		return user;
 	}
 	
@@ -65,7 +71,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		this.saveUser(user);	
 		user.setRole(this.studentRole);
 		this.update(user);
-		this.saveStudent(user);
 		
 		if (teacherRequest) {
 			teacherRequestService.createRequest(user);
@@ -73,16 +78,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		
 		return user;
 	}
-	
-	@Override
-	@Transactional
-	public User saveStudent(User user){
-		UserInfo userInfo = new UserInfo();
-		userInfoService.save(userInfo);
-		userInfo.setUser(user);
-		userInfoService.update(userInfo);
-		return user;
-	};
 	
 	@Override
 	public User createAndSaveStudent(String email, String password) {

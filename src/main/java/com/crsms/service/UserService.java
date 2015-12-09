@@ -16,9 +16,7 @@ public interface UserService extends BaseService<User> {
 	User saveUser(User user);
 	
 	User saveUser(User user, boolean teacherRequest);
-	
-	User saveStudent(User user);
-	
+		
 	User createAndSaveStudent(String email, String password);
 
 	boolean changePassword(String email, String currentPassword, String newPassword);
