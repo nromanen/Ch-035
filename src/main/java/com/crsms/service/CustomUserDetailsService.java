@@ -29,6 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		com.crsms.domain.User user = userDao.getUserByEmail(email);
 		if (user == null) {
 			System.out.println("User not found");
+			System.out.println("User not found " + userDao.getUserByEmail(email));
 			throw new UsernameNotFoundException("E-mail not found");
 		}
 		return new org.springframework.security.core.userdetails.User(
