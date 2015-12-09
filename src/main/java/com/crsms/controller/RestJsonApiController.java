@@ -168,11 +168,17 @@ public class RestJsonApiController {
 		return groupService.getStudentsIdsAndEmailsFromGroup(groupId);
 	}
 	
-	@RequestMapping(value = {"courses/{courseId}/groups/{groupId}/addstudents"},
+	@RequestMapping(value = {"/courses/{courseId}/groups/{groupId}/addstudents"},
 			method = RequestMethod.POST)
 	public List<String> addStudents(@RequestParam(value = "emails") Set<String> emails,
 			@PathVariable Long courseId, @PathVariable Long groupId) {
 		return groupService.addStudents(courseId, groupId, emails);
+	}
+	
+	@RequestMapping(value = {"/students/search"}, method = RequestMethod.POST)
+	public List<UserIdAndEmailDto> searchStudents(
+			@RequestParam(value = "textToSearch") String textToSearch) {
+		return groupService.searchStudents(textToSearch);
 	}
 	// END Group REST   
 }
