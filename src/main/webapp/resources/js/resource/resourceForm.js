@@ -8,9 +8,7 @@ $(document).ready(function(e) {
                 maxlength: 100
             },
             "path": {
-            	required: true,
-            	url: true,
-            	maxlength: 255
+            	required: true
             },
         },
     });

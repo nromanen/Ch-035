@@ -12,7 +12,8 @@
 	<div class="form-group">
 		<label for = "name" class="col-sm-2 control-label"><spring:message code="crsms.text.name" /></label>
 		<div class="col-sm-10">
-			<form:input path = "name" id = "name" name="name" class="form-control" placeholder="Name"/>
+			<c:set var="groupNamePlaceholder"><spring:message code="crsms.groups.text.name" /></c:set>
+			<form:input path = "name" id = "name" name="name" class="form-control" placeholder="${groupNamePlaceholder}"/>
 		</div>
 	</div>
 	

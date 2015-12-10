@@ -61,7 +61,7 @@
 			</div>
 			
 			<div class="form-group">
-				<label for = "path" class="col-sm-1 control-label"><spring:message code = "crsms.resource.text.path" />: </label>
+				<label for = "path" class="col-sm-1 control-label"><spring:message code = "crsms.resource.text.embedded.src" />: </label>
 				<div class="col-sm-4">
 					<spring:message code="crsms.text.link" var="linkPlaceholder"/>
 				    <form:input path = "path"

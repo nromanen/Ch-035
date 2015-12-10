@@ -16,7 +16,7 @@ import com.google.api.services.drive.Drive;
 
 public interface GoogleDriveService {
 	
-	 Credential authorize() throws IOException;
+	 Credential getUserAccountCredential() throws IOException;
 	 
 	 Drive getDriveAPIClientService() throws IOException;
 	 
@@ -24,6 +24,6 @@ public interface GoogleDriveService {
 	 
 	 com.google.api.services.drive.model.File getMediaFileFromDrive(String id) throws IOException;
 	 
-	 InputStream getMediaBytesFromDrive(String id) throws IOException;
+	 InputStream getMediaStreamFromDrive(String id) throws IOException;
 
 }

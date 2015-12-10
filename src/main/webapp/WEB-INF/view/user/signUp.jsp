@@ -26,12 +26,19 @@
 							name="password" placeholder="Password" required="true"
 							pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" />
 							<form:errors path = "password" cssClass = "label label-danger" /> </span>
+							<label id="password-error" class="errorTxt" for="password"></label>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="confirmPassword" class="col-md-3"><spring:message code = "crsms.signUp.confPassword"/></label> 
 						<div class="col-md-4">
 							<input type="password" class="form-control" id="confPassword" name="confPassword" placeholder="Confirm Password" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="teacher" class="col-md-3"><spring:message code = "crsms.signUp.teacher"/></label> 
+						<div class="col-md-1">
+							<input type="checkbox" class="form-control" id="teacher" name="teacher"  >
 						</div>
 					</div>
 					<div class="col-md-4 col-md-offset-3">

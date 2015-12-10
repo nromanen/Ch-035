@@ -102,7 +102,7 @@ public class FileServiceImpl implements FileService {
 			HttpServletResponse response) throws IOException {
 		com.google.api.services.drive.model.File file = googleDriveService.getMediaFileFromDrive(path);
 		prepareResponseHeaders(response, file.getMimeType(), file.getFileSize().intValue(), file.getTitle());
-		prepareResponseData(response, googleDriveService.getMediaBytesFromDrive(path));
+		prepareResponseData(response, googleDriveService.getMediaStreamFromDrive(path));
 	}
 	
 	@Override
@@ -113,15 +113,15 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public String uploadFile(MultipartFile multipartFile, StorageType storageType) throws IOException {	
 		switch(storageType) {
-			case CATALINA:
-				return uploadToCatalinaHome(multipartFile);
-			case GOOGLE_DRIVE:
-				return uploadToGoogleDrive(multipartFile).getId();
-			default:
-				// by conventions
-				throw new FileSystemNotFoundException(
-						"There is not suitable method for the " 
-						+ storageType + " storage type");
+		case CATALINA:
+			return uploadToCatalinaHome(multipartFile);
+		case GOOGLE_DRIVE:
+			return uploadToGoogleDrive(multipartFile).getId();
+		default:
+			// by conventions
+			throw new FileSystemNotFoundException(
+					"There is not suitable method for the " 
+					+ storageType + " storage type");
 		}
 	}
 
