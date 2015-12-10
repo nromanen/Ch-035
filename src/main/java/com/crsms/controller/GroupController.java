@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.crsms.domain.Group;
 import com.crsms.dto.GroupFormDto;
-import com.crsms.dto.UserIdAndEmailDto;
+import com.crsms.dto.UserIdFNameLNameEmailDto;
 import com.crsms.service.DtoService;
 import com.crsms.service.GroupService;
 
@@ -93,7 +93,7 @@ public class GroupController {
 	@RequestMapping(value = "/{groupId}/students", method = RequestMethod.GET)
 	public String getStudents(@PathVariable Long groupId, Model model) {
 		Group group = groupService.getById(groupId);
-		List<UserIdAndEmailDto> students = groupService.getStudentsIdsAndEmailsFromGroup(groupId);
+		List<UserIdFNameLNameEmailDto> students = groupService.getStudentsFromGroup(groupId);
 		model.addAttribute("headerTitle", group.getName());
 		model.addAttribute("pageTitle", group.getName());
 		model.addAttribute("students", students);

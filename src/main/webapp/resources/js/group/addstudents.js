@@ -14,7 +14,7 @@ $(document).ready(function() {
 		}
 		var index = validateEmails(emails);
 		if (index >= 0) {
-			alert("Wrong email: " + emails[index]);
+			showWrongEmailAlert(emails[index]);
 		} else {
 			addToGroup(removeDuplicates(emails));
 		}
@@ -45,7 +45,7 @@ $(document).ready(function() {
 	$('#from-other-group-tab').on('shown.bs.tab', function (e) {
 		resetFields();
 		
-		groupSelect = $('#groups');
+		var groupSelect = $('#groups');
 		groupSelect.focus();
 		var url = '/crsms/api/groups/';
 		
@@ -61,7 +61,7 @@ $(document).ready(function() {
 		var defaultOption = $('#groups option:first-child');
 		$('#students-from-other-group').empty();
 		$('#groups').empty();
-		$('#groups').append(defaultOption);
+		$('#groups').append('<option value = "-1">--</select>');
 	}
 	
 	$('#groups').change(function() {
@@ -116,7 +116,7 @@ $(document).ready(function() {
 	$('#serch-btn').click(function() {
 		var token = $('#crsf-token').val();
 		var textToSearch = $('#search').val();
-		url = '/crsms/api/students/search';
+		var url = '/crsms/api/students/search';
 		
 		$.post(url,
 				{
@@ -127,7 +127,9 @@ $(document).ready(function() {
 					var studentsSelect = $('#students-from-search');
 					studentsSelect.empty();
 					for (var i = 0; i < students.length; i++) {
-						var studentOptionHtml = '<option value = "' + students[i].id + '">' + students[i].email + '</option>';
+						var studentOptionHtml = '<option value = "' + students[i].id + '">'
+						+ students[i].lastName + ' ' + students[i].firstName + ' ' + students[i].email
+						+ '</option>';
 						studentsSelect.append(studentOptionHtml);
 					}
 				}
@@ -200,12 +202,14 @@ $(document).ready(function() {
 		alert.find('#all-subscribed').removeClass('hide');
 		alert.find('#not-all-subscribed').addClass('hide');
 		alert.find('#no-email-chosen').addClass('hide');
+		alert.find('#wrong-email-alert').addClass('hide');
 	}
 	
 	function showNotAllSubscribedAlert(alert, emails, alreadySubscribedUsers) {
 		alert.find('#not-all-subscribed').removeClass('hide');
 		alert.find('#all-subscribed').addClass('hide');
 		alert.find('#no-email-chosen').addClass('hide');
+		alert.find('#wrong-email-alert').addClass('hide');
 		var subscribedUsersCount = emails.length - alreadySubscribedUsers.length;
 		alert.find('#subscribed-users-count').text(subscribedUsersCount);
 		alert.find('#not-subscribed-users').text(alreadySubscribedUsers);
@@ -216,6 +220,19 @@ $(document).ready(function() {
 		alert.show();
 		
 		alert.find('#no-email-chosen').removeClass('hide');
+		alert.find('#all-subscribed').addClass('hide');
+		alert.find('#not-all-subscribed').addClass('hide');
+		alert.find('#wrong-email-alert').addClass('hide');
+	}
+	
+	function showWrongEmailAlert(email) {
+		var alert = $('#alert');
+		alert.show();
+
+		alert.find('#wrong-email-alert').removeClass('hide');
+		$('#wrong-email').text(email);
+		
+		alert.find('#no-email-chosen').addClass('hide');
 		alert.find('#all-subscribed').addClass('hide');
 		alert.find('#not-all-subscribed').addClass('hide');
 	}
