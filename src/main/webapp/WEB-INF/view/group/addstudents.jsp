@@ -65,9 +65,9 @@
 	<!-- By email -->
 	<div role="tabpanel" class="tab-pane fade in active active" id="by-email-pane">
 		<h5><spring:message code = "crsms.groups.message.by.email"/></h5>
-		<textarea id = "emails" rows = "11" class="form-control" autofocus></textarea>
+		<textarea id = "emails" rows = "12" class="form-control" autofocus></textarea>
 		
-		<button id="submit-by-email-btn" type="button" class="btn btn-primary">
+		<button id="submit-by-email-btn" type="button" class="submit-btn btn btn-primary">
 			<spring:message code = "crsms.groups.button.submit"/>
 		</button>
 	</div>
@@ -92,7 +92,7 @@
 			</button>
 		</div>
 		
-		<button id="submit-from-other-group-btn" type="button" class="btn btn-primary">
+		<button id="submit-from-other-group-btn" type="button" class="submit-btn btn btn-primary">
 			<spring:message code = "crsms.groups.button.submit"/>
 		</button>
 	</div>
@@ -112,9 +112,9 @@
 			</span>
 		</div>
 		
-		<select id = "students-from-search" class = "form-control click-select-deselect" size = "11" multiple></select>
+		<select id = "students-from-search" class = "form-control click-select-deselect" size = "10" multiple></select>
 		
-		<button id="submit-search-btn" type="button" class="btn btn-primary">
+		<button id="submit-search-btn" type="button" class="submit-btn btn btn-primary">
 			<spring:message code = "crsms.groups.button.submit"/>
 		</button>
 	</div>
