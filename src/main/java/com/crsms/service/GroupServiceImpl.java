@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crsms.dao.GroupDao;
 import com.crsms.domain.Group;
 import com.crsms.domain.User;
-import com.crsms.dto.UserIdAndEmailDto;
+import com.crsms.dto.UserIdFNameLNameEmailDto;
 
 @Service("groupService")
 @Transactional
@@ -77,8 +77,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	}
 
 	@Override
-	public List<UserIdAndEmailDto> getStudentsIdsAndEmailsFromGroup(Long groupId) {
-		return groupDao.getStudentsIdsAndEmailsFromGroup(groupId);
+	public List<UserIdFNameLNameEmailDto> getStudentsFromGroup(Long groupId) {
+		return groupDao.getStudentsFromGroup(groupId);
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	}
 
 	@Override
-	public List<UserIdAndEmailDto> searchStudents(String textToSearch) {
+	public List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch) {
 		return groupDao.searchStudents(textToSearch);
 	}
 

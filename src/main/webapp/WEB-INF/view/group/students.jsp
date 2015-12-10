@@ -20,8 +20,8 @@
 		<c:forEach var = "student" items = "${students}" varStatus="currentStudent">
 			<tr>
 				<td>${currentStudent.count}</td>
-				<td>name</td>
-				<td>surname</td>
+				<td>${student.firstName}</td>
+				<td>${student.lastName}</td>
 				<td>${student.email}</td>
 				<td class = "text-center">
 					<c:url var = "removeStudent" value = "${student.id}/remove" />
