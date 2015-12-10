@@ -48,22 +48,22 @@ public class AdminController {
 						@RequestParam (value = "sortparam", required = false, defaultValue = "email") String sortParam,
 						@RequestParam (value = "direction", required = false, defaultValue = "asc") String direction,
 						@RequestParam (value = "keyWord",required = false, defaultValue = "")String keyWord,
-						@RequestParam (value = "pagesize", required = false, defaultValue = "6") int pageSize,
+						@RequestParam (value = "itemsperpage", required = false, defaultValue = "6") int itemsPerPage,
 						HttpSession session, ModelMap model) {
 		
 		if (session.getAttribute("direction") == null) {
 			session.setAttribute("direction", direction);
 		}
-		if (session.getAttribute("pagesize") == null) {
-			session.setAttribute("pagesize", pageSize);
-		}
+//		if (session.getAttribute("pagesize") == null) {
+//			session.setAttribute("pagesize", pageSize);
+//		}
 
 		String order = (String) session.getAttribute("direction");
 		String sortingField = (String) session.getAttribute("sortparam");
-		Integer itemsPerPage =  (Integer) session.getAttribute("pagesize");
+//		Integer itemsPerPage =  (Integer) session.getAttribute("pagesize");
 		
-		if (itemsPerPage == 0);
-		itemsPerPage = pageSize;
+//		if (itemsPerPage == 0);
+//		itemsPerPage = pageSize;
 		
 		if (session.getAttribute("direction") != null) {
 			order = direction;
@@ -91,7 +91,7 @@ public class AdminController {
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		model.addAttribute("keyWord", keyWord);
-//		model.addAttribute("itemsperpage", itemsPerPage);
+		model.addAttribute("itemsperpage", itemsPerPage);
 		return "admin";
 	}
 	

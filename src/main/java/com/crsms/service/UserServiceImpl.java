@@ -85,7 +85,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		user.setEmail(email);
 		user.setPassword(passwordEncoder.encode(password));
 		user.setRole(roleService.getRoleById(2L));
-		return this.saveStudent(user);
+		return this.saveUser(user); // saveStudent 
 	}
 	
 	@Override
