@@ -21,15 +21,6 @@
 				<td id = "${group.id}" class = "clickable">${group.name}</td>
 				<td><joda:format pattern="dd.MM.yyyy" value="${group.startDate}"  /></td>
 				<td class = "text-center">
-					<span data-toggle = "tooltip" data-trigger="hover" title="<spring:message code="crsms.groups.text.add.students" />">
-						<button class = "btn btn-primary btn-sm"
-							data-toggle="modal"
-							data-target="#addStudentModal"
-							data-group-id="${group.id}">
-							<i class="fa fa-user-plus"></i>
-						</button>
-					</span>
-					
 					<c:url var = "editGroup" value = "${group.id}/edit" />
 					<span data-toggle = "tooltip" title="<spring:message code="crsms.button.edit" />">
 						<a href = "${editGroup}" class = "btn btn-primary btn-sm">

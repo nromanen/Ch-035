@@ -75,9 +75,7 @@
 	<!-- From other group -->
 	<div role="tabpanel" class="tab-pane fade" id="from-other-group-pane">
 		<h5><spring:message code = "crsms.groups.message.from.other.group"/></h5>
-		<select id = "groups" class = "form-control">
-			<option value = "-1"><spring:message code = "crsms.groups.text.select.group"/></option>
-		</select>
+		<select id = "groups" class = "form-control"></select>
 		
 		<select id = "students-from-other-group" class="form-control click-select-deselect" size = "9" multiple></select>
 		
