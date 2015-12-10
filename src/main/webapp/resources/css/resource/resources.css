@@ -15,3 +15,7 @@
 	color: red;
 	margin-right: 15px;
 }
+
+#resources-forms .tab-content {
+	padding: 0 20px;
+}

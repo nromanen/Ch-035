@@ -5,6 +5,12 @@
 
 <tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
+<c:url var = "baseLink" value = "/" />
+
+<input id="base-link" type="hidden" value="${baseLink}">
+
+<input type="hidden" id="spring-msg-add-existing" value="<spring:message code = "crsms.resource.text.existing.add" />" />
+
 <c:choose>
   <c:when test="${not empty param.success}">
     <div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -20,7 +26,7 @@
   </c:when>
 </c:choose>
 
-<div>
+<div id="resources-forms">
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
@@ -29,8 +35,15 @@
     		<spring:message code = "crsms.resource.text.embedded" />
     	</a>
     </li>
-    <li role="presentation"><a href="#tab-type-file" aria-controls="tab-type-file" role="tab" data-toggle="tab">
-    	<spring:message code = "crsms.resource.text.file" /></a>
+    <li role="presentation">
+    	<a href="#tab-type-file" aria-controls="tab-type-file" role="tab" data-toggle="tab">
+    		<spring:message code = "crsms.resource.text.file" />
+    	</a>
+    </li>
+    <li role="presentation">
+    	<a href="#tab-existing-resources" aria-controls="tab-existing-resources" role="tab" data-toggle="tab">
+    		<spring:message code = "crsms.resource.text.existing" />
+    	</a>
     </li>
   </ul>
 
@@ -93,6 +106,20 @@
 			</div>	
 		</form:form>
     </div>
+    
+    <div role="tabpanel" class="tab-pane fade" id="tab-existing-resources">
+   		<table class = "table table-bordered table-hover">
+			<thead>
+				<tr class = "active">
+					<th class="text-center"><spring:message code = "crsms.text.name" /></th>
+					<th class="text-center"><spring:message code = "crsms.resource.text.type" /></th>
+					<th class="text-center"><spring:message code = "crsms.text.controls" /></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+    </div>
+    
   </div>
 
 </div>

@@ -130,6 +130,13 @@ public class RestJsonApiController {
 		return true;
 	}	
 	
+	@RequestMapping(value = {"/resources"}, 
+					method = RequestMethod.GET)
+	public List<ResourceJsonDto> getAllResources() {
+		return dtoService.convert(resourceService.getAll(),
+									ResourceJsonDto.class, Resource.class);
+	}	
+	
 	@RequestMapping(value = {"/modules/{moduleId}/resources", 
 							 "/courses/{courseId}/modules/{moduleId}/resources"}, 
 					method = RequestMethod.GET)
