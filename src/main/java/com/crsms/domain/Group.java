@@ -35,24 +35,30 @@ import org.springframework.format.annotation.DateTimeFormat;
 					 + " where c.id = :courseId order by g.id"),
 	@NamedQuery(name = Group.DELETE_BY_ID,
 				query = "delete Group where id = :id"),
-	@NamedQuery(name = Group.GET_STUDENTS_IDS_AND_EMAILS_FROM_GROUP,
-				query = "select new com.crsms.dto.UserIdAndEmailDto(u.id, u.email)"
-					  + "from Group g join g.users u where g.id = :id"),
+	@NamedQuery(name = Group.GET_STUDENTS_FROM_GROUP,
+				query = "select new com.crsms.dto.UserIdFNameLNameEmailDto(u.id,"
+					 + " ui.firstName, ui.lastName, u.email)"
+					 + " from Group g join g.users u join u.userInfo ui"
+					 + " where g.id = :id"),
 	@NamedQuery(name = Group.SELECT_ALREADY_SUBSCRIBED_USERS,
 				query = "select u.email from Group g"
 					 + " join g.users u join g.course c"
 					 + " where c.id = :courseId and u.email in :emails"),
 	@NamedQuery(name = Group.SEARCH_STUDENTS,
-				query = "select new com.crsms.dto.UserIdAndEmailDto(u.id, u.email)"
-					 + " from User u join u.role r"
-					 + " where r.id = 2 and u.email like :textToSearch"
-					 + " order by u.email")
+				query = "select new com.crsms.dto.UserIdFNameLNameEmailDto(u.id,"
+					 + " ui.firstName, ui.lastName, u.email)"
+					 + " from User u join u.userInfo ui join u.role r"
+					 + " where r.id = 2"
+					 + " and lower(u.email) like lower(:textToSearch)"
+					 + " or lower(ui.firstName) like lower(:textToSearch)"
+					 + " or lower(ui.lastName) like lower(:textToSearch)"
+					 + " order by ui.lastName")
 })
 public class Group {
 	public static final String GET_ALL_BY_COURSE_ID = "group.getAllByCourseId";
 	public static final String DELETE_BY_ID = "group.deleteById";
-	public static final String GET_STUDENTS_IDS_AND_EMAILS_FROM_GROUP = 
-			"group.getStudentsIdsAndEmailsFromGroup";
+	public static final String GET_STUDENTS_FROM_GROUP = 
+			"group.getStudentsFromGroup";
 	public static final String SELECT_ALREADY_SUBSCRIBED_USERS =
 			"group.selectAlreadySubscribedUsers";
 	public static final String SEARCH_STUDENTS = "group.searchStudents";

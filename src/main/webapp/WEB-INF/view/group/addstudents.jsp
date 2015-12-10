@@ -4,9 +4,11 @@
 
 <div id = "alert" class="alert alert-info collapse" role="alert">
 	<button id="close-alert-btn" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+	
 	<div id = "all-subscribed">
 		<spring:message code="crsms.groups.message.subscribed.all" />
 	</div>
+	
 	<div id = "not-all-subscribed">
 		<div>
 			<spring:message code="crsms.groups.message.subscribed.count" />
@@ -16,8 +18,14 @@
 		<div id = "not-subscribed-users"></div>
 		<spring:message code="crsms.groups.message.not.subscribed.reason" />
 	</div>
+	
 	<div id = "no-email-chosen">
 		<spring:message code="crsms.groups.message.no.emails" />
+	</div>
+	
+	<div id = "wrong-email-alert">
+		<spring:message code="crsms.groups.message.wrong.email" />
+		<span id = "wrong-email"></span>
 	</div>
 </div>
 
@@ -38,7 +46,7 @@
 		   aria-controls="from-other-group-pane"
 		   role="tab"
 		   data-toggle="tab">
-			<spring:message code = "crsms.groups.message.from.other.group"/>
+			<spring:message code = "crsms.groups.text.from.other.group"/>
 		</a>
 	</li>
 	<li role="presentation">
@@ -56,18 +64,19 @@
 <div class="tab-content">
 	<!-- By email -->
 	<div role="tabpanel" class="tab-pane fade in active active" id="by-email-pane">
-		<h4><spring:message code = "crsms.groups.message.enter.emails"/></h4>
-		<textarea id = "emails" rows = "11" class="form-control" autofocus></textarea>
+		<h5><spring:message code = "crsms.groups.message.by.email"/></h5>
+		<textarea id = "emails" rows = "12" class="form-control" autofocus></textarea>
 		
-		<button id="submit-by-email-btn" type="button" class="btn btn-primary">
+		<button id="submit-by-email-btn" type="button" class="submit-btn btn btn-primary">
 			<spring:message code = "crsms.groups.button.submit"/>
 		</button>
 	</div>
 	
 	<!-- From other group -->
 	<div role="tabpanel" class="tab-pane fade" id="from-other-group-pane">
+		<h5><spring:message code = "crsms.groups.message.from.other.group"/></h5>
 		<select id = "groups" class = "form-control">
-			<option value = "-1"><spring:message code = "crsms.groups.message.select.group"/></option>
+			<option value = "-1"><spring:message code = "crsms.groups.text.select.group"/></option>
 		</select>
 		
 		<select id = "students-from-other-group" class="form-control click-select-deselect" size = "9" multiple></select>
@@ -83,13 +92,14 @@
 			</button>
 		</div>
 		
-		<button id="submit-from-other-group-btn" type="button" class="btn btn-primary">
+		<button id="submit-from-other-group-btn" type="button" class="submit-btn btn btn-primary">
 			<spring:message code = "crsms.groups.button.submit"/>
 		</button>
 	</div>
 	
 	<!-- Search -->
 	<div role="tabpanel" class="tab-pane fade" id="search-pane">
+		<h5><spring:message code = "crsms.groups.message.search"/></h5>
 		<div class = "input-group">
 			<div class = "form-group has-feedback">
 				<input id = "search" type="search" class="form-control">
@@ -102,9 +112,9 @@
 			</span>
 		</div>
 		
-		<select id = "students-from-search" class = "form-control click-select-deselect" size = "11" multiple></select>
+		<select id = "students-from-search" class = "form-control click-select-deselect" size = "10" multiple></select>
 		
-		<button id="submit-search-btn" type="button" class="btn btn-primary">
+		<button id="submit-search-btn" type="button" class="submit-btn btn btn-primary">
 			<spring:message code = "crsms.groups.button.submit"/>
 		</button>
 	</div>
