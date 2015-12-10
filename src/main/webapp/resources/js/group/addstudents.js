@@ -61,7 +61,7 @@ $(document).ready(function() {
 		var defaultOption = $('#groups option:first-child');
 		$('#students-from-other-group').empty();
 		$('#groups').empty();
-		$('#groups').append(defaultOption);
+		$('#groups').append('<option value = "-1">--</select>');
 	}
 	
 	$('#groups').change(function() {
