@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crsms.domain.Role;
+import com.crsms.domain.TeacherRequest;
 import com.crsms.domain.User;
 import com.crsms.service.RoleService;
+import com.crsms.service.TeacherRequestService;
 import com.crsms.service.UserService;
 import com.crsms.validator.AdminValidator;
 /**
@@ -41,6 +43,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminValidator validator;
+	
+	@Autowired
+	private TeacherRequestService requestService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllUsers(
@@ -87,11 +92,16 @@ public class AdminController {
 		if (rowsCount > (lastpage * itemsPerPage)) {
 			lastpage++;
 		}
+		
+		List<TeacherRequest> requests = requestService.getAll();
+		
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		model.addAttribute("keyWord", keyWord);
 		model.addAttribute("itemsperpage", itemsPerPage);
+		model.addAttribute("requests", requests);
+		model.addAttribute("rowscount", rowsCount);
 		return "admin";
 	}
 	
@@ -108,7 +118,7 @@ public class AdminController {
 		model.addAttribute("user", user);
 		return "adduser";
 	}
-
+	
 	@RequestMapping(value = "/{userId}/edit", method = RequestMethod.POST)
 	public String updateUser(@PathVariable long userId, 
 								@Validated User user, BindingResult result) {
@@ -119,6 +129,26 @@ public class AdminController {
 		userService.update(user);
 		return "redirect:/admin/";
 	}
+
+	@RequestMapping(value = "request/{requestId}/edit", method = RequestMethod.POST)
+	public String updateRequest(@PathVariable long requestId, 
+								@Validated TeacherRequest request, BindingResult result) {
+		validator.validate(request, result);
+		if (result.hasErrors()) {
+			return "request";
+		}
+		requestService.update(request);
+		return "redirect:/admin/";
+	}
+	
+	@RequestMapping(value = { "request/{requestId}/edit" }, method = RequestMethod.GET)
+	public String editRequest(@PathVariable Long requestId, ModelMap model) {
+		TeacherRequest request = requestService.getById(requestId);
+		model.addAttribute("request", request);
+		return "request";
+	}
+
+	
 	
 	@ModelAttribute("roles")
 	public List<Role> initializeRoles() {
