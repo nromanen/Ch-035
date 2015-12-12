@@ -16,6 +16,9 @@ body {
     font-weight: 600;
     font-size: 25px;
 }
+#main-body {
+	min-height: 500px;
+}
 .breadcrumb {
 	margin-bottom: 0;
 }

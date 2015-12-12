@@ -26,7 +26,7 @@ import com.crsms.dto.GroupNameJsonDto;
 import com.crsms.dto.ModuleJsonDto;
 import com.crsms.dto.ResourceJsonDto;
 import com.crsms.dto.TestJsonDto;
-import com.crsms.dto.UserIdAndEmailDto;
+import com.crsms.dto.UserIdFNameLNameEmailDto;
 import com.crsms.dto.VacancyJsonDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
@@ -171,15 +171,21 @@ public class RestJsonApiController {
 	}
 	
 	@RequestMapping(value = {"/groups/{groupId}/students"}, method = RequestMethod.GET)
-	public List<UserIdAndEmailDto> getStudentsIdsAndEmailsFromGroup(@PathVariable Long groupId) {
-		return groupService.getStudentsIdsAndEmailsFromGroup(groupId);
+	public List<UserIdFNameLNameEmailDto> getStudentsFromGroup(@PathVariable Long groupId) {
+		return groupService.getStudentsFromGroup(groupId);
 	}
 	
-	@RequestMapping(value = {"courses/{courseId}/groups/{groupId}/addstudents"},
+	@RequestMapping(value = {"/courses/{courseId}/groups/{groupId}/addstudents"},
 			method = RequestMethod.POST)
 	public List<String> addStudents(@RequestParam(value = "emails") Set<String> emails,
 			@PathVariable Long courseId, @PathVariable Long groupId) {
 		return groupService.addStudents(courseId, groupId, emails);
+	}
+	
+	@RequestMapping(value = {"/students/search"}, method = RequestMethod.POST)
+	public List<UserIdFNameLNameEmailDto> searchStudents(
+			@RequestParam(value = "textToSearch") String textToSearch) {
+		return groupService.searchStudents(textToSearch);
 	}
 	// END Group REST   
 }

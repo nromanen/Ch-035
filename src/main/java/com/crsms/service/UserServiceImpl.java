@@ -3,6 +3,8 @@ package com.crsms.service;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.UserDao;
+import com.crsms.domain.Role;
 import com.crsms.domain.User;
 import com.crsms.domain.UserInfo;
 import com.crsms.util.Invocable;
@@ -22,6 +25,8 @@ import com.crsms.util.Invocable;
 @Service("userService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
+	
+	private static final long STUDENT_ROLE_ID = 2;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -35,32 +40,51 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Autowired
 	private UserInfoService userInfoService;
 	
+	@Autowired
+	private TeacherRequestService teacherRequestService;
+
+	private Role studentRole;
+	
+	@PostConstruct
+	private void postConstruct() {
+		this.studentRole = this.roleService.getRoleById(STUDENT_ROLE_ID);
+	}
+	
 	@Override
 	@Transactional
 	public User saveUser(User user) {
 			user.setEmail(user.getEmail().toLowerCase());
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userDao.save(user);
+			
+			UserInfo userInfo = new UserInfo();
+			userInfoService.save(userInfo);
+			userInfo.setUser(user);
+			userInfoService.update(userInfo);
+			
 		return user;
 	}
 	
 	@Override
 	@Transactional
-	public User saveStudent(User user) {
-		UserInfo userInfo = new UserInfo();
-		userInfoService.save(userInfo);
-		userInfo.setUser(user);
-		userInfoService.update(userInfo);
+	public User saveUser(User user, boolean teacherRequest) {
+		this.saveUser(user);	
+		user.setRole(this.studentRole);
+		this.update(user);
+		
+		if (teacherRequest) {
+			teacherRequestService.createRequest(user);
+		}
+		
 		return user;
-	};
+	}
 	
 	@Override
 	public User createAndSaveStudent(String email, String password) {
 		User user = new User();
 		user.setEmail(email);
-		user.setPassword(passwordEncoder.encode(password));
-		user.setRole(roleService.getRoleById(2L));
-		return this.saveStudent(user);
+		user.setPassword(password);
+		return saveUser(user, false);
 	}
 	
 	@Override

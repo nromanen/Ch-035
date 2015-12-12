@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Group;
-import com.crsms.dto.UserIdAndEmailDto;
+import com.crsms.dto.UserIdFNameLNameEmailDto;
 
 @Repository
 public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
@@ -45,11 +45,11 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserIdAndEmailDto> getStudentsIdsAndEmailsFromGroup(Long groupId) {
+	public List<UserIdFNameLNameEmailDto> getStudentsFromGroup(Long groupId) {
 		try {
 			return this.getSessionFactory()
 					   .getCurrentSession()
-					   .getNamedQuery(Group.GET_STUDENTS_IDS_AND_EMAILS_FROM_GROUP)
+					   .getNamedQuery(Group.GET_STUDENTS_FROM_GROUP)
 					   .setParameter("id", groupId)
 					   .list();
 		} catch (Exception e) {
@@ -70,6 +70,21 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 					   .list();
 		} catch (Exception e) {
 			getLogger().error("Error in select already subscribed users: " + e);
+			throw e;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch) {
+		try {
+			return this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Group.SEARCH_STUDENTS)
+					   .setParameter("textToSearch", "%" + textToSearch + "%")
+					   .list();
+		} catch (Exception e) {
+			getLogger().error("Error in search students: " + e);
 			throw e;
 		}
 	}

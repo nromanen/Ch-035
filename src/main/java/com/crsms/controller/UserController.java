@@ -1,6 +1,7 @@
 package com.crsms.controller;
 
-import javax.annotation.PostConstruct;
+import java.security.Principal;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crsms.domain.Role;
 import com.crsms.domain.User;
 import com.crsms.domain.UserInfo;
-import com.crsms.service.RoleService;
 import com.crsms.service.UserInfoService;
 import com.crsms.service.UserService;
 import com.crsms.validator.UserInfoValidator;
@@ -28,8 +27,6 @@ import com.crsms.validator.UserValidator;
 
 @Controller
 public class UserController {
-	
-	private static final long STUDENT_ROLE_ID = 2;
 
 	@Autowired
 	private UserService userService;
@@ -38,20 +35,10 @@ public class UserController {
 	private UserInfoService userInfoService;
 	
 	@Autowired
-	private RoleService roleService;
-	
-	@Autowired
 	private UserValidator userValidator;
 	
 	@Autowired
 	private UserInfoValidator userInfoValidator;
-
-	private Role studentRole;
-	
-	@PostConstruct
-	private void postConstruct() {
-		this.studentRole = this.roleService.getRoleById(STUDENT_ROLE_ID);
-	}
 	
 	@InitBinder("userRegistr")
     private void initUserBinder(WebDataBinder binder) {
@@ -71,21 +58,24 @@ public class UserController {
 	
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
 	public String submitUser(@Validated @ModelAttribute("userRegistr") User user,
-								BindingResult result, Model model) {
+								BindingResult result, Principal principal, Model model, 
+								@RequestParam(value = "teacher", required = false, defaultValue = "false") boolean teacher) {
 		if (result.hasErrors()) {
 			return "signUp";
 		}
 	
-		
-		userService.saveUser(user);	
-		user.setRole(this.studentRole);
-		userService.update(user);
-		userService.saveStudent(user);
+		userService.saveUser(user, teacher);
 		
 		model.addAttribute(user);
 		
+		String currentUserEmail = (principal == null)? null: principal.getName();
+		
+		if(currentUserEmail!=null&&userService.getUserByEmail(currentUserEmail).getRole().getName().equals("ROLE_ADMIN")){
+			return "redirect:/admin/";
+		}
+		
 		return "redirect:/signin"; 
-	};
+	}
 	
 	@RequestMapping(value = "/userProfile")
 	public String createdUserProfile(Model model) {
