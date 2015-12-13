@@ -52,10 +52,10 @@
 						</div>
 						<div class="form-group last">
 							<div class="col-sm-offset-3 col-sm-9">
-								<button type="submit" class="btn btn-primary btn-sm">
+								<button type="submit" id="submit" class="btn btn-primary btn-sm">
 									<spring:message code="crsms.button.signin" />
 								</button>
-								<button type="reset" class="btn btn-default btn-sm">
+								<button type="reset" id="reset" class="btn btn-default btn-sm">
 									<spring:message code="crsms.button.reset" />
 								</button>
 								<input type="hidden" name="${_csrf.parameterName}"
