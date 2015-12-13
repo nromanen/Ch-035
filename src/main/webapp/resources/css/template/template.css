@@ -82,6 +82,19 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+/* sticker alert*/
+#sticker-alert-container {
+	position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+}
+#sticker-alert-container .alert {
+	display: inline-block;
+}
+/* END sticker alert */
 /*unit-dashboard*/
 .unit-dashboard {
 	text-align: center;

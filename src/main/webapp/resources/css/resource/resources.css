@@ -9,13 +9,11 @@
 	border: none;
     box-shadow: none;
 }
-
 .errorTxt {
 	font-weight: bold;
 	color: red;
 	margin-right: 15px;
 }
-
 #resources-forms .tab-content {
 	padding: 0 20px;
 }

@@ -7,9 +7,21 @@
 
 <c:url var = "baseLink" value = "/" />
 
-<input id="base-link" type="hidden" value="${baseLink}">
+<script type="text/javascript">
+	var crsmsGlobalResourceFormHelper = {
+		baseLink: "${baseLink}",
+		crsfToken: "${_csrf.token}",
+		springLocalizationMsgs: {
+			addExisting: "<spring:message code = "crsms.resource.text.existing.add" />",
+			success: "<spring:message code = "crsms.text.success" />",
+			error: "<spring:message code = "crsms.text.error" />",
+			successAdd: "<spring:message code = "crsms.resource.msg.success.add" />",
+			errorAdd: "<spring:message code = "crsms.resource.msg.error.add" />",
+		},
+	}
+</script>
 
-<input type="hidden" id="spring-msg-add-existing" value="<spring:message code = "crsms.resource.text.existing.add" />" />
+<div id="sticker-alert-container"></div>
 
 <c:choose>
   <c:when test="${not empty param.success}">

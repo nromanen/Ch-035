@@ -28,6 +28,7 @@ import com.crsms.dto.ResourceJsonDto;
 import com.crsms.dto.TestJsonDto;
 import com.crsms.dto.UserIdFNameLNameEmailDto;
 import com.crsms.dto.VacancyJsonDto;
+import com.crsms.exception.RestAjaxInternalServerException;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
@@ -130,6 +131,7 @@ public class RestJsonApiController {
 		return true;
 	}	
 	
+	// resources REST
 	@RequestMapping(value = {"/resources"}, 
 					method = RequestMethod.GET)
 	public List<ResourceJsonDto> getAllResources() {
@@ -152,6 +154,19 @@ public class RestJsonApiController {
 		return dtoService.convert(resourceService.getById(resourceId),
 									ResourceJsonDto.class, Resource.class);
 	}
+	
+	@RequestMapping(value = {"/modules/{moduleId}/resources/addexisting/{resourceId}"}, 
+	 				method = RequestMethod.POST)
+	public void addExistingResourceToModule(@PathVariable Long moduleId, @PathVariable Long resourceId,
+											HttpServletResponse response) 
+													throws IOException, RestAjaxInternalServerException {
+		try {
+			moduleService.addExistingResource(moduleId, resourceService.getById(resourceId));
+		} catch (Exception e) {
+			throw new RestAjaxInternalServerException(e.getMessage(), e);
+		}
+	}
+	// END resources REST
 	
 	@RequestMapping(value = {"/vacancies"}, method = RequestMethod.GET)
 	public List<VacancyJsonDto> getVacancies() throws IOException {
