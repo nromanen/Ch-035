@@ -1,10 +1,13 @@
 package com.crsms.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -44,6 +47,9 @@ public class Resource {
 	
 	@Column(name="storage_type", nullable = false)
 	private Resource.StorageType storageType;
+	
+	@ManyToMany(mappedBy="resources")
+	private List<Module> modules;
 	
 	// implicitly static
 	public enum Type {
