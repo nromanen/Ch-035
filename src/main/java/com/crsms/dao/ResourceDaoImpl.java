@@ -31,25 +31,32 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource> implements ResourceDa
 			query.executeUpdate();
 		} catch (Exception e) {
 			logger.error("Error deleteById resource with id=" + id + ": " + e);
+			throw e;
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Resource> getAllByModuleId(Long moduleId) {
-		
-		List<Resource> results = null;
 
 		String hql = "select mr from Module m join m.resources mr where m.id = :moduleId";
 		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 		query.setParameter("moduleId", moduleId);
 		try {
-			results = (List<Resource>) query.list();
+			return (List<Resource>) query.list();
 		} catch (Exception e) {
 			logger.error("Error getAll resources:" + e);
+			throw e;
 		}
-		return results;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Resource> getAllNotAssociatedWithModule(Long moduleId) {
+		String hql = "select mr from Module m join m.resources mr where m.id != :moduleId";
+		return (List<Resource>) getSessionFactory().getCurrentSession()
+				.createQuery(hql).setParameter("moduleId", moduleId).list();
 	}
 
 }

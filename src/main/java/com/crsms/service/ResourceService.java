@@ -33,5 +33,7 @@ public interface ResourceService extends BaseService<Resource> {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	Resource uploadRecivedFileAndPrepareResource(FileBucket fileBucket) throws IOException;
+
+	List<Resource> getAllNotAssociatedWithModule(Long moduleId);
 	
 }

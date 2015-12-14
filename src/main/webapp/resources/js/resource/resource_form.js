@@ -13,7 +13,8 @@ $(document).ready(function(e) {
 		},
 		getResources: function() {
 			$.ajax({
-				url: crsmsGlobalResourceFormHelper.baseLink + "api/resources",
+				url: crsmsGlobalResourceFormHelper.baseLink 
+						+ "api/resources/notAssociatedWith/modules/" + resourceFormHelper.getModuleId(),
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {

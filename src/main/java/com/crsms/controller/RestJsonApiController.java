@@ -132,10 +132,10 @@ public class RestJsonApiController {
 	}	
 	
 	// resources REST
-	@RequestMapping(value = {"/resources"}, 
+	@RequestMapping(value = {"/resources/notAssociatedWith/modules/{moduleId}"}, 
 					method = RequestMethod.GET)
-	public List<ResourceJsonDto> getAllResources() {
-		return dtoService.convert(resourceService.getAll(),
+	public List<ResourceJsonDto> getAllResources(@PathVariable Long moduleId) {
+		return dtoService.convert(resourceService.getAllNotAssociatedWithModule(moduleId),
 									ResourceJsonDto.class, Resource.class);
 	}	
 	

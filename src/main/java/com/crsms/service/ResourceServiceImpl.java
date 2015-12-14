@@ -74,5 +74,10 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource>  implements R
 				fileService.uploadFile(fileBucket.getFile(), storageType), 
 				storageType);
 	}
+
+	@Override
+	public List<Resource> getAllNotAssociatedWithModule(Long moduleId) {
+		return resourceDao.getAllNotAssociatedWithModule(moduleId);
+	}
 	
 }
