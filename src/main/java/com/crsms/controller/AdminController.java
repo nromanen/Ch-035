@@ -62,9 +62,17 @@ public class AdminController {
 //		if (session.getAttribute("pagesize") == null) {
 //			session.setAttribute("pagesize", pageSize);
 //		}
-
+		int offSet = (page - 1) * itemsPerPage;
+		long rowsCount = userService.getRowsCount(keyWord);
+		long usersToApproveCount = userService.getUsersToApproveCount();
+		long teacherRequestsCount = requestService.getRequestsCount();
 		String order = (String) session.getAttribute("direction");
 		String sortingField = (String) session.getAttribute("sortparam");
+		int lastpage = (int) ((rowsCount / itemsPerPage));
+		
+		if (rowsCount > (lastpage * itemsPerPage)) {
+			lastpage++;
+		}
 //		Integer itemsPerPage =  (Integer) session.getAttribute("pagesize");
 		
 //		if (itemsPerPage == 0);
@@ -83,17 +91,11 @@ public class AdminController {
 			sortingField = (String) session.getAttribute("sortparam");
 		}
 		
-		int offSet = (page - 1) * itemsPerPage;
 		List<User> users = userService.getPagingUsers(
 				offSet, itemsPerPage, sortingField, order, keyWord);
-		
-		long rowsCount = userService.getRowsCount(keyWord);
-		int lastpage = (int) ((rowsCount / itemsPerPage));
-		if (rowsCount > (lastpage * itemsPerPage)) {
-			lastpage++;
-		}
-		
+
 		List<TeacherRequest> requests = requestService.getAll();
+		List<User> usersToApprove = userService.getUsersToApprove(true);
 		
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
@@ -102,6 +104,9 @@ public class AdminController {
 		model.addAttribute("itemsperpage", itemsPerPage);
 		model.addAttribute("requests", requests);
 		model.addAttribute("rowscount", rowsCount);
+		model.addAttribute("usersToApproveCount", usersToApproveCount);
+		model.addAttribute("usersToApprove", usersToApprove);
+		model.addAttribute("teacherRequestsCount", teacherRequestsCount);
 		return "admin";
 	}
 	
@@ -130,26 +135,24 @@ public class AdminController {
 		return "redirect:/admin/";
 	}
 
-	@RequestMapping(value = "request/{requestId}/edit", method = RequestMethod.POST)
-	public String updateRequest(@PathVariable long requestId, 
-								@Validated TeacherRequest request, BindingResult result) {
-		validator.validate(request, result);
-		if (result.hasErrors()) {
-			return "request";
-		}
-		requestService.update(request);
-		return "redirect:/admin/";
-	}
-	
 	@RequestMapping(value = { "request/{requestId}/edit" }, method = RequestMethod.GET)
 	public String editRequest(@PathVariable Long requestId, ModelMap model) {
+//		User user = requestService.getUserByRequestId(requestId);
+//		System.out.println("--------------------------"+user);
 		TeacherRequest request = requestService.getById(requestId);
+		System.out.println("--------------------------"+ request);
 		model.addAttribute("request", request);
+//		model.addAttribute("user", user);
 		return "request";
 	}
+	
+	@RequestMapping(value = "request/{requestId}/edit", method = RequestMethod.POST)
+	public String updateRequest(@PathVariable long requestId, 
+								@ModelAttribute TeacherRequest request) {
+		requestService.approve(requestId);
+		return "redirect:/admin/";
+	}
 
-	
-	
 	@ModelAttribute("roles")
 	public List<Role> initializeRoles() {
 		List<Role> roles = new ArrayList<>();
