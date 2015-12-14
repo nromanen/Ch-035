@@ -13,6 +13,9 @@ import com.crsms.dao.ModuleDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.Resource;
+import com.crsms.domain.User;
+import com.crsms.dto.ModuleViewDto;
+import com.crsms.dto.TestViewDto;
 import com.crsms.exception.ElementNotFoundException;
 
 /**
@@ -125,6 +128,29 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	public void freeResource(Module module) {
 		module.getResources().clear();
 		moduleDao.update(module);
+	}
+
+	@Override
+	public void initModuleViewDto(ModuleViewDto moduleViewDto, User user) {
+		boolean complete = true;
+		double score = 0;
+		double totalScore = 0;
+		
+		for(TestViewDto testViewDto : moduleViewDto.getTests()){
+			testService.initTestViewDto(testViewDto, user);
+			if(testViewDto.getHasTestResult() && testViewDto.getComplete()) {
+				score += testViewDto.getScore();
+			} else {
+				complete = false;
+			}
+			
+			totalScore += 100;
+		}
+		
+		moduleViewDto.setComplete(complete);
+		moduleViewDto.setScore(score);
+		moduleViewDto.setTotalScore(totalScore);
+		
 	}
 
 }

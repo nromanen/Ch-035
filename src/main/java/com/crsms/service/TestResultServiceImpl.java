@@ -75,6 +75,14 @@ public class TestResultServiceImpl implements TestResultService {
 	}
 	
 	@Override
+	public TestResult getByTest(Long testId, Long userId) {
+		
+		TestResult testResult = testResultDao.getCurrent(testId, userId);	
+		
+		return testResult;
+	}
+	
+	@Override
 	public TestResult getById(Long testResultId, String email) {
 		User user = userService.getUserByEmail(email);
 		TestResult testResult = testResultDao.getByIdAndUser(testResultId, user.getId());
@@ -128,12 +136,15 @@ public class TestResultServiceImpl implements TestResultService {
 
 	@Override
 	public void complete(Long testResultId) {
-		testResultDao.getById(testResultId).setComplete(true);
+		TestResult testResult = testResultDao.getById(testResultId); 
+		testResult.setComplete(true);
+		testResult.setScore( this.getScore(testResult) );
+		
 	}
 
 	@Override
-	public Double getScore(Long testResultId) {
-		TestResult testResult = testResultDao.getById(testResultId);
+	public Double getScore(TestResult testResult) {
+		//TestResult testResult = testResultDao.getById(testResultId);
 		Test test = testResult.getTest();
 		
 		double score = 0;
@@ -142,7 +153,7 @@ public class TestResultServiceImpl implements TestResultService {
 			if(question.getDisable()) continue;
 			maxScore++;
 			
-			score += getScoreForQuestion(testResultId, question.getId());
+			score += getScoreForQuestion(testResult.getId(), question.getId());
 		}
 		
 		if(maxScore == 0)
@@ -164,9 +175,11 @@ public class TestResultServiceImpl implements TestResultService {
 			
 			if(userAnswer.getCorrectAnswer())
 				score += userAnswer.getCost();
+			else
+				score -= userAnswer.getCost();
 		}
 		
-		if(allUnchecked || allChecked)
+		if(allUnchecked || allChecked || score < 0)
 			return 0;
 		
 		return score;

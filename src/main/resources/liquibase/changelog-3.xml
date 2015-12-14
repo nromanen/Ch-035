@@ -29,5 +29,11 @@
     <changeSet author="yuliia" id="1446992667519-164">
     	<createSequence sequenceName="teacher_request_id_seq"/>
     </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-165">
+    	<addColumn tableName="test_result" >
+        	<column name="score" type="double precision" defaultValue="0" />
+    	</addColumn>
+    </changeSet>
 
 </databaseChangeLog>

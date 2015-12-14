@@ -14,6 +14,9 @@ import com.crsms.dao.TestDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.Test;
+import com.crsms.domain.TestResult;
+import com.crsms.domain.User;
+import com.crsms.dto.TestViewDto;
 import com.crsms.exception.ElementNotFoundException;
 
 /**
@@ -36,6 +39,9 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     
     @Autowired
     private ModuleDao moduleDao;
+    
+    @Autowired
+	private TestResultService testResultService;
     
     @Override
     public void createTest(Long moduleId, Test test) {
@@ -86,6 +92,18 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
     	}
     	logger.info("TestService. Deleting test by ID: " + testId + " successfully.");
     }
+
+	@Override
+	public void initTestViewDto(TestViewDto testViewDto, User user) {
+		TestResult testResult = testResultService.getByTest(testViewDto.getId(), user.getId());
+		if(testResult != null) {
+			testViewDto.setHasTestResult(true);
+			testViewDto.setScore(testResult.getScore());
+			testViewDto.setComplete(testResult.getComplete());
+		} else {
+			testViewDto.setHasTestResult(false);
+		}
+	}
 
 
 }

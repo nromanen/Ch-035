@@ -17,5 +17,7 @@ public interface GroupDao extends BaseDao<Group> {
 	List<String> selectAlreadySubscribedUsers(Long courseId, Set<String> emails);
 
 	List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch);
+	
+	Boolean isSubscribedUser(Long courseId, String email);
 
 }

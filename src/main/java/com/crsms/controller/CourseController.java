@@ -1,7 +1,6 @@
 package com.crsms.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.crsms.domain.Area;
 import com.crsms.domain.Course;
 import com.crsms.dto.CourseJsonDto;
+import com.crsms.dto.CourseViewDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
-import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
-import com.crsms.util.Invocable;
 import com.crsms.util.StringUtil;
 import com.crsms.validator.CourseJsonValidator;
 
@@ -100,15 +98,15 @@ public class CourseController {
 		return model;
 	}
 
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN', 'STUDENT')")
 	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
-	public ModelAndView getCourse(@PathVariable Long courseId) {
+	public ModelAndView getCourse(@PathVariable Long courseId, Principal principal) {
 		ModelAndView model = new ModelAndView();
-		List<Invocable<Course>> initializers = new ArrayList<>();
-		initializers.add(new CourseModulesDeepInitializer());
-		Course course = courseService.getById(courseId, initializers);
-		model.addObject("course", course);
-		model.addObject("pageTitle", course.getName());
-		model.addObject("headerTitle", course.getName());
+
+		CourseViewDto courseViewDto = courseService.getCourseViewDto(courseId, principal.getName());
+		model.addObject("course", courseViewDto);
+		model.addObject("pageTitle", courseViewDto.getName());
+		model.addObject("headerTitle", courseViewDto.getName());
 		model.setViewName(COURSE_VIEW);
 		return model;
 	}

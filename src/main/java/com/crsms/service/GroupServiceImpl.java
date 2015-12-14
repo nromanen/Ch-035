@@ -116,4 +116,9 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 		return groupDao.searchStudents(textToSearch);
 	}
 
+	@Override
+	public Boolean isSubscribedUser(Long courseId, String email) {
+		return groupDao.isSubscribedUser(courseId, email);
+	}
+
 }

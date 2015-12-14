@@ -1,5 +1,6 @@
 package com.crsms.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crsms.dao.CourseDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
+import com.crsms.domain.User;
+import com.crsms.dto.CourseViewDto;
+import com.crsms.dto.ModuleViewDto;
+import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
+import com.crsms.util.Invocable;
 
 /**
  * 
@@ -33,6 +39,9 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private DtoService dtoService;
 	
 	@Override
 	public void save(Course course, Long areaId, String ownerEmail) {
@@ -113,6 +122,36 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	@Override
 	public List<Course> getAllPublished() {
 		return courseDao.getAllPublished();
+	}
+
+	@Override
+	public CourseViewDto getCourseViewDto(Long courseId, String email) {
+		User user = userService.getUserByEmail(email);
+		
+		List<Invocable<Course>> initializers = new ArrayList<>();
+		initializers.add(new CourseModulesDeepInitializer());
+		Course course = this.getById(courseId, initializers);
+		CourseViewDto courseViewDto = dtoService.convert(course, CourseViewDto.class, Course.class);
+		
+		boolean complete = true;
+		double score = 0;
+		double totalScore = 0;
+		for(ModuleViewDto moduleViewDto : courseViewDto.getModules()) {
+			moduleService.initModuleViewDto(moduleViewDto, user);
+			
+			if(moduleViewDto.getComplete()) {
+				score += moduleViewDto.getScore();
+			} else {
+				complete = false;
+			}
+			
+			totalScore += moduleViewDto.getTotalScore();
+		}
+		
+		courseViewDto.setComplete(complete);
+		courseViewDto.setScore(score);
+		courseViewDto.setTotalScore(totalScore);
+		return courseViewDto;
 	}
 
 }

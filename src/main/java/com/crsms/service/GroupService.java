@@ -47,6 +47,8 @@ public interface GroupService extends BaseService<Group> {
 	 * @return list of student's emails who are subscribed to the course.
 	 */
 	List<String> selectAlreadySubscribedUsers(Long courseId, Set<String> emails);
+	
+	Boolean isSubscribedUser(Long courseId, String email);
 
 	List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch);
 }

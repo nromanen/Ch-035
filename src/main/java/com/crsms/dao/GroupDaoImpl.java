@@ -89,4 +89,19 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 		}
 	}
 
+	@Override
+	public Boolean isSubscribedUser(Long courseId, String email) {
+		try {
+			return (Boolean)this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Group.IS_SUBSCRIBED_USER)
+					   .setParameter("courseId", courseId)
+					   .setParameter("email", email)
+					   .uniqueResult();
+		} catch (Exception e) {
+			getLogger().error("Error in select already subscribed user: " + e);
+			throw e;
+		}
+	}
+
 }

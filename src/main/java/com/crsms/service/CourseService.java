@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.crsms.domain.Course;
+import com.crsms.dto.CourseViewDto;
 
 /**
  * 
@@ -39,5 +40,7 @@ public interface CourseService extends BaseService<Course> {
 	void publish(Long courseId);
 
 	List<Course> getAllPublished();
+
+	CourseViewDto getCourseViewDto(Long courseId, String name);
 
 }
