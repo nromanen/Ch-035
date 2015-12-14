@@ -24,12 +24,11 @@ public class HibernateConfig {
     private Environment environment;
  
     @Bean
-    @Autowired
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(new String[] {"com.crsms.domain"});
-        sessionFactory.setHibernateProperties(hibernateProperties());
+        sessionFactory.setHibernateProperties(getHibernateProperties());
         return sessionFactory;
      }
      
@@ -43,7 +42,7 @@ public class HibernateConfig {
         return dataSource;
     }
      
-    private Properties hibernateProperties() {
+    private Properties getHibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
@@ -57,8 +56,6 @@ public class HibernateConfig {
 				environment.getRequiredProperty("hibernate.cache.region.factory_class"));
 		properties.put("hibernate.hbm2ddl.auto",
 				environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
-        //properties.put("hibernate.hbm2ddl.import_files",
-		//		environment.getRequiredProperty("hibernate.hbm2ddl.import_files"));
         return properties;        
     }
      
@@ -67,7 +64,6 @@ public class HibernateConfig {
     public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
        transactionManager.setSessionFactory(sessionFactory);
-       //transactionManager.setEntityInterceptor(new ModulesResourceInterceptor());
        return transactionManager;
     }
 }
