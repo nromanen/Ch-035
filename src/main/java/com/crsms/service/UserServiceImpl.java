@@ -130,4 +130,14 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		return userDao.getPagingUsers(offSet, itemsPerPage, 
 									sortingField, order, keyWord);
 	}
+
+	@Override
+	public long getUsersToApproveCount() {
+		return userDao.getUsersToApproveCount();
+	}
+
+	@Override
+	public List<User> getUsersToApprove(Boolean teacherRequest) {
+		return userDao.getUsersToApprove(teacherRequest);
+	}
 }
