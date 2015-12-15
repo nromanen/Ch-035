@@ -86,6 +86,11 @@
 		<put-attribute name="header-title" value="crsms.admin.title.adduser" />
 		<put-attribute name="content" value="/WEB-INF/view/users/adduser.jsp" />
 	</definition>
+	<definition name="request" extends="base-template">
+		<put-attribute name="title" value="crsms.request.title.request" />
+		<put-attribute name="header-title" value="crsms.request.title.request" />
+		<put-attribute name="content" value="/WEB-INF/view/users/request.jsp" />
+	</definition>
 	<definition name="manager" extends="base-template">
 		<put-attribute name="title" value="crsms.manager.title.list" />
 		<put-attribute name="header-title" value="crsms.manager.title.list" />
@@ -432,6 +437,9 @@
 		<put-attribute name="title" value="crsms.groups.title.all" />
 		<put-attribute name="header-title" value="crsms.groups.title.all" />
 		<put-attribute name="content" value="/WEB-INF/view/group/students.jsp" />
+		<put-list-attribute name="stylesheets" inherit="true">
+			<add-attribute value="/resources/css/group/students.css" />
+		</put-list-attribute>
 	</definition>
 	
 	<definition name = "addstudents" extends = "base-template">

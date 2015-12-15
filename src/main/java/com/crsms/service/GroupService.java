@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.crsms.domain.Group;
 import com.crsms.domain.User;
-import com.crsms.dto.UserIdAndEmailDto;
+import com.crsms.dto.UserIdFNameLNameEmailDto;
 
 public interface GroupService extends BaseService<Group> {
 	
@@ -25,7 +25,7 @@ public interface GroupService extends BaseService<Group> {
 
 	void update(Long courseId, Group group);
 
-	List<UserIdAndEmailDto> getStudentsIdsAndEmailsFromGroup(Long groupId);
+	List<UserIdFNameLNameEmailDto> getStudentsFromGroup(Long groupId);
 	
 	/**
 	 * Takes emails of students, who should be subscribed to the group.
@@ -48,5 +48,5 @@ public interface GroupService extends BaseService<Group> {
 	 */
 	List<String> selectAlreadySubscribedUsers(Long courseId, Set<String> emails);
 
-	List<UserIdAndEmailDto> searchStudents(String textToSearch);
+	List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch);
 }

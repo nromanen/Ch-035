@@ -83,9 +83,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	public User createAndSaveStudent(String email, String password) {
 		User user = new User();
 		user.setEmail(email);
-		user.setPassword(passwordEncoder.encode(password));
-		user.setRole(roleService.getRoleById(2L));
-		return this.saveStudent(user);
+		user.setPassword(password);
+		return saveUser(user, false);
 	}
 	
 	@Override
@@ -137,5 +136,15 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 									String sortingField, String order, String keyWord) {
 		return userDao.getPagingUsers(offSet, itemsPerPage, 
 									sortingField, order, keyWord);
+	}
+
+	@Override
+	public long getUsersToApproveCount() {
+		return userDao.getUsersToApproveCount();
+	}
+
+	@Override
+	public List<User> getUsersToApprove(Boolean teacherRequest) {
+		return userDao.getUsersToApprove(teacherRequest);
 	}
 }

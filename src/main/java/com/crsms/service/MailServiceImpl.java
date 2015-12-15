@@ -20,20 +20,33 @@ public class MailServiceImpl implements MailService {
 	private final Logger logger = LogManager.getLogger(MailServiceImpl.class);
 	
 	@Override
-	public void send(String recipientEmail, String subject, String text, Boolean html)
+	public void send(final String recipientEmail, String subject, String text, Boolean html)
 			throws MessagingException {
-		logger.info("Sending email to " + recipientEmail);
-		MimeMessage message = mailSender.createMimeMessage();
+		
+		final MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		try {
 			helper.setFrom(SENDER_EMAIL);
 			helper.setTo(recipientEmail);
 			helper.setSubject(subject);
 			helper.setText(text, html);
-			mailSender.send(message);
-			logger.info("Email to " + recipientEmail + " has been successfully sent.");
+			
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						logger.info("Sending email to " + recipientEmail);
+						mailSender.send(message);
+						logger.info("Email to " + recipientEmail + " has been successfully sent.");
+					} catch (Exception e) {
+						logger.error("Error in sending email. Reason: " + e);
+						throw e;
+					}
+				}
+			}).start();
+			
 		} catch (MessagingException e) {
-			logger.error("Error in sending email. Reason: " + e);
+			logger.error("Error in setting email parameters. Reason: " + e);
 			throw e;
 		}
 	}

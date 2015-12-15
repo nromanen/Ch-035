@@ -35,13 +35,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 		@NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
 		@NamedQuery(name = User.BY_EMAIL, query = "FROM User u WHERE lower (u.email)= lower (:email)"),
 		@NamedQuery(name = User.ALL_SORTED, query = "FROM User u ORDER BY u.id"), 
-		@NamedQuery(name = User.GET_ALL, query = "Select u FROM User u LEFT JOIN FETCH u.role LEFT JOIN FETCH u.userInfo ORDER BY u.id")})
+		@NamedQuery(name = User.GET_APPROVED, query = "Select u FROM User u WHERE u.teacherRequest=:teacherRequest "
+														+ "ORDER BY u.teacherRequest.requestedDate")})
 public class User {
 	public static final int MIN_PASSWORD_LENGTH = 5;
 	public static final int MAX_PASSWORD_LENGTH = 255;
 	public static final String DELETE = "User.delete";
 	public static final String ALL_SORTED = "User.getAllSorted";
-	public static final String GET_ALL = "User.getAll";
+	public static final String GET_APPROVED = "User.getApproved";
 	public static final String BY_EMAIL = "User.getByEmail";
 	
 	@Id
@@ -69,8 +70,8 @@ public class User {
 	inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
 	private Role role;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
-	@Cascade({CascadeType.ALL})
+	@OneToOne(mappedBy = "user")
+	@Cascade({CascadeType.SAVE_UPDATE})
 	private TeacherRequest teacherRequest;
 	
 	@Column (nullable = false)
