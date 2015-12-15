@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 /**
  * 
  * @author Valerii Motresku
@@ -21,7 +24,18 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "resource")
+@NamedQueries({
+	@NamedQuery(name = Resource.GET_ALL_BY_MODULE_ID, 
+				query = "select mr from Module m join m.resources mr where m.id = :moduleId"),
+				
+	@NamedQuery(name = Resource.GET_ALL_NOT_ASSOCIATED_WITH_MODULE, 
+				query = "select r from Resource r join r.modules rm where r.id not in "
+						+ "(select mr.id from Module m join m.resources mr where m.id = :moduleId)"),
+})
 public class Resource {
+	
+	public static final String GET_ALL_BY_MODULE_ID = "Resource.getAllByModuleId";
+	public static final String GET_ALL_NOT_ASSOCIATED_WITH_MODULE = "Resource.getAllNotAssociatedWithModule";
 	
 	public static final int NAME_MIN = 1;
 	public static final int NAME_MAX = 100;
