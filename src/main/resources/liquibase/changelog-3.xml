@@ -29,5 +29,12 @@
     <changeSet author="yuliia" id="1446992667519-164">
     	<createSequence sequenceName="teacher_request_id_seq"/>
     </changeSet>
+    
+     <changeSet author="yuliia" id="1446992667519-165">
+        <addColumn tableName="users" >
+         <column name="activated" type="boolean" />
+     	</addColumn>
+    </changeSet>
+    
 
 </databaseChangeLog>

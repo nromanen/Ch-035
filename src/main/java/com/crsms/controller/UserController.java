@@ -2,6 +2,7 @@ package com.crsms.controller;
 
 import java.security.Principal;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,7 @@ import com.crsms.domain.User;
 import com.crsms.domain.UserInfo;
 import com.crsms.service.UserInfoService;
 import com.crsms.service.UserService;
+import com.crsms.service.MailService;
 import com.crsms.validator.UserInfoValidator;
 import com.crsms.validator.UserValidator;
 
@@ -40,6 +43,9 @@ public class UserController {
 	@Autowired
 	private UserInfoValidator userInfoValidator;
 	
+	@Autowired
+	private MailService mailService;
+	
 	@InitBinder("userRegistr")
     private void initUserBinder(WebDataBinder binder) {
 		binder.setValidator(userValidator);
@@ -56,31 +62,47 @@ public class UserController {
 		return "signUp";
 	};
 	
+	@RequestMapping(value = "/inactiveProfile", method = RequestMethod.GET)
+	public String inactiveProfile(Model model) {
+		return "inactiveProfile";
+	}
+
+	
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
 	public String submitUser(@Validated @ModelAttribute("userRegistr") User user,
 								BindingResult result, Principal principal, Model model, 
-								@RequestParam(value = "teacher", required = false, defaultValue = "false") boolean teacher) {
+								@RequestParam(value = "teacher", required = false, defaultValue = "false") boolean teacher) throws MessagingException {
 		if (result.hasErrors()) {
 			return "signUp";
 		}
 	
 		userService.saveUser(user, teacher);
+		mailService.sendConfirmation(user.getEmail(), user.getId());
 		
 		model.addAttribute(user);
 		
-		String currentUserEmail = (principal == null)? null: principal.getName();
+		/*String currentUserEmail = (principal == null)? null: principal.getName();
 		
 		if(currentUserEmail!=null&&userService.getUserByEmail(currentUserEmail).getRole().getName().equals("ROLE_ADMIN")){
 			return "redirect:/admin/";
 		}
+		*/
+		return "redirect:/inactiveProfile"; 
+	}
+	
+	@RequestMapping(value = "/user/{id}/activated", method = RequestMethod.GET)
+	public String activateUser(@PathVariable Long id,Model model) {
+		User user = userService.getById(id);
+		userService.activateUser(user);
 		
-		return "redirect:/signin"; 
+		return "redirect:/signin";
 	}
 	
 	@RequestMapping(value = "/userProfile")
 	public String createdUserProfile(Model model) {
 		String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("userInfo", userService.getUserByEmail(currentUserEmail).getUserInfo());
+
 		return "userProfile";
 	}
 

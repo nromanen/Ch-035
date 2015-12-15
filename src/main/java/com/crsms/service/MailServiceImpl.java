@@ -55,4 +55,19 @@ public class MailServiceImpl implements MailService {
 		sendSimpleEmail(recipientEmail, subject, text);
 	}
 
+	@Override
+	public void sendConfirmation(String recipientEmail, long id)
+			throws MessagingException {
+		String subject = "Confirm registration";
+		String text = "<h3>Welcome to CrsMS  !</h3><br>"
+						+ "Thank you for registering! <br> Please click on the "
+						+ "confirmation link below<br>"
+						+ "<a href ="
+						+ "\"http://localhost:8080/crsms/user/"+id+"/activated\">"
+						+ "Click here</a>";
+			
+		sendHtmlEmail(recipientEmail, subject, text);
+		
+	}
+
 }

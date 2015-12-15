@@ -13,4 +13,6 @@ public interface MailService {
 				throws MessagingException;
 	
 	void sendInvitation(String recipientEmail) throws MessagingException;
+	
+	void sendConfirmation(String recipientEmail, long id) throws MessagingException;
 }

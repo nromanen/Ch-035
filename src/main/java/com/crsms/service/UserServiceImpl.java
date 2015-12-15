@@ -103,6 +103,13 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 	
 	@Override
+	public User activateUser(User user){
+		user.setActivated(true);
+		this.update(user);
+		return user;
+	};
+	
+	@Override
 	public User getUserByEmail(String email) {
 		return userDao.getUserByEmail(email);
 	}
