@@ -65,12 +65,12 @@ $(document).ready(function(e) {
 				type: 'post',
 				data: { "_csrf": crsmsGlobalResourceFormHelper.crsfToken },
 				beforeSend: function() {
-					$("#sticker-alert-container .alert").alert('close');
 					$(delegatedBtnNode).html('<i class="fa fa-lg fa-spinner"></i>');
+					$("#sticker-alert-container .alert").alert('close');
 				},
 				success: function() {
-					resourceFormHelper.showAlert("#sticker-alert-container", "success", springMsgs.success, 
-							springMsgs.successAdd, true);
+					resourceFormHelper.showAlert(springMsgs.successAdd, { target: "#sticker-alert-container", 
+							type: "success", title: springMsgs.success, autoclosable: true });
 					$(delegatedBtnNode).html('<i class="fa fa-lg fa-check"></i>');
 					$(delegatedBtnNode).addClass("disabled");
 					$(delegatedBtnNode).tooltip('destroy');
@@ -78,25 +78,33 @@ $(document).ready(function(e) {
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					$(delegatedBtnNode).html('<i class="fa fa-lg fa-plus"></i>');
-					resourceFormHelper.showAlert("#sticker-alert-container", "danger", springMsgs.error, 
-							springMsgs.errorAdd + "<br/>" + thrownError + ": " + xhr.responseText, true);
+					resourceFormHelper.showAlert(springMsgs.errorAdd + "<br/>" + thrownError + ": " + xhr.responseText,
+						{ target: "#sticker-alert-container", type: "danger", title: springMsgs.error, 
+						  autoclosable: true });
 					//alert(thrownError + ": " + xhr.responseText);
 				}
 			});
 		},
-		showAlert: function(target, type, title, msg, autoclosable) {
+		showAlert: function(msg, params) {
+			params.target = typeof params.target !== 'undefined' ? params.target : "#sticker-alert-container";
+			params.type = typeof params.type !== 'undefined' ? params.type : "success";
+			params.title = typeof params.title !== 'undefined' ? params.title : "Alert";
+			params.autoclosable = typeof params.autoclosable !== 'undefined' ? params.autoclosable : true;
+			params.timeOutMillis = typeof params.timeOutMillis !== 'undefined' ? 
+					params.timeOutMillis : resourceFormHelper.addResourceAlertTimeout;
+			params.className = typeof params.className !== 'undefined' ? params.className : "alert-default";
 			var alertHtml = 
 				'\
-				<div class="alert alert-' + type + ' alert-dismissible fade in" role="alert"> \
+				<div class="alert alert-' + params.type + ' alert-dismissible fade in" role="alert"> \
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> \
-				  <strong>' + title + '!</strong> ' + msg + ' \
+				  <strong>' + params.title + '!</strong> ' + msg + ' \
 				</div>\
 				';
-			$(target).prepend(alertHtml);
-			if (autoclosable) {
+			var alertNode = $(alertHtml).prependTo(params.target);
+			if (params.autoclosable) {
 				setTimeout(function() { 
-					$(target + " .alert").alert('close');
-				}, resourceFormHelper.addResourceAlertTimeout);
+					$(alertNode).alert('close');
+				}, params.timeOutMillis);
 			}
 		},
 	}
