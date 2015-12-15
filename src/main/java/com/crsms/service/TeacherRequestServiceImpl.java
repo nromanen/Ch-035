@@ -1,11 +1,14 @@
 package com.crsms.service;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.TeacherRequestDao;
+import com.crsms.dao.UserDao;
 import com.crsms.domain.TeacherRequest;
 import com.crsms.domain.User;
 
@@ -14,6 +17,9 @@ public class TeacherRequestServiceImpl extends BaseServiceImpl<TeacherRequest> i
 	
 	@Autowired
 	private TeacherRequestDao teacherRequestDao;
+	
+	@Autowired 
+	private UserDao userDao;
 
 	@Override
 	@Transactional
@@ -61,5 +67,23 @@ public class TeacherRequestServiceImpl extends BaseServiceImpl<TeacherRequest> i
 		
 		return request;
 	}
+	
+	// set request status for change role (accept/decline)
+	@Override
+	@Transactional
+	public TeacherRequest setRequestStatus(TeacherRequest request) {
+		request.setReviewdDate(DateTime.now());
+		teacherRequestDao.update(request);
+		return request;
+	}
 
+	@Override
+	public User getUserByRequestId(Long requestId) {
+		return teacherRequestDao.getUserByRequestId(requestId);
+	}
+
+	@Override
+	public Long getRequestsCount() {
+		return teacherRequestDao.getRequestsCount();
+	}
 }

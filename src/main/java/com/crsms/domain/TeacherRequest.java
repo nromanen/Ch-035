@@ -18,14 +18,14 @@ import org.joda.time.DateTime;
 @Entity
 @Table(name = "teacher_request")
 public class TeacherRequest {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "teacher_request_id_seq", allocationSize = 1)
 	private Long id;
 	
 	@OneToOne
-	@Cascade({CascadeType.ALL})
+	@Cascade({CascadeType.MERGE})
 	@JoinColumn(name = "user_id")
 	private User user;
 	
@@ -80,5 +80,10 @@ public class TeacherRequest {
 		this.reviewdDate = reviewdDate;
 	}
 
-
+	@Override
+	public String toString() {
+		return "TeacherRequest [id=" + id + ", user=" + user
+				+ ", requestedDate=" + requestedDate + ", approved=" + approved
+				+ ", reviewdDate=" + reviewdDate + "]";
+	}
 }

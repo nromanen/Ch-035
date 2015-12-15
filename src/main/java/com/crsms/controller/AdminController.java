@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crsms.domain.Role;
+import com.crsms.domain.TeacherRequest;
 import com.crsms.domain.User;
 import com.crsms.service.RoleService;
+import com.crsms.service.TeacherRequestService;
 import com.crsms.service.UserService;
 import com.crsms.validator.AdminValidator;
 /**
@@ -42,28 +44,39 @@ public class AdminController {
 	@Autowired
 	private AdminValidator validator;
 	
+	@Autowired
+	private TeacherRequestService requestService;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllUsers(
 						@RequestParam (value = "page", required = false, defaultValue = "1") int page,
 						@RequestParam (value = "sortparam", required = false, defaultValue = "email") String sortParam,
 						@RequestParam (value = "direction", required = false, defaultValue = "asc") String direction,
 						@RequestParam (value = "keyWord",required = false, defaultValue = "")String keyWord,
-						@RequestParam (value = "pagesize", required = false, defaultValue = "6") int pageSize,
+						@RequestParam (value = "itemsperpage", required = false, defaultValue = "6") int itemsPerPage,
 						HttpSession session, ModelMap model) {
 		
 		if (session.getAttribute("direction") == null) {
 			session.setAttribute("direction", direction);
 		}
-		if (session.getAttribute("pagesize") == null) {
-			session.setAttribute("pagesize", pageSize);
-		}
-
+//		if (session.getAttribute("pagesize") == null) {
+//			session.setAttribute("pagesize", pageSize);
+//		}
+		int offSet = (page - 1) * itemsPerPage;
+		long rowsCount = userService.getRowsCount(keyWord);
+		long usersToApproveCount = userService.getUsersToApproveCount();
+		long teacherRequestsCount = requestService.getRequestsCount();
 		String order = (String) session.getAttribute("direction");
 		String sortingField = (String) session.getAttribute("sortparam");
-		Integer itemsPerPage =  (Integer) session.getAttribute("pagesize");
+		int lastpage = (int) ((rowsCount / itemsPerPage));
 		
-		if (itemsPerPage == 0);
-		itemsPerPage = pageSize;
+		if (rowsCount > (lastpage * itemsPerPage)) {
+			lastpage++;
+		}
+//		Integer itemsPerPage =  (Integer) session.getAttribute("pagesize");
+		
+//		if (itemsPerPage == 0);
+//		itemsPerPage = pageSize;
 		
 		if (session.getAttribute("direction") != null) {
 			order = direction;
@@ -78,20 +91,22 @@ public class AdminController {
 			sortingField = (String) session.getAttribute("sortparam");
 		}
 		
-		int offSet = (page - 1) * itemsPerPage;
 		List<User> users = userService.getPagingUsers(
 				offSet, itemsPerPage, sortingField, order, keyWord);
+
+		List<TeacherRequest> requests = requestService.getAll();
+		List<User> usersToApprove = userService.getUsersToApprove(true);
 		
-		long rowsCount = userService.getRowsCount(keyWord);
-		int lastpage = (int) ((rowsCount / itemsPerPage));
-		if (rowsCount > (lastpage * itemsPerPage)) {
-			lastpage++;
-		}
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		model.addAttribute("keyWord", keyWord);
-//		model.addAttribute("itemsperpage", itemsPerPage);
+		model.addAttribute("itemsperpage", itemsPerPage);
+		model.addAttribute("requests", requests);
+		model.addAttribute("rowscount", rowsCount);
+		model.addAttribute("usersToApproveCount", usersToApproveCount);
+		model.addAttribute("usersToApprove", usersToApprove);
+		model.addAttribute("teacherRequestsCount", teacherRequestsCount);
 		return "admin";
 	}
 	
@@ -108,7 +123,7 @@ public class AdminController {
 		model.addAttribute("user", user);
 		return "adduser";
 	}
-
+	
 	@RequestMapping(value = "/{userId}/edit", method = RequestMethod.POST)
 	public String updateUser(@PathVariable long userId, 
 								@Validated User user, BindingResult result) {
@@ -119,7 +134,25 @@ public class AdminController {
 		userService.update(user);
 		return "redirect:/admin/";
 	}
+
+	@RequestMapping(value = { "request/{requestId}/edit" }, method = RequestMethod.GET)
+	public String editRequest(@PathVariable Long requestId, ModelMap model) {
+//		User user = requestService.getUserByRequestId(requestId);
+//		System.out.println("--------------------------"+user);
+		TeacherRequest request = requestService.getById(requestId);
+		System.out.println("--------------------------"+ request);
+		model.addAttribute("request", request);
+//		model.addAttribute("user", user);
+		return "request";
+	}
 	
+	@RequestMapping(value = "request/{requestId}/edit", method = RequestMethod.POST)
+	public String updateRequest(@PathVariable long requestId, 
+								@ModelAttribute TeacherRequest request) {
+		requestService.approve(requestId);
+		return "redirect:/admin/";
+	}
+
 	@ModelAttribute("roles")
 	public List<Role> initializeRoles() {
 		List<Role> roles = new ArrayList<>();
