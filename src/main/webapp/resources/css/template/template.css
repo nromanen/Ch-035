@@ -72,6 +72,7 @@ footer {
     padding: 2px 8px;
     display: none;
 }
+
 /*GENERAL tags & classes*/
 .inline-block {
 	display: inline-block;
@@ -82,6 +83,7 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 /* sticker alert*/
 #sticker-alert-container {
 	position: fixed;
@@ -93,8 +95,10 @@ footer {
 }
 #sticker-alert-container .alert {
 	display: inline-block;
+	text-align: left;
 }
 /* END sticker alert */
+
 /*unit-dashboard*/
 .unit-dashboard {
 	text-align: center;
@@ -115,6 +119,7 @@ footer {
 	}
 }
 /*end unit-dashboard*/
+
 /*END GENERAL classes*/
 
 /*GENERAL style*/
