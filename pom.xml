@@ -282,7 +282,7 @@
 	<build>
 		<finalName>crsms</finalName>
 		<filters>
-			<filter>src/main/resources/application.properties</filter>
+			<filter>src/main/resources/properties/hibernate.properties</filter>
 		</filters>
 		<resources>
             <resource>

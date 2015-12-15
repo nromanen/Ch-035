@@ -61,7 +61,8 @@ public class ServletInitializer extends AbstractAnnotationConfigDispatcherServle
 	private MultipartConfigElement getMultipartConfigElement() {
         Properties props = new Properties();
         try {
-			props.load(ServletInitializer.class.getResourceAsStream("/application.properties"));
+			props.load(ServletInitializer.class
+					.getResourceAsStream("/properties/multipart.properties"));
 			tempLocation = props.getProperty("multipart.temp.location");
 			maxFileSize = Long.parseLong(props.getProperty("multipart.max.file.size"));
 			maxRequestSize = Long.parseLong(props.getProperty("multipart.max.request.size"));

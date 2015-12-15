@@ -36,7 +36,7 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.crsms.controller")
-@PropertySource(value = { "classpath:mail.properties" })
+@PropertySource(value = { "classpath:properties/mail.properties" })
 class ServletConfig extends WebMvcConfigurerAdapter {
 	
 	@Autowired
