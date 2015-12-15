@@ -29,5 +29,13 @@
     <changeSet author="yuliia" id="1446992667519-164">
     	<createSequence sequenceName="teacher_request_id_seq"/>
     </changeSet>
+    
+    <changeSet author="valeriimotresku" id="1446992667519-165">
+    	<renameColumn oldColumnName="module_id" tableName="module_resource" newColumnName="modules_id" />
+    </changeSet>
+    
+    <changeSet author="valeriimotresku" id="1446992667519-166">
+	    <addPrimaryKey columnNames="modules_id, resources_id" tableName="module_resource"/>
+	</changeSet>
 
 </databaseChangeLog>
