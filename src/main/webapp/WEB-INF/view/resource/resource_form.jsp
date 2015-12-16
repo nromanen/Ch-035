@@ -17,6 +17,7 @@
 			error: "<spring:message code = "crsms.text.error" />",
 			successAdd: "<spring:message code = "crsms.resource.msg.success.add" />",
 			errorAdd: "<spring:message code = "crsms.resource.msg.error.add" />",
+			showAssociated: "<spring:message code = "crsms.resource.text.show.associated" />",
 		},
 	}
 </script>

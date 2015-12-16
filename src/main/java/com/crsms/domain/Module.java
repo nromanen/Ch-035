@@ -40,8 +40,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 						+ "WHERE test.id = :id"),
 				
 	@NamedQuery(name = Module.DELETE_BY_ID,
-				query = "delete Module where id = :id"
-				)
+				query = "delete Module where id = :id"),
+	@NamedQuery(name = Module.GET_ALL_ASSOCIATED_WITH_RESOURCE,
+				query = "select m from Module m join m.resources mr where mr.id = :resource_id"),
+	
 })
 public class Module {
 	
@@ -49,6 +51,7 @@ public class Module {
 	public static final String GET_ALL_BY_COURSE_ID = "Module.getAllByCourseId";
 	public static final String DELETE_BY_ID = "Module.deleteById";
 	public static final String GET_BY_TEST = "Module.getByTest";
+	public static final String GET_ALL_ASSOCIATED_WITH_RESOURCE = "Module.getAllAssociatedWithResource";
 	public static final int MAX_NAME_LENGTH = 255;
 
 	

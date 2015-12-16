@@ -134,10 +134,18 @@ public class RestJsonApiController {
 	// resources REST
 	@RequestMapping(value = {"/resources/notAssociatedWith/modules/{moduleId}"}, 
 					method = RequestMethod.GET)
-	public List<ResourceJsonDto> getAllResources(@PathVariable Long moduleId) {
+	public List<ResourceJsonDto> getAllResourcesNotAssociatedWithModule(@PathVariable Long moduleId) {
 		return dtoService.convert(resourceService.getAllNotAssociatedWithModule(moduleId),
 									ResourceJsonDto.class, Resource.class);
-	}	
+	}
+	
+	@RequestMapping(value = {"/resources/{resourceId}/associated"}, 
+			method = RequestMethod.GET)
+	public List<CourseJsonDto> getAllCoursesAssociatedWithResource(@PathVariable Long resourceId) {
+		List<Module> list = moduleService.getAllAssociatedWithResource(resourceId);
+		return dtoService.convert(courseService.getAllAssociatedWithResource(resourceId),
+								CourseJsonDto.class, Course.class);
+}
 	
 	@RequestMapping(value = {"/modules/{moduleId}/resources", 
 							 "/courses/{courseId}/modules/{moduleId}/resources"}, 

@@ -134,4 +134,9 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		moduleDao.update(module);
 	}
 
+	@Override
+	public List<Module> getAllAssociatedWithResource(Long resourceId) {
+		return moduleDao.getAllAssociatedWithResource(resourceId);
+	}
+
 }

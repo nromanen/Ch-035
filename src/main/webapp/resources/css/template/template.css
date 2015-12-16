@@ -99,6 +99,16 @@ footer {
 }
 /* END sticker alert */
 
+/* spinner */
+.loading-spinner-container {
+	text-align: center;
+	margin: 10px 0;
+}
+.loading-spinner.fa-spin {
+	font-size: 100px;
+}
+/* END spinner*/
+
 /*unit-dashboard*/
 .unit-dashboard {
 	text-align: center;

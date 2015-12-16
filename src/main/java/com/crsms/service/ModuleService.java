@@ -38,4 +38,6 @@ public interface ModuleService extends BaseService<Module> {
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void freeResource(Module module);
 
+	List<Module> getAllAssociatedWithResource(Long resourceId);
+
 }

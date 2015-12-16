@@ -40,4 +40,6 @@ public interface CourseService extends BaseService<Course> {
 
 	List<Course> getAllPublished();
 
+	List<Course> getAllAssociatedWithResource(Long resourceId);
+
 }

@@ -194,5 +194,20 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 			throw e;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllAssociatedWithResource(Long resourceId) {
+		try {
+			return (List<Course>) this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_ALL_ASSOCIATED_WITH_RESOURCE)
+					   .setParameter("resource_id", resourceId)
+					   .list();
+		} catch (Exception e) {
+			this.getLogger().error("Error getAllAssociatedWithResource courses: " + e);
+			throw e;
+		}
+	}
 
 }

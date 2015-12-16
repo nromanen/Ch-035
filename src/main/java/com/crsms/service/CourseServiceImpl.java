@@ -115,4 +115,9 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		return courseDao.getAllPublished();
 	}
 
+	@Override
+	public List<Course> getAllAssociatedWithResource(Long resourceId) {
+		return courseDao.getAllAssociatedWithResource(resourceId);
+	}
+
 }
