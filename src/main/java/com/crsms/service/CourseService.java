@@ -20,11 +20,7 @@ public interface CourseService extends BaseService<Course> {
 	
 	void deleteById(Long courseId);
 	
-	Course get(String name);
-	
 	List<Course> getAllByAreaId(Long areaId);
-	
-	List<Course> getAllByUserId(Long userId);
 	
 	List<Course> getAllByUserEmail(String email);
 
