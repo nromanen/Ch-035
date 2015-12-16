@@ -1,12 +1,10 @@
 package com.crsms.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
@@ -27,43 +25,16 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 		super(Course.class);
 	}
 	
-	@Override
-	public Course get(String name) {
-		try {
-			getSessionFactory().getCurrentSession()
-				.createQuery("FROM Course c WHERE c.name=:name")
-				.setString("name", name).uniqueResult();
-		} catch (Exception e) {
-			getLogger().error("Error getCourse: " + e);
-			throw e;
-		}
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> getAllByAreaId(Long areaId) {
 		try {
-			String hql = "from Course where area_id = :id order by id asc";
-			Query query = getSessionFactory()
-							  .getCurrentSession()
-							  .createQuery(hql).setParameter("id", areaId);
-			return query.list();
+			return getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Course.GET_BY_AREA_ID)
+							  		  .setParameter("id", areaId)
+							  		  .list();
 		} catch (Exception e) {
 			getLogger().error("Error in getting all courses by area id: " + e);
-			throw e;
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Course> getAllByUserId(Long userId) {
-		try {
-			return getSessionFactory().getCurrentSession()
-										   .getNamedQuery(Course.GET_BY_USER_ID)
-									 	   .setParameter("userId", userId).list();
-		} catch (Exception e) {
-			getLogger().error("Error in getting all courses by user id: " + e);
 			throw e;
 		}
 	}
@@ -73,8 +44,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	public List<Course> getAllByUserEmail(String email) {
 		try {
 			return getSessionFactory().getCurrentSession()
-										   .getNamedQuery(Course.GET_BY_USER_EMAIL)
-									 	   .setParameter("email", email).list();
+									  .getNamedQuery(Course.GET_BY_USER_EMAIL)
+									  .setParameter("email", email).list();
 		} catch (Exception e) {
 			getLogger().error("Error in getting all courses by user email: " + e);
 			throw e;
@@ -86,8 +57,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	public List<Course> getAllByOwnerEmail(String email) {
 		try {
 			return getSessionFactory().getCurrentSession()
-										   .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
-									 	   .setParameter("email", email).list();
+									  .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
+									  .setParameter("email", email).list();
 		} catch (Exception e) {
 			getLogger().error("Error in getting all courses by owner email: " + e);
 			throw e;
@@ -98,9 +69,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	@Override
 	public List<Course> searchCourses(String searchWord) {
 		try {
-			return (List<Course>) getSessionFactory().getCurrentSession()
+			return getSessionFactory().getCurrentSession()
 									  .getNamedQuery(Course.SEARCH)
-									  .setParameter("s", "%" + searchWord + "%").list();
+									  .setParameter("s", "%" + searchWord + "%")
+									  .list();
 		} catch (HibernateException e) {
 			getLogger().error("Error searchCourses: " + e);
 			throw e;
@@ -138,18 +110,17 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<Long, Long> getStudentCoursesAndGroupsIds(String email) {
-		List<List<Long>> list = new ArrayList<>();
 		try {
-			list = this.getSessionFactory().getCurrentSession()
-										   .getNamedQuery(Course.GET_STUDENT_COURSES_AND_GROUPS_IDS)
-									 	   .setParameter("email", email)
-									 	   .setResultTransformer(Transformers.TO_LIST)
-									 	   .list();
+			List<List<Long>> list = this.getSessionFactory().getCurrentSession()
+										.getNamedQuery(Course.GET_STUDENT_COURSES_AND_GROUPS_IDS)
+									 	.setParameter("email", email)
+									 	.setResultTransformer(Transformers.TO_LIST)
+									 	.list();
+			return transformListToMap(list);
 		} catch (Exception e) {
 			this.getLogger().error("Error in getting student's courses and groups id's: " + e);
 			throw e;
 		}
-		return transformListToMap(list);
 	}
 	
 	/**
