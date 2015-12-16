@@ -43,6 +43,10 @@ public class BreadcrumbsHelper {
 	public static final String CODE_USER_PROFILE = "crsms.bc.userprofile";
 	public static final String LABEL_SEARCH = "search";
 	public static final String CODE_SEARCH = "crsms.bc.search";
+	public static final String LABEL_PRIVATE = "private";
+	public static final String CODE_PRIVATE = "crsms.bc.private";
+	public static final String LABEL_STUDENTS = "students";
+	public static final String CODE_STUDENTS = "crsms.bc.students";
 
 	public static final String CODE_UNKNOWN = "crsms.bc.unknown";
 	
@@ -92,6 +96,8 @@ public class BreadcrumbsHelper {
 			case LABEL_ADMIN: return CODE_ADMIN;
 			case LABEL_USER_PROFILE: return CODE_USER_PROFILE;
 			case LABEL_SEARCH: return CODE_SEARCH;
+			case LABEL_PRIVATE: return CODE_PRIVATE;
+			case LABEL_STUDENTS: return CODE_STUDENTS;
 			default: return CODE_UNKNOWN;
 		}
 	}
