@@ -34,11 +34,10 @@ public class BreadcrumbsInterceptor extends HandlerInterceptorAdapter {
 	private Map<String, String> makeBreadcrumbs(String url, Locale locale) {
 		Map<String, String> breadcrumbs = splitUrl(url);
 		
-		//remove first entry (crsms)
-		((TreeMap<String, String>) breadcrumbs).pollFirstEntry();
-		
 		setBreadcrumbsLabels(breadcrumbs, locale);
 		
+		//remove first entry (crsms)
+		((TreeMap<String, String>) breadcrumbs).pollFirstEntry();
 		return breadcrumbs;
 	}
 
