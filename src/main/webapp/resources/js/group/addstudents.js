@@ -166,7 +166,7 @@ $(document).ready(function() {
 	function makeArrayAndSubmit(optionEmails) {
 		var emails = [];
 		$(optionEmails).each(function(i, studentEmail) {
-			emails.push($(studentEmail).text());
+			emails.push(/(\w+@\w+.\w+)/.exec($(studentEmail).text())[1]);
 		})
 		addToGroup(emails);
 	}

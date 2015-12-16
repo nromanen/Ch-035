@@ -63,7 +63,6 @@
 										class="btn btn-default"
 										data-toggle="modal"
 										data-target="#unsubscribeModal"
-										data-course-id="${course.id}"
 										data-group-id="${studentCoursesAndGroupsIds[course.id]}">
 									<strong><spring:message code="crsms.courses.button.leave" /></strong>
 								</button>
