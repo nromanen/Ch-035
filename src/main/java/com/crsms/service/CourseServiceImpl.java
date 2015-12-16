@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	private UserService userService;
 	
 	@Override
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	public void save(Course course, Long areaId, String ownerEmail) {
 		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getById(areaId));
@@ -42,6 +44,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	}
 	
 	@Override
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	public void update(Course course, Long areaId, String ownerEmail) {
 		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getById(areaId));
@@ -49,16 +52,13 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	}
 
 	@Override
-	public Course get(String name) {
-		return courseDao.get(name);
-	}
-	
-	@Override
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	public void deleteById(Long courseId) {
 		this.delete(this.getById(courseId));
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	public void delete(Course course) {
 		course.disable();
 		for (Module module : course.getModules()) {
@@ -75,16 +75,13 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	}
 	
 	@Override
-	public List<Course> getAllByUserId(Long userId) {
-		return courseDao.getAllByUserId(userId);
-	}
-	
-	@Override
+	@PreAuthorize("hasAnyRole('STUDENT')")
 	public List<Course> getAllByUserEmail(String email) {
 		return courseDao.getAllByUserEmail(email);		
 	}
 	
 	@Override
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	public List<Course> getAllByOwnerEmail(String email) {
 		return courseDao.getAllByOwnerEmail(email);
 	}
@@ -95,16 +92,19 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	public boolean isUserACourseOwner(Long courseId, String userEmail) {
 		return this.getById(courseId).getOwner().getEmail().equals(userEmail);
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('STUDENT')")
 	public Map<Long, Long> getStudentCoursesAndGroupsIds(String email) {
 		return courseDao.getStudentCoursesAndGroupsIds(email);
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	public void publish(Long courseId) {
 		Course course = this.getById(courseId);
 		course.setPublished(true);		
