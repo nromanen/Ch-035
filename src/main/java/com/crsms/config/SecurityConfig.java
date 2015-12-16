@@ -3,8 +3,6 @@ package com.crsms.config;
 
 import javax.sql.DataSource;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -52,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  .authorizeRequests()
 				  	.antMatchers("/signUp", "/signin", "/courses").permitAll()
 				  	.antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
+				  	.antMatchers("/private/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')")
 				  	.and();
 	  http
 	  		.formLogin().loginPage("/signin")
@@ -68,13 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				  	.tokenValiditySeconds(VALIDITYTIME);
 	}
 	
-	 @Bean
-	    public DaoAuthenticationProvider authenticationProvider() {
-	        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-	        authenticationProvider.setUserDetailsService(userDetailsService);
-	        authenticationProvider.setPasswordEncoder(passwordEncoder());
-	        return authenticationProvider;
-	    }
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService);
+		authenticationProvider.setPasswordEncoder(passwordEncoder());
+		return authenticationProvider;
+	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
