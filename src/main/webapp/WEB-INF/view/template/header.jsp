@@ -47,25 +47,42 @@
 		<c:choose>
 			<c:when test="${pageContext.request.userPrincipal.name != null}">
 				<div class="dropdown">
-					<a id="dLabel" data-target="#"
-						href="<c:url value="/courses/?show=my" />" data-toggle="dropdown"
-						role="button" aria-haspopup="true" aria-expanded="false"> <b>${pageContext.request.userPrincipal.name}</b>
+					<a id="dLabel" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<b>${pageContext.request.userPrincipal.name}</b>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right">
-						<sec:authorize access="isAuthenticated() and hasAnyRole('ADMIN')">
+						<sec:authorize access="hasAnyRole('ADMIN')">
 							<li>
 								<a href="<c:url value="/admin" />">
 									<spring:message code="crsms.admin.title.list" />
 								</a>
 							</li>	
 						</sec:authorize>
-						<li><a href="<c:url value="/courses/?show=my" />"> <spring:message
-									code="crsms.courses.text.title.list" /></a></li>
-						<li><a href="<c:url value="/userProfile" />"> <spring:message
-									code="crsms.userProfile.profile" /></a></li>
-						<li><a href="<c:url value="/signout" />"><spring:message
-									code="crsms.button.signout" /></a></li>
+						<sec:authorize access="hasAnyRole('TEACHER') or hasAnyRole('ADMIN')">
+							<li>
+								<a href="<c:url value="/private/courses/" />">
+									<spring:message code="crsms.courses.text.title.list" />
+								</a>
+							</li>	
+						</sec:authorize>
+						<sec:authorize access="hasAnyRole('STUDENT')">
+							<li>
+								<a href="<c:url value="/courses/?show=my" />">
+									<spring:message code="crsms.courses.text.title.list" />
+								</a>
+							</li>
+						</sec:authorize>
+						<li>
+							<a href="<c:url value="/userProfile" />">
+								<spring:message	code="crsms.userProfile.profile" />
+							</a>
+						</li>
+						<li>
+							<a href="<c:url value="/signout" />">
+								<spring:message	code="crsms.button.signout" />
+							</a>
+						</li>
 					</ul>
 				</div>
 			</c:when>
