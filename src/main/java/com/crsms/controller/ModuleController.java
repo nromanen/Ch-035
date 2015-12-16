@@ -46,7 +46,7 @@ public class ModuleController {
 	@Autowired
 	private ModuleJsonValidator validator;
 	
-	@InitBinder
+	@InitBinder("moduleJsonDto")
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(validator);
     }
