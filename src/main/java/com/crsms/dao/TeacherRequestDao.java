@@ -9,4 +9,6 @@ public interface TeacherRequestDao extends BaseDao<TeacherRequest> {
 	Long getRequestsHistoryCount();
 	
 	List<TeacherRequest> getRequestsHistory();
+	
+	TeacherRequest getTeacherRequestByUserEmail(String email);
 }
