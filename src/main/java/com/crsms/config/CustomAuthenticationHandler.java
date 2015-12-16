@@ -2,7 +2,6 @@
 package com.crsms.config;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -39,25 +37,19 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 	}
 
 	protected String determineTargetUrl(Authentication authentication) {
-		String url = "";
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		String role = authentication.getAuthorities().toString();
 		Map<String, String> roleToUrlMapper = new HashMap<String, String>();
 		roleToUrlMapper.put("ROLE_ADMIN", "/admin/");
 		roleToUrlMapper.put("ROLE_MANAGER", "/areas/");
 		roleToUrlMapper.put("ROLE_TEACHER", "/private/courses/");
 		roleToUrlMapper.put("ROLE_STUDENT", "/courses/?show=my");
 
-		outer: for (GrantedAuthority auth : authorities) {
-			for (Map.Entry<String, String> entry : roleToUrlMapper.entrySet()) {
-				if (auth.getAuthority().equals(entry.getKey())) {
-					url = entry.getValue();
-					break outer;
-				} else {
-					url = "/403";
-				}
+		for (Map.Entry<String, String> entry : roleToUrlMapper.entrySet()) {
+			if (role.contains(entry.getKey())) {
+				return entry.getValue();
 			}
 		}
-		return url;
+		return "/403";
 	}
 
 	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
