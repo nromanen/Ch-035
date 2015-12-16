@@ -108,7 +108,7 @@
 
 <div class = "container">
 	<c:url var="createModule" value="add" />
-	<a class="btn btn-primary" href="${createModule}"><spring:message code="crsms.courses.button.create" /></a>
+	<a class="btn btn-primary" id="add" href="${createModule}"><spring:message code="crsms.courses.button.create" /></a>
 </div>
 
 <!-- Publish modal -->
