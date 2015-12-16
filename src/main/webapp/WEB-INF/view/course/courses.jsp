@@ -7,11 +7,11 @@
 <tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
 <div class = "container">
-	<sec:authorize access="isAuthenticated() and !hasAnyRole('MANAGER')">
+	<sec:authorize access="hasAnyRole('STUDENT')">
 		<div id = "navigation" class = "pull-left">
 			<ul class="nav nav-pills">
-			  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
-				  <a href="/crsms/courses/?show=all"><spring:message code = "crsms.courses.text.all" /></a>
+			  <li role="presentation" class = "${empty param.show ? 'active' : '' }">
+				  <a href="/crsms/courses/"><spring:message code = "crsms.courses.text.all" /></a>
 			  </li>
 			  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }">
 			  	<a href="/crsms/courses/?show=my"><spring:message code = "crsms.courses.text.my" /></a>
