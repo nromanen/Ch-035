@@ -1,13 +1,12 @@
 package com.crsms.dao;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 import com.crsms.domain.TeacherRequest;
-import com.crsms.domain.User;
 
 public interface TeacherRequestDao extends BaseDao<TeacherRequest> {
-	@Transactional
-	User getUserByRequestId(Long requestId);
-	@Transactional
-	Long getRequestsCount();
+
+	Long getRequestsHistoryCount();
+	
+	List<TeacherRequest> getRequestsHistory();
 }

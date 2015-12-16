@@ -135,12 +135,8 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 					.createCriteria(User.class, "user")
 					.createAlias("user.role", "role")
 					.createAlias("user.userInfo", "userInfo")
-					.createAlias("user.teacherRequest", "teacherRequest");
-//					.add(Restrictions.isNull("teacherRequest.reviewdDate"));
-			Disjunction or = Restrictions.disjunction();
-			or.add(Restrictions.isNull("teacherRequest.reviewdDate"));
-			or.add(Restrictions.isNull("teacherRequest.approved"));
-			criteria.add(or);
+					.createAlias("user.teacherRequest", "teacherRequest")
+					.add(Restrictions.isNull("teacherRequest.reviewdDate"));
 			criteria.addOrder(Order.asc("teacherRequest.requestedDate"));
 			users.addAll(criteria.list());
 		} catch (Exception e) {
@@ -149,14 +145,6 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		}
 		return users;
 	}
-	
-	private SimpleExpression setRestrictions(DateTime reviewedDate, Boolean teacherRequest){
-		if (reviewedDate == null)
-		return Restrictions.eq("teacherRequest.requestedDate", null);
-		return Restrictions.eq("user.teacherRequest", teacherRequest);
-		
-	}
-	
 	
 	private Disjunction setDisjunction(String keyWord) {
 		Disjunction or = Restrictions.disjunction();

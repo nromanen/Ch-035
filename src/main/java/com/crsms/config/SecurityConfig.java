@@ -52,29 +52,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  .authorizeRequests()
 				  	.antMatchers("/signUp", "/signin", "/courses").permitAll()
 				  	.antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
-				  	.and();
-	  http
+				  	.and()
 	  		.formLogin().loginPage("/signin")
 				  	.usernameParameter("email")
 				  	.passwordParameter("password")
 				  	.successHandler(customHandler)			  	
+				  	.and().csrf()
 				  	.and()
 			.logout().logoutSuccessUrl("/signin?signout")
-				  	.and().csrf()
-				  	.and().exceptionHandling().accessDeniedPage("/403")
+				  	.invalidateHttpSession(true)
+				  	.and()
+				  	.exceptionHandling().accessDeniedPage("/403")
 				  	.and()
 			.rememberMe().rememberMeParameter("remember-me")
 				  	.tokenRepository(persistentTokenRepository())
-				  	.tokenValiditySeconds(VALIDITYTIME);
+				  	.tokenValiditySeconds(VALIDITYTIME)
+				  	.and()
+		  	.sessionManagement()
+		  			.invalidSessionUrl("/signin")
+		  			.maximumSessions(1);
 	}
 	
-	 @Bean
-	    public DaoAuthenticationProvider authenticationProvider() {
-	        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-	        authenticationProvider.setUserDetailsService(userDetailsService);
-	        authenticationProvider.setPasswordEncoder(passwordEncoder());
-	        return authenticationProvider;
-	    }
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+	     DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+	     authenticationProvider.setUserDetailsService(userDetailsService);
+	     authenticationProvider.setPasswordEncoder(passwordEncoder());
+	     return authenticationProvider;
+	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {

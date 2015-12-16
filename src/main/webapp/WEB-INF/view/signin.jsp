@@ -39,7 +39,17 @@
                                 	 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                                     <spring:message code="crsms.signin.badcredentials" />
                                 </div>
-                            </c:if>
+                          </c:if>
+                          
+                          
+                         <%--  <c:if test="${not empty error}">
+							<div class="error">${error}</div>
+							</c:if>
+							<c:if test="${not empty msg}">
+								<div class="msg">${msg}</div>
+							</c:if> --%>
+							
+							
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<div class="checkbox">
