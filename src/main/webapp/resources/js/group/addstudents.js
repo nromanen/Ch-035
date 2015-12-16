@@ -48,9 +48,14 @@ $(document).ready(function() {
 		var groupSelect = $('#groups');
 		groupSelect.focus();
 		var url = '/crsms/api/groups/';
+		var path = $(location).attr('pathname');
+		var currentGroupId = /groups\/(\d+)\//.exec(path)[1];
 		
 		$.get(url, function(groups) {
 			for (var i = 0; i < groups.length; i++) {
+				if (groups[i].id == currentGroupId) {
+					continue;
+				}
 				var groupOptionHtml = '<option value="' + groups[i].id + '">' + groups[i].name + '</option>'
 				groupSelect.append(groupOptionHtml);
 			}
