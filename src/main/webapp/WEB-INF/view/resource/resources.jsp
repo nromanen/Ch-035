@@ -92,7 +92,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"><spring:message code = "crsms.resource.text.resource.edit" /></h4>
       </div>
-      <div class="modal-body" class="modal-resource-body">
+      <div class="modal-body">
         <p id="modal-edit-resource-body-loading" style="font-size: 16px; font-weight: 700;" >
         	<spring:message code = "crsms.text.loading" />...
         </p>
