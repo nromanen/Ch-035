@@ -141,7 +141,7 @@
 				</th>
 				<th>
 					<spring:message code="crsms.admin.isenabled" />
-					<a href="<c:url value="sortparam=isEnabled&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="?sortparam=isEnabled&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
 						<c:choose>
 							<c:when test="${sortparam == 'isEnabled' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
@@ -224,14 +224,13 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="text-center" >
-		<c:if test="${empty users}">
+	<c:if test="${empty users}">
+		<div class="text-center" >
 			<div class="alert alert-danger">
 	 		 <strong><spring:message code = "crsms.admin.search.notfound"/></strong>
 			</div>
-		</c:if>
-	</div>
-	
+		</div>
+	</c:if>
 <!-- Paging block -->
 <div class="paginationlogic">
 	<ul class="pagination">

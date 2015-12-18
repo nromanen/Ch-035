@@ -48,4 +48,20 @@ public class TeacherRequestDaoImpl extends BaseDaoImpl<TeacherRequest> implement
 		}
 		return requests;
 	}
+
+	@Override
+	public TeacherRequest getRequestByUserEmail(String email) {
+		TeacherRequest request;
+		try {
+			Criteria criteria = this.getSessionFactory().getCurrentSession()
+					.createCriteria(TeacherRequest.class, "request")
+					.createAlias("request.user", "user")
+					.add(Restrictions.eq("user.email", email));
+			request = (TeacherRequest) criteria.uniqueResult();
+					} catch (Exception e) {
+			this.getLogger().error("Error getRequestByUserEmail " + e);
+			throw e;
+		}
+		return request;
+	}
 }
