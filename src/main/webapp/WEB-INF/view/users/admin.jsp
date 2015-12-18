@@ -17,7 +17,7 @@
 			<b><span class="badge badge-info">${rowscount}</span></b>
 		</a>
 	</li>
-	<c:if test="${usersToApproveCount != null}">
+	<c:if test="${usersToApproveCount != 0}">
 		<li role="presentation">
 			<a id = "approve-request-tab"
 			   href="#approve-request-pane"
