@@ -42,6 +42,7 @@ $(document).ready(function(e) {
 									</button>\
 									<button class="btn btn-primary btn-show-associated" \
 											resource-id="' + resources[i].id + '" \
+											resource-name="' + resources[i].name + '" \
 											data-toggle="tooltip" \
 											title="' + springMsgs.showAssociated + '" >\
 										<i class="fa fa-lg fa-list-ul"></i>\
@@ -79,10 +80,10 @@ $(document).ready(function(e) {
 			});
 			// show associated courses
 			$('.btn-show-associated').click(function(e) {
-				resourceFormHelper.showAssociatedToResource(this.getAttribute("resource-id"), this);
+				resourceFormHelper.showAssociatedWithResource(this.getAttribute("resource-id"), this);
 			});
 		},
-		addResourceAlertTimeout: 3000,
+		genericAlertTimeout: 3000,
 		addExistingResource: function(resourceId, delegatedBtnNode) {
 			$.ajax({
 				url: crsmsGlobalResourceFormHelper.baseLink + "api/modules/" + resourceFormHelper.getModuleId()
@@ -94,7 +95,7 @@ $(document).ready(function(e) {
 					$("#sticker-alert-container .alert").alert('close');
 				},
 				success: function() {
-					resourceFormHelper.showAlert({ msg: springMsgs.successAdd, target: "#sticker-alert-container", 
+					resourceFormHelper.showAlert({ msg: springMsgs.successAdd, 
 							type: "success", title: springMsgs.success, autoclosable: true });
 					$(delegatedBtnNode).html('<i class="fa fa-lg fa-check"></i>');
 					$(delegatedBtnNode).addClass("disabled");
@@ -105,13 +106,17 @@ $(document).ready(function(e) {
 					$(delegatedBtnNode).html('<i class="fa fa-lg fa-plus"></i>');
 					resourceFormHelper.showAlert(
 							{ msg: springMsgs.errorAdd + "<br/>" + thrownError + ": " + xhr.responseText, 
-							  target: "#sticker-alert-container", type: "danger", title: springMsgs.error, 
+							  type: "danger", title: springMsgs.error, 
 							  autoclosable: true });
 					//alert(thrownError + ": " + xhr.responseText);
 				}
 			});
 		},
-		showAssociatedToResource: function(resourceId, delegatedBtnNode) {
+		modalResourceAssociatedSelector: "#modal-resource-associated", 
+		showAssociatedWithResource: function(resourceId, delegatedBtnNode) {
+			var modalSelector = resourceFormHelper.modalResourceAssociatedSelector;
+			var modalUlSelector = modalSelector + " .modal-body ul";
+			var modalBodyTitleSelector = modalSelector + " .modal-body-title";
 			$.ajax({
 				url: crsmsGlobalResourceFormHelper.baseLink + "api/resources/" + resourceId + "/associated",
 				type: 'get',
@@ -119,29 +124,49 @@ $(document).ready(function(e) {
 				beforeSend: function() {
 					$(delegatedBtnNode).html('<i class="fa fa-lg fa-spinner fa-spin"></i>');
 					$("#sticker-alert-container .alert").alert('close');
+					$(modalUlSelector).html("");
 				},
 				complete: function() {
 					$(delegatedBtnNode).html('<i class="fa fa-lg fa-list-ul"></i>');
 				},
-				success: function(courses) {
-					alert('sss')
+				success: function(associated) {
+					var modalUl = $(modalUlSelector);
+					var modalBodyTitle= $(modalBodyTitleSelector);
+					if (associated.length < 1) {
+						modalBodyTitle.html(springMsgs.noResultsForAssociated);
+					} else {
+						modalBodyTitle.html(springMsgs.course + ' <i class="fa fa-lg fa-long-arrow-right"></i> '
+								+ springMsgs.module + ":");
+						for (var i = 0; i < associated.length; i++) {
+							modalUl.append(''
+									+ '<li>'
+									+ associated[i].courseName 
+									+ ' <i class="fa fa-lg fa-long-arrow-right"></i> ' 
+									+ associated[i].moduleName
+									+ '</li>'
+									);
+						}
+					}
+					$(delegatedBtnNode).tooltip('hide');
+					$(modalSelector).modal('show');
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					resourceFormHelper.showAlert(
 							{ msg: springMsgs.errorAdd + "<br/>" + thrownError + ": " + xhr.responseText, 
-							  target: "#sticker-alert-container", type: "danger", title: springMsgs.error, 
+							  type: "danger", title: springMsgs.error, 
 							  autoclosable: true });
 				}
 			});
 		},
+		alertContainerSelector: "#sticker-alert-container",
 		showAlert: function(params) {
-			params.target = typeof params.target !== 'undefined' ? params.target : "#sticker-alert-container";
+			params.target = typeof params.target !== 'undefined' ? params.target : resourceFormHelper.alertContainerSelector;
 			params.type = typeof params.type !== 'undefined' ? params.type : "success";
 			params.title = typeof params.title !== 'undefined' ? params.title : "Alert";
 			params.msg = typeof params.msg !== 'undefined' ? params.msg : "";
 			params.autoclosable = typeof params.autoclosable !== 'undefined' ? params.autoclosable : true;
 			params.timeOutMillis = typeof params.timeOutMillis !== 'undefined' ? 
-					params.timeOutMillis : resourceFormHelper.addResourceAlertTimeout;
+					params.timeOutMillis : resourceFormHelper.genericAlertTimeout;
 			var alertHtml = 
 				'\
 				<div class="alert alert-' + params.type + ' alert-dismissible fade in" role="alert"> \
@@ -159,7 +184,7 @@ $(document).ready(function(e) {
 	}
 	
 	// show existing resources
-	$('a[href="#tab-existing-resources"]').on('show.bs.tab', function (e) {
+	$('a[href="#tab-existing-resources"]').on('shown.bs.tab', function (e) {
 		if (!$(this).attr("crsms-ajax-executed")) {
 			resourceFormHelper.getResources();
 			$(this).attr("crsms-ajax-executed", true);

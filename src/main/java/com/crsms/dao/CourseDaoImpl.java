@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.crsms.domain.Course;
 import com.crsms.domain.Question;
 import com.crsms.domain.Test;
+import com.crsms.dto.CourseModuleNamesPairDto;
 
 /**
  * 
@@ -202,6 +203,22 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
 			return (List<Course>) this.getSessionFactory()
 					   .getCurrentSession()
 					   .getNamedQuery(Course.GET_ALL_ASSOCIATED_WITH_RESOURCE)
+					   .setParameter("resource_id", resourceId)
+					   .list();
+		} catch (Exception e) {
+			this.getLogger().error("Error getAllAssociatedWithResource courses: " + e);
+			throw e;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
+			Long resourceId) {
+		try {
+			return (List<CourseModuleNamesPairDto>) this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_ALL_COURSE_MODULE_NAMES_PAIRS_ASSOCIATED_WITH_RESOURCE)
 					   .setParameter("resource_id", resourceId)
 					   .list();
 		} catch (Exception e) {

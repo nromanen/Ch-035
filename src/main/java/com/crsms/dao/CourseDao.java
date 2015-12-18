@@ -6,6 +6,7 @@ import java.util.Map;
 import com.crsms.domain.Course;
 import com.crsms.domain.Question;
 import com.crsms.domain.Test;
+import com.crsms.dto.CourseModuleNamesPairDto;
 
 
 /**
@@ -43,4 +44,7 @@ public interface CourseDao extends BaseDao<Course> {
 	List<Course> getAllPublished();
 
 	List<Course> getAllAssociatedWithResource(Long resourceId);
+
+	List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
+			Long resourceId);
 }

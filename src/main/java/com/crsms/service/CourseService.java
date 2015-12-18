@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.crsms.domain.Course;
+import com.crsms.dto.CourseModuleNamesPairDto;
 
 /**
  * 
@@ -41,5 +42,8 @@ public interface CourseService extends BaseService<Course> {
 	List<Course> getAllPublished();
 
 	List<Course> getAllAssociatedWithResource(Long resourceId);
+
+	List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
+			Long resourceId);
 
 }

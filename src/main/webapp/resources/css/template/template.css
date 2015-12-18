@@ -96,6 +96,7 @@ footer {
 #sticker-alert-container .alert {
 	display: inline-block;
 	text-align: left;
+	max-width: 80%;
 }
 /* END sticker alert */
 

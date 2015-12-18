@@ -22,6 +22,7 @@ import com.crsms.domain.Resource;
 import com.crsms.domain.Test;
 import com.crsms.dto.AreaJsonDto;
 import com.crsms.dto.CourseJsonDto;
+import com.crsms.dto.CourseModuleNamesPairDto;
 import com.crsms.dto.GroupNameJsonDto;
 import com.crsms.dto.ModuleJsonDto;
 import com.crsms.dto.ResourceJsonDto;
@@ -141,10 +142,8 @@ public class RestJsonApiController {
 	
 	@RequestMapping(value = {"/resources/{resourceId}/associated"}, 
 			method = RequestMethod.GET)
-	public List<CourseJsonDto> getAllCoursesAssociatedWithResource(@PathVariable Long resourceId) {
-		List<Module> list = moduleService.getAllAssociatedWithResource(resourceId);
-		return dtoService.convert(courseService.getAllAssociatedWithResource(resourceId),
-								CourseJsonDto.class, Course.class);
+	public List<CourseModuleNamesPairDto> getAllCoursesAssociatedWithResource(@PathVariable Long resourceId) {
+		return courseService.getAllCourseModuleNamesPairsAssociatedWithResource(resourceId);
 }
 	
 	@RequestMapping(value = {"/modules/{moduleId}/resources", 

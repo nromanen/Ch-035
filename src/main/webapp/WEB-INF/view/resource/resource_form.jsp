@@ -18,6 +18,10 @@
 			successAdd: "<spring:message code = "crsms.resource.msg.success.add" />",
 			errorAdd: "<spring:message code = "crsms.resource.msg.error.add" />",
 			showAssociated: "<spring:message code = "crsms.resource.text.show.associated" />",
+			noResults: "<spring:message code = "crsms.text.no.results" />",
+			course: "<spring:message code = "crsms.text.course" />",
+			module: "<spring:message code = "crsms.text.module" />",
+			noResultsForAssociated: "<spring:message code = "crsms.resource.text.associated.no.results" />"
 		},
 	}
 </script>
@@ -136,6 +140,25 @@
   </div>
 
 </div>
+
+<!-- Modal edit -->
+<div class="modal fade" id="modal-resource-associated" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><spring:message code = "crsms.resource.text.associated" /></h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="modal-body-title"></h4>
+        <ul id="resource-associated-ul"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crsms.dao.CourseDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
+import com.crsms.dto.CourseModuleNamesPairDto;
 
 /**
  * 
@@ -118,6 +119,12 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	@Override
 	public List<Course> getAllAssociatedWithResource(Long resourceId) {
 		return courseDao.getAllAssociatedWithResource(resourceId);
+	}
+
+	@Override
+	public List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
+			Long resourceId) {
+		return courseDao.getAllCourseModuleNamesPairsAssociatedWithResource(resourceId);
 	}
 
 }
