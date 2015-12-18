@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,10 +36,11 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
-	public String loginPage( @RequestParam(value = "error", required = false) String error,  
-			HttpServletRequest request, ModelMap model) {
+	public String loginPage(@RequestParam (
+					value = "error", required = false) String error,  
+					HttpServletRequest request, ModelMap model) {
 		if (error != null) {
-			model.addAttribute("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+			model.addAttribute("error", selectErrorException(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
 		return "signin";
 	}
@@ -68,18 +70,20 @@ public class MainController {
 		model.setViewName("403");
 		return model;
 	}
-	private String getErrorMessage(HttpServletRequest request, String key){
+	
+	private String selectErrorException(HttpServletRequest request, String key){
 		Exception exception = 
                    (Exception) request.getSession().getAttribute(key);
 		String error = "";
 		if (exception instanceof BadCredentialsException) {
-			error = "Invalid username and password!";
-		}else if(exception instanceof LockedException) {
-			error = exception.getMessage();
-		}else{
-			error = "Invalid username and password!";
+			error = "credentialsException";
+		} else if (exception instanceof LockedException) {
+			error = "lockedException";
+		} else if (exception instanceof DisabledException) {
+			error = "disabledException";
+		} else {
+			error = request.getSession().getAttribute(key).toString();
 		}
-		
 		return error;
 	}
 }

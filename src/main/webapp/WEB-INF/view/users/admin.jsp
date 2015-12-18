@@ -41,8 +41,14 @@
 			</a>
 		</li>
 	</c:if>
+	<li role="presentation">
+		<a href="${pageContext.request.contextPath}/signUp">
+		   <spring:message code="crsms.admin.createNew" />
+		</a>
+	</li>
 </ul>
-	<div class="tab-content">			
+
+<div class="tab-content">			
 <div id="search" class="container ">
 	<div class="nav navbar-nav navbar-left">
 		<form id = "rowSet" class="navbar-form navbar "  method="GET">					
@@ -135,7 +141,7 @@
 				</th>
 				<th>
 					<spring:message code="crsms.admin.isenabled" />
-					<a href="<c:url value="?sortparam=isEnabled&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="sortparam=isEnabled&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
 						<c:choose>
 							<c:when test="${sortparam == 'isEnabled' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
@@ -178,32 +184,54 @@
 					</td> 
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 
-							<a href="${editUser}" class="btn btn-primary btn-sm" 
+							<a 	href="${editUser}" class="btn btn-primary btn-sm" 
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.edit" />">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 							</a>
-					
-						<c:url var="deleteUser"	value="/admin/${user.id}/delete" /> 
-							<a href="${deleteUser}"
-								class="btn btn-danger btn-sm" 
+							
+							
+						 	<c:url var="deleteUser"	value="/admin/${user.id}/delete" />  
+							<a 	href="#modalDeleteConfirm_${user.id}" class="btn btn-danger btn-sm"
+								data-toggle="modal"
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.delete" />"> 
 								<span	class="fa fa-trash-o fa-lg" aria-hidden="true"></span>
 							</a>
+							<!-- Modal -->
+							<div id="modalDeleteConfirm_${user.id}" class="modal fade" role="dialog">
+							  <div class="modal-dialog modal-sm">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							        <h4 class="modal-title">Modal Header</h4>
+							      </div>
+							      <div class="modal-body">
+							        <p>Deleting user with email:</p> <b>"${user.email}"</b>
+							      </div>
+							      <div class="modal-footer">
+							      <a class="btn btn-danger btn-default" aria-hidden="true"
+							         href= "${deleteUser}">Delete</a>
+							      <button type="button" class="btn btn-success btn-default" data-dismiss="modal" aria-hidden="true" >Cancel</button>
+							      </div>
+							    </div><!-- /.modal-content -->
+							
+							  </div><!-- /.modal-dialog -->
+							</div>
+							<!-- End modal -->
 					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="errorTxt text-center" >
-		<c:if test="${empty users}"><strong><spring:message code = "crsms.admin.search.notfound"/></strong></c:if>
+	<div class="text-center" >
+		<c:if test="${empty users}">
+			<div class="alert alert-danger">
+	 		 <strong><spring:message code = "crsms.admin.search.notfound"/></strong>
+			</div>
+		</c:if>
 	</div>
-	<c:url var="createUser" value="adduser" />
-	<a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/signUp" data-toggle="tooltip"
-				title="<spring:message code="crsms.admin.createNew" />">
-				<spring:message	code="crsms.admin.createNew" />
-	</a>
+	
 <!-- Paging block -->
 <div class="paginationlogic">
 	<ul class="pagination">
@@ -256,22 +284,6 @@
 				</li>			
 			</c:forEach>
 			<c:choose>
-			<c:when test="${page == lastpage}">
-				<li class="disabled">
-					<a	href="<c:url value="#"/>"	
-						data-toggle="tooltip"
-						title="<spring:message code="crsms.paginationlogic.tooltip.next" />"> 
-						<spring:message	code="crsms.paginationlogic.navigation.next" />
-					</a>
-				</li>
-				<li class="disabled">
-					<a href="<c:url value="#"/>" 
-						data-toggle="tooltip"
-						title="<spring:message code="crsms.paginationlogic.tooltip.last" />"> 
-						<spring:message	code="crsms.paginationlogic.navigation.last" />
-					</a>
-				</li>
-			</c:when>		
 			<c:when test="${page < lastpage}">
 				<li>
 					<a	href="<c:url value="/admin?page=${page + 1}&sortparam=${sessionScope['sortparam']}
@@ -290,6 +302,22 @@
 					</a>
 				</li>
 			</c:when>
+			<c:otherwise>
+			<li class="disabled">
+					<a	href="<c:url value="#"/>"	
+						data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.next" />"> 
+						<spring:message	code="crsms.paginationlogic.navigation.next" />
+					</a>
+				</li>
+				<li class="disabled">
+					<a href="<c:url value="#"/>" 
+						data-toggle="tooltip"
+						title="<spring:message code="crsms.paginationlogic.tooltip.last" />"> 
+						<spring:message	code="crsms.paginationlogic.navigation.last" />
+					</a>
+				</li>
+			</c:otherwise>
 		</c:choose>
 	</ul>
 </div>
@@ -346,9 +374,13 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<div class="errorTxt text-center" >
-		<c:if test="${empty usersToApprove}"><strong><spring:message code = "crsms.admin.search.notfound"/></strong></c:if>
-		</div>
+	<div class="text-center" >
+		<c:if test="${empty usersToApprove}">
+			<div class="alert alert-danger">
+	 		 <strong><spring:message code = "crsms.admin.search.notfound"/></strong>
+			</div>
+		</c:if>
+	</div>
 	</div>
 	<!-- history request pane -->
 	<div role="tabpanel"class="tab-pane fade" id="history-request-pane">
@@ -395,7 +427,13 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<c:if test="${empty requests}"><strong><spring:message code = "crsms.admin.search.notfound"/></strong></c:if>
+		<div class="text-center" >
+		<c:if test="${empty requests}">
+			<div class="alert alert-danger">
+	 		 <strong><spring:message code = "crsms.admin.search.notfound"/></strong>
+			</div>
+		</c:if>
+	</div>
 	</div>
 </div>
 	

@@ -84,7 +84,7 @@ public class TeacherRequestServiceImpl extends BaseServiceImpl<TeacherRequest> i
 	
 	private TeacherRequest changeApprovedStatus(TeacherRequest request, boolean status) {
 		request.setApproved(status);
-//		request.setReviewdDate(DateTime.now());
+		request.setReviewdDate(DateTime.now());
 		
 		teacherRequestDao.update(request);
 		

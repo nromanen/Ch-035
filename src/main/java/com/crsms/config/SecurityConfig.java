@@ -13,6 +13,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -47,30 +48,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Override
+    public void configure(WebSecurity web) throws Exception {
+         web
+           		.ignoring()
+           		.antMatchers("/resources/**");
+    }
+	
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	  http
-		  .authorizeRequests()
-				  	.antMatchers("/signUp", "/signin", "/courses").permitAll()
-				  	.antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
-				  	.and()
-	  		.formLogin().loginPage("/signin")
-				  	.usernameParameter("email")
-				  	.passwordParameter("password")
-				  	.successHandler(customHandler)			  	
-				  	.and().csrf()
-				  	.and()
-			.logout().logoutSuccessUrl("/signin?signout")
-				  	.invalidateHttpSession(true)
-				  	.and()
-				  	.exceptionHandling().accessDeniedPage("/403")
-				  	.and()
-			.rememberMe().rememberMeParameter("remember-me")
-				  	.tokenRepository(persistentTokenRepository())
-				  	.tokenValiditySeconds(VALIDITYTIME)
-				  	.and()
-		  	.sessionManagement()
-		  			.invalidSessionUrl("/signin")
-		  			.maximumSessions(1);
+		 http
+			  .authorizeRequests()
+					  	.antMatchers("/signUp", "/signin", "/courses").permitAll()
+					  	.antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
+					  	.and()
+		  		.formLogin()
+		  				.loginPage("/signin")
+					  	.usernameParameter("email")
+					  	.passwordParameter("password")
+					  	.successHandler(customHandler)			  	
+					  	.and().csrf()
+					  	.and()
+				.logout()
+						.logoutSuccessUrl("/signin?signout")
+					  	.invalidateHttpSession(true)
+					  	.and()
+				.exceptionHandling()
+					  	.accessDeniedPage("/403")
+					  	.and()
+				.rememberMe()
+						.rememberMeParameter("remember-me")
+					  	.tokenRepository(persistentTokenRepository())
+					  	.tokenValiditySeconds(VALIDITYTIME)
+					  	.and()
+			  	.sessionManagement()
+			  			.invalidSessionUrl("/signin")
+			  			.maximumSessions(1);
 	}
 	
 	@Bean
