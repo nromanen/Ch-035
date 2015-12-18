@@ -1,7 +1,6 @@
 package com.crsms.dao;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -66,28 +65,24 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 	@SuppressWarnings(value = "unchecked")
 	public List<E> getAll() {
 		String hql = "FROM " + this.entityClass.getSimpleName() + " ORDER BY id";
-		List<E> list = new ArrayList<E>();
 		try {
-			list = (List<E>) sessionFactory.getCurrentSession().createQuery(hql).list();
+			return (List<E>) sessionFactory.getCurrentSession().createQuery(hql).list();
 		} catch (Exception e) {
 			logger.error("Error in getAll(): " + this.entityClass.getSimpleName() + " : " + e);
 			throw e;
 		}
-		return list;
 	}
 
 	
 	@Override
 	@SuppressWarnings(value = "unchecked")
 	public E getById(Long id) {
-		E entity = null;
 		try {
-			entity = (E) sessionFactory.getCurrentSession().get(this.entityClass, id);
+			return (E) sessionFactory.getCurrentSession().get(this.entityClass, id);
 		} catch (Exception e) {
 			logger.error("Error in get " + this.entityClass.getSimpleName() + " by id: " + e);
 			throw e;
 		}
-		return entity;
 	}
 
 	@Override

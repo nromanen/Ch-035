@@ -14,17 +14,16 @@ $(document).ready(function() {
 		
 		$('#btn-enroll').click(function() {
 			var groupId = $('#select-group').val();
-			location.href = '/crsms/courses/' + courseId + '/groups/' + groupId + '/enroll';
+			location.href = '/crsms/groups/' + groupId + '/enroll';
 		})
 	})
 	
 	$('#unsubscribeModal').on('show.bs.modal', function(e) {
 		var button = $(e.relatedTarget);
-		var courseId = button.data('course-id');
 		var groupId = button.data('group-id');
 		
 		$('#btn-leave').click(function() {
-			location.href = '/crsms/courses/' + courseId + '/groups/' + groupId + '/leave';
+			location.href = '/crsms/groups/' + groupId + '/leave';
 		})
 	})
 })
