@@ -1,14 +1,20 @@
 package com.crsms.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 /**
  * 
@@ -18,7 +24,19 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "resource")
+@NamedQueries({
+	@NamedQuery(name = Resource.GET_ALL_BY_MODULE_ID, 
+				query = "select mr from Module m join m.resources mr where m.id = :moduleId"),
+				
+	@NamedQuery(name = Resource.GET_ALL_NOT_ASSOCIATED_WITH_MODULE, 
+				query = "select distinct r from Resource r left join r.modules rm where r.id not in "
+						+ "(select mr.id from Module m join m.resources mr where m.id = :moduleId)"
+						+ "order by r.id"),
+})
 public class Resource {
+	
+	public static final String GET_ALL_BY_MODULE_ID = "Resource.getAllByModuleId";
+	public static final String GET_ALL_NOT_ASSOCIATED_WITH_MODULE = "Resource.getAllNotAssociatedWithModule";
 	
 	public static final int NAME_MIN = 1;
 	public static final int NAME_MAX = 100;
@@ -44,6 +62,9 @@ public class Resource {
 	
 	@Column(name="storage_type", nullable = false)
 	private Resource.StorageType storageType;
+	
+	@ManyToMany(mappedBy="resources")
+	private List<Module> modules;
 	
 	// implicitly static
 	public enum Type {

@@ -72,6 +72,7 @@ footer {
     padding: 2px 8px;
     display: none;
 }
+
 /*GENERAL tags & classes*/
 .inline-block {
 	display: inline-block;
@@ -82,6 +83,33 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+/* sticker alert*/
+#sticker-alert-container {
+	position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+}
+#sticker-alert-container .alert {
+	display: inline-block;
+	text-align: left;
+	max-width: 80%;
+}
+/* END sticker alert */
+
+/* spinner */
+.loading-spinner-container {
+	text-align: center;
+	margin: 10px 0;
+}
+.loading-spinner.fa-spin {
+	font-size: 100px;
+}
+/* END spinner*/
+
 /*unit-dashboard*/
 .unit-dashboard {
 	text-align: center;
@@ -102,6 +130,7 @@ footer {
 	}
 }
 /*end unit-dashboard*/
+
 /*END GENERAL classes*/
 
 /*GENERAL style*/

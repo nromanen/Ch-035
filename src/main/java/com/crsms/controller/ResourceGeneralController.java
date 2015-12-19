@@ -3,6 +3,7 @@ package com.crsms.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,13 @@ import com.crsms.validator.MultipartFileValidator;
  */
 
 @Controller
-public class ResourceController {
+public class ResourceGeneralController {
 	
-	private static final String MODULE_CONTEXT_RESOURCE_PATH 
-		= "/courses/{courseId}/modules/{moduleId}/resources";
+	private static final String PRIVATE_MODULE_CONTEXT_RESOURCE_PATH 
+		= "/private/courses/{courseId}/modules/{moduleId}/resources";
+	private static final String PRIVATE_RESOURCE_PATH = "/private/resources";
 	private static final String RESOURCE_PATH = "/resources";
+	private static final String MODULE_PATH_NAME = "modules";
 	
 	@Autowired
 	private ResourceService resourceService;
@@ -81,15 +84,7 @@ public class ResourceController {
 		model.addAttribute("resourceTypeFile", Resource.Type.FILE);
 	}
 	
-	private Resource uploadRecivedFileAndPrepareResource(FileBucket fileBucket) throws IOException {	
-		Resource.StorageType storageType = fileService.getResourceStorageTypeOption();
-		return resourceService.prepareFileResource(
-				fileBucket.getFile().getOriginalFilename(),
-				fileService.uploadFile(fileBucket.getFile(), storageType), 
-				storageType);
-	}
-	
-	@RequestMapping(value = { RESOURCE_PATH + "/", RESOURCE_PATH + "/all" }, 
+	@RequestMapping(value = { PRIVATE_RESOURCE_PATH + "/", PRIVATE_RESOURCE_PATH + "/all" }, 
 			method = RequestMethod.GET)
 	public String showAllResources(Model model) {
 		List<Resource> resources = resourceService.getAll();
@@ -98,8 +93,8 @@ public class ResourceController {
 		return "resources";
 	}
 	
-	@RequestMapping(value = { MODULE_CONTEXT_RESOURCE_PATH + "/", 
-			MODULE_CONTEXT_RESOURCE_PATH + "/all" }, method = RequestMethod.GET)
+	@RequestMapping(value = { PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/", 
+			PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/all" }, method = RequestMethod.GET)
 	public String showAllModuleResources(@PathVariable() Long moduleId, Model model) {
 		List<Resource> resources = resourceService.getAllByModuleId(moduleId);
 		model.addAttribute("resources", resources);
@@ -107,43 +102,45 @@ public class ResourceController {
 		return "resources";
 	}
 	
-	@RequestMapping(value = {RESOURCE_PATH + "/add", 
-			MODULE_CONTEXT_RESOURCE_PATH + "/add"}, method = RequestMethod.GET)
-	public String showResourceForm(Model model) {
+	@RequestMapping(value = {PRIVATE_RESOURCE_PATH + "/add", 
+			PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/add"}, method = RequestMethod.GET)
+	public String showResourceForm(Model model, HttpServletRequest request) {
+		model.addAttribute("moduleContextPath", 
+				request.getRequestURL().indexOf(MODULE_PATH_NAME) > -1 ? true : false);
 		addAttributesToSaveResource(model);
 		return "addResource";
 	}
 	
-	@RequestMapping(value = {RESOURCE_PATH + "/addembedded"}, method = RequestMethod.POST)
+	@RequestMapping(value = {PRIVATE_RESOURCE_PATH + "/addembedded"}, method = RequestMethod.POST)
 	public String saveEmbeddedResource(Resource resource, Model model) {
 		resourceService.save(resource);
-		return "redirect:" + RESOURCE_PATH + "/all";
+		return "redirect:" + PRIVATE_RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/addembedded"}, method = RequestMethod.POST)
+	@RequestMapping(value = {PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/addembedded"}, method = RequestMethod.POST)
 	public String saveModuleEmbeddedResource(@PathVariable Long moduleId, Resource resource, Model model) {
 		moduleService.addResource(moduleId, resource);
-		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
+		return "redirect:" + PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = RESOURCE_PATH + "/uploadfile", method = RequestMethod.POST)
+	@RequestMapping(value = PRIVATE_RESOURCE_PATH + "/uploadfile", method = RequestMethod.POST)
 	public String saveFileResource(@Validated FileBucket fileBucket, 
 			BindingResult result, Model model) throws IOException {
 		if (result.hasErrors()) {
 			throw new IOException("FileValidationException");
         }
-		resourceService.save(uploadRecivedFileAndPrepareResource(fileBucket));		
-        return "redirect:" + RESOURCE_PATH + "/all";
+		resourceService.save(resourceService.uploadRecivedFileAndPrepareResource(fileBucket));		
+        return "redirect:" + PRIVATE_RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = MODULE_CONTEXT_RESOURCE_PATH + "/uploadfile", method = RequestMethod.POST)
+	@RequestMapping(value = PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/uploadfile", method = RequestMethod.POST)
     public String saveModuleFileResource(@PathVariable Long moduleId, 
     		@Validated FileBucket fileBucket, BindingResult result, Model model) throws IOException {
 		if (result.hasErrors()) {
 			throw new IOException("FileValidationException");
         }	
-        moduleService.addResource(moduleId, uploadRecivedFileAndPrepareResource(fileBucket));		
-		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
+        moduleService.addResource(moduleId, resourceService.uploadRecivedFileAndPrepareResource(fileBucket));		
+		return "redirect:" + PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/all";
     }
 	
 	@RequestMapping(value = RESOURCE_PATH + "/downloadfile", method = RequestMethod.GET)
@@ -153,28 +150,31 @@ public class ResourceController {
 		fileService.prepareFileAttachmentResponse(resource.getPath(), resource.getStorageType(), response);
     }
 	
-	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
+	@RequestMapping(value = {PRIVATE_RESOURCE_PATH + "/{id}/edit", PRIVATE_RESOURCE_PATH + "/{id}"}, 
+			method = RequestMethod.POST)
 	public String editResource(@PathVariable Long id, Resource resource, Model model) {
 		resourceService.update(resource);
-		return "redirect:" + RESOURCE_PATH + "/all";
+		return "redirect:" + PRIVATE_RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
+	@RequestMapping(value = {PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit", 
+			PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/{id}"}, 
+			method = RequestMethod.POST)
 	public String editModuleResource(@PathVariable Long id, Resource resource, Model model) {
 		resourceService.update(resource);
-		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
+		return "redirect:" + PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = {RESOURCE_PATH + "/{id}/delete"}, method = RequestMethod.GET)
+	@RequestMapping(value = {PRIVATE_RESOURCE_PATH + "/{id}/delete"}, method = RequestMethod.GET)
 	public String deleteResource(@PathVariable Long id, Model model) {
 		model.addAttribute("errorPermission", true);
-		return "redirect:" + RESOURCE_PATH + "/all";
+		return "redirect:" + PRIVATE_RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/delete"}, method = RequestMethod.GET)
+	@RequestMapping(value = {PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/{id}/delete"}, method = RequestMethod.GET)
 	public String deleteModuleResource(@PathVariable Long id, @PathVariable Long moduleId, Model model) {
 		resourceService.delete(id, moduleId);
-		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
+		return "redirect:" + PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/all";
 	}
 	
 }

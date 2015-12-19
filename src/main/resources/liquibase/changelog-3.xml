@@ -45,4 +45,13 @@
     <changeSet author="stefankiv" id="1446992667519-168">
         <sqlFile path="src/main/resources/liquibase/populateDB7.sql"/>
     </changeSet>
+    
+    <changeSet author="valeriimotresku" id="1446992667519-169">
+    	<renameColumn oldColumnName="module_id" tableName="module_resource" newColumnName="modules_id" />
+    </changeSet>
+    
+    <changeSet author="valeriimotresku" id="1446992667519-170">
+	    <addPrimaryKey columnNames="modules_id, resources_id" tableName="module_resource"/>
+	</changeSet>
+    
 </databaseChangeLog>

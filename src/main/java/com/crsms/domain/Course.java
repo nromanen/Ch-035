@@ -66,6 +66,12 @@ import javax.validation.constraints.Size;
 					 + " join g.course c join g.users u where u.email = :email"),
 	@NamedQuery(name = Course.GET_ALL_PUBLISHED,
 				query = "from Course where published = true"),
+	@NamedQuery(name = Course.GET_ALL_ASSOCIATED_WITH_RESOURCE,
+				query = "select distinct c from Course c join c.modules cm "
+						+ "join cm.resources cmr where cmr.id = :resource_id"),
+	@NamedQuery(name = Course.GET_ALL_COURSE_MODULE_NAMES_PAIRS_ASSOCIATED_WITH_RESOURCE,
+				query = "select new com.crsms.dto.CourseModuleNamesPairDto(c.name, cm.name) from Course c join c.modules cm "
+						+ "join cm.resources cmr where cmr.id = :resource_id"),
 	@NamedQuery(name = Course.GET_BY_AREA_ID,
 				query = "from Course where area_id = :id order by id asc")
 })
@@ -81,6 +87,9 @@ public class Course {
 	public static final String GET_STUDENT_COURSES_AND_GROUPS_IDS = 
 												"course.getStudentCoursesAndGroupsIds";
 	public static final String GET_ALL_PUBLISHED = "course.getAllPublished";
+	public static final String GET_ALL_ASSOCIATED_WITH_RESOURCE = "course.getAllAssociatedWithResource";
+	public static final String GET_ALL_COURSE_MODULE_NAMES_PAIRS_ASSOCIATED_WITH_RESOURCE = 
+			"course.getAllCourseModuleNamesPairsAssociatedWithResource";
 	public static final String GET_BY_AREA_ID = "course.getByAreaId";
 	
 	public static final int MAX_NAME_LENGTH = 255;

@@ -1,11 +1,13 @@
 package com.crsms.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
 
 /**
@@ -28,5 +30,10 @@ public interface ResourceService extends BaseService<Resource> {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	Resource prepareFileResource(String name, String path, Resource.StorageType storageType);
+	
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
+	Resource uploadRecivedFileAndPrepareResource(FileBucket fileBucket) throws IOException;
+
+	List<Resource> getAllNotAssociatedWithModule(Long moduleId);
 	
 }

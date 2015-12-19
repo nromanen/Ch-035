@@ -65,5 +65,12 @@ public class ModuleDaoImpl extends BaseDaoImpl<Module> implements ModuleDao {
 		return (Module) sessionFactory.getCurrentSession().getNamedQuery(Module.GET_BY_TEST)
 				.setParameter("id", testId).uniqueResult();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Module> getAllAssociatedWithResource(Long resourceId) {
+		return (List<Module>) sessionFactory.getCurrentSession().getNamedQuery(Module.GET_ALL_ASSOCIATED_WITH_RESOURCE)
+				.setParameter("resource_id", resourceId).list();
+	}
 
 }

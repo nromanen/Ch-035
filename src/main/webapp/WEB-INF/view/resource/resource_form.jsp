@@ -5,6 +5,29 @@
 
 <tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
+<c:url var = "baseLink" value = "/" />
+
+<script type="text/javascript">
+	var crsmsGlobalResourceFormHelper = {
+		baseLink: "${baseLink}",
+		crsfToken: "${_csrf.token}",
+		springLocalizationMsgs: {
+			addExisting: "<spring:message code = "crsms.resource.text.existing.add" />",
+			success: "<spring:message code = "crsms.text.success" />",
+			error: "<spring:message code = "crsms.text.error" />",
+			successAdd: "<spring:message code = "crsms.resource.msg.success.add" />",
+			errorAdd: "<spring:message code = "crsms.resource.msg.error.add" />",
+			showAssociated: "<spring:message code = "crsms.resource.text.show.associated" />",
+			noResults: "<spring:message code = "crsms.text.no.results" />",
+			course: "<spring:message code = "crsms.text.course" />",
+			module: "<spring:message code = "crsms.text.module" />",
+			noResultsForAssociated: "<spring:message code = "crsms.resource.text.associated.no.results" />"
+		},
+	}
+</script>
+
+<div id="sticker-alert-container"></div>
+
 <c:choose>
   <c:when test="${not empty param.success}">
     <div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -20,18 +43,27 @@
   </c:when>
 </c:choose>
 
-<div>
+<div id="resources-forms">
 
   <!-- Nav tabs -->
-  <ul class="nav nav-pills" role="tablist">
+  <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active">
     	<a href="#tab-type-embedded" aria-controls="tab-type-embedded" role="tab" data-toggle="tab">
     		<spring:message code = "crsms.resource.text.embedded" />
     	</a>
     </li>
-    <li role="presentation"><a href="#tab-type-file" aria-controls="tab-type-file" role="tab" data-toggle="tab">
-    	<spring:message code = "crsms.resource.text.file" /></a>
+    <li role="presentation">
+    	<a href="#tab-type-file" aria-controls="tab-type-file" role="tab" data-toggle="tab">
+    		<spring:message code = "crsms.resource.text.file" />
+    	</a>
     </li>
+    <c:if test="${moduleContextPath}">
+    <li role="presentation">
+    	<a href="#tab-existing-resources" aria-controls="tab-existing-resources" role="tab" data-toggle="tab">
+    		<spring:message code = "crsms.resource.text.existing" />
+    	</a>
+    </li>
+    </c:if>
   </ul>
 
   <!-- Tab panes -->
@@ -93,9 +125,44 @@
 			</div>	
 		</form:form>
     </div>
+    
+    <c:if test="${moduleContextPath}">
+    <div role="tabpanel" class="tab-pane fade" id="tab-existing-resources">
+   		<table class = "table table-bordered table-hover">
+			<thead>
+				<tr class = "active">
+					<th class="text-center"><spring:message code = "crsms.text.name" /></th>
+					<th class="text-center"><spring:message code = "crsms.resource.text.type" /></th>
+					<th class="text-center"><spring:message code = "crsms.text.controls" /></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+    </div>
+    </c:if>
+    
   </div>
 
 </div>
+
+<!-- Modal edit -->
+<div class="modal fade" id="modal-resource-associated" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><spring:message code = "crsms.resource.text.associated" /></h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="modal-body-title"></h4>
+        <ul id="resource-associated-ul"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 
