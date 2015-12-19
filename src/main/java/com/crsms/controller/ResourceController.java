@@ -3,6 +3,7 @@ package com.crsms.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,9 @@ import com.crsms.validator.MultipartFileValidator;
 public class ResourceController {
 	
 	private static final String MODULE_CONTEXT_RESOURCE_PATH 
-		= "/courses/{courseId}/modules/{moduleId}/resources";
-	private static final String RESOURCE_PATH = "/resources";
+		= "/private/courses/{courseId}/modules/{moduleId}/resources";
+	private static final String RESOURCE_PATH = "/private/resources";
+	private static final String MODULE_PATH_NAME = "modules";
 	
 	@Autowired
 	private ResourceService resourceService;
@@ -101,7 +103,9 @@ public class ResourceController {
 	
 	@RequestMapping(value = {RESOURCE_PATH + "/add", 
 			MODULE_CONTEXT_RESOURCE_PATH + "/add"}, method = RequestMethod.GET)
-	public String showResourceForm(Model model) {
+	public String showResourceForm(Model model, HttpServletRequest request) {
+		model.addAttribute("moduleContextPath", 
+				request.getRequestURL().indexOf(MODULE_PATH_NAME) > -1 ? true : false);
 		addAttributesToSaveResource(model);
 		return "addResource";
 	}
@@ -145,13 +149,15 @@ public class ResourceController {
 		fileService.prepareFileAttachmentResponse(resource.getPath(), resource.getStorageType(), response);
     }
 	
-	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
+	@RequestMapping(value = {RESOURCE_PATH + "/{id}/edit", RESOURCE_PATH + "/{id}"}, 
+			method = RequestMethod.POST)
 	public String editResource(@PathVariable Long id, Resource resource, Model model) {
 		resourceService.update(resource);
 		return "redirect:" + RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit"}, method = RequestMethod.POST)
+	@RequestMapping(value = {MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit", MODULE_CONTEXT_RESOURCE_PATH + "/{id}"}, 
+			method = RequestMethod.POST)
 	public String editModuleResource(@PathVariable Long id, Resource resource, Model model) {
 		resourceService.update(resource);
 		return "redirect:" + MODULE_CONTEXT_RESOURCE_PATH + "/all";
