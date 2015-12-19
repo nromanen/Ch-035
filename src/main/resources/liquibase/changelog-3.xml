@@ -29,13 +29,29 @@
     <changeSet author="yuliia" id="1446992667519-164">
     	<createSequence sequenceName="teacher_request_id_seq"/>
     </changeSet>
+	
+	<changeSet author="stefankiv" id="1446992667519-165">
+        <modifyDataType columnName="description" newDataType="text" tableName="course"/>
+    </changeSet>
     
-    <changeSet author="valeriimotresku" id="1446992667519-165">
+    <changeSet author="stefankiv" id="1446992667519-166">
+        <modifyDataType columnName="description" newDataType="text" tableName="module"/>
+    </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-167">
+        <sqlFile path="src/main/resources/liquibase/populateDB6.sql"/>
+    </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-168">
+        <sqlFile path="src/main/resources/liquibase/populateDB7.sql"/>
+    </changeSet>
+    
+    <changeSet author="valeriimotresku" id="1446992667519-169">
     	<renameColumn oldColumnName="module_id" tableName="module_resource" newColumnName="modules_id" />
     </changeSet>
     
-    <changeSet author="valeriimotresku" id="1446992667519-166">
+    <changeSet author="valeriimotresku" id="1446992667519-170">
 	    <addPrimaryKey columnNames="modules_id, resources_id" tableName="module_resource"/>
 	</changeSet>
-
+    
 </databaseChangeLog>

@@ -17,8 +17,6 @@ import com.crsms.dto.CourseModuleNamesPairDto;
 
 public interface CourseDao extends BaseDao<Course> {
 	
-	Course get(String name);
-	
 	Course getByTest(Test test);
 	Course getByTest(Long testId);
 	
@@ -31,8 +29,6 @@ public interface CourseDao extends BaseDao<Course> {
 	
 	List<Course> getAllByAreaId(Long areaId);
 	
-	List<Course> getAllByUserId(Long userId);
-
 	List<Course> getAllByUserEmail(String email);
 	
 	List<Course> getAllByOwnerEmail(String email);

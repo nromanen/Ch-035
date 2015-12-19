@@ -27,8 +27,8 @@ import com.crsms.validator.ModuleJsonValidator;
  */
 
 @Controller
-@RequestMapping(value = {"/courses/{courseId}/modules"})
-public class ModuleController {
+@RequestMapping(value = {"/private/courses/{courseId}/modules"})
+public class PrivateModuleController {
 	
 	private static final String MODULES_VIEW = "modules";
 	private static final String ADD_MODULE_VIEW = "createmodule";
@@ -46,7 +46,7 @@ public class ModuleController {
 	@Autowired
 	private ModuleJsonValidator validator;
 	
-	@InitBinder
+	@InitBinder("moduleJsonDto")
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(validator);
     }
@@ -80,7 +80,7 @@ public class ModuleController {
 		return redirect(courseId);
 	}	
 	
-	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/{moduleId}"}, method = RequestMethod.GET)
 	public String editModule(@PathVariable Long courseId, 
 							@PathVariable Long moduleId, Model model) {
 		
@@ -93,7 +93,7 @@ public class ModuleController {
 		return EDIT_MODULE_VIEW;
 	}
 	
-	@RequestMapping(value = {"/{moduleId}/edit"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/{moduleId}"}, method = RequestMethod.POST)
 	public String editModuleSubmit(@PathVariable Long courseId, @PathVariable Long moduleId, 
 								@Validated ModuleJsonDto moduleJsonDto, BindingResult result) {
 		if (result.hasErrors()) {
@@ -118,7 +118,7 @@ public class ModuleController {
 	 * @return String path, like: "redirect:/courses/_courseId_here_/modules"
 	 */
 	private String redirect(Long courseId) {
-		return "redirect:/courses/" + courseId + "/modules/";
+		return "redirect:/private/courses/" + courseId + "/modules/";
 	}
 
 }

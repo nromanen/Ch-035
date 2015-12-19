@@ -13,7 +13,7 @@ import com.crsms.dto.CourseJsonDto;
 import com.crsms.service.CourseService;
 
 @Component
-public class CourseJsonValidator implements Validator {
+public class CourseFormValidator implements Validator {
 	
 	@Autowired
 	private CourseService courseService;
@@ -28,7 +28,6 @@ public class CourseJsonValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "crsms.error.name.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
 												"description", "crsms.error.description.required");
-		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "crsms.error.date.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
 												"duration", "crsms.error.duration.required");
 		

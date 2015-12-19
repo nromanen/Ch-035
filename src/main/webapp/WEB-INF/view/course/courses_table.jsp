@@ -2,19 +2,6 @@
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<div class = "container">
-	<div id = "navigation" class = "pull-left">
-		<ul class="nav nav-pills">
-		  <li role="presentation" class = "${param.show == 'all' || empty param.show ? 'active' : '' }">
-			  <a href="?show=all"><spring:message code = "crsms.courses.text.all" /></a>
-		  </li>
-		  <li role="presentation" class = "${param.show == 'my' ? 'active' : '' }">
-		  	<a href="?show=my"><spring:message code = "crsms.courses.text.my" /></a>
-		  </li>
-		</ul>
-	</div>
-</div>
-
 <div id = "courses-table-wrapper" class = "container">
 	<table class="table table-bordered table-hover">
 		<thead>
@@ -84,7 +71,7 @@
 									</button>
 								</c:otherwise>
 							</c:choose>
-							<a href="${course.id}/edit"
+							<a href="${course.id}"
 								class="btn btn-primary btn-sm"
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.edit" />"
@@ -108,7 +95,7 @@
 
 <div class = "container">
 	<c:url var="createModule" value="add" />
-	<a class="btn btn-primary" href="${createModule}"><spring:message code="crsms.courses.button.create" /></a>
+	<a class="btn btn-primary" id="add" href="${createModule}"><spring:message code="crsms.courses.button.create" /></a>
 </div>
 
 <!-- Publish modal -->

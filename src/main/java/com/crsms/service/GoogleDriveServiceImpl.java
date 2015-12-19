@@ -1,22 +1,5 @@
 package com.crsms.service;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.InputStreamContent;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.ParentReference;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -29,6 +12,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.InputStreamContent;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.ParentReference;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     private static final String SERVICE_ACCOUNT_KEY_PATH = "/google_service_account_key.json";
     
     /** Path to drive.properties */
-    private static final String DRIVE_PROPERTIES_PATH = "/google_drive.properties";
+    private static final String DRIVE_PROPERTIES_PATH = "/properties/google_drive.properties";
     
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
@@ -131,7 +131,8 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
      * @throws IOException
      */
     public GoogleCredential getServiceAccountCredential() throws IOException {
-    	return GoogleCredential.fromStream(GoogleDriveServiceImpl.class.getResourceAsStream(SERVICE_ACCOUNT_KEY_PATH))
+    	return GoogleCredential.fromStream(GoogleDriveServiceImpl.class
+    			.getResourceAsStream(SERVICE_ACCOUNT_KEY_PATH))
     			.createScoped(SCOPES);
     }
 
@@ -157,7 +158,8 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     	File fileMetadata = new File()
     			.setParents(Arrays.asList(DRIVE_GLOBAL_PARENT_REFERENCE))
     			.setTitle(multipartFile.getOriginalFilename());
-		File responseFile = driveAPIClientService.files().insert(fileMetadata, mediaContent).execute(); 
+		File responseFile = driveAPIClientService.files()
+				.insert(fileMetadata, mediaContent).execute(); 
 		logger.info("successfully uploaded file to Google Drive. id:" + responseFile.getId() 
 				+ ", title:" + responseFile.getTitle());
 		return responseFile;

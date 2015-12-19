@@ -50,11 +50,6 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	}
 
 	@Override
-	public Course get(String name) {
-		return courseDao.get(name);
-	}
-	
-	@Override
 	public void deleteById(Long courseId) {
 		this.delete(this.getById(courseId));
 	}
@@ -73,11 +68,6 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	@Override
 	public List<Course> getAllByAreaId(Long areaId) {
 		return courseDao.getAllByAreaId(areaId);
-	}
-	
-	@Override
-	public List<Course> getAllByUserId(Long userId) {
-		return courseDao.getAllByUserId(userId);
 	}
 	
 	@Override

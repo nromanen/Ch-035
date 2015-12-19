@@ -34,12 +34,27 @@
 								<form:errors path="password" cssClass="label label-danger" />
 							</div>
 						</div>
-						<c:if test="${param.error != null}">
-                                <div class="alert alert-danger" role="alert">
-                                	 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                                    <spring:message code="crsms.signin.badcredentials" />
-                                </div>
-                            </c:if>
+			
+                         <c:if test="${not empty error}">
+	                         <div class="alert alert-danger" role="alert">
+	                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	                         <c:choose>
+		                         <c:when test="${error == credentialsException}">
+		                         	<spring:message code="crsms.signin.badcredentials" />
+		                         </c:when>
+		                         <c:when test="${error == lockedException}">
+		                         	<spring:message code="crsms.signin.lockedException" />
+		                         </c:when>
+		                         <c:when test="${error == disabledException}">
+		                         	<spring:message code="crsms.signin.disabledException" />
+		                         </c:when>
+		                         <c:otherwise>
+		                         	 ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+		                         </c:otherwise>
+	                         </c:choose>
+						     </div>
+						</c:if> 
+									
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<div class="checkbox">
@@ -52,10 +67,10 @@
 						</div>
 						<div class="form-group last">
 							<div class="col-sm-offset-3 col-sm-9">
-								<button type="submit" class="btn btn-primary btn-sm">
+								<button type="submit" id="submit" class="btn btn-primary btn-sm">
 									<spring:message code="crsms.button.signin" />
 								</button>
-								<button type="reset" class="btn btn-default btn-sm">
+								<button type="reset" id="reset" class="btn btn-default btn-sm">
 									<spring:message code="crsms.button.reset" />
 								</button>
 								<input type="hidden" name="${_csrf.parameterName}"
