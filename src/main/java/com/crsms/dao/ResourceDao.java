@@ -20,4 +20,5 @@ public interface ResourceDao extends BaseDao<Resource> {
 	List<Resource> getAllByModuleId(Long moduleId);
 
 	List<Resource> getAllNotAssociatedWithModule(Long moduleId);
+	
 }
