@@ -116,4 +116,11 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 		return groupDao.searchStudents(textToSearch);
 	}
 
+	@Override
+	public List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
+			String sortBy, String sortOrder, Integer page, Integer count) {
+		Integer offset = (page - 1) * count;
+		return groupDao.getStudentsFromGroupPaginated(groupId, sortBy, sortOrder, offset, count);
+	}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crsms.domain.Group;
 import com.crsms.dto.UserIdFNameLNameEmailDto;
@@ -15,7 +16,7 @@ import com.crsms.service.GroupService;
 
 @Controller
 @RequestMapping("/private/courses/{courseId}/groups/{groupId}/students")
-public class PrivateGroupStudentsControlles {
+public class PrivateGroupStudentsController {
 	public static final String STUDENTS_VIEW = "students";
 	public static final String ADD_STUDENTS_VIEW = "addstudents";
 	
@@ -23,9 +24,15 @@ public class PrivateGroupStudentsControlles {
 	private GroupService groupService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getStudents(@PathVariable Long groupId, Model model) {
+	public String getStudents(@PathVariable Long groupId,
+			@RequestParam(required = false, defaultValue = "firstName") String sortBy,
+			@RequestParam(required = false, defaultValue = "asc") String sortOrder,
+			@RequestParam(required = false, defaultValue = "0") Integer page,
+			@RequestParam(required = false, defaultValue = "5") Integer count,
+			Model model) {
 		Group group = groupService.getById(groupId);
-		List<UserIdFNameLNameEmailDto> students = groupService.getStudentsFromGroup(groupId);
+		List<UserIdFNameLNameEmailDto> students =
+				groupService.getStudentsFromGroupPaginated(groupId, sortBy, sortOrder, page, count);
 		model.addAttribute("headerTitle", group.getName());
 		model.addAttribute("pageTitle", group.getName());
 		model.addAttribute("students", students);

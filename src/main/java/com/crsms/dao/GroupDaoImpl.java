@@ -3,6 +3,11 @@ package com.crsms.dao;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Group;
@@ -77,6 +82,38 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 									  .list();
 		} catch (Exception e) {
 			getLogger().error("Error in search students: " + e);
+			throw e;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
+			String sortBy, String sortOrder, Integer offset, Integer count) {
+		try {
+			Criteria criteria = getSessionFactory()
+								.getCurrentSession()
+								.createCriteria(Group.class, "g")
+								.createAlias("g.users", "u")
+								.createAlias("u.userInfo", "ui")
+								.setProjection(Projections.projectionList()
+									.add(Projections.property("u.id"), "id")
+									.add(Projections.property("ui.firstName"), "firstName")
+									.add(Projections.property("ui.lastName"), "lastName")
+									.add(Projections.property("u.email"), "email"))
+								.add(Restrictions.eq("g.id", groupId))
+								.setFirstResult(offset)
+								.setMaxResults(count)
+								.setResultTransformer(
+										Transformers.aliasToBean(UserIdFNameLNameEmailDto.class));
+			if (sortBy != null && sortOrder != null && sortOrder.equals("desc")) {
+				criteria.addOrder(Order.desc(sortBy));
+			} else {
+				criteria.addOrder(Order.asc(sortBy));
+			}
+			return criteria.list();
+		} catch (Exception e) {
+			getLogger().error("Error in get students from group paginated " + e);
 			throw e;
 		}
 	}

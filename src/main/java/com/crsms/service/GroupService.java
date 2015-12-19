@@ -49,4 +49,7 @@ public interface GroupService extends BaseService<Group> {
 	List<String> selectAlreadySubscribedUsers(Long courseId, Set<String> emails);
 
 	List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch);
+	
+	List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
+			String sortBy, String sortOrder, Integer page, Integer count);
 }
