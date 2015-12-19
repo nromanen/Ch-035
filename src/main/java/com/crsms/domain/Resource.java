@@ -29,9 +29,9 @@ import org.hibernate.annotations.NamedQuery;
 				query = "select mr from Module m join m.resources mr where m.id = :moduleId"),
 				
 	@NamedQuery(name = Resource.GET_ALL_NOT_ASSOCIATED_WITH_MODULE, 
-				query = "select distinct r from Resource r left join r.modules rm where r.id not in "
-						+ "(select mr.id from Module m join m.resources mr where m.id = :moduleId)"
-						+ "order by r.id"),
+				query = "select r from Resource r where r.id not in"
+						+ " (select mr.id from Module m join m.resources mr where m.id = :moduleId)"
+						+ " order by r.id"),
 })
 public class Resource {
 	
