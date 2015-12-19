@@ -45,4 +45,8 @@
     <changeSet author="stefankiv" id="1446992667519-168">
         <sqlFile path="src/main/resources/liquibase/populateDB7.sql"/>
     </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-169">
+		<sql>UPDATE user_roles SET role_id = 2 WHERE role_id IN (4, 5)</sql>
+    </changeSet>
 </databaseChangeLog>
