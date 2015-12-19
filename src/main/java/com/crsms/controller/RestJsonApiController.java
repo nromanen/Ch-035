@@ -142,7 +142,8 @@ public class RestJsonApiController {
 	
 	@RequestMapping(value = {"/resources/{resourceId}/associated"}, 
 			method = RequestMethod.GET)
-	public List<CourseModuleNamesPairDto> getAllCoursesAssociatedWithResource(@PathVariable Long resourceId) {
+	public List<CourseModuleNamesPairDto> 
+				getAllCourseModuleNamesPairsAssociatedWithResource(@PathVariable Long resourceId) {
 		return courseService.getAllCourseModuleNamesPairsAssociatedWithResource(resourceId);
 }
 	
