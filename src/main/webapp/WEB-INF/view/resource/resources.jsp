@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form"  prefix="form"%>
 
-<c:url var = "editResourceLink" value = "${resource.id}/edit" />
+<c:url var = "editResourceLink" value = "${resource.id}" />
 <c:url var = "linkBase" value = "/" />
 <c:url var = "addResourceLink" value = "add" />
 

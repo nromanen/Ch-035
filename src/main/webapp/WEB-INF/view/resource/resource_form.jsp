@@ -57,11 +57,13 @@
     		<spring:message code = "crsms.resource.text.file" />
     	</a>
     </li>
+    <c:if test="${moduleContextPath}">
     <li role="presentation">
     	<a href="#tab-existing-resources" aria-controls="tab-existing-resources" role="tab" data-toggle="tab">
     		<spring:message code = "crsms.resource.text.existing" />
     	</a>
     </li>
+    </c:if>
   </ul>
 
   <!-- Tab panes -->
@@ -124,6 +126,7 @@
 		</form:form>
     </div>
     
+    <c:if test="${moduleContextPath}">
     <div role="tabpanel" class="tab-pane fade" id="tab-existing-resources">
    		<table class = "table table-bordered table-hover">
 			<thead>
@@ -136,6 +139,7 @@
 			<tbody></tbody>
 		</table>
     </div>
+    </c:if>
     
   </div>
 
