@@ -2,10 +2,6 @@
 	width: 9%;
 }
 
-.number-cell {
-	width: 4%;
-}
-
 #add-students-btn {
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -13,4 +9,8 @@
 
 #table-wrapper {
 	min-height: 275px;
+}
+
+.fl-name {
+	width: 25%;
 }
