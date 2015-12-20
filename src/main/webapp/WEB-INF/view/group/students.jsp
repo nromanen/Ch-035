@@ -11,9 +11,18 @@
 	<table class = "table table-bordered table-hover">
 		<thead>
 			<tr class = "active">
-				<th class = "text-center"><spring:message code = "crsms.userProfile.fName"/></th>
-				<th class = "text-center"><spring:message code = "crsms.userProfile.lName"/></th>
-				<th class = "text-center"><spring:message code = "crsms.userProfile.email"/></th>
+				<th class = "text-center fl-name">
+					<c:set var="fName"><spring:message code = "crsms.userProfile.fName"/></c:set>
+					<crsms:sort text="${fName}" sortBy="firstName"/>
+				</th>
+				<th class = "text-center fl-name">
+					<c:set var="lName"><spring:message code = "crsms.userProfile.lName"/></c:set>
+					<crsms:sort text="${lName}" sortBy="lastName"/>
+				</th>
+				<th class = "text-center">
+					<c:set var="email"><spring:message code = "crsms.userProfile.email"/></c:set>
+					<crsms:sort text="${email}" sortBy="email"/>
+				</th>
 				<th class = "text-center management-cell"><spring:message code = "crsms.text.controls"/></th>
 			</tr>
 		</thead>

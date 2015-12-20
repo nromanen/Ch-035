@@ -23,5 +23,25 @@
 			<type>int</type>
 			<description>Items per page</description>
 		</attribute>
-	</tag>	
+	</tag>
+	
+	<tag>
+		<name>sort</name>
+		<tag-class>com.crsms.taglib.SortingTaglib</tag-class>
+		<body-content>empty</body-content>
+		
+		<attribute>
+			<name>text</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Output text</description>
+		</attribute>
+		
+		<attribute>
+			<name>sortBy</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Sorting field name</description>
+		</attribute>
+	</tag>
 </taglib>
