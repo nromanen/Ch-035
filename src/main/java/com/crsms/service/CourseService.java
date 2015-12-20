@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.crsms.domain.Course;
+import com.crsms.dto.CourseModuleNamesPairDto;
 
 /**
  * 
@@ -44,5 +45,10 @@ public interface CourseService extends BaseService<Course> {
 	void publish(Long courseId);
 	
 	List<Course> getAllPublished();
+
+	List<Course> getAllAssociatedWithResource(Long resourceId);
+
+	List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
+			Long resourceId);
 
 }

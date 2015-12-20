@@ -22,7 +22,6 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource> implements ResourceDa
 	
 	@Override
 	public void deleteById(Long id) {
-		
 		String hql = " DELETE Resource"   
 	               + " WHERE id = :resource_id";
 		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
@@ -31,25 +30,37 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource> implements ResourceDa
 			query.executeUpdate();
 		} catch (Exception e) {
 			logger.error("Error deleteById resource with id=" + id + ": " + e);
+			throw e;
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Resource> getAllByModuleId(Long moduleId) {
-		
-		List<Resource> results = null;
-
-		String hql = "select mr from Module m join m.resources mr where m.id = :moduleId";
-		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setParameter("moduleId", moduleId);
 		try {
-			results = (List<Resource>) query.list();
+			return (List<Resource>) getSessionFactory().getCurrentSession()
+					.getNamedQuery(Resource.GET_ALL_BY_MODULE_ID)
+					.setParameter("moduleId", moduleId)
+					.list();
 		} catch (Exception e) {
 			logger.error("Error getAll resources:" + e);
+			throw e;
 		}
-		return results;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Resource> getAllNotAssociatedWithModule(Long moduleId) {
+		try {
+			return (List<Resource>) getSessionFactory().getCurrentSession()
+					.getNamedQuery(Resource.GET_ALL_NOT_ASSOCIATED_WITH_MODULE)
+					.setParameter("moduleId", moduleId)
+					.list();
+		} catch (Exception e) {
+			logger.error("Error getAllNotAssociatedWithModule resources:" + e);
+			throw e;
+		}
 	}
 
 }

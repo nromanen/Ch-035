@@ -12,8 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.crsms.dao.TeacherRequestDao;
 import com.crsms.dao.UserDao;
 import com.crsms.domain.Role;
+import com.crsms.domain.TeacherRequest;
 import com.crsms.domain.User;
 
 @Service("userDetailsService")
@@ -22,6 +24,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserDao userDao;
 
+	@Autowired
+	private TeacherRequestDao requestDao;
+
 	@Transactional(readOnly = true)
 	@Override
 	public UserDetails loadUserByUsername(final String email)
@@ -29,12 +34,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 		com.crsms.domain.User user = userDao.getUserByEmail(email);
 		if (user == null) {
 			System.out.println("User not found");
-			System.out.println("User not found " + userDao.getUserByEmail(email));
+			System.out.println("User not found "
+					+ userDao.getUserByEmail(email));
 			throw new UsernameNotFoundException("E-mail not found");
 		}
 		return new org.springframework.security.core.userdetails.User(
-				user.getEmail(), user.getPassword(), user.getIsEnabled(), true, true, true,
-				getGrantedAuthorities(user));
+				user.getEmail(), user.getPassword(), user.getIsEnabled(), true,
+				true, isAccountLocked(email), getGrantedAuthorities(user));
+
 	}
 
 	private List<GrantedAuthority> getGrantedAuthorities(User user) {
@@ -42,5 +49,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 		Role role = user.getRole();
 		authorities.add(new SimpleGrantedAuthority(role.getName()));
 		return authorities;
+	}
+
+	private boolean isAccountLocked(String email) {
+		TeacherRequest request;
+		request = requestDao.getTeacherRequestByUserEmail(email);
+//		return (request.getApproved()) ? true : false;
+		return true;
 	}
 }
