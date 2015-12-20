@@ -49,10 +49,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 					 + " ui.firstName, ui.lastName, u.email)"
 					 + " from User u join u.userInfo ui join u.role r"
 					 + " where r.id = 2"
-					 + " and lower(u.email) like lower(:textToSearch)"
+					 + " and (lower(u.email) like lower(:textToSearch)"
 					 + " or lower(ui.firstName) like lower(:textToSearch)"
-					 + " or lower(ui.lastName) like lower(:textToSearch)"
-					 + " order by ui.lastName")
+					 + " or lower(ui.lastName) like lower(:textToSearch))"
+					 + " order by ui.firstName")
 })
 public class Group {
 	public static final String GET_ALL_BY_COURSE_ID = "group.getAllByCourseId";
