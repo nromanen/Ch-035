@@ -118,9 +118,14 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 
 	@Override
 	public List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
-			String sortBy, String sortOrder, Integer page, Integer count) {
-		Integer offset = (page - 1) * count;
-		return groupDao.getStudentsFromGroupPaginated(groupId, sortBy, sortOrder, offset, count);
+			String sortBy, String sortOrder, Integer page, Integer limit) {
+		Integer offset = (page - 1) * limit;
+		return groupDao.getStudentsFromGroupPaginated(groupId, sortBy, sortOrder, offset, limit);
+	}
+
+	@Override
+	public Long getStudentsCountFromGroup(Long groupId) {
+		return groupDao.getStudentsCountFromGroup(groupId);
 	}
 
 }

@@ -28,14 +28,15 @@ public class PrivateGroupStudentsController {
 			@RequestParam(required = false, defaultValue = "firstName") String sortBy,
 			@RequestParam(required = false, defaultValue = "asc") String sortOrder,
 			@RequestParam(required = false, defaultValue = "0") Integer page,
-			@RequestParam(required = false, defaultValue = "5") Integer count,
-			Model model) {
+			@RequestParam(required = false, defaultValue = "5") Integer limit, Model model) {
 		Group group = groupService.getById(groupId);
 		List<UserIdFNameLNameEmailDto> students =
-				groupService.getStudentsFromGroupPaginated(groupId, sortBy, sortOrder, page, count);
+				groupService.getStudentsFromGroupPaginated(groupId, sortBy, sortOrder, page, limit);
+		model.addAttribute("count", groupService.getStudentsCountFromGroup(groupId));
+		model.addAttribute("limit", limit);
+		model.addAttribute("students", students);
 		model.addAttribute("headerTitle", group.getName());
 		model.addAttribute("pageTitle", group.getName());
-		model.addAttribute("students", students);
 		return STUDENTS_VIEW;
 	}
 	

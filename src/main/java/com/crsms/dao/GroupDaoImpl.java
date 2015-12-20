@@ -89,7 +89,7 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
-			String sortBy, String sortOrder, Integer offset, Integer count) {
+			String sortBy, String sortOrder, Integer offset, Integer limit) {
 		try {
 			Criteria criteria = getSessionFactory()
 								.getCurrentSession()
@@ -103,15 +103,31 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 									.add(Projections.property("u.email"), "email"))
 								.add(Restrictions.eq("g.id", groupId))
 								.setFirstResult(offset)
-								.setMaxResults(count)
+								.setMaxResults(limit)
 								.setResultTransformer(
 										Transformers.aliasToBean(UserIdFNameLNameEmailDto.class));
-			if (sortBy != null && sortOrder != null && sortOrder.equals("desc")) {
+			if (sortBy != null && sortOrder.equals("desc")) {
 				criteria.addOrder(Order.desc(sortBy));
 			} else {
 				criteria.addOrder(Order.asc(sortBy));
 			}
 			return criteria.list();
+		} catch (Exception e) {
+			getLogger().error("Error in get students from group paginated " + e);
+			throw e;
+		}
+	}
+
+	@Override
+	public Long getStudentsCountFromGroup(Long groupId) {
+		try {
+			return (Long) getSessionFactory()
+							.getCurrentSession()
+							.createCriteria(Group.class, "g")
+							.createAlias("g.users", "u")
+							.setProjection(Projections.rowCount())
+							.add(Restrictions.eq("g.id", groupId))
+							.uniqueResult();
 		} catch (Exception e) {
 			getLogger().error("Error in get students from group paginated " + e);
 			throw e;

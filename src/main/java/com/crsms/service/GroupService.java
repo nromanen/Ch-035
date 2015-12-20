@@ -51,5 +51,7 @@ public interface GroupService extends BaseService<Group> {
 	List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch);
 	
 	List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
-			String sortBy, String sortOrder, Integer page, Integer count);
+			String sortBy, String sortOrder, Integer page, Integer limit);
+
+	Long getStudentsCountFromGroup(Long groupId);
 }

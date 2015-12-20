@@ -19,6 +19,8 @@ public interface GroupDao extends BaseDao<Group> {
 	List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch);
 	
 	List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
-			String sortBy, String sortOrder, Integer offset, Integer count);
+			String sortBy, String sortOrder, Integer offset, Integer limit);
 
+	Long getStudentsCountFromGroup(Long groupId);
+	
 }
