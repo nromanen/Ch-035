@@ -150,15 +150,14 @@ public class ResourceGeneralController {
 		fileService.prepareFileAttachmentResponse(resource.getPath(), resource.getStorageType(), response);
     }
 	
-	@RequestMapping(value = {PRIVATE_RESOURCE_PATH + "/{id}/edit", PRIVATE_RESOURCE_PATH + "/{id}"}, 
+	@RequestMapping(value = {PRIVATE_RESOURCE_PATH + "/{id}/edit"}, 
 			method = RequestMethod.POST)
 	public String editResource(@PathVariable Long id, Resource resource, Model model) {
 		resourceService.update(resource);
 		return "redirect:" + PRIVATE_RESOURCE_PATH + "/all";
 	}
 	
-	@RequestMapping(value = {PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit", 
-			PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/{id}"}, 
+	@RequestMapping(value = {PRIVATE_MODULE_CONTEXT_RESOURCE_PATH + "/{id}/edit"}, 
 			method = RequestMethod.POST)
 	public String editModuleResource(@PathVariable Long id, Resource resource, Model model) {
 		resourceService.update(resource);
