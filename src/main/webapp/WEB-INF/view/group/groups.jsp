@@ -23,7 +23,7 @@
 				<td class = "text-center">
 					<c:url var = "editGroup" value = "${group.id}/edit" />
 					<span data-toggle = "tooltip" title="<spring:message code="crsms.button.edit" />">
-						<a href = "${editGroup}" class = "btn btn-primary btn-sm">
+						<a href = "${group.id}" class = "btn btn-primary btn-sm">
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 						</a>
 					</span>
