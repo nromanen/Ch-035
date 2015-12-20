@@ -26,12 +26,12 @@ public class PrivateGroupStudentsController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getStudents(@PathVariable Long groupId,
 			@RequestParam(required = false, defaultValue = "firstName") String sortBy,
-			@RequestParam(required = false, defaultValue = "asc") String sortOrder,
+			@RequestParam(required = false, defaultValue = "asc") String order,
 			@RequestParam(required = false, defaultValue = "0") Integer page,
 			@RequestParam(required = false, defaultValue = "5") Integer limit, Model model) {
 		Group group = groupService.getById(groupId);
 		List<UserIdFNameLNameEmailDto> students =
-				groupService.getStudentsFromGroupPaginated(groupId, sortBy, sortOrder, page, limit);
+				groupService.getStudentsFromGroupPaginated(groupId, sortBy, order, page, limit);
 		model.addAttribute("count", groupService.getStudentsCountFromGroup(groupId));
 		model.addAttribute("limit", limit);
 		model.addAttribute("students", students);

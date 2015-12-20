@@ -89,7 +89,7 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
-			String sortBy, String sortOrder, Integer offset, Integer limit) {
+			String sortBy, String order, Integer offset, Integer limit) {
 		try {
 			Criteria criteria = getSessionFactory()
 								.getCurrentSession()
@@ -106,7 +106,7 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 								.setMaxResults(limit)
 								.setResultTransformer(
 										Transformers.aliasToBean(UserIdFNameLNameEmailDto.class));
-			if (sortBy != null && sortOrder.equals("desc")) {
+			if (sortBy != null && order.equals("desc")) {
 				criteria.addOrder(Order.desc(sortBy));
 			} else {
 				criteria.addOrder(Order.asc(sortBy));
