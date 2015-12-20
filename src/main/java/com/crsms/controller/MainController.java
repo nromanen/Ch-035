@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -77,12 +78,12 @@ public class MainController {
 		String error = "";
 		if (exception instanceof BadCredentialsException) {
 			error = "credentialsException";
-		} else if (exception instanceof LockedException) {
-			error = "lockedException";
 		} else if (exception instanceof DisabledException) {
 			error = "disabledException";
-		} else {
-			error = request.getSession().getAttribute(key).toString();
+		} else if (exception instanceof LockedException) {
+			error = "lockedException";
+		}  else {
+			error = exception.getMessage();
 		}
 		return error;
 	}

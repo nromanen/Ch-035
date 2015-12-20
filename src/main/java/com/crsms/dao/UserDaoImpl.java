@@ -12,6 +12,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.User;
@@ -107,7 +108,8 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()
 					.createCriteria(User.class, "user")
 					.createAlias("user.role", "role")
-					.createAlias("user.userInfo", "userInfo");
+					.createAlias("user.userInfo", "userInfo")
+					.createAlias("user.teacherRequest", "teacherRequest", JoinType.LEFT_OUTER_JOIN);
 			if (!keyWord.equals("")) {
 					 criteria.add(setDisjunction(keyWord));
 				}

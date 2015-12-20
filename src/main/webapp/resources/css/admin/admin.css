@@ -3,7 +3,7 @@ th {
 }
 
 .managementCell {
-	width: 10%;
+	width: 12%;
 	text-align: center;
 }
 
@@ -29,4 +29,9 @@ th {
 }
 .badge-warning:hover {
   background-color: #c67605;
+}
+
+.form-horizontal .control-label{
+/* text-align:right; */
+text-align:left;
 }

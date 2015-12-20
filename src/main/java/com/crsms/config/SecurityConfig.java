@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					  	.tokenValiditySeconds(VALIDITYTIME)
 					  	.and()
 			  	.sessionManagement()
-			  			.invalidSessionUrl("/signin")
+			  			.invalidSessionUrl("/signin?signout")
 			  			.maximumSessions(1);
 
 	}
