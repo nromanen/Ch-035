@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="/WEB-INF/taglib/PaginationTaglib.tld" prefix="pg" %>
+<%@ taglib uri="/WEB-INF/taglib/CrsmsTaglib.tld" prefix="crsms" %>
 
 <div>
 	<c:url var = "addStudents" value = "add" />
@@ -37,4 +37,4 @@
 	</table>
 </div>
 
-<pg:pagination count="${count}" limit="${limit}"/>
+<crsms:pagination count="${count}" limit="${limit}"/>
