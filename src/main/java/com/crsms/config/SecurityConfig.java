@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	private static final Integer VALIDITYTIME = 28800;	// 8 Hours
+	private static final Integer VALIDITY_TIME = 28800;	// 8 Hours
 
 	@Autowired
 	@Qualifier("userDetailsService")
@@ -47,41 +47,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     public void configure(WebSecurity web) throws Exception {
-         web
-           		.ignoring()
-           		.antMatchers("/resources/**");
+         web.ignoring().antMatchers("/resources/**");
     }
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		 http
-			  .authorizeRequests()
-					  	.antMatchers("/signUp", "/signin", "/courses").permitAll()
-					  	.antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
-					  	.and()
-		  		.formLogin()
-		  				.loginPage("/signin")
-					  	.usernameParameter("email")
-					  	.passwordParameter("password")
-					  	.successHandler(customHandler)			  	
-					  	.and().csrf()
-					  	.and()
-				.logout()
-						.logoutSuccessUrl("/signin?signout")
-					  	.invalidateHttpSession(true)
-					  	.and()
-				.exceptionHandling()
-					  	.accessDeniedPage("/403")
-					  	.and()
-				.rememberMe()
-						.rememberMeParameter("remember-me")
-					  	.tokenRepository(persistentTokenRepository())
-					  	.tokenValiditySeconds(VALIDITYTIME)
-					  	.and()
-			  	.sessionManagement()
-			  			.invalidSessionUrl("/signin")
-			  			.maximumSessions(1);
-
+			 .authorizeRequests()
+				 .antMatchers("/signUp", "/signin", "/courses").permitAll()
+				 .antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
+				 .antMatchers("/private/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')")
+				 .and()
+			 .formLogin()
+				 .loginPage("/signin")
+				 .usernameParameter("email")
+				 .passwordParameter("password")
+				 .successHandler(customHandler)			  	
+				 .and().csrf()
+				 .and()
+			 .logout()
+				 .logoutSuccessUrl("/signin?signout")
+				 .invalidateHttpSession(true)
+				 .and()
+			 .exceptionHandling()
+				 .accessDeniedPage("/403")
+				 .and()
+			 .rememberMe()
+				 .rememberMeParameter("remember-me")
+				 .tokenRepository(persistentTokenRepository())
+				 .tokenValiditySeconds(VALIDITY_TIME)
+				 .and()
+			 .sessionManagement()
+				 .invalidSessionUrl("/signin")
+				 .maximumSessions(1);
 	}
 	
 	@Bean
@@ -90,7 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	     authenticationProvider.setUserDetailsService(userDetailsService);
 	     authenticationProvider.setPasswordEncoder(passwordEncoder());
 	     return authenticationProvider;
-
 	}
 
 	@Bean
