@@ -42,7 +42,7 @@
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<c:set var = "moduleSave"><spring:message code = "crsms.button.save"/></c:set>
-			<input type = "submit" value = "${moduleSave}" class="btn btn-primary"/>
+			<input type = "submit" id = "save" value = "${moduleSave}" class="btn btn-primary"/>
 		</div>
 	</div>		
 </form:form>
