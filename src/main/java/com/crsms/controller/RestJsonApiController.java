@@ -22,12 +22,14 @@ import com.crsms.domain.Resource;
 import com.crsms.domain.Test;
 import com.crsms.dto.AreaJsonDto;
 import com.crsms.dto.CourseJsonDto;
+import com.crsms.dto.CourseModuleNamesPairDto;
 import com.crsms.dto.GroupNameJsonDto;
 import com.crsms.dto.ModuleJsonDto;
 import com.crsms.dto.ResourceJsonDto;
 import com.crsms.dto.TestJsonDto;
 import com.crsms.dto.UserIdFNameLNameEmailDto;
 import com.crsms.dto.VacancyJsonDto;
+import com.crsms.exception.RestAjaxInternalServerException;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
@@ -130,6 +132,21 @@ public class RestJsonApiController {
 		return true;
 	}	
 	
+	// resources REST
+	@RequestMapping(value = {"/resources/notAssociatedWith/modules/{moduleId}"}, 
+					method = RequestMethod.GET)
+	public List<ResourceJsonDto> getAllResourcesNotAssociatedWithModule(@PathVariable Long moduleId) {
+		return dtoService.convert(resourceService.getAllNotAssociatedWithModule(moduleId),
+									ResourceJsonDto.class, Resource.class);
+	}
+	
+	@RequestMapping(value = {"/resources/{resourceId}/associated"}, 
+			method = RequestMethod.GET)
+	public List<CourseModuleNamesPairDto> 
+				getAllCourseModuleNamesPairsAssociatedWithResource(@PathVariable Long resourceId) {
+		return courseService.getAllCourseModuleNamesPairsAssociatedWithResource(resourceId);
+}
+	
 	@RequestMapping(value = {"/modules/{moduleId}/resources", 
 							 "/courses/{courseId}/modules/{moduleId}/resources"}, 
 					method = RequestMethod.GET)
@@ -145,6 +162,19 @@ public class RestJsonApiController {
 		return dtoService.convert(resourceService.getById(resourceId),
 									ResourceJsonDto.class, Resource.class);
 	}
+	
+	@RequestMapping(value = {"/modules/{moduleId}/resources/addexisting/{resourceId}"}, 
+	 				method = RequestMethod.POST)
+	public void addExistingResourceToModule(@PathVariable Long moduleId, @PathVariable Long resourceId,
+											HttpServletResponse response) 
+													throws IOException, RestAjaxInternalServerException {
+		try {
+			moduleService.addExistingResource(moduleId, resourceService.getById(resourceId));
+		} catch (Exception e) {
+			throw new RestAjaxInternalServerException(e.getMessage(), e);
+		}
+	}
+	// END resources REST
 	
 	@RequestMapping(value = {"/vacancies"}, method = RequestMethod.GET)
 	public List<VacancyJsonDto> getVacancies() throws IOException {

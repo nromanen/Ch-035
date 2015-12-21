@@ -12,3 +12,7 @@
 	color: red;
 	margin-right: 15px;
 }
+
+.clickable {
+	cursor: pointer;
+}

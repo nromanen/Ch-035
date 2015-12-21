@@ -3,8 +3,8 @@ th {
 }
 
 .managementCell {
-	width: 10%;
-	text-align: center
+	width: 12%;
+	text-align: center;
 }
 
 .nameCell {
@@ -15,4 +15,23 @@ th {
 	font-weight: bold;
 	color: red;
 	margin-right: 15px;
+}
+
+.badge-info {
+  background-color: #3a87ad;
+}
+.badge-info:hover {
+  background-color: #2d6987;
+}
+
+.badge-warning {
+  background-color: #f89406;
+}
+.badge-warning:hover {
+  background-color: #c67605;
+}
+
+.form-horizontal .control-label{
+/* text-align:right; */
+text-align:left;
 }

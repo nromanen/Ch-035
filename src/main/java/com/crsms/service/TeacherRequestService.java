@@ -1,18 +1,32 @@
 package com.crsms.service;
 
+import java.util.List;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.crsms.domain.TeacherRequest;
 import com.crsms.domain.User;
 
+@Transactional
 public interface TeacherRequestService extends BaseService<TeacherRequest> {
 	
-	public TeacherRequest createRequest(User user);
+	TeacherRequest createRequest(User user);
 	
-	public TeacherRequest approve(TeacherRequest request);
+	TeacherRequest approve(TeacherRequest request);
 	
-	public TeacherRequest approve(Long requestId);
+	TeacherRequest approve(Long requestId);
 	
-	public TeacherRequest decline(TeacherRequest request);
+	TeacherRequest decline(TeacherRequest request);
 	
-	public TeacherRequest decline(Long requestId);
+	TeacherRequest decline(Long requestId);
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	Long getRequestsHistoryCount();
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	List<TeacherRequest> getRequestsHistory();
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	TeacherRequest setApprovedStatus(Long requestId, Boolean approve);
 
 }

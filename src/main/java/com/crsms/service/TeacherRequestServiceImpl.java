@@ -1,11 +1,16 @@
 package com.crsms.service;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.crsms.dao.RoleDao;
 import com.crsms.dao.TeacherRequestDao;
+import com.crsms.dao.UserDao;
+import com.crsms.domain.Role;
 import com.crsms.domain.TeacherRequest;
 import com.crsms.domain.User;
 
@@ -14,18 +19,25 @@ public class TeacherRequestServiceImpl extends BaseServiceImpl<TeacherRequest> i
 	
 	@Autowired
 	private TeacherRequestDao teacherRequestDao;
-
+	
+	@Autowired 
+	private UserDao userDao;
+	
+	@Autowired
+	private RoleDao roleDao;
+	
 	@Override
 	@Transactional
 	public TeacherRequest createRequest(User user) {
 		final  TeacherRequest request = new TeacherRequest();
-		
+
 		teacherRequestDao.save(request);
-		
 		request.setUser(user);
 		request.setRequestedDate(DateTime.now());
+		request.setApproved(false);
+		user.setRole(getTeacherRole());
 		teacherRequestDao.update(request);
-		
+		userDao.update(user);
 		return request;
 	}
 	
@@ -53,13 +65,36 @@ public class TeacherRequestServiceImpl extends BaseServiceImpl<TeacherRequest> i
 		return decline(getById(requestId));
 	}
 	
+	@Override
+	public Long getRequestsHistoryCount() {
+		return teacherRequestDao.getRequestsHistoryCount();
+	}
+
+	@Override
+	public List<TeacherRequest> getRequestsHistory() {
+		return teacherRequestDao.getRequestsHistory();
+	}
+	
+	@Override
+	public TeacherRequest setApprovedStatus(Long requestId, Boolean approve) {
+		if (approve)
+		return approve(getById(requestId));
+		return decline(getById(requestId));
+	}
+	
 	private TeacherRequest changeApprovedStatus(TeacherRequest request, boolean status) {
 		request.setApproved(status);
 		request.setReviewdDate(DateTime.now());
-		
 		teacherRequestDao.update(request);
-		
 		return request;
 	}
-
+	
+	private Role getTeacherRole() {
+		List<Role> roles = roleDao.getAllRoles();
+		for (Role role : roles) {
+			if (role.getName().equals("ROLE_TEACHER"))
+				return role;
+		}
+		return null;
+	}
 }

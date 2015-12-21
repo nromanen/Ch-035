@@ -29,6 +29,9 @@ public interface ModuleService extends BaseService<Module> {
 	void addResource(Long moduleId, Resource resource);
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
+	void addExistingResource(Long moduleId, Resource resource);
+	
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void removeResource(Long moduleId, Resource resource);
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
@@ -37,6 +40,9 @@ public interface ModuleService extends BaseService<Module> {
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void freeResource(Module module);
 
+
 	void initModuleViewDto(ModuleViewDto moduleViewDto, User user);
+
+	List<Module> getAllAssociatedWithResource(Long resourceId);
 
 }

@@ -51,4 +51,9 @@ public interface GroupService extends BaseService<Group> {
 	Boolean isSubscribedUser(Long courseId, String email);
 
 	List<UserIdFNameLNameEmailDto> searchStudents(String textToSearch);
+	
+	List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
+			String sortBy, String order, Integer page, Integer limit);
+
+	Long getStudentsCountFromGroup(Long groupId);
 }

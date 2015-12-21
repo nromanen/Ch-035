@@ -5,14 +5,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 /**
  * 
@@ -31,7 +37,12 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
-	public String loginPage() {
+	public String loginPage(@RequestParam (
+					value = "error", required = false) String error,  
+					HttpServletRequest request, ModelMap model) {
+		if (error != null) {
+			model.addAttribute("error", selectErrorException(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+		}
 		return "signin";
 	}
 
@@ -60,5 +71,20 @@ public class MainController {
 		model.setViewName("403");
 		return model;
 	}
-
+	
+	private String selectErrorException(HttpServletRequest request, String key){
+		Exception exception = 
+                   (Exception) request.getSession().getAttribute(key);
+		String error = "";
+		if (exception instanceof BadCredentialsException) {
+			error = "credentialsException";
+		} else if (exception instanceof DisabledException) {
+			error = "disabledException";
+		} else if (exception instanceof LockedException) {
+			error = "lockedException";
+		}  else {
+			error = exception.getMessage();
+		}
+		return error;
+	}
 }

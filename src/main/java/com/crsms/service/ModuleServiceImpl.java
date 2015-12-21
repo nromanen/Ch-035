@@ -66,7 +66,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	}
 
 	@Override
-	public void deleteById( Long moduleId) {
+	public void deleteById(Long moduleId) {
 		logger.info("in moduleService deleteById()");
 		logger.info("checking module id");
 		
@@ -107,12 +107,19 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	
 	@Override
 	public void addResource(Long moduleId, Resource resource) {
-		Module module = this.getById(moduleId);
+		Module module = getById(moduleId);
 		resourceService.save(resource);
 		module.addResource(resource);
-		this.update(module);
+		update(module);
 	}
 	
+	@Override
+	public void addExistingResource(Long moduleId, Resource resource) {
+		Module module = getById(moduleId);
+		module.addResource(resource);
+		update(module);
+	}
+
 	@Override
 	public void removeResource(Long moduleId, Resource resource) {
 		Module module = moduleDao.getById(moduleId);
@@ -154,7 +161,10 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		moduleViewDto.setScore(score);
 		moduleViewDto.setTotalScore(totalScore);
 		moduleViewDto.setPass(pass);
-		
+	}
+
+	public List<Module> getAllAssociatedWithResource(Long resourceId) {
+		return moduleDao.getAllAssociatedWithResource(resourceId);
 	}
 
 }

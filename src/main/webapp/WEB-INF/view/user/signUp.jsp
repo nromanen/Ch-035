@@ -42,7 +42,7 @@
 						</div>
 					</div>
 					<div class="col-md-4 col-md-offset-3">
-						<button type="submit" class="btn btn-default"> <spring:message code="crsms.signUp.submit" /> </button>
+						<button type="submit" id="create" class="btn btn-default"> <spring:message code="crsms.signUp.submit" /> </button>
 					</div>
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}" />
