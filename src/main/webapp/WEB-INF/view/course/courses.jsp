@@ -69,7 +69,7 @@
 							</c:when>
 							<c:otherwise>
 								<button type="button"
-										class="btn btn-default ${!course.open ? 'disabled' : ''}"
+										class="btn btn-default" ${!course.open ? 'disabled' : ''}
 										data-toggle="modal"
 										data-target="#subscribeModal"
 										data-course-id="${course.id}">

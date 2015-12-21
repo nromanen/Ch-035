@@ -47,16 +47,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     public void configure(WebSecurity web) throws Exception {
-         web.ignoring().antMatchers("/resources/**");
+         web.ignoring().antMatchers("/resources/**", "/webjars/**");
     }
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		 http
 			 .authorizeRequests()
-				 .antMatchers("/signUp", "/signin", "/courses").permitAll()
-				 .antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
+				 .antMatchers("/", "/signUp", "/signin", "/courses/**").permitAll()
 				 .antMatchers("/private/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')")
+				 .antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
+				 .anyRequest().authenticated()
 				 .and()
 			 .formLogin()
 				 .loginPage("/signin")
@@ -80,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			 .sessionManagement()
 				 .invalidSessionUrl("/signin")
 				 .maximumSessions(1);
+				 
 	}
 	
 	@Bean

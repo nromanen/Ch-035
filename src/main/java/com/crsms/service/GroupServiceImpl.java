@@ -117,6 +117,10 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	}
 
 	@Override
+	public Boolean isSubscribedUser(Long courseId, String email) {
+		return groupDao.isSubscribedUser(courseId, email);
+	}
+	
 	public List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
 			String sortBy, String order, Integer page, Integer limit) {
 		Integer offset = (page - 1) * limit;
