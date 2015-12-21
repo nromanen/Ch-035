@@ -107,6 +107,8 @@ public class ResourceGeneralController {
 	public String showResourceForm(Model model, HttpServletRequest request) {
 		model.addAttribute("moduleContextPath", 
 				request.getRequestURL().indexOf(MODULE_PATH_NAME) > -1 ? true : false);
+		model.addAttribute("count", 5);
+		model.addAttribute("limit", 5);
 		addAttributesToSaveResource(model);
 		return "addResource";
 	}

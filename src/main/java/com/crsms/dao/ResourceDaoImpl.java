@@ -5,8 +5,13 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.springframework.stereotype.Repository;
 
+import com.crsms.domain.Module;
 import com.crsms.domain.Resource;
 
 /**
@@ -54,9 +59,13 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource> implements ResourceDa
 	public List<Resource> getAllNotAssociatedWithModule(Long moduleId) {
 		try {
 			return (List<Resource>) getSessionFactory().getCurrentSession()
-					.getNamedQuery(Resource.GET_ALL_NOT_ASSOCIATED_WITH_MODULE)
-					.setParameter("moduleId", moduleId)
-					.list();
+					.createCriteria(Resource.class)
+						.add(Subqueries.propertyNotIn("id", 
+							DetachedCriteria.forClass(Module.class, "module")
+								.createAlias("module.resources", "moduleResources")
+								.add(Restrictions.idEq(moduleId))
+								.setProjection(Property.forName("moduleResources.id"))
+						)).list();
 		} catch (Exception e) {
 			logger.error("Error getAllNotAssociatedWithModule resources:" + e);
 			throw e;
