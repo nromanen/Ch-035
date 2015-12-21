@@ -82,21 +82,14 @@ public class CourseController {
 		return COURSES_VIEW;
 	}
 	
-//	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
-//	public String getCourse(@PathVariable Long courseId, Model model) {
-//		List<Invocable<Course>> initializers = new ArrayList<>();
-//		initializers.add(new CourseModulesDeepInitializer());
-//		Course course = courseService.getById(courseId, initializers);
-//		model.addAttribute("course", course);
-//		model.addAttribute("pageTitle", course.getName());
-//		model.addAttribute("headerTitle", course.getName());
-//		return COURSE_VIEW;
-//	}
-	
-	//@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN', 'STUDENT')")
 	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
 	public String getCourse(@PathVariable Long courseId, Principal principal, Model model) {
-		CourseViewDto course = courseService.getCourseViewDto(courseId, principal.getName());//TODO:for anonimus
+		CourseViewDto course;
+		if(principal != null) {
+			course = courseService.getCourseViewDto(courseId, principal.getName());
+		} else {
+			course = courseService.getCourseViewDto(courseId, null);
+		}
 		model.addAttribute("course", course);
 		model.addAttribute("pageTitle", course.getName());
 		model.addAttribute("headerTitle", course.getName());

@@ -119,7 +119,9 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	
 	@Override
 	public CourseViewDto getCourseViewDto(Long courseId, String email) {
-		User user = userService.getUserByEmail(email);
+		User user = null;
+		
+		if(email != null) user =userService.getUserByEmail(email);
 		
 		List<Invocable<Course>> initializers = new ArrayList<>();
 		initializers.add(new CourseModulesDeepInitializer());
@@ -131,7 +133,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	public CourseViewDto getCourseViewDto(Course course, User user) {
 		
 		CourseViewDto courseViewDto = dtoService.convert(course, CourseViewDto.class, Course.class);
-		
+		if(user == null) return courseViewDto;
 		boolean complete = true;
 		boolean pass = true;
 		double score = 0;

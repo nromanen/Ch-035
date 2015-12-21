@@ -78,7 +78,9 @@
 				
 			<c:forEach var="moduleTest" items="${module.tests}">
 			<div class="module-test">
-				<c:url var = "showTest" value = "${course.id}/modules/${module.id}/tests/${moduleTest.id}/show/1" />
+				<c:if test="${module.totalScore != null}">
+					<c:url var = "showTest" value = "${course.id}/modules/${module.id}/tests/${moduleTest.id}/show/1" />
+				</c:if>
 				<a class="btn btn-default" href = "${showTest}" >
 					<c:choose>	
 						<c:when test="${moduleTest.complete}">
