@@ -22,6 +22,7 @@
 				<td id = "${group.id}" class = "clickable">${group.name}</td>
 				<td class = "text-center">
 					<a href="${group.id}/students/" class = "btn btn-primary btn-sm">
+						<i class="fa fa-users"></i>
 						<spring:message code = "crsms.bc.students"/>
 					</a>
 				</td>
