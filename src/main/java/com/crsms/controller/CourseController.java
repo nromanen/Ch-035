@@ -1,7 +1,6 @@
 package com.crsms.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,14 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crsms.domain.Course;
-import com.crsms.dto.CourseJsonDto;
 import com.crsms.dto.CourseViewDto;
 import com.crsms.dto.CoursesViewDto;
-import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
-import com.crsms.service.DtoService;
-import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
-import com.crsms.util.Invocable;
 import com.crsms.util.StringUtil;
 
 /**

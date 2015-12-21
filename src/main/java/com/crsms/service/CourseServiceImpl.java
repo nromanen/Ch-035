@@ -184,7 +184,6 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		int failedCurses = 0;
 		double score = 0;
 		double maxScore = 0;
-		double progress = 0;
 		for(Course course: courses) {
 			initializer.invoke(course);
 			CourseViewDto courseViewDto = this.getCourseViewDto(course, user);
