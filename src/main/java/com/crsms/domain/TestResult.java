@@ -1,5 +1,6 @@
 package com.crsms.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -62,6 +63,12 @@ public class TestResult {
 	@Cascade({CascadeType.ALL})
     @JoinColumn(name = "user_id")
 	private User user;
+	
+	@Column(nullable = false)
+	private Double score;
+	
+	@Column
+	private Boolean pass;
 
 	public Long getId() {
 		return id;
@@ -95,4 +102,20 @@ public class TestResult {
 		this.user = user;
 	}
 
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
+	}
+
+	public Boolean getPass() {
+		return pass;
+	}
+
+	public void setPass(Boolean pass) {
+		this.pass = pass;
+	}
+	
 }

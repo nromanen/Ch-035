@@ -43,7 +43,9 @@
 					 	</a>
 					</li>
 			  	</c:forEach>
-			
+				<li>
+					<button id="finisButton" class="btn btn-default btn-primary"><spring:message code="crsms.test.text.tests.finish" /></button>
+				</li>
 			  </ul>
 			</nav>
 		</div>
@@ -64,11 +66,6 @@
 			</div>
 		</div>
 	</c:forEach>
-	<div class="form-group">
-		<div class="col-sm-offset-2 col-sm-10">
-			<button id="finisButton" class="btn btn-default btn-primary"><spring:message code="crsms.test.text.tests.finish" /></button>
-		</div>
-	</div>
 </form:form>
 
 <!-- finished modal window -->

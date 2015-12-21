@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <c:url var = "createModule" value = "add" />
-<a class = "btn btn-primary btn-create" href = "${createModule}"><spring:message code="crsms.modules.button.create"/></a>
+<a class = "btn btn-primary btn-create" id = "add" href = "${createModule}"><spring:message code="crsms.modules.button.create"/></a>
 
 <table class = "table table-bordered table-hover">
 	<thead>
@@ -57,4 +57,4 @@
 </table>
 
 <c:url var = "createModule" value = "add" />
-<a class = "btn btn-primary" href = "${createModule}"><spring:message code="crsms.modules.button.create"/></a>
+<a class = "btn btn-primary" id = "add" href = "${createModule}"><spring:message code="crsms.modules.button.create"/></a>

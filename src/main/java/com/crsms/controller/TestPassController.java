@@ -16,6 +16,7 @@ import com.crsms.domain.Test;
 import com.crsms.domain.TestResult;
 import com.crsms.dto.UserAnswerAndQuestionDto;
 import com.crsms.dto.UserAnswerFormDto;
+import com.crsms.service.GroupService;
 import com.crsms.service.QuestionService;
 import com.crsms.service.TestResultService;
 import com.crsms.service.TestService;
@@ -26,6 +27,7 @@ import com.crsms.service.UserAnswerService;
 public class TestPassController {
 	private static final String SHOW_TEST_PAGE = "show_test";
 	private static final String SHOW_TEST_RESULT_PAGE = "show_test_result";
+	private static final String PAGE_NOT_FOUND = "404";
 	
 	@Autowired
 	private TestService testService;
@@ -39,18 +41,20 @@ public class TestPassController {
 	@Autowired
 	private UserAnswerService userAnswerService;
 	
+	@Autowired
+	private GroupService groupService;
+	
 	@RequestMapping(value = "/{testId}/testresult/{testResultId}", method = RequestMethod.GET)
 	public String showTestResult(
 			@PathVariable("testResultId") Long testResultId, Model model, Principal principal
 	) {
 		TestResult testResult = testResultService.getById(testResultId, principal.getName());
-		Double testResaltScore = testResultService.getScore(testResult.getId());
 		
 		List<UserAnswerAndQuestionDto> userAnswerAndQuestionList 
 			= testResultService.getUserAnswerAndQuestionList(testResult.getId());
 		
 		model.addAttribute("userAnswerAndQuestionList", userAnswerAndQuestionList);
-		model.addAttribute("testResaltScore", testResaltScore);
+		model.addAttribute("testResaltScore", testResult.getScore());
 		return SHOW_TEST_RESULT_PAGE;
 	}
 	
@@ -61,8 +65,13 @@ public class TestPassController {
 			@PathVariable("questionIndex") Integer questionIndex, Model model, Principal principal
 	) {
 		//TODO: check: student subscribe on course
+		
 		Test test = testService.getById(testId);
 		Long questionCount = questionService.getCountQestionsByTest(testId);
+		
+		if(questionCount == 0 || !groupService.isSubscribedUser(courseId, principal.getName()))
+			return redirectToCourse(courseId);
+		
 		Question question = questionService.getByTestByIndex(testId, questionIndex - 1);
 		TestResult testResult = testResultService.getCurrent(testId, principal.getName());
 		
@@ -90,6 +99,9 @@ public class TestPassController {
 			@PathVariable("questionIndex") Integer questionIndex, 
 			UserAnswerFormDto userAnswerFormDto, Model model, Principal principal
 	) {
+		if(!groupService.isSubscribedUser(courseId, principal.getName()))
+			return redirectToCourse(courseId);
+		
 		testResultService.save(userAnswerFormDto, principal.getName());
 		
 		if(finished) {
@@ -111,5 +123,9 @@ public class TestPassController {
 	
 	private String redirectToTestResult(Long courseId, Long moduleId, Long testId, Long testResult) {
 		return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/" + testId + "/testresult/" + testResult;
+	}
+	
+	private String redirectToCourse(Long courseId) {
+		return "redirect:/courses/" + courseId;
 	}
 }

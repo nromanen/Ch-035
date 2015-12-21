@@ -9,7 +9,7 @@
 <div id="allUserAnswerAndQuestion">
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10" >
-			<h3>SCORE: <b><fmt:formatNumber type="number" maxFractionDigits="2" value="${testResaltScore}" /> </b> / 100</h3>
+			<h3><spring:message code="crsms.text.score" />: <b><fmt:formatNumber type="number" maxFractionDigits="2" value="${testResaltScore}" /> </b> / 100</h3>
 		</div>
 	</div>
 	<c:forEach var="userAnswerAndQuestion" items="${userAnswerAndQuestionList}" >
