@@ -56,7 +56,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 			user.setEmail(user.getEmail().toLowerCase());
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userDao.save(user);
-			teacherRequestService.createRequest(user);
 			UserInfo userInfo = new UserInfo();
 			userInfoService.save(userInfo);
 			userInfo.setUser(user);

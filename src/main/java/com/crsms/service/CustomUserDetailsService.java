@@ -32,15 +32,19 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String email)
 			throws UsernameNotFoundException {
 		com.crsms.domain.User user = userDao.getUserByEmail(email);
+		TeacherRequest request = requestDao.getTeacherRequestByUserEmail(email);
+		Boolean accountNonLocked = (request == null) ? true : request.getApproved();
 		if (user == null) {
 			System.out.println("User not found");
 			System.out.println("User not found "
 					+ userDao.getUserByEmail(email));
 			throw new UsernameNotFoundException("E-mail not found");
+			
 		}
+
 		return new org.springframework.security.core.userdetails.User(
 				user.getEmail(), user.getPassword(), user.getIsEnabled(), true,
-				true, isAccountLocked(email), getGrantedAuthorities(user));
+				true, accountNonLocked, getGrantedAuthorities(user));
 
 	}
 
@@ -49,12 +53,5 @@ public class CustomUserDetailsService implements UserDetailsService {
 		Role role = user.getRole();
 		authorities.add(new SimpleGrantedAuthority(role.getName()));
 		return authorities;
-	}
-
-	private boolean isAccountLocked(String email) {
-		TeacherRequest request;
-		request = requestDao.getTeacherRequestByUserEmail(email);
-//		return (request.getApproved()) ? true : false;
-		return true;
 	}
 }

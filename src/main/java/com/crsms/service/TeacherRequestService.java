@@ -27,6 +27,6 @@ public interface TeacherRequestService extends BaseService<TeacherRequest> {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	List<TeacherRequest> getRequestsHistory();
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	TeacherRequest setApprovedRequest(Long requestId, Boolean approve);
+	TeacherRequest setApprovedStatus(Long requestId, Boolean approve);
 
 }

@@ -140,7 +140,7 @@ public class AdminController {
 	@RequestMapping(value = "request/{requestId}/edit", method = RequestMethod.POST)
 	public String updateRequest(@PathVariable long requestId, 
 			@RequestParam(value = "approve", required = false) boolean approve){
-		requestService.setApprovedRequest(requestId, approve);
+		requestService.setApprovedStatus(requestId, approve);
 		return "redirect:/admin/";
 	}
 

@@ -27,11 +27,10 @@ public interface UserService extends BaseService<User> {
 	
 	long getRowsCount(String keyWord);
 	
+	long getUsersToApproveCount();
+	
 	List<User> getPagingUsers(int offSet, int itemsPerPage,
 							String sortingField, String order, String keyWord);
 	
-	long getUsersToApproveCount();
-	
 	List<User> getUsersToApprove(Boolean teacherRequest);
-	
 }

@@ -76,7 +76,7 @@ public class TeacherRequestServiceImpl extends BaseServiceImpl<TeacherRequest> i
 	}
 	
 	@Override
-	public TeacherRequest setApprovedRequest(Long requestId, Boolean approve) {
+	public TeacherRequest setApprovedStatus(Long requestId, Boolean approve) {
 		if (approve)
 		return approve(getById(requestId));
 		return decline(getById(requestId));
@@ -85,9 +85,7 @@ public class TeacherRequestServiceImpl extends BaseServiceImpl<TeacherRequest> i
 	private TeacherRequest changeApprovedStatus(TeacherRequest request, boolean status) {
 		request.setApproved(status);
 		request.setReviewdDate(DateTime.now());
-		
 		teacherRequestDao.update(request);
-		
 		return request;
 	}
 	
