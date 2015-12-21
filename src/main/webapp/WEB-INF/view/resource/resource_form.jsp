@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="/WEB-INF/taglib/CrsmsTaglib.tld" prefix="crsms" %>
 
 <tiles:insertAttribute name="jquery-validation-messages"></tiles:insertAttribute>
 
@@ -138,6 +139,7 @@
 			</thead>
 			<tbody></tbody>
 		</table>
+		<crsms:pagination count="${count}" limit="${limit}"/>
     </div>
     </c:if>
     
