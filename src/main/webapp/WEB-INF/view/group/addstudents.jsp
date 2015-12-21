@@ -77,7 +77,7 @@
 		<h5><spring:message code = "crsms.groups.message.from.other.group"/></h5>
 		<select id = "groups" class = "form-control"></select>
 		
-		<select id = "students-from-other-group" class="form-control click-select-deselect" size = "9" multiple></select>
+		<select id = "students-from-other-group" class="form-control" size = "9" multiple></select>
 		
 		<div class = "half-block">
 			<button id = "select-all-btn" class = "btn btn-sm btn-default form-control">
@@ -110,7 +110,7 @@
 			</span>
 		</div>
 		
-		<select id = "students-from-search" class = "form-control click-select-deselect" size = "10" multiple></select>
+		<select id = "students-from-search" class = "form-control" size = "10" multiple></select>
 		
 		<button id="submit-search-btn" type="button" class="submit-btn btn btn-primary">
 			<spring:message code = "crsms.groups.button.submit"/>

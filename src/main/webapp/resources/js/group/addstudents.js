@@ -133,7 +133,7 @@ $(document).ready(function() {
 					studentsSelect.empty();
 					for (var i = 0; i < students.length; i++) {
 						var studentOptionHtml = '<option value = "' + students[i].id + '">'
-						+ students[i].lastName + ' ' + students[i].firstName + ' ' + students[i].email
+						+ students[i].firstName + ' ' + students[i].lastName + ' ' + students[i].email
 						+ '</option>';
 						studentsSelect.append(studentOptionHtml);
 					}
@@ -148,21 +148,6 @@ $(document).ready(function() {
 	/*
 	 * Common
 	 */
-	$('.click-select-deselect').mousedown(function(e) {
-		if (e.target.nodeName == 'SELECT') {
-			return false;
-		}
-	    var option = e.target;
-	    if (option.selected) {
-	    	option.removeAttribute('selected');
-	    	option.selected = false;
-	    } else {
-	    	option.setAttribute('selected', '');
-	    	option.selected = true;
-	    }
-	    e.preventDefault();
-	});
-	
 	function makeArrayAndSubmit(optionEmails) {
 		var emails = [];
 		$(optionEmails).each(function(i, studentEmail) {

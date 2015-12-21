@@ -19,5 +19,7 @@ public interface ModuleDao extends BaseDao<Module> {
 	
 	Module getByTest(Test test);
 	Module getByTest(Long testId);
+
+	List<Module> getAllAssociatedWithResource(Long resourceId);
 	
 }
