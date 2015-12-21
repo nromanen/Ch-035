@@ -1,6 +1,12 @@
 package com.crsms.controller;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crsms.domain.User;
 import com.crsms.domain.UserInfo;
+import com.crsms.service.EncryptService;
 import com.crsms.service.UserInfoService;
 import com.crsms.service.UserService;
 import com.crsms.service.MailService;
@@ -46,6 +53,10 @@ public class UserController {
 	@Autowired
 	private MailService mailService;
 	
+	@Autowired
+	private EncryptService encryptService;
+
+	
 	@InitBinder("userRegistr")
     private void initUserBinder(WebDataBinder binder) {
 		binder.setValidator(userValidator);
@@ -67,40 +78,38 @@ public class UserController {
 		return "inactiveProfile";
 	}
 
-	
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
 	public String submitUser(@Validated @ModelAttribute("userRegistr") User user,
-								BindingResult result, Principal principal, Model model, 
-								@RequestParam(value = "teacher", required = false, defaultValue = "false") boolean teacher) throws MessagingException {
+			BindingResult result, Principal principal, Model model,	@RequestParam(value = "teacher",
+			required = false, defaultValue = "false") boolean teacher)
+			throws MessagingException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException,
+			IllegalBlockSizeException, BadPaddingException {
 		if (result.hasErrors()) {
 			return "signUp";
 		}
-	
+
 		userService.saveUser(user, teacher);
 		mailService.sendConfirmation(user.getEmail(), user.getId());
 		
 		model.addAttribute(user);
 		
-		/*String currentUserEmail = (principal == null)? null: principal.getName();
-		
-		if(currentUserEmail!=null&&userService.getUserByEmail(currentUserEmail).getRole().getName().equals("ROLE_ADMIN")){
-			return "redirect:/admin/";
-		}
-		*/
 		String currentUserEmail = (principal == null)? null: principal.getName();
 		
-		if(currentUserEmail!=null&&(userService.getUserByEmail(currentUserEmail).getActivated()!=null)){
+		if(currentUserEmail!=null&&(userService.getUserByEmail(currentUserEmail).getIsEnabled())){
 			return "inactiveProfile";
 		}
 		
 		return "redirect:/inactiveProfile"; 
 	}
-	
-	@RequestMapping(value = "/user/id/activated", method = RequestMethod.GET)
-	public String activateUser(@PathVariable Long id,Model model) {
-		User user = userService.getById(id);
-		userService.activateUser(user);
 		
+	@RequestMapping(value = "/user/{encripted}/activated", method = RequestMethod.GET)
+	public String activateUser(Model model,  @PathVariable("encripted") String encripted) 
+			throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, 
+			IllegalBlockSizeException, BadPaddingException {
+		long id = encryptService.decrypt(encripted);
+		User user = userService.getById(id);		
+		userService.activateUser(user);
+
 		return "redirect:/signin";
 	}
 	

@@ -34,16 +34,7 @@
 								<form:errors path="password" cssClass="label label-danger" />
 							</div>
 						</div>
-<<<<<<< HEAD
-					${SPRING_SECURITY_LAST_EXCEPTION.message}
-						<c:if test="${param.error != null}">
-                                <div class="alert alert-danger" role="alert">
-                                	 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                                    <spring:message code="crsms.signin.badcredentials" />
-                                </div>
-                            </c:if>
-=======
-			
+	
                          <c:if test="${not empty error}">
 	                         <div class="alert alert-danger" role="alert">
 	                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -63,7 +54,7 @@
 	                         </c:choose>
 						     </div>
 						</c:if> 
->>>>>>> master
+
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<div class="checkbox">

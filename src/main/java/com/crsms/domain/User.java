@@ -75,18 +75,7 @@ public class User {
 	private TeacherRequest teacherRequest;
 	
 	@Column (nullable = false)
-	private Boolean isEnabled = true;
-	
-	@Column(name = "activated", nullable = false)
-	private Boolean activated = false;
-	
-	public Boolean getActivated() {
-		return activated;
-	}
-
-	public void setActivated(Boolean activated) {
-		this.activated = activated;
-	}
+	private Boolean isEnabled = false;
 
 	public Long getId() {
 		return id;

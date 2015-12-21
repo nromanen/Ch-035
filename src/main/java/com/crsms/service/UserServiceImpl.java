@@ -67,7 +67,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Override
 	@Transactional
 	public User saveUser(User user, boolean teacherRequest) {
-		this.saveUser(user);	
+		this.saveUser(user);
+		user.setIsEnabled(false);
 		user.setRole(this.studentRole);
 		this.update(user);
 		
@@ -102,7 +103,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	
 	@Override
 	public User activateUser(User user){
-		user.setActivated(true);
+		user.setIsEnabled(true);
 		this.update(user);
 		return user;
 	};

@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +21,7 @@ public class MailServiceImpl implements MailService {
 	private JavaMailSender mailSender;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private EncryptService encryptService;
 	
 	private final Logger logger = LogManager.getLogger(MailServiceImpl.class);
 	
@@ -71,22 +70,22 @@ public class MailServiceImpl implements MailService {
 		return message;
 	}
 
+
 	@Override
 	public void sendConfirmation(String recipientEmail, long id)
 			throws MessagingException {
 		String subject = "Confirm registration";
-//		String encId = passwordEncoder.encode(String.valueOf(id));
+		String encId = encryptService.encrypt(id);
 		String text = "<h3>Welcome to CrsMS  !</h3><br>"
 						+ "Thank you for registering! <br> Please click on the "
 						+ "confirmation link below<br>"
 						+ "<a href ="
-						+ "\"http://localhost:8080/crsms/user/"+id+"/activated\">"
-						+ "Click here</a>";
-			
+						+ "\"http://localhost:8080/crsms/user/"+encId+"/activated\">"
+						+ "Click here</a>";	
+		
 		sendHtmlEmail(recipientEmail, subject, text);
 		
 	}
-
 
 	private void sendMessage(final MimeMessage message, final String recipientEmail) {
 		executorService.submit(new Runnable() {
