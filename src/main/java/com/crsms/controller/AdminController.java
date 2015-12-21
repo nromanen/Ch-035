@@ -59,13 +59,11 @@ public class AdminController {
 		if (session.getAttribute("direction") == null) {
 			session.setAttribute("direction", direction);
 		}
-//		if (session.getAttribute("pagesize") == null) {
-//			session.setAttribute("pagesize", pageSize);
-//		}
+
 		int offSet = (page - 1) * itemsPerPage;
 		long rowsCount = userService.getRowsCount(keyWord);
 		long usersToApproveCount = userService.getUsersToApproveCount();
-		long teacherRequestsCount = requestService.getRequestsCount();
+		long teacherRequestsCount = requestService.getRequestsHistoryCount();
 		String order = (String) session.getAttribute("direction");
 		String sortingField = (String) session.getAttribute("sortparam");
 		int lastpage = (int) ((rowsCount / itemsPerPage));
@@ -73,10 +71,6 @@ public class AdminController {
 		if (rowsCount > (lastpage * itemsPerPage)) {
 			lastpage++;
 		}
-//		Integer itemsPerPage =  (Integer) session.getAttribute("pagesize");
-		
-//		if (itemsPerPage == 0);
-//		itemsPerPage = pageSize;
 		
 		if (session.getAttribute("direction") != null) {
 			order = direction;
@@ -94,7 +88,7 @@ public class AdminController {
 		List<User> users = userService.getPagingUsers(
 				offSet, itemsPerPage, sortingField, order, keyWord);
 
-		List<TeacherRequest> requests = requestService.getAll();
+		List<TeacherRequest> requests = requestService.getRequestsHistory();
 		List<User> usersToApprove = userService.getUsersToApprove(true);
 		
 		model.addAttribute("lastpage", lastpage);
@@ -137,19 +131,16 @@ public class AdminController {
 
 	@RequestMapping(value = { "request/{requestId}/edit" }, method = RequestMethod.GET)
 	public String editRequest(@PathVariable Long requestId, ModelMap model) {
-//		User user = requestService.getUserByRequestId(requestId);
-//		System.out.println("--------------------------"+user);
 		TeacherRequest request = requestService.getById(requestId);
 		System.out.println("--------------------------"+ request);
 		model.addAttribute("request", request);
-//		model.addAttribute("user", user);
 		return "request";
 	}
 	
 	@RequestMapping(value = "request/{requestId}/edit", method = RequestMethod.POST)
 	public String updateRequest(@PathVariable long requestId, 
-								@ModelAttribute TeacherRequest request) {
-		requestService.approve(requestId);
+			@RequestParam(value = "approve", required = false) boolean approve){
+		requestService.setApprovedStatus(requestId, approve);
 		return "redirect:/admin/";
 	}
 

@@ -48,9 +48,14 @@ $(document).ready(function() {
 		var groupSelect = $('#groups');
 		groupSelect.focus();
 		var url = '/crsms/api/groups/';
+		var path = $(location).attr('pathname');
+		var currentGroupId = /groups\/(\d+)\//.exec(path)[1];
 		
 		$.get(url, function(groups) {
 			for (var i = 0; i < groups.length; i++) {
+				if (groups[i].id == currentGroupId) {
+					continue;
+				}
 				var groupOptionHtml = '<option value="' + groups[i].id + '">' + groups[i].name + '</option>'
 				groupSelect.append(groupOptionHtml);
 			}
@@ -128,7 +133,7 @@ $(document).ready(function() {
 					studentsSelect.empty();
 					for (var i = 0; i < students.length; i++) {
 						var studentOptionHtml = '<option value = "' + students[i].id + '">'
-						+ students[i].lastName + ' ' + students[i].firstName + ' ' + students[i].email
+						+ students[i].firstName + ' ' + students[i].lastName + ' ' + students[i].email
 						+ '</option>';
 						studentsSelect.append(studentOptionHtml);
 					}
@@ -143,25 +148,10 @@ $(document).ready(function() {
 	/*
 	 * Common
 	 */
-	$('.click-select-deselect').mousedown(function(e) {
-		if (e.target.nodeName == 'SELECT') {
-			return false;
-		}
-	    var option = e.target;
-	    if (option.selected) {
-	    	option.removeAttribute('selected');
-	    	option.selected = false;
-	    } else {
-	    	option.setAttribute('selected', '');
-	    	option.selected = true;
-	    }
-	    e.preventDefault();
-	});
-	
 	function makeArrayAndSubmit(optionEmails) {
 		var emails = [];
 		$(optionEmails).each(function(i, studentEmail) {
-			emails.push($(studentEmail).text());
+			emails.push(/(\w+@\w+.\w+)/.exec($(studentEmail).text())[1]);
 		})
 		addToGroup(emails);
 	}

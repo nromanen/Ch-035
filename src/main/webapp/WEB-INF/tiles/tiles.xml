@@ -34,21 +34,6 @@
 	<!-- SS students, pay attention, that you must return from controller the 
 		name of definition not jsp page. But they could be the same, obviously. -->
 	
-	<!-- DEBUG TILES -->
-	<definition name="restapi" extends="base-template">
-		<put-attribute name="title" value="crsms.index.title" />
-		<put-attribute name="header-title" value="crsms.index.title" />
-		<put-attribute name="content" value="/WEB-INF/view/debug/restapi.jsp" />
-
-		<put-list-attribute name="javascripts" inherit="true">
-
-		</put-list-attribute>
-		<put-list-attribute name="stylesheets" inherit="true">
-
-		</put-list-attribute>
-	</definition>
-	<!-- END DEBUG -->
-	
 	<!-- INDEX -->
 	<definition name="index" extends="base-template">
 		<put-attribute name="title" value="crsms.index.title" />
@@ -309,22 +294,10 @@
 		</put-list-attribute>
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
-			<add-attribute value="/resources/js/resource/resourceForm.js" />
+			<add-attribute value="/resources/js/resource/resource_form.js" />
 		</put-list-attribute>
 	</definition>
 
-	<definition name="editResource" extends="base-template">
-		<put-attribute name="title" value="crsms.resource.text.resource.add" />
-		<put-attribute name="header-title" value="crsms.resource.text.resource.add" />
-		<put-attribute name="content"
-			value="/WEB-INF/view/resource/resource_form.jsp" />
-		<put-list-attribute name="stylesheets" inherit="true">
-
-		</put-list-attribute>
-		<put-list-attribute name="javascripts" inherit="true">
-
-		</put-list-attribute>
-	</definition>
 	<!-- end Resource -->
 
 	<!-- Test -->

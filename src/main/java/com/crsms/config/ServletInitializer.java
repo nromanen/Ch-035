@@ -19,18 +19,23 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.crsms.service.FileService;
 
-public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class ServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
-	private final Logger logger = LogManager.getLogger(WebInitializer.class);
+	private static final String DEFAULT_TEMP_LOCATION = "temp";
+	private static final Integer DEFAULT_MAX_FILE_SIZE = 5242880;
+	private static final Integer DEFAULT_MAX_REQUEST_SIZE = 20971520;
+	private static final Integer DEFAULT_FILE_SIZE_TRESHOLD = 0;
+	
+	private final Logger logger = LogManager.getLogger(ServletInitializer.class);
 	
 	// Temporary location where files will be stored.
-	private String tempLocation = "temp";
+	private String tempLocation;
 	// 5MB : Max file size.
-	private long maxFileSize = 5242880;
+	private long maxFileSize;
 	// 20MB : Total request size containing Multi part.
-	private long maxRequestSize = 20971520;
+	private long maxRequestSize;
 	// Size threshold after which files will be written to disk.
-	private int fileSizeTreshold = 0;
+	private int fileSizeTreshold;
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -39,7 +44,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] {WebConfig.class};
+		return new Class[] {ServletConfig.class};
 	}
 
 	@Override
@@ -56,13 +61,16 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	private MultipartConfigElement getMultipartConfigElement() {
         Properties props = new Properties();
         try {
-			props.load(WebInitializer.class.getResourceAsStream("/application.properties"));
+			props.load(ServletInitializer.class
+					.getResourceAsStream("/properties/multipart.properties"));
 			tempLocation = props.getProperty("multipart.temp.location");
 			maxFileSize = Long.parseLong(props.getProperty("multipart.max.file.size"));
 			maxRequestSize = Long.parseLong(props.getProperty("multipart.max.request.size"));
 			fileSizeTreshold = Integer.parseInt(props.getProperty("multipart.file.size.treshold"));
 		} catch (IOException e) {
-			logger.error("Could not load application.properies for MultipartConfigElement. Default values is being used");
+			setDefaultMultipartConfigProperties();
+			logger.error("Could not load application.properies for MultipartConfigElement."
+					+ " Default values is being used");
 		}
     	File tempDir = new File(FileService.RESOURCE_PATH + File.separator + tempLocation);
         if (!tempDir.exists()) {
@@ -73,6 +81,13 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     										maxRequestSize, fileSizeTreshold);
         return multipartConfigElement;
     }
+
+	private void setDefaultMultipartConfigProperties() {
+		tempLocation = DEFAULT_TEMP_LOCATION;
+		maxFileSize = DEFAULT_MAX_FILE_SIZE;
+		maxRequestSize = DEFAULT_MAX_REQUEST_SIZE;
+		fileSizeTreshold = DEFAULT_FILE_SIZE_TRESHOLD;
+	}
     
     @Override
     protected void registerDispatcherServlet(ServletContext servletContext) {

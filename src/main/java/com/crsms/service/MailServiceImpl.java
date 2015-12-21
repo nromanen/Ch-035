@@ -1,5 +1,8 @@
 package com.crsms.service;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -23,43 +26,23 @@ public class MailServiceImpl implements MailService {
 	
 	private final Logger logger = LogManager.getLogger(MailServiceImpl.class);
 	
+	private ExecutorService executorService = Executors.newFixedThreadPool(1);
+	
 	@Override
-	public void send(final String recipientEmail, String subject, String text, Boolean html)
+	public void send(String recipientEmail, String subject, String text, Boolean html)
 			throws MessagingException {
 		
-		final MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message);
-		try {
-			helper.setFrom(SENDER_EMAIL);
-			helper.setTo(recipientEmail);
-			helper.setSubject(subject);
-			helper.setText(text, html);
-			
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						logger.info("Sending email to " + recipientEmail);
-						mailSender.send(message);
-						logger.info("Email to " + recipientEmail + " has been successfully sent.");
-					} catch (Exception e) {
-						logger.error("Error in sending email. Reason: " + e);
-						throw e;
-					}
-				}
-			}).start();
-			
-		} catch (MessagingException e) {
-			logger.error("Error in setting email parameters. Reason: " + e);
-			throw e;
-		}
+		MimeMessage message = createMessage(recipientEmail, subject, text, html);
+		sendMessage(message, recipientEmail);
 	}
 	
+	@Override
 	public void sendSimpleEmail(String recipientEmail, String subject, String plainText)
 			throws MessagingException {
 		send(recipientEmail, subject, plainText, false);
 	}
 	
+	@Override
 	public void sendHtmlEmail(String recipientEmail, String subject, String htmlText)
 			throws MessagingException {
 		send(recipientEmail, subject, htmlText, true);
@@ -70,6 +53,22 @@ public class MailServiceImpl implements MailService {
 		String subject = "Invitation to the CrsMS!";
 		String text = "Welcome, dude!";
 		sendSimpleEmail(recipientEmail, subject, text);
+	}
+	
+	private MimeMessage createMessage(String recipientEmail, String subject, String text,
+			Boolean html) throws MessagingException {
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		try {
+			helper.setFrom(SENDER_EMAIL);
+			helper.setTo(recipientEmail);
+			helper.setSubject(subject);
+			helper.setText(text, html);
+		} catch (MessagingException e) {
+			logger.error("Error in setting email parameters. Reason: " + e);
+			throw e;
+		}
+		return message;
 	}
 
 	@Override
@@ -88,4 +87,20 @@ public class MailServiceImpl implements MailService {
 		
 	}
 
+
+	private void sendMessage(final MimeMessage message, final String recipientEmail) {
+		executorService.submit(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					logger.info("Sending email to " + recipientEmail);
+					mailSender.send(message);
+					logger.info("Email to " + recipientEmail + " has been successfully sent.");
+				} catch (Exception e) {
+					logger.error("Error in sending email. Reason: " + e);
+					throw e;
+				}
+			}
+		});
+	}
 }

@@ -7,10 +7,10 @@ public interface MailService {
 			throws MessagingException;
 	
 	void sendSimpleEmail(String recipientEmail, String subject, String text)
-				throws MessagingException;
+			throws MessagingException;
 	 
 	void sendHtmlEmail(String recipientEmail, String subject, String text)
-				throws MessagingException;
+			throws MessagingException;
 	
 	void sendInvitation(String recipientEmail) throws MessagingException;
 	

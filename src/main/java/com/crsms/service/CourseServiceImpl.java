@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crsms.dao.CourseDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
+import com.crsms.dto.CourseModuleNamesPairDto;
 
 /**
  * 
@@ -49,11 +50,6 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	}
 
 	@Override
-	public Course get(String name) {
-		return courseDao.get(name);
-	}
-	
-	@Override
 	public void deleteById(Long courseId) {
 		this.delete(this.getById(courseId));
 	}
@@ -72,11 +68,6 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	@Override
 	public List<Course> getAllByAreaId(Long areaId) {
 		return courseDao.getAllByAreaId(areaId);
-	}
-	
-	@Override
-	public List<Course> getAllByUserId(Long userId) {
-		return courseDao.getAllByUserId(userId);
 	}
 	
 	@Override
@@ -113,6 +104,17 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	@Override
 	public List<Course> getAllPublished() {
 		return courseDao.getAllPublished();
+	}
+
+	@Override
+	public List<Course> getAllAssociatedWithResource(Long resourceId) {
+		return courseDao.getAllAssociatedWithResource(resourceId);
+	}
+
+	@Override
+	public List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
+			Long resourceId) {
+		return courseDao.getAllCourseModuleNamesPairsAssociatedWithResource(resourceId);
 	}
 
 }

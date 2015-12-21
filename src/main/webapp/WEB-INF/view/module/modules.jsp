@@ -34,7 +34,7 @@
 					</a>
 				</td>
 				<td class = "managementCell text-center">
-					<c:url var = "editModule" value = "${module.id}/edit" />
+					<c:url var = "editModule" value = "${module.id}" />
 					<a href = "${editModule}" 
 						class = "btn btn-primary btn-sm"
 						data-toggle = "tooltip"
