@@ -10,6 +10,7 @@
 		<tr class = "active">
 			<th class = "hide"><spring:message code = "crsms.text.id"/></th>
 			<th class = "text-center"><spring:message code = "crsms.text.name"/></th>
+			<th class = "text-center management-cell"><spring:message code = "crsms.bc.students"/></th>
 			<th class = "text-center management-cell"><spring:message code = "crsms.groups.text.startDate"/></th>
 			<th class = "text-center management-cell"><spring:message code = "crsms.text.controls"/></th>
 		</tr>
@@ -19,7 +20,12 @@
 			<tr>
 				<th class = "hide">${group.id}</th>
 				<td id = "${group.id}" class = "clickable">${group.name}</td>
-				<td><joda:format pattern="dd.MM.yyyy" value="${group.startDate}"  /></td>
+				<td class = "text-center">
+					<a href="${group.id}/students/" class = "btn btn-primary btn-sm">
+						<spring:message code = "crsms.bc.students"/>
+					</a>
+				</td>
+				<td class = "text-center"><joda:format pattern="dd.MM.yyyy" value="${group.startDate}"  /></td>
 				<td class = "text-center">
 					<c:url var = "editGroup" value = "${group.id}/edit" />
 					<span data-toggle = "tooltip" title="<spring:message code="crsms.button.edit" />">
