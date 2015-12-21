@@ -87,10 +87,16 @@ public class UserController {
 			return "redirect:/admin/";
 		}
 		*/
+		String currentUserEmail = (principal == null)? null: principal.getName();
+		
+		if(currentUserEmail!=null&&(userService.getUserByEmail(currentUserEmail).getActivated()!=null)){
+			return "inactiveProfile";
+		}
+		
 		return "redirect:/inactiveProfile"; 
 	}
 	
-	@RequestMapping(value = "/user/{id}/activated", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/id/activated", method = RequestMethod.GET)
 	public String activateUser(@PathVariable Long id,Model model) {
 		User user = userService.getById(id);
 		userService.activateUser(user);

@@ -34,6 +34,7 @@
 								<form:errors path="password" cssClass="label label-danger" />
 							</div>
 						</div>
+					${SPRING_SECURITY_LAST_EXCEPTION.message}
 						<c:if test="${param.error != null}">
                                 <div class="alert alert-danger" role="alert">
                                 	 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
