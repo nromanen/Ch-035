@@ -36,6 +36,8 @@ public class ModuleViewDto {
 	private Double score;
 	
 	private Double totalScore;
+	
+	private Boolean pass;
 
 	public Long getId() {
 		return id;
@@ -123,6 +125,14 @@ public class ModuleViewDto {
 
 	public void setTotalScore(Double totalScore) {
 		this.totalScore = totalScore;
+	}
+
+	public Boolean getPass() {
+		return pass;
+	}
+
+	public void setPass(Boolean pass) {
+		this.pass = pass;
 	}
 	
 	

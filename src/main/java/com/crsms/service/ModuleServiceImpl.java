@@ -133,6 +133,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	@Override
 	public void initModuleViewDto(ModuleViewDto moduleViewDto, User user) {
 		boolean complete = true;
+		boolean pass = true;
 		double score = 0;
 		double totalScore = 0;
 		
@@ -140,8 +141,10 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 			testService.initTestViewDto(testViewDto, user);
 			if(testViewDto.getHasTestResult() && testViewDto.getComplete()) {
 				score += testViewDto.getScore();
+				if(!testViewDto.getPass()) pass = false;
 			} else {
 				complete = false;
+				pass = false;
 			}
 			
 			totalScore += 100;
@@ -150,6 +153,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		moduleViewDto.setComplete(complete);
 		moduleViewDto.setScore(score);
 		moduleViewDto.setTotalScore(totalScore);
+		moduleViewDto.setPass(pass);
 		
 	}
 

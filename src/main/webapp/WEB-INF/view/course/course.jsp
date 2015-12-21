@@ -29,7 +29,14 @@
 	<div class="course-module-grid container">
 		<h3 class="module-title">${module.name} 
 			<c:if test="${module.complete}">
-				<i class="fa fa-check text-success"></i>
+				<c:choose>
+					<c:when test="${module.pass}">
+						<i class="fa fa-lg fa-check text-success"></i> 
+					</c:when>
+					<c:otherwise>	
+						<i class="fa fa-lg fa-times text-danger" ></i>
+					</c:otherwise>
+	 			</c:choose>
 				<b>(<c:out value="${module.score}" />/<c:out value="${module.totalScore}" />)</b>
 	 		</c:if>
 		</h3>
@@ -75,7 +82,14 @@
 				<a class="btn btn-default" href = "${showTest}" >
 					<c:choose>	
 						<c:when test="${moduleTest.complete}">
-							<i class="fa fa-lg fa-check-square-o"></i> 
+							<c:choose>
+								<c:when test="${moduleTest.pass}">
+									<i class="fa fa-lg fa-check-square-o text-success"></i> 
+								</c:when>
+								<c:otherwise>	
+									<i class="fa fa-lg fa-times text-danger" ></i>
+								</c:otherwise>
+				 			</c:choose>
 				 		</c:when>
 				 		<c:otherwise>
 				 			<i class="fa fa-lg fa-square-o"></i> 

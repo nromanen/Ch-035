@@ -100,6 +100,7 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
 			testViewDto.setHasTestResult(true);
 			testViewDto.setScore(testResult.getScore());
 			testViewDto.setComplete(testResult.getComplete());
+			testViewDto.setPass(testResult.getPass());
 		} else {
 			testViewDto.setHasTestResult(false);
 		}

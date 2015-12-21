@@ -66,6 +66,9 @@ public class TestResult {
 	
 	@Column(nullable = false)
 	private Double score;
+	
+	@Column
+	private Boolean pass;
 
 	public Long getId() {
 		return id;
@@ -105,6 +108,14 @@ public class TestResult {
 
 	public void setScore(Double score) {
 		this.score = score;
+	}
+
+	public Boolean getPass() {
+		return pass;
+	}
+
+	public void setPass(Boolean pass) {
+		this.pass = pass;
 	}
 	
 }

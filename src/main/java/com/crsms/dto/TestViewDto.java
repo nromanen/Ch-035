@@ -26,6 +26,8 @@ public class TestViewDto {
 	
 	private Boolean complete;
 	
+	private Boolean pass;
+	
 	private Boolean hasTestResult;
 	
 	public Long getId() {
@@ -77,5 +79,11 @@ public class TestViewDto {
 		this.hasTestResult = hasTestResult;
 	}
 	
-	
+	public Boolean getPass() {
+		return pass;
+	}
+
+	public void setPass(Boolean pass) {
+		this.pass = pass;
+	}
 }

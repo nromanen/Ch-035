@@ -22,6 +22,7 @@ import com.crsms.domain.Area;
 import com.crsms.domain.Course;
 import com.crsms.dto.CourseJsonDto;
 import com.crsms.dto.CourseViewDto;
+import com.crsms.dto.CoursesViewDto;
 import com.crsms.service.AreaService;
 import com.crsms.service.CourseService;
 import com.crsms.service.DtoService;
@@ -49,6 +50,7 @@ public class CourseController {
 	public static final String ADD_COURSE_VIEW = "newFormCourse";
 	public static final String EDIT_COURSE_VIEW = "editFormCourse";
 	public static final String ACCESS_DENIED_VIEW = "403";
+	public static final String COURSES_PROGRESS = "coursesProgress";
 	  
 	public static final String MY_COURSES_REDIRECT = "redirect:/courses/?show=my";
 	public static final String ALL_COURSES_REDIRECT = "redirect:/courses/?show=all";
@@ -103,11 +105,22 @@ public class CourseController {
 	public ModelAndView getCourse(@PathVariable Long courseId, Principal principal) {
 		ModelAndView model = new ModelAndView();
 
-		CourseViewDto courseViewDto = courseService.getCourseViewDto(courseId, principal.getName());
-		model.addObject("course", courseViewDto);
-		model.addObject("pageTitle", courseViewDto.getName());
-		model.addObject("headerTitle", courseViewDto.getName());
+		CourseViewDto course = courseService.getCourseViewDto(courseId, principal.getName());
+		model.addObject("course", course);
+		model.addObject("pageTitle", course.getName());
+		model.addObject("headerTitle", course.getName());
 		model.setViewName(COURSE_VIEW);
+		return model;
+	}
+	
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN', 'STUDENT')")
+	@RequestMapping(value = "/progress", method = RequestMethod.GET)
+	public ModelAndView getProgress(Principal principal) {
+		CoursesViewDto courses = courseService.getAllCourseViewDto(principal.getName());
+		
+		ModelAndView model = new ModelAndView();
+		model.addObject("courses", courses);
+		model.setViewName(COURSES_PROGRESS);
 		return model;
 	}
 	

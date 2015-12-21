@@ -64,6 +64,8 @@
 									code="crsms.courses.text.title.list" /></a></li>
 						<li><a href="<c:url value="/userProfile" />"> <spring:message
 									code="crsms.userProfile.profile" /></a></li>
+						<li><a href="<c:url value="/courses/progress" />"> <spring:message
+									code="crsms.courses.text.your_courses" /></a></li>
 						<li><a href="<c:url value="/signout" />"><spring:message
 									code="crsms.button.signout" /></a></li>
 					</ul>

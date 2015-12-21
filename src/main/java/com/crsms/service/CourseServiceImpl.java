@@ -7,12 +7,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.crsms.dao.CourseDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
 import com.crsms.domain.User;
 import com.crsms.dto.CourseViewDto;
+import com.crsms.dto.CoursesViewDto;
 import com.crsms.dto.ModuleViewDto;
 import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
 import com.crsms.util.Invocable;
@@ -123,7 +125,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	public List<Course> getAllPublished() {
 		return courseDao.getAllPublished();
 	}
-
+	
 	@Override
 	public CourseViewDto getCourseViewDto(Long courseId, String email) {
 		User user = userService.getUserByEmail(email);
@@ -131,27 +133,100 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		List<Invocable<Course>> initializers = new ArrayList<>();
 		initializers.add(new CourseModulesDeepInitializer());
 		Course course = this.getById(courseId, initializers);
+		
+		return this.getCourseViewDto(course, user);
+	}
+	@Override
+	public CourseViewDto getCourseViewDto(Course course, User user) {
+		
 		CourseViewDto courseViewDto = dtoService.convert(course, CourseViewDto.class, Course.class);
 		
 		boolean complete = true;
+		boolean pass = true;
 		double score = 0;
 		double totalScore = 0;
+		Integer passedModules = 0;
+		Integer allModule = 0;
+		Integer failedModule = 0;
 		for(ModuleViewDto moduleViewDto : courseViewDto.getModules()) {
 			moduleService.initModuleViewDto(moduleViewDto, user);
 			
 			if(moduleViewDto.getComplete()) {
 				score += moduleViewDto.getScore();
+				if(moduleViewDto.getPass()) {
+					passedModules++;
+				} else {
+					failedModule++;
+					pass = false;
+				}
 			} else {
 				complete = false;
+				pass = false;
 			}
 			
+			allModule++;
 			totalScore += moduleViewDto.getTotalScore();
 		}
 		
 		courseViewDto.setComplete(complete);
+		courseViewDto.setPass(pass);
 		courseViewDto.setScore(score);
 		courseViewDto.setTotalScore(totalScore);
+		courseViewDto.setAllModule(allModule);
+		courseViewDto.setPassedModules(passedModules);
+		courseViewDto.setFailedModule(failedModule);
 		return courseViewDto;
+	}
+
+	@Override
+	public CoursesViewDto getAllCourseViewDto(String email) {
+		User user = userService.getUserByEmail(email);
+		List<CourseViewDto> courseViewDtos = new ArrayList<>();
+		List<Course> courses = getAllByUserEmail(email);
+		
+		CourseModulesDeepInitializer initializer = new CourseModulesDeepInitializer();
+		
+		int allCurses = 0;
+		int passedCurses = 0;
+		int failedCurses = 0;
+		double score = 0;
+		double maxScore = 0;
+		double progress = 0;
+		for(Course course: courses) {
+			initializer.invoke(course);
+			CourseViewDto courseViewDto = this.getCourseViewDto(course, user);
+			courseViewDtos.add(courseViewDto);
+			
+			allCurses++;
+			maxScore += courseViewDto.getTotalScore();
+			score += courseViewDto.getScore();
+			
+			if(!courseViewDto.getComplete()) continue;
+			
+			if(courseViewDto.getPass()) {
+				passedCurses++;
+			} else {
+				failedCurses++;
+			}
+			
+			
+		}
+		
+		CoursesViewDto coursesViewDto = new CoursesViewDto();
+		coursesViewDto.setCourseViewDtos(courseViewDtos);
+		coursesViewDto.setAllCurses(allCurses);
+		coursesViewDto.setPassedCurses(passedCurses);
+		coursesViewDto.setFailedCurses(failedCurses);
+		coursesViewDto.setContinuedCurses(allCurses - passedCurses - failedCurses);
+		coursesViewDto.setScore(score);
+		coursesViewDto.setMaxScore(maxScore);
+		if(maxScore > 0) {
+			coursesViewDto.setProgress(score * 100 / maxScore);
+		} else {
+			coursesViewDto.setProgress(0.);
+		}
+		
+		return coursesViewDto;
 	}
 
 }

@@ -176,6 +176,13 @@
 		</put-list-attribute>
 	</definition>
 	
+	<definition name="coursesProgress" extends="base-template" >
+		<put-attribute name="title" value="crsms.courses.text.your_courses" />
+		<put-attribute name="header-title" value="crsms.courses.text.your_courses" />
+		<put-attribute name="content" value="/WEB-INF/view/course/courses_progress.jsp" />
+		<put-attribute name="content-container-class" value="course-container" />
+	</definition>
+	
 	<definition name="editFormCourse" extends="base-template" >
 		<put-attribute name="title" value="crsms.courses.text.title.edit"  />
 		<put-attribute name="header-title" value="crsms.courses.text.title.edit"  />

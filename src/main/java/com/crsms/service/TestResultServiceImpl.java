@@ -139,7 +139,11 @@ public class TestResultServiceImpl implements TestResultService {
 		TestResult testResult = testResultDao.getById(testResultId); 
 		testResult.setComplete(true);
 		testResult.setScore( this.getScore(testResult) );
-		
+		if(testResult.getTest().getPassScore() <= testResult.getScore()) {
+			testResult.setPass(true);
+		} else {
+			testResult.setPass(false);
+		}
 	}
 
 	@Override

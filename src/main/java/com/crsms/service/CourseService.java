@@ -3,8 +3,12 @@ package com.crsms.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import com.crsms.domain.Course;
+import com.crsms.domain.User;
 import com.crsms.dto.CourseViewDto;
+import com.crsms.dto.CoursesViewDto;
 
 /**
  * 
@@ -42,5 +46,14 @@ public interface CourseService extends BaseService<Course> {
 	List<Course> getAllPublished();
 
 	CourseViewDto getCourseViewDto(Long courseId, String name);
+
+	CoursesViewDto getAllCourseViewDto(String name);
+
+	/**
+	 * 
+	 * @param course with initialized modules and tests
+	 * 
+	 */
+	CourseViewDto getCourseViewDto(Course course, User user);
 
 }

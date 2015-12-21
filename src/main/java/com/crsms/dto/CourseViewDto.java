@@ -39,9 +39,17 @@ public class CourseViewDto {
 	
 	private Boolean complete = false;
 	
+	private Boolean pass = false;
+	
 	private Double score;
 	
 	private Double totalScore;
+	
+	private Integer passedModules;
+	
+	private Integer failedModule;
+	
+	private Integer allModule;
 
 	public Long getId() {
 		return id;
@@ -131,6 +139,14 @@ public class CourseViewDto {
 		this.complete = complete;
 	}
 
+	public Boolean getPass() {
+		return pass;
+	}
+
+	public void setPass(Boolean pass) {
+		this.pass = pass;
+	}
+
 	public Double getScore() {
 		return score;
 	}
@@ -145,6 +161,30 @@ public class CourseViewDto {
 
 	public void setTotalScore(Double totalScore) {
 		this.totalScore = totalScore;
+	}
+
+	public Integer getPassedModules() {
+		return passedModules;
+	}
+
+	public void setPassedModules(Integer passedModules) {
+		this.passedModules = passedModules;
+	}
+
+	public Integer getFailedModule() {
+		return failedModule;
+	}
+
+	public void setFailedModule(Integer failedModule) {
+		this.failedModule = failedModule;
+	}
+
+	public Integer getAllModule() {
+		return allModule;
+	}
+
+	public void setAllModule(Integer allModule) {
+		this.allModule = allModule;
 	}
 	
 	

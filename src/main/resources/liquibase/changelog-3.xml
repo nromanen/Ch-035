@@ -35,5 +35,17 @@
         	<column name="score" type="double precision" defaultValue="0" />
     	</addColumn>
     </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-166">
+    	<addColumn tableName="test" >
+        	<column name="passScore" type="double precision" defaultValue="60" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-167">
+    	<addColumn tableName="test_result" >
+        	<column name="pass" type="boolean" defaultValue="false" />
+    	</addColumn>
+    </changeSet>
 
 </databaseChangeLog>
