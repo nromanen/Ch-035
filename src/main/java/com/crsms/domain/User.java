@@ -75,8 +75,8 @@ public class User {
 	private TeacherRequest teacherRequest;
 	
 	@Column (nullable = false)
-	private Boolean isEnabled = true;
-	 
+	private Boolean isEnabled = false;
+
 	public Long getId() {
 		return id;
 	}

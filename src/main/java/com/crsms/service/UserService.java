@@ -20,6 +20,8 @@ public interface UserService extends BaseService<User> {
 	User createAndSaveStudent(String email, String password);
 
 	boolean changePassword(String email, String currentPassword, String newPassword);
+	
+	User activateUser(User user);
 
 	User getUserByEmail(String email);
 	
