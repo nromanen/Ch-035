@@ -129,11 +129,27 @@
     
     <c:if test="${moduleContextPath}">
     <div role="tabpanel" class="tab-pane fade" id="tab-existing-resources">
+    	<div class="resource-filters">
+    		<div><strong><spring:message code = "crsms.text.filters" />:</strong></div>
+    		<div class="col-sm-4">
+    			<div class="checkbox">
+				    <label>
+				      <input type="checkbox" resource-type="embedded"> <spring:message code = "crsms.resource.text.embedded" />
+				    </label>
+				</div>
+				<div class="checkbox">
+				    <label>
+				      <input type="checkbox" resource-type="file"> <spring:message code = "crsms.resource.text.file" />
+				    </label>
+				</div>
+    		</div>
+    	</div>
    		<table class = "table table-bordered table-hover">
 			<thead>
 				<tr class = "active">
 					<th class="text-center"><spring:message code = "crsms.text.name" /></th>
 					<th class="text-center"><spring:message code = "crsms.resource.text.type" /></th>
+					<th class="text-center"><spring:message code = "crsms.resource.text.path" /></th>
 					<th class="text-center"><spring:message code = "crsms.text.controls" /></th>
 				</tr>
 			</thead>

@@ -3,6 +3,7 @@ $(document).ready(function(e) {
 	var springMsgs = crsmsGlobalResourceFormHelper.springLocalizationMsgs;
 	
 	var resourceFormHelper = {
+		queryString: "",
 		moduleId: false,
 		getModuleId: function() {
 			if (this.moduleId) {
@@ -33,6 +34,7 @@ $(document).ready(function(e) {
 							<tr>\
 								<td>' + resources[i].name + '</td>\
 								<td>' + resources[i].type + '</td>\
+								<td>' + resources[i].path + '</td>\
 								<td class="text-center">\
 									<button class="btn btn-primary btn-add-existing-resource" \
 											resource-id="' + resources[i].id + '" \
@@ -181,6 +183,35 @@ $(document).ready(function(e) {
 				}, params.timeOutMillis);
 			}
 		},
+		updateQueryString: function(key, value, url) {
+		    url = typeof url !== 'undefined' ? url : window.location.href;
+		    var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
+		        hash;
+
+		    if (re.test(url)) {
+		        if (typeof value !== 'undefined' && value !== null)
+		            return url.replace(re, '$1' + key + "=" + value + '$2$3');
+		        else {
+		            hash = url.split('#');
+		            url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+		            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
+		                url += '#' + hash[1];
+		            return url;
+		        }
+		    }
+		    else {
+		        if (typeof value !== 'undefined' && value !== null) {
+		            var separator = url.indexOf('?') !== -1 ? '&' : '?';
+		            hash = url.split('#');
+		            url = hash[0] + separator + key + '=' + value;
+		            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
+		                url += '#' + hash[1];
+		            return url;
+		        }
+		        else
+		            return url;
+		    }
+		},
 	}
 	
 	// show existing resources
@@ -188,6 +219,13 @@ $(document).ready(function(e) {
 		if (!$(this).attr("crsms-ajax-executed")) {
 			resourceFormHelper.getResources();
 			$(this).attr("crsms-ajax-executed", true);
+		}
+	});
+	// filters
+	// checkbox
+	$('.resource-filters .checkbox input[type="checkbox"]').change(function(e) {
+		if (this.checked) {
+			resourceFormHelper.queryString = resourceFormHelper.updateQueryString("type", $(this).attr("resource-type"), resourceFormHelper.queryString);
 		}
 	});
 	
