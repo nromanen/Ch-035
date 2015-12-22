@@ -38,6 +38,7 @@ import com.crsms.service.ModuleService;
 import com.crsms.service.ResourceService;
 import com.crsms.service.TestService;
 import com.crsms.service.VacancyService;
+import com.crsms.service.hibernate.query.ResourceQueryCustomizer;
 
 /**
  * 
@@ -135,9 +136,12 @@ public class RestJsonApiController {
 	// resources REST
 	@RequestMapping(value = {"/resources/notAssociatedWith/modules/{moduleId}"}, 
 					method = RequestMethod.GET)
-	public List<ResourceJsonDto> getAllResourcesNotAssociatedWithModule(@PathVariable Long moduleId) {
-		return dtoService.convert(resourceService.getAllNotAssociatedWithModule(moduleId),
-									ResourceJsonDto.class, Resource.class);
+	public List<ResourceJsonDto> getAllResourcesNotAssociatedWithModule(@PathVariable Long moduleId,
+			@RequestParam(required = false) String type) {
+		return dtoService.convert(
+				resourceService.getAllNotAssociatedWithModule(moduleId, 
+						new ResourceQueryCustomizer().setType(type)),
+				ResourceJsonDto.class, Resource.class);
 	}
 	
 	@RequestMapping(value = {"/resources/{resourceId}/associated"}, 
