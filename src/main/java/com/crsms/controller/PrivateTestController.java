@@ -90,7 +90,7 @@ public class PrivateTestController {
 	 * Method returns path redirection.
 	 */
 	private String redirect(Long courseId, Long moduleId) {
-		return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/";
+		return "redirect:/private/courses/" + courseId + "/modules/" + moduleId + "/tests/";
 	}
 	
 }
