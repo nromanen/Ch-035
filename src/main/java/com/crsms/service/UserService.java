@@ -32,5 +32,5 @@ public interface UserService extends BaseService<User> {
 	List<User> getPagingUsers(int offSet, int itemsPerPage,
 							String sortingField, String order, String keyWord);
 	
-	List<User> getUsersToApprove(Boolean teacherRequest);
+	List<User> getUsersToApprove();
 }

@@ -136,7 +136,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 
 	@Override
-	public List<User> getUsersToApprove(Boolean teacherRequest) {
-		return userDao.getUsersToApprove(teacherRequest);
+	public List<User> getUsersToApprove() {
+		return userDao.getUsersToApprove();
 	}
 }

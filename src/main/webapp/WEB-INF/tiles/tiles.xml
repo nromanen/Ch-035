@@ -76,6 +76,11 @@
 		<put-attribute name="header-title" value="crsms.request.title.request" />
 		<put-attribute name="content" value="/WEB-INF/view/users/request.jsp" />
 	</definition>
+	<definition name="requests" extends="base-template">
+		<put-attribute name="title" value="crsms.request.title.request" />
+		<put-attribute name="header-title" value="crsms.request.title.request" />
+		<put-attribute name="content" value="/WEB-INF/view/users/request.jsp" />
+	</definition>
 	<definition name="manager" extends="base-template">
 		<put-attribute name="title" value="crsms.manager.title.list" />
 		<put-attribute name="header-title" value="crsms.manager.title.list" />
