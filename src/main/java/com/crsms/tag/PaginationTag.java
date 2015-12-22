@@ -1,4 +1,4 @@
-package com.crsms.taglib;
+package com.crsms.tag;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -10,7 +10,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-public class PaginationTaglib extends SimpleTagSupport {
+public class PaginationTag extends SimpleTagSupport {
 	private static final String PARAM_PAGE = "page";
 	private static final Long DEFAULT_MAX_PAGES_COUNT = 5L;
 	private static final Long FIRST_PAGE_NUMBER = 1L;
