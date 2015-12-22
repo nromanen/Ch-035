@@ -23,6 +23,14 @@
 			<type>int</type>
 			<description>Items per page</description>
 		</attribute>
+		
+		<attribute>
+			<name>maxPagesCount</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
+			<description>Maximum count of pages</description>
+		</attribute>
 	</tag>
 	
 	<tag>

@@ -25,8 +25,8 @@ import com.crsms.validator.QuestionFormValidator;
  */
 
 @Controller
-@RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions")
-public class QuestionController {
+@RequestMapping(value = "/private/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions")
+public class PrivateQuestionController {
     private static final String QUESTIONS_PAGE = "questions";
     private static final String CREATE_QUESTION_PAGE = "createquestion";
 
@@ -118,7 +118,7 @@ public class QuestionController {
      * Method returns path redirection.
      */
     private String redirect(Long courseId, Long moduleId, Long testId) {
-        return "redirect:/courses/" + courseId 
+        return "redirect:/private/courses/" + courseId 
         		+ "/modules/" + moduleId
         		+ "/tests/" + testId + "/questions/";
     }

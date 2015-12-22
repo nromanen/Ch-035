@@ -23,8 +23,8 @@ import com.crsms.validator.TestFormValidator;
  */
 
 @Controller
-@RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests")
-public class TestController {
+@RequestMapping(value = "/private/courses/{courseId}/modules/{moduleId}/tests")
+public class PrivateTestController {
 	private static final String TESTS_PAGE = "tests";
 	private static final String CREATE_TEST_PAGE = "createtest";
 	
@@ -90,7 +90,7 @@ public class TestController {
 	 * Method returns path redirection.
 	 */
 	private String redirect(Long courseId, Long moduleId) {
-		return "redirect:/courses/" + courseId + "/modules/" + moduleId + "/tests/";
+		return "redirect:/private/courses/" + courseId + "/modules/" + moduleId + "/tests/";
 	}
 	
 }
