@@ -20,6 +20,9 @@ public class MailServiceImpl implements MailService {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	@Autowired
+	private EncryptService encryptService;
+	
 	private final Logger logger = LogManager.getLogger(MailServiceImpl.class);
 	
 	private ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -65,6 +68,23 @@ public class MailServiceImpl implements MailService {
 			throw e;
 		}
 		return message;
+	}
+
+
+	@Override
+	public void sendConfirmation(String recipientEmail, long id)
+			throws MessagingException {
+		String subject = "Confirm registration";
+		String encId = encryptService.encrypt(id);
+		String text = "<h3>Welcome to CrsMS  !</h3><br>"
+						+ "Thank you for registering! <br> Please click on the "
+						+ "confirmation link below<br>"
+						+ "<a href ="
+						+ "\"http://localhost:8080/crsms/user/"+encId+"/activated\">"
+						+ "Click here</a>";	
+		
+		sendHtmlEmail(recipientEmail, subject, text);
+		
 	}
 
 	private void sendMessage(final MimeMessage message, final String recipientEmail) {

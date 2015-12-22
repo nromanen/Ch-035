@@ -29,7 +29,7 @@
     <changeSet author="yuliia" id="1446992667519-164">
     	<createSequence sequenceName="teacher_request_id_seq"/>
     </changeSet>
-	
+        
 	<changeSet author="stefankiv" id="1446992667519-165">
         <modifyDataType columnName="description" newDataType="text" tableName="course"/>
     </changeSet>
