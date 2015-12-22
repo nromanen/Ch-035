@@ -1,14 +1,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+
+
 <div  class = "container">
+	<div class=" row col-xs-4">
+		<c:choose>
+			<c:when test="${ empty courses.user.userInfo.image }">
+				<c:url var="avatarUrl" value="/resources/images/default_logo.png" />
+				<c:set var="imgSrc" value="${ avatarUrl }" />
+			</c:when>
+			<c:otherwise>
+				<c:set var="imgSrc" value="${ courses.user.userInfo.image }" />
+			</c:otherwise>
+		</c:choose>
+		<img  src="${ imgSrc }" class="form-control" id="imagePreview" alt="Avatar" style="width:170px;height:170px;" />
+		<b>
+			<c:out value="${courses.user.userInfo.firstName}"/> 
+			<c:out value="${courses.user.userInfo.lastName}"/>
+		</b>
+	</div>
 	<dl class="dl-horizontal row col-xs-4">
 	  <dt><spring:message code="crsms.courses.text.all_curses" /></dt>
 	  <dd>${courses.allCurses}</dd>
 	  <dt><spring:message code="crsms.courses.text.passed_curses" /></dt>
 	  <dd>${courses.passedCurses}</dd>
-	</dl>
-	<dl class="dl-horizontal row col-xs-4">
 	  <dt><spring:message code="crsms.courses.text.failed_curses" /></dt>
 	  <dd>${courses.failedCurses}</dd>
 	  <dt><spring:message code="crsms.courses.text.continued_curses" /></dt>
@@ -33,6 +49,7 @@
 				<th class = "text-center"><spring:message code="crsms.courses.text.area" /></th>
 				<th class = "text-center"><spring:message code="crsms.courses.text.modules" /></th>
 				<th class = "text-center"><spring:message code="crsms.text.score" /></th>
+				<th class = "text-center"><spring:message code="crsms.courses.text.management" /></th>
 			</tr>
 		</thead>
 		<tbody>

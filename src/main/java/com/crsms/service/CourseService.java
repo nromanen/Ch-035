@@ -8,6 +8,7 @@ import com.crsms.domain.User;
 import com.crsms.dto.CourseViewDto;
 import com.crsms.dto.CoursesViewDto;
 import com.crsms.dto.CourseModuleNamesPairDto;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 
 
@@ -53,6 +54,10 @@ public interface CourseService extends BaseService<Course> {
 	CourseViewDto getCourseViewDto(Long courseId, String name);
 
 	CoursesViewDto getAllCourseViewDto(String name);
+	
+	CoursesViewDto getAllCourseViewDto(User user);
+	
+	CoursesViewDto getAllCourseViewDto(Long userId);
 
 	/**
 	 * 
@@ -65,5 +70,9 @@ public interface CourseService extends BaseService<Course> {
 
 	List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
 			Long resourceId);
+
+	
+
+	
 
 }

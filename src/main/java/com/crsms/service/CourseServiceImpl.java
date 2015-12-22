@@ -170,12 +170,25 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		courseViewDto.setFailedModule(failedModule);
 		return courseViewDto;
 	}
-
+	
 	@Override
 	public CoursesViewDto getAllCourseViewDto(String email) {
 		User user = userService.getUserByEmail(email);
+		
+		return getAllCourseViewDto(user);
+	}
+	
+	@Override
+	public CoursesViewDto getAllCourseViewDto(Long userId) {
+		User user = userService.getById(userId);
+		
+		return getAllCourseViewDto(user);
+	}
+
+	@Override
+	public CoursesViewDto getAllCourseViewDto(User user) {
 		List<CourseViewDto> courseViewDtos = new ArrayList<>();
-		List<Course> courses = getAllByUserEmail(email);
+		List<Course> courses = getAllByUserEmail(user.getEmail());
 		
 		CourseModulesDeepInitializer initializer = new CourseModulesDeepInitializer();
 		
@@ -205,6 +218,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		}
 		
 		CoursesViewDto coursesViewDto = new CoursesViewDto();
+		coursesViewDto.setUser(user);
 		coursesViewDto.setCourseViewDtos(courseViewDtos);
 		coursesViewDto.setAllCurses(allCurses);
 		coursesViewDto.setPassedCurses(passedCurses);

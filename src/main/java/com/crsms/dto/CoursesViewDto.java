@@ -2,6 +2,8 @@ package com.crsms.dto;
 
 import java.util.List;
 
+import com.crsms.domain.User;
+
 public class CoursesViewDto {
 	private List<CourseViewDto> courseViewDtos;
 	
@@ -12,6 +14,8 @@ public class CoursesViewDto {
 	private Double score;
 	private Double maxScore;
 	private Double progress;
+	
+	private User user;
 
 	public List<CourseViewDto> getCourseViewDtos() {
 		return courseViewDtos;
@@ -76,6 +80,13 @@ public class CoursesViewDto {
 	public void setAllCurses(Integer allCurses) {
 		this.allCurses = allCurses;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 }
