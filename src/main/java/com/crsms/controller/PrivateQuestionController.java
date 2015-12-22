@@ -25,8 +25,8 @@ import com.crsms.validator.QuestionFormValidator;
  */
 
 @Controller
-@RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions")
-public class QuestionController {
+@RequestMapping(value = "/private/courses/{courseId}/modules/{moduleId}/tests/{testId}/questions")
+public class PrivateQuestionController {
     private static final String QUESTIONS_PAGE = "questions";
     private static final String CREATE_QUESTION_PAGE = "createquestion";
 
