@@ -88,13 +88,13 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 	
 	@Override
-	public User createAndSaveStudent(String email, String password) {
+	public User createAndSaveStudent(String email, String password, String url) {
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
 		user = saveUser(user, false);
 		try {
-			mailService.sendConfirmation(email, user.getId());
+			mailService.sendConfirmation(email, user.getId(), url);
 		} catch (MessagingException e) {
 			logger.error("Error in sending email to " + email + ": " + e);
 		}
