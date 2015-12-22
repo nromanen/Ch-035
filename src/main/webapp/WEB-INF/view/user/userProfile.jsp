@@ -99,6 +99,7 @@
 					</div>	
 					<div class="form-group">
 						<div class="col-md-3 col-md-offset-2">
+							<h6><spring:message code = "crsms.userProfile.imageProportions"/></h6>
 							<input 	type="button" id="showImagePopupBtn" class="btn btn-default"
 							value = <spring:message code = "crsms.userProfile.selectPhoto"/> >
 						</div>
