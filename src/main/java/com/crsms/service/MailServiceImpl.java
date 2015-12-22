@@ -80,7 +80,7 @@ public class MailServiceImpl implements MailService {
 						+ "Thank you for registering! <br> Please click on the "
 						+ "confirmation link below<br>"
 						+ "<a href ="
-						+ "\"http://localhost:8080/crsms/user/"+encId+"/activated\">"
+						+ "\"http://localhost:8080/crsms/user/" + encId + "/activated\">"
 						+ "Click here</a>";	
 		
 		sendHtmlEmail(recipientEmail, subject, text);
