@@ -23,8 +23,8 @@ import com.crsms.validator.TestFormValidator;
  */
 
 @Controller
-@RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests")
-public class TestController {
+@RequestMapping(value = "/private/courses/{courseId}/modules/{moduleId}/tests")
+public class PrivateTestController {
 	private static final String TESTS_PAGE = "tests";
 	private static final String CREATE_TEST_PAGE = "createtest";
 	
