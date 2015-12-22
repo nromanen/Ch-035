@@ -54,7 +54,7 @@
 									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 								</a>
 								<!-- Modal -->
-									<div id="modalApprove_${editRequest}" class="modal fade" role="dialog">
+									<div id="modalApprove_${userToApprove.teacherRequest.id}" class="modal fade" role="dialog">
 									  <div class="modal-dialog modal-sm-2">
 									    <div class="modal-content">
 									      <div class="modal-header">
