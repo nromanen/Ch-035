@@ -72,7 +72,7 @@ public class MailServiceImpl implements MailService {
 
 
 	@Override
-	public void sendConfirmation(String recipientEmail, long id)
+	public void sendConfirmation(String recipientEmail, long id, String url)
 			throws MessagingException {
 		String subject = "Confirm registration";
 		String encId = encryptService.encrypt(id);
@@ -80,9 +80,8 @@ public class MailServiceImpl implements MailService {
 						+ "Thank you for registering! <br> Please click on the "
 						+ "confirmation link below<br>"
 						+ "<a href ="
-						+ "\"http://localhost:8080/crsms/user/" + encId + "/activated\">"
+						+ "\""+url+ "/user/"+encId+"/activated\">"
 						+ "Click here</a>";	
-		
 		sendHtmlEmail(recipientEmail, subject, text);
 		
 	}
