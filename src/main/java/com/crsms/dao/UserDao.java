@@ -21,7 +21,7 @@ public interface UserDao extends BaseDao<User> {
 	
 	long getUsersToApproveCount();
 	
-	List<User> getUsersToApprove(Boolean teacherRequest);
+	List<User> getUsersToApprove();
 
 	
 }
