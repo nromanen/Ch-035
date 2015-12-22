@@ -35,9 +35,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 		TeacherRequest request = requestDao.getTeacherRequestByUserEmail(email);
 		Boolean accountNonLocked = (request == null) ? true : request.getApproved();
 		if (user == null) {
-			System.out.println("User not found");
-			System.out.println("User not found "
-					+ userDao.getUserByEmail(email));
 			throw new UsernameNotFoundException("E-mail not found");
 			
 		}
@@ -45,7 +42,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(
 				user.getEmail(), user.getPassword(), user.getIsEnabled(), true,
 				true, accountNonLocked, getGrantedAuthorities(user));
-
 	}
 
 	private List<GrantedAuthority> getGrantedAuthorities(User user) {

@@ -67,7 +67,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Override
 	@Transactional
 	public User saveUser(User user, boolean teacherRequest) {
-		this.saveUser(user);	
+		this.saveUser(user);
+		user.setIsEnabled(false);
 		user.setRole(this.studentRole);
 		this.update(user);
 		
@@ -99,6 +100,13 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		
 		return true;
 	}
+	
+	@Override
+	public User activateUser(User user){
+		user.setIsEnabled(true);
+		this.update(user);
+		return user;
+	};
 	
 	@Override
 	public User getUserByEmail(String email) {
@@ -136,7 +144,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 
 	@Override
-	public List<User> getUsersToApprove(Boolean teacherRequest) {
-		return userDao.getUsersToApprove(teacherRequest);
+	public List<User> getUsersToApprove() {
+		return userDao.getUsersToApprove();
 	}
 }

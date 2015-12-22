@@ -34,7 +34,7 @@
 								<form:errors path="password" cssClass="label label-danger" />
 							</div>
 						</div>
-			
+	
                          <c:if test="${not empty error}">
 	                         <div class="alert alert-danger" role="alert">
 	                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -54,6 +54,7 @@
 	                         </c:choose>
 						     </div>
 						</c:if> 
+
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<div class="checkbox">

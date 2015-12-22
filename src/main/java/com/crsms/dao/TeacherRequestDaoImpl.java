@@ -59,7 +59,6 @@ public class TeacherRequestDaoImpl extends BaseDaoImpl<TeacherRequest> implement
 					.createAlias("request.user", "user")
 					.add(Restrictions.eq("user.email", email));
 			request = (TeacherRequest) criteria.uniqueResult();
-			System.out.println(request + "--------------request");
 		} catch (Exception e) {
 			this.getLogger().error("Error getTeacherRequestByUserEmail " + e);
 			throw e;
