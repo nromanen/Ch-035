@@ -4,7 +4,10 @@ package com.crsms.service;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,12 +30,17 @@ import com.crsms.util.Invocable;
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 	
 	private static final long STUDENT_ROLE_ID = 2;
+	
+	private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private MailService mailService;
 
 	@Autowired
 	private UserDao userDao;
@@ -84,7 +92,13 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
-		return saveUser(user, false);
+		user = saveUser(user, false);
+		try {
+			mailService.sendConfirmation(email, user.getId());
+		} catch (MessagingException e) {
+			logger.error("Error in sending email to " + email + ": " + e);
+		}
+		return user;
 	}
 	
 	@Override
@@ -102,7 +116,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 	
 	@Override
-	public User activateUser(User user){
+	public User activateUser(User user) {
 		user.setIsEnabled(true);
 		this.update(user);
 		return user;

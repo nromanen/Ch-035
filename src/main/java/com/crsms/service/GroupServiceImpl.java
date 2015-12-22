@@ -22,9 +22,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	private CourseService courseService;
 	
 	@Autowired
-	private MailService mailService;
-	
-	@Autowired
 	private UserService	userService;
 	
 	@Override
@@ -97,7 +94,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 		for (String email : emails) {
 			if (!userService.isEmailExists(email)) {
 				userService.createAndSaveStudent(email, email);
-				
 			}
 			user = userService.getUserByEmail(email);
 			subscribe(groupId, user);
