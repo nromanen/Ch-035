@@ -134,12 +134,12 @@
     		<div class="col-sm-4">
     			<div class="checkbox">
 				    <label>
-				      <input type="checkbox" resource-type="embedded"> <spring:message code = "crsms.resource.text.embedded" />
+				      <input type="checkbox" resource-type="EMBEDDED"> <spring:message code = "crsms.resource.text.embedded" />
 				    </label>
 				</div>
 				<div class="checkbox">
 				    <label>
-				      <input type="checkbox" resource-type="file"> <spring:message code = "crsms.resource.text.file" />
+				      <input type="checkbox" resource-type="FILE"> <spring:message code = "crsms.resource.text.file" />
 				    </label>
 				</div>
     		</div>
@@ -155,7 +155,6 @@
 			</thead>
 			<tbody></tbody>
 		</table>
-		<crsms:pagination count="${count}" limit="${limit}"/>
     </div>
     </c:if>
     

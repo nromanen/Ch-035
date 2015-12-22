@@ -3,7 +3,6 @@ $(document).ready(function(e) {
 	var springMsgs = crsmsGlobalResourceFormHelper.springLocalizationMsgs;
 	
 	var resourceFormHelper = {
-		queryString: "",
 		moduleId: false,
 		getModuleId: function() {
 			if (this.moduleId) {
@@ -12,11 +11,13 @@ $(document).ready(function(e) {
 			var moduleIdPattern = /\/modules\/(\d+)\//ig;
 			return moduleIdPattern.exec(window.location.href)[1];
 		},
-		getResources: function() {
+		filtersQuery: {}, 
+		showResourcesNotAssociatedWithModule: function() {
 			var targetTableBody = $("#tab-existing-resources table tbody");
 			$.ajax({
 				url: crsmsGlobalResourceFormHelper.baseLink 
-						+ "api/resources/notAssociatedWith/modules/" + resourceFormHelper.getModuleId(),
+						+ "api/resources/notAssociatedWith/modules/" + resourceFormHelper.getModuleId()
+						+ "?" + $.param(resourceFormHelper.filtersQuery),
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
@@ -183,50 +184,31 @@ $(document).ready(function(e) {
 				}, params.timeOutMillis);
 			}
 		},
-		updateQueryString: function(key, value, url) {
-		    url = typeof url !== 'undefined' ? url : window.location.href;
-		    var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
-		        hash;
-
-		    if (re.test(url)) {
-		        if (typeof value !== 'undefined' && value !== null)
-		            return url.replace(re, '$1' + key + "=" + value + '$2$3');
-		        else {
-		            hash = url.split('#');
-		            url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
-		            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
-		                url += '#' + hash[1];
-		            return url;
-		        }
-		    }
-		    else {
-		        if (typeof value !== 'undefined' && value !== null) {
-		            var separator = url.indexOf('?') !== -1 ? '&' : '?';
-		            hash = url.split('#');
-		            url = hash[0] + separator + key + '=' + value;
-		            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
-		                url += '#' + hash[1];
-		            return url;
-		        }
-		        else
-		            return url;
-		    }
+		uncheckTypeFilters: function(checkedType) {
+			var chekboxes = $('.resource-filters .checkbox input[type="checkbox"]');
+			for (var i = 0; i < chekboxes.length; i++) {
+				chekboxes[i].checked = $(chekboxes[i]).attr('resource-type') == checkedType ? true : false;
+			}
 		},
 	}
 	
 	// show existing resources
 	$('a[href="#tab-existing-resources"]').on('shown.bs.tab', function (e) {
 		if (!$(this).attr("crsms-ajax-executed")) {
-			resourceFormHelper.getResources();
+			resourceFormHelper.showResourcesNotAssociatedWithModule();
 			$(this).attr("crsms-ajax-executed", true);
 		}
 	});
 	// filters
-	// checkbox
+	// type checkbox
 	$('.resource-filters .checkbox input[type="checkbox"]').change(function(e) {
 		if (this.checked) {
-			resourceFormHelper.queryString = resourceFormHelper.updateQueryString("type", $(this).attr("resource-type"), resourceFormHelper.queryString);
+			resourceFormHelper.uncheckTypeFilters($(this).attr("resource-type"));
+			resourceFormHelper.filtersQuery.type = $(this).attr("resource-type");
+		} else {
+			delete resourceFormHelper.filtersQuery.type;
 		}
+		resourceFormHelper.showResourcesNotAssociatedWithModule();
 	});
 	
 	// Validation
