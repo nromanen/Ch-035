@@ -35,9 +35,10 @@ public interface GroupService extends BaseService<Group> {
 	 * @param courseId course id
 	 * @param groupId group id
 	 * @param emails emails of student's, who should be subscribed to the group
+	 * @param url 
 	 * @return emails of students, which weren't subscribed
 	 */
-	List<String> addStudents(Long courseId, Long groupId, Set<String> emails);
+	List<String> addStudents(Long courseId, Long groupId, Set<String> emails, String url);
 	
 	/**
 	 * Takes collection of emails and course id. Returns subcollection of user's emails, 

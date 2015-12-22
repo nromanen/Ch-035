@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,8 +202,10 @@ public class RestJsonApiController {
 	@RequestMapping(value = {"/courses/{courseId}/groups/{groupId}/addstudents"},
 			method = RequestMethod.POST)
 	public List<String> addStudents(@RequestParam(value = "emails") Set<String> emails,
-			@PathVariable Long courseId, @PathVariable Long groupId) {
-		return groupService.addStudents(courseId, groupId, emails);
+			@PathVariable Long courseId, @PathVariable Long groupId, HttpServletRequest request) {
+		String url = request.getScheme() + "://" + request.getServerName() + ":"
+			+ request.getServerPort() + request.getContextPath();
+		return groupService.addStudents(courseId, groupId, emails, url);
 	}
 	
 	@RequestMapping(value = {"/students/search"}, method = RequestMethod.POST)
