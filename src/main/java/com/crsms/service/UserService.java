@@ -20,6 +20,8 @@ public interface UserService extends BaseService<User> {
 	User createAndSaveStudent(String email, String password);
 
 	boolean changePassword(String email, String currentPassword, String newPassword);
+	
+	User activateUser(User user);
 
 	User getUserByEmail(String email);
 	
@@ -27,11 +29,10 @@ public interface UserService extends BaseService<User> {
 	
 	long getRowsCount(String keyWord);
 	
+	long getUsersToApproveCount();
+	
 	List<User> getPagingUsers(int offSet, int itemsPerPage,
 							String sortingField, String order, String keyWord);
 	
-	long getUsersToApproveCount();
-	
-	List<User> getUsersToApprove(Boolean teacherRequest);
-	
+	List<User> getUsersToApprove();
 }

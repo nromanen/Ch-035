@@ -253,3 +253,13 @@ footer {
 	background: transparent;
 }
 /*END Ribbon*/
+
+/*Search*/
+#clear-search {
+	pointer-events: auto;
+}
+
+#serch-btn {
+	margin-left: 0;
+}
+/*End search*/

@@ -1,6 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var = "order" value = "asc"/>
 <c:if test="${direction == null ||direction == 'asc'}">
@@ -49,9 +51,12 @@
 </ul>
 
 <div class="tab-content">			
-<div id="search" class="container ">
-	<div class="nav navbar-nav navbar-left">
-		<form id = "rowSet" class="navbar-form navbar "  method="GET">					
+<div id="search" class="container-fluid ">
+	<div class="nav navbar-nav ">
+		<form id = "itemsperpage" class="navbar-form navbar "  method="GET">
+		<label for="itemsperpage" class="control-label"> <spring:message
+									code="crsms.admin.rows" />
+							</label>					
 			<input id = "itemsperpage" type="text" class="form-control" name="itemsperpage" value = "${itemsperpage}"
 				placeholder=<spring:message code="crsms.admin.rows" />>
 		</form>
@@ -70,6 +75,7 @@
 	</form>
 	</div>
 </div>
+
 <div role="tabpanel" class="tab-pane fade in active active" id="get-all-pane">	
 	<table class="table table-bordered table-hover">
 		<thead>
@@ -155,6 +161,7 @@
 						</c:choose>
 					</a>
 				</th>
+			
 				<th><spring:message code="crsms.admin.management" /></th>
 			</tr>
 		</thead>
@@ -181,15 +188,15 @@
 							    </span>
 							</c:otherwise>
 						</c:choose>
-					</td> 
+					</td>
 					<td class="managementCell">
 						<c:url var="editUser"	value="/admin/${user.id}/edit" /> 
-							<a 	href="${editUser}" class="btn btn-primary btn-sm" 
+							<a 	href="${editUser}" class="btn btn-primary btn-sm"
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.edit" />">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 							</a>
-							
+     
 							
 						 	<c:url var="deleteUser"	value="/admin/${user.id}/delete" />  
 							<a 	href="#modalDeleteConfirm_${user.id}" class="btn btn-danger btn-sm"
@@ -204,14 +211,15 @@
 							    <div class="modal-content">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal">&times;</button>
-							        <h4 class="modal-title">Modal Header</h4>
+							       <h4 class="modal-title"> <b><spring:message code="crsms.admin.modal.delete.header"/></b></h4>
 							      </div>
 							      <div class="modal-body">
-							        <p>Deleting user with email:</p> <b>"${user.email}"</b>
+							      
+							        <spring:message code="crsms.admin.modal.delete.body" arguments="${user.email}" /> 
 							      </div>
 							      <div class="modal-footer">
 							      <a class="btn btn-danger btn-default" aria-hidden="true"
-							         href= "${deleteUser}">Delete</a>
+							         href= "${deleteUser}"><spring:message code="crsms.button.delete" /></a>
 							      <button type="button" class="btn btn-success btn-default" data-dismiss="modal" aria-hidden="true" >Cancel</button>
 							      </div>
 							    </div><!-- /.modal-content -->
@@ -325,115 +333,12 @@
 
 	<!-- Teacher request pane -->
 	<div role="tabpanel"class="tab-pane fade" id="approve-request-pane">	
-	<table class="table table-bordered table-hover">
-			<thead>
-				<tr class="active">
-					<th class = "hide"><spring:message code="crsms.text.id" /></th>
-					<th><spring:message code="crsms.admin.email" /></th>
-					<th><spring:message code="crsms.admin.userinfo.lastname" /></th>
-					<th><spring:message code="crsms.admin.userinfo.firstname" /></th>
-					<th><spring:message code="crsms.admin.teacher.request.date" /></th>
-					<th><spring:message code="crsms.admin.teacher.request.approved" /></th>
-					<th><spring:message code="crsms.admin.management" /></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${usersToApprove}" var="userToApprove">
-					<tr>
-						<td class = "hide">${userToApprove.id}</td>
-						<td class="nameCell">${userToApprove.email}</td>
-						<td class="nameCell">${userToApprove.userInfo.lastName}</td>
-					<td class="nameCell">${userToApprove.userInfo.firstName}</td>
-						<td class="managementCell">${userToApprove.teacherRequest.requestedDate}</td>
-						<td class="managementCell">
-							<c:choose>
-								<c:when test="${userToApprove.teacherRequest.approved == 'true'}">
-							    	<span class="glyphicon glyphicon-ok-circle text-success"
-								    	data-toggle="tooltip"
-								    	title="<spring:message code="crsms.admin.enabled" />">
-							    	</span>
-								</c:when>
-								<c:otherwise>
-							    	<span class = "glyphicon glyphicon-ban-circle text-danger"
-							    		data-toggle="tooltip"
-								    	title="<spring:message code="crsms.admin.disabled" />">
-								    </span>
-								</c:otherwise>
-							</c:choose>
-						</td>
-						<td class="managementCell">
-							<c:url var="editRequest"	value="/admin/request/${userToApprove.teacherRequest.id}/edit" /> 
-								<a href="${editRequest}" class="btn btn-primary btn-sm" 
-									data-toggle="tooltip"
-									title="<spring:message code="crsms.button.edit" />">
-									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-								</a>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	<div class="text-center" >
-		<c:if test="${empty usersToApprove}">
-			<div class="alert alert-danger">
-	 		 <strong><spring:message code = "crsms.admin.search.notfound"/></strong>
-			</div>
-		</c:if>
-	</div>
+	 	<jsp:include page="requests.jsp" />
 	</div>
 	<!-- history request pane -->
 	<div role="tabpanel"class="tab-pane fade" id="history-request-pane">
-		<table class="table table-bordered table-hover">
-			<thead>
-				<tr class="active">
-					<th class="hide"><spring:message code="crsms.text.id" /></th>
-					<th><spring:message code="crsms.admin.email" /></th>
-					<th><spring:message code="crsms.admin.userinfo.lastname" /></th>
-					<th><spring:message code="crsms.admin.userinfo.firstname" /></th>
-					<th><spring:message code="crsms.admin.teacher.request.date" /></th>
-					<th><spring:message code="crsms.admin.teacher.review.date" /></th>
-					<th><spring:message code="crsms.admin.management" /></th>
-					<th><spring:message code="crsms.admin.teacher.request.approved" /></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${requests}" var="request">
-					<tr>
-						<td class="hide">${request.id}</td>
-						<td class="nameCell">${request.user.email}</td>
-						<td class="nameCell">${request.user.userInfo.firstName}</td>
-						<td class="nameCell">${request.user.userInfo.lastName}</td>
-						<td class="managementCell">${request.requestedDate}</td>
-						<td class="managementCell">${request.reviewdDate}</td>
-						<td class="managementCell">${request.approved}</td>
-						<td class="managementCell">
-							<c:url var="editRequest"	value="/admin/request/${request.id}/edit" /> 
-								<a href="${editRequest}" class="btn btn-primary btn-sm" 
-									data-toggle="tooltip"
-									title="<spring:message code="crsms.button.edit" />">
-									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-								</a>
-						
-							<c:url var="deleteRequest"	value="/admin/request/${request.id}/delete" /> 
-								<a href="${deleteRequest}"
-									class="btn btn-danger btn-sm" 
-									data-toggle="tooltip"
-									title="<spring:message code="crsms.button.delete" />"> 
-									<span	class="fa fa-trash-o fa-lg" aria-hidden="true"></span>
-								</a>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<div class="text-center" >
-		<c:if test="${empty requests}">
-			<div class="alert alert-danger">
-	 		 <strong><spring:message code = "crsms.admin.search.notfound"/></strong>
-			</div>
-		</c:if>
-	</div>
-	</div>
+	<jsp:include page="history.jsp" />	
+		</div>
 </div>
 	
 		

@@ -1,5 +1,7 @@
 package com.crsms.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.crsms.service.UserService;
 /**
  * 
  * @author Roman Romaniuk
@@ -44,7 +49,7 @@ public class MainController {
 		}
 		return "signin";
 	}
-
+	
 	@RequestMapping(value = "/signout", method = RequestMethod.GET)
 	public String logoutPage(HttpServletRequest request, 
 								HttpServletResponse response) {
@@ -77,12 +82,12 @@ public class MainController {
 		String error = "";
 		if (exception instanceof BadCredentialsException) {
 			error = "credentialsException";
-		} else if (exception instanceof LockedException) {
-			error = "lockedException";
 		} else if (exception instanceof DisabledException) {
 			error = "disabledException";
-		} else {
-			error = request.getSession().getAttribute(key).toString();
+		} else if (exception instanceof LockedException) {
+			error = "lockedException";
+		}  else {
+			error = exception.getMessage();
 		}
 		return error;
 	}

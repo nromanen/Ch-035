@@ -44,6 +44,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 				query = "select u.email from Group g"
 					 + " join g.users u join g.course c"
 					 + " where c.id = :courseId and u.email in :emails"),
+	@NamedQuery(name = Group.IS_SUBSCRIBED_USER,
+				query = "SELECT count(user) > 0 FROM Group g "
+						 + "JOIN g.users user "
+						 + "JOIN g.course course "
+						 + "WHERE course.id = :courseId and user.email = :email"),
 	@NamedQuery(name = Group.SEARCH_STUDENTS,
 				query = "select new com.crsms.dto.UserIdFNameLNameEmailDto(u.id,"
 					 + " ui.firstName, ui.lastName, u.email)"
@@ -61,6 +66,7 @@ public class Group {
 			"group.getStudentsFromGroup";
 	public static final String SELECT_ALREADY_SUBSCRIBED_USERS =
 			"group.selectAlreadySubscribedUsers";
+	public static final String IS_SUBSCRIBED_USER = "isSubscribedUser";
 	public static final String SEARCH_STUDENTS = "group.searchStudents";
 	
 	public static final int MAX_NAME_LENGTH = 100;

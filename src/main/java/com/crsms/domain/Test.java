@@ -62,6 +62,9 @@ public class Test {
     
     @Column(nullable = false)
 	private Boolean disable = false;
+    
+    @Column(name = "[passScore]")
+	private Double passScore = 60.;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Question> questions;
@@ -120,5 +123,14 @@ public class Test {
 	public void setDisable(Boolean disable) {
 		this.disable = disable;
 	}
+
+	public Double getPassScore() {
+		return passScore;
+	}
+
+	public void setPassScore(Double passScore) {
+		this.passScore = passScore;
+	}
     
+	
 }

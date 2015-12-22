@@ -34,7 +34,7 @@ import com.crsms.validator.AdminValidator;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-//	public static final int ITEMSPERPAGE = 6;
+
 	@Autowired
 	private UserService userService;
 	
@@ -89,20 +89,22 @@ public class AdminController {
 				offSet, itemsPerPage, sortingField, order, keyWord);
 
 		List<TeacherRequest> requests = requestService.getRequestsHistory();
-		List<User> usersToApprove = userService.getUsersToApprove(true);
-		
+		List<User> usersToApprove = userService.getUsersToApprove();
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
 		model.addAttribute("users", users);
 		model.addAttribute("keyWord", keyWord);
 		model.addAttribute("itemsperpage", itemsPerPage);
+		model.addAttribute("usersToApprove", usersToApprove);
 		model.addAttribute("requests", requests);
 		model.addAttribute("rowscount", rowsCount);
 		model.addAttribute("usersToApproveCount", usersToApproveCount);
-		model.addAttribute("usersToApprove", usersToApprove);
 		model.addAttribute("teacherRequestsCount", teacherRequestsCount);
 		return "admin";
 	}
+	
+	
+	
 	
 	@RequestMapping(value = { "/{userId}/delete" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable long userId) {
@@ -132,7 +134,6 @@ public class AdminController {
 	@RequestMapping(value = { "request/{requestId}/edit" }, method = RequestMethod.GET)
 	public String editRequest(@PathVariable Long requestId, ModelMap model) {
 		TeacherRequest request = requestService.getById(requestId);
-		System.out.println("--------------------------"+ request);
 		model.addAttribute("request", request);
 		return "request";
 	}
@@ -140,8 +141,8 @@ public class AdminController {
 	@RequestMapping(value = "request/{requestId}/edit", method = RequestMethod.POST)
 	public String updateRequest(@PathVariable long requestId, 
 			@RequestParam(value = "approve", required = false) boolean approve){
-		requestService.setApprovedRequest(requestId, approve);
-		return "redirect:/admin/";
+		requestService.setApprovedStatus(requestId, approve);
+		return "redirect:/admin#approve-request-pane/";
 	}
 
 	@ModelAttribute("roles")

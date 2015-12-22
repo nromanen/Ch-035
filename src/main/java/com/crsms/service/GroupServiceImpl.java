@@ -22,9 +22,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	private CourseService courseService;
 	
 	@Autowired
-	private MailService mailService;
-	
-	@Autowired
 	private UserService	userService;
 	
 	@Override
@@ -97,7 +94,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 		for (String email : emails) {
 			if (!userService.isEmailExists(email)) {
 				userService.createAndSaveStudent(email, email);
-				
 			}
 			user = userService.getUserByEmail(email);
 			subscribe(groupId, user);
@@ -117,6 +113,10 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	}
 
 	@Override
+	public Boolean isSubscribedUser(Long courseId, String email) {
+		return groupDao.isSubscribedUser(courseId, email);
+	}
+	
 	public List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
 			String sortBy, String order, Integer page, Integer limit) {
 		Integer offset = (page - 1) * limit;

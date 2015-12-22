@@ -27,7 +27,19 @@
 <div id="course-modules-wrapper">
 	<c:forEach var="module" items="${course.modules}">
 	<div class="course-module-grid container">
-		<h3 class="module-title">${module.name}</h3>
+		<h3 class="module-title">${module.name} 
+			<c:if test="${module.complete}">
+				<c:choose>
+					<c:when test="${module.pass}">
+						<i class="fa fa-lg fa-check text-success"></i> 
+					</c:when>
+					<c:otherwise>	
+						<i class="fa fa-lg fa-times text-danger" ></i>
+					</c:otherwise>
+	 			</c:choose>
+				<b>(<c:out value="${module.score}" />/<c:out value="${module.totalScore}" />)</b>
+	 		</c:if>
+		</h3>
 		<p class="module-desc">${module.description}</p>
 		
 		<div class="module-resources module-unit-grid col-md-6">
@@ -66,8 +78,31 @@
 				
 			<c:forEach var="moduleTest" items="${module.tests}">
 			<div class="module-test">
-				<c:url var = "showTest" value = "${course.id}/modules/${module.id}/tests/${moduleTest.id}/show/1" />
-				<a class="btn btn-default" href = "${showTest}" ><i class="fa fa-lg fa-check-square-o"></i> ${moduleTest.name}</a>
+				<c:if test="${module.totalScore != null}">
+					<c:url var = "showTest" value = "${course.id}/modules/${module.id}/tests/${moduleTest.id}/show/1" />
+				</c:if>
+				<a class="btn btn-default" href = "${showTest}" >
+					<c:choose>	
+						<c:when test="${moduleTest.complete}">
+							<c:choose>
+								<c:when test="${moduleTest.pass}">
+									<i class="fa fa-lg fa-check-square-o text-success"></i> 
+								</c:when>
+								<c:otherwise>	
+									<i class="fa fa-lg fa-times text-danger" ></i>
+								</c:otherwise>
+				 			</c:choose>
+				 		</c:when>
+				 		<c:otherwise>
+				 			<i class="fa fa-lg fa-square-o"></i> 
+						</c:otherwise>
+			 		</c:choose>
+				
+					${moduleTest.name} 
+					<c:if test="${moduleTest.complete}">
+						<b>(<c:out value="${moduleTest.score}" />/100)</b>
+			 		</c:if>
+				</a>
 			</div>
 			</c:forEach>
 		</div>

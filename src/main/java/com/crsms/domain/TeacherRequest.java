@@ -25,7 +25,7 @@ public class TeacherRequest {
 	private Long id;
 	
 	@OneToOne
-	@Cascade({CascadeType.MERGE})
+	@Cascade({CascadeType.REMOVE})
 	@JoinColumn(name = "user_id")
 	private User user;
 	

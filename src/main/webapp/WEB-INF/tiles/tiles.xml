@@ -76,6 +76,11 @@
 		<put-attribute name="header-title" value="crsms.request.title.request" />
 		<put-attribute name="content" value="/WEB-INF/view/users/request.jsp" />
 	</definition>
+	<definition name="requests" extends="base-template">
+		<put-attribute name="title" value="crsms.request.title.request" />
+		<put-attribute name="header-title" value="crsms.request.title.request" />
+		<put-attribute name="content" value="/WEB-INF/view/users/request.jsp" />
+	</definition>
 	<definition name="manager" extends="base-template">
 		<put-attribute name="title" value="crsms.manager.title.list" />
 		<put-attribute name="header-title" value="crsms.manager.title.list" />
@@ -164,6 +169,13 @@
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/course/course.css" />
 		</put-list-attribute>
+	</definition>
+	
+	<definition name="coursesProgress" extends="base-template" >
+		<put-attribute name="title" value="crsms.courses.text.your_courses" />
+		<put-attribute name="header-title" value="crsms.courses.text.your_courses" />
+		<put-attribute name="content" value="/WEB-INF/view/course/courses_progress.jsp" />
+		<put-attribute name="content-container-class" value="course-container" />
 	</definition>
 	
 	<definition name="editFormCourse" extends="base-template" >
@@ -259,6 +271,15 @@
 			<add-attribute value="/resources/css/user/imgareaselect-default.css"/>
 		</put-list-attribute>
 	</definition>
+	
+	<definition name="inactiveProfile" extends="base-template">
+		<put-attribute name="title" value="crsms.userProfile.profileNotActive" />
+		<put-attribute name="header-title" value="crsms.userProfile.profileNotActive" />
+		<put-attribute name="content" value="/WEB-INF/view/inactiveProfile.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
+	</definition>
+	
+	
 	<!-- end User -->
 
 	<!-- Resource -->

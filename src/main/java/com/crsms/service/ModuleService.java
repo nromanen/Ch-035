@@ -6,6 +6,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.crsms.domain.Module;
 import com.crsms.domain.Resource;
+import com.crsms.domain.User;
+import com.crsms.dto.ModuleViewDto;
 
 /**
  * 
@@ -37,6 +39,9 @@ public interface ModuleService extends BaseService<Module> {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void freeResource(Module module);
+
+
+	void initModuleViewDto(ModuleViewDto moduleViewDto, User user);
 
 	List<Module> getAllAssociatedWithResource(Long resourceId);
 
