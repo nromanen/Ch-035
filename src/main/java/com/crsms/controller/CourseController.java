@@ -1,12 +1,12 @@
 package com.crsms.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crsms.domain.Course;
+import com.crsms.dto.CourseViewDto;
+import com.crsms.dto.CoursesViewDto;
 import com.crsms.service.CourseService;
-import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
-import com.crsms.util.Invocable;
 import com.crsms.util.StringUtil;
 
 /**
@@ -37,6 +37,7 @@ public class CourseController {
 	
 	public static final String COURSE_VIEW = "course";
 	public static final String COURSES_VIEW = "courses";
+	public static final String COURSES_PROGRESS = "coursesProgress";
 	
 	public static final String ALL_COURSES_REDIRECT = "redirect:/courses/";
 	public static final String MY_COURSES_REDIRECT = "redirect:/courses/?show=my";
@@ -44,6 +45,15 @@ public class CourseController {
 	@Autowired
 	private CourseService courseService;
 	
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN', 'STUDENT')")
+	@RequestMapping(value = "/progress", method = RequestMethod.GET)
+	public String getProgress(Principal principal, Model model) {
+		CoursesViewDto courses = courseService.getAllCourseViewDto(principal.getName());
+		
+		model.addAttribute("courses", courses);
+		return COURSES_PROGRESS;
+	}
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAllCourses(HttpServletRequest request, Principal principal, Model model) {
 		if (request.isUserInRole("STUDENT")) {
@@ -67,10 +77,13 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
-	public String getCourse(@PathVariable Long courseId, Model model) {
-		List<Invocable<Course>> initializers = new ArrayList<>();
-		initializers.add(new CourseModulesDeepInitializer());
-		Course course = courseService.getById(courseId, initializers);
+	public String getCourse(@PathVariable Long courseId, Principal principal, Model model) {
+		CourseViewDto course;
+		if(principal != null) {
+			course = courseService.getCourseViewDto(courseId, principal.getName());
+		} else {
+			course = courseService.getCourseViewDto(courseId, null);
+		}
 		model.addAttribute("course", course);
 		model.addAttribute("pageTitle", course.getName());
 		model.addAttribute("headerTitle", course.getName());

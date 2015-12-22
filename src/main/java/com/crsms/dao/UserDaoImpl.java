@@ -130,7 +130,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getUsersToApprove(Boolean teacherRequest) {
+	public List<User> getUsersToApprove() {
 		List<User> users = new ArrayList<>();
 		try {
 			Criteria criteria = this.getSessionFactory().getCurrentSession()

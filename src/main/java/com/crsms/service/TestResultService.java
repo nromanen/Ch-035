@@ -14,10 +14,12 @@ public interface TestResultService {
 
 	void complete(Long testResultId);
 
-	Double getScore(Long testResultId);
-
 	TestResult getById(Long testResultId, String name);
 
 	List<UserAnswerAndQuestionDto> getUserAnswerAndQuestionList(Long testResultId);
+
+	TestResult getByTest(Long testId, Long userId);
+
+	Double getScore(TestResult testResult);
 
 }
