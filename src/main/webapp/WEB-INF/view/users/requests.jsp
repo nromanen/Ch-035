@@ -46,7 +46,7 @@
 							</c:choose>
 						</td>
 						<td class="managementCell">
-							<c:url var="editRequest"	value="/admin/request/${userToApprove.teacherRequest.id}/edit" /> 
+							<c:url var="editRequest"	value="/private/admin/request/${userToApprove.teacherRequest.id}" /> 
 								<a href="#modalApprove_${userToApprove.teacherRequest.id}" class="btn btn-primary btn-sm" 
 									data-toggle="modal"
 									data-toggle="tooltip"
@@ -59,16 +59,18 @@
 									    <div class="modal-content">
 									      <div class="modal-header">
 									        <button type="button" class="close" data-dismiss="modal">&times;</button>
-									       <h4 class="modal-title"> <b>User request approving:</b></h4>
+									       <h4 class="modal-title"> <b><spring:message code="crsms.admin.modal.request.header"/></b></h4>
 									      </div>
-									      <form:form modelAttribute="request" method="POST" action="${editRequest}" class="form-horizontal" >
+									      <form:form modelAttribute="request" method="POST" action="${editRequest}" class="form-horizontal">
 										      <div class="modal-body">
-												  <p>Select approve/decline</p>
+												  <p><spring:message code="crsms.admin.modal.request.select"/></p>
 												    <div class="radio">
-												      <label><input type="radio" name="approve" value="${approve = 'true'}">approve</label>
+												      <label><input type="radio" name="approve" value="${approve = 'true'}">
+												      <spring:message code="crsms.admin.modal.request.approve"/></label>
 												    </div>
 												    <div class="radio">
-												      <label><input type="radio" name= "approve" value="${approve = 'false'}">decline</label>
+												      <label><input type="radio" name= "approve" value="${approve = 'false'}">
+												      <spring:message code="crsms.admin.modal.request.decline"/></label>
 												    </div>
 										      </div>
 										       <div class="modal-footer">
