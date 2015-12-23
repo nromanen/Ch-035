@@ -107,18 +107,10 @@ $(document).ready(function() {
 	})
 	
 	$('#clear-search').click(function() {
-		$(this).prev('input').val('').focus();
 		$('#students-from-search').empty();
 	})
 	
-	$('#search').keyup(function(e) {
-		var ENTER_BUTTON_KEY_CODE = 13;
-		if (e.keyCode == ENTER_BUTTON_KEY_CODE) {
-			$('#serch-btn').click();
-		}
-	})
-	
-	$('#serch-btn').click(function() {
+	$('#search-btn').click(function() {
 		var token = $('#crsf-token').val();
 		var textToSearch = $('#search').val();
 		var url = '/crsms/api/students/search';

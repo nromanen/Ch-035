@@ -253,3 +253,18 @@ footer {
 	background: transparent;
 }
 /*END Ribbon*/
+
+/*Search*/
+#clear-search {
+	pointer-events: auto;
+}
+#search-btn {
+	margin-left: 0;
+}
+#search-info-popover-landing {
+	position: absolute;
+    left: 0;
+    opacity: 0;
+    z-index: -1;
+}
+/*End search*/

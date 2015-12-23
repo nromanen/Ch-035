@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
+import com.crsms.service.hibernate.query.ResourceQueryCustomizer;
 
 /**
  * 
@@ -34,6 +35,6 @@ public interface ResourceService extends BaseService<Resource> {
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	Resource uploadRecivedFileAndPrepareResource(FileBucket fileBucket) throws IOException;
 
-	List<Resource> getAllNotAssociatedWithModule(Long moduleId);
+	List<Resource> getAllNotAssociatedWithModule(Long moduleId, ResourceQueryCustomizer queryCustomizer);
 	
 }

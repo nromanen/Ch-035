@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import com.crsms.service.ModuleService;
 import com.crsms.service.ResourceService;
 import com.crsms.service.TestService;
 import com.crsms.service.VacancyService;
+import com.crsms.service.hibernate.query.ResourceQueryCustomizer;
 
 /**
  * 
@@ -135,9 +137,16 @@ public class RestJsonApiController {
 	// resources REST
 	@RequestMapping(value = {"/resources/notAssociatedWith/modules/{moduleId}"}, 
 					method = RequestMethod.GET)
-	public List<ResourceJsonDto> getAllResourcesNotAssociatedWithModule(@PathVariable Long moduleId) {
-		return dtoService.convert(resourceService.getAllNotAssociatedWithModule(moduleId),
-									ResourceJsonDto.class, Resource.class);
+	public List<ResourceJsonDto> getAllResourcesNotAssociatedWithModule(@PathVariable Long moduleId,
+			@RequestParam(required = false) String type,
+			@RequestParam(required = false) String search) {
+		return dtoService.convert(
+						resourceService.getAllNotAssociatedWithModule(moduleId, 
+								new ResourceQueryCustomizer()
+									.setType(type)
+									.setSearch(search)
+						),
+						ResourceJsonDto.class, Resource.class);
 	}
 	
 	@RequestMapping(value = {"/resources/{resourceId}/associated"}, 
@@ -201,8 +210,10 @@ public class RestJsonApiController {
 	@RequestMapping(value = {"/courses/{courseId}/groups/{groupId}/addstudents"},
 			method = RequestMethod.POST)
 	public List<String> addStudents(@RequestParam(value = "emails") Set<String> emails,
-			@PathVariable Long courseId, @PathVariable Long groupId) {
-		return groupService.addStudents(courseId, groupId, emails);
+			@PathVariable Long courseId, @PathVariable Long groupId, HttpServletRequest request) {
+		String url = request.getScheme() + "://" + request.getServerName() + ":"
+			+ request.getServerPort() + request.getContextPath();
+		return groupService.addStudents(courseId, groupId, emails, url);
 	}
 	
 	@RequestMapping(value = {"/students/search"}, method = RequestMethod.POST)

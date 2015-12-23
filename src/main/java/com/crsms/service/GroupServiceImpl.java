@@ -22,9 +22,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	private CourseService courseService;
 	
 	@Autowired
-	private MailService mailService;
-	
-	@Autowired
 	private UserService	userService;
 	
 	@Override
@@ -82,7 +79,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	}
 
 	@Override
-	public List<String> addStudents(Long courseId, Long groupId, Set<String> emails) {
+	public List<String> addStudents(Long courseId, Long groupId, Set<String> emails, String url) {
 		if (emails.isEmpty()) {
 			throw new IllegalArgumentException("No emails");
 		}
@@ -96,8 +93,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 		User user = null;
 		for (String email : emails) {
 			if (!userService.isEmailExists(email)) {
-				userService.createAndSaveStudent(email, email);
-				
+				userService.createAndSaveStudent(email, email, url);
 			}
 			user = userService.getUserByEmail(email);
 			subscribe(groupId, user);

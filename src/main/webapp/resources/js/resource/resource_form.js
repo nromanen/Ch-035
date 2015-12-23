@@ -11,11 +11,13 @@ $(document).ready(function(e) {
 			var moduleIdPattern = /\/modules\/(\d+)\//ig;
 			return moduleIdPattern.exec(window.location.href)[1];
 		},
-		getResources: function() {
+		filtersQuery: {}, 
+		showResourcesNotAssociatedWithModule: function() {
 			var targetTableBody = $("#tab-existing-resources table tbody");
 			$.ajax({
 				url: crsmsGlobalResourceFormHelper.baseLink 
-						+ "api/resources/notAssociatedWith/modules/" + resourceFormHelper.getModuleId(),
+						+ "api/resources/notAssociatedWith/modules/" + resourceFormHelper.getModuleId()
+						+ "?" + $.param(resourceFormHelper.filtersQuery),
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
@@ -27,12 +29,18 @@ $(document).ready(function(e) {
 				},
 				success: function(resources) {
 					targetTableBody.html('');
+					if (resources.length < 1) {
+						resourceFormHelper.showAlert({ msg: springMsgs.noResults, 
+							type: "warning", autoclosable: true });
+						return;
+					}
 					for (var i = 0; i < resources.length; i++) {
 						targetTableBody.append(
 							'\
 							<tr>\
 								<td>' + resources[i].name + '</td>\
 								<td>' + resources[i].type + '</td>\
+								<td>' + resources[i].path + '</td>\
 								<td class="text-center">\
 									<button class="btn btn-primary btn-add-existing-resource" \
 											resource-id="' + resources[i].id + '" \
@@ -162,7 +170,7 @@ $(document).ready(function(e) {
 		showAlert: function(params) {
 			params.target = typeof params.target !== 'undefined' ? params.target : resourceFormHelper.alertContainerSelector;
 			params.type = typeof params.type !== 'undefined' ? params.type : "success";
-			params.title = typeof params.title !== 'undefined' ? params.title : "Alert";
+			params.title = typeof params.title !== 'undefined' ? params.title : "";
 			params.msg = typeof params.msg !== 'undefined' ? params.msg : "";
 			params.autoclosable = typeof params.autoclosable !== 'undefined' ? params.autoclosable : true;
 			params.timeOutMillis = typeof params.timeOutMillis !== 'undefined' ? 
@@ -171,7 +179,7 @@ $(document).ready(function(e) {
 				'\
 				<div class="alert alert-' + params.type + ' alert-dismissible fade in" role="alert"> \
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> \
-				  <strong>' + params.title + '!</strong> ' + params.msg + ' \
+				  <strong>' + params.title + '</strong> ' + params.msg + ' \
 				</div>\
 				';
 			var alertNode = $(alertHtml).prependTo(params.target);
@@ -181,15 +189,60 @@ $(document).ready(function(e) {
 				}, params.timeOutMillis);
 			}
 		},
+		uncheckTypeFilters: function(checkedType) {
+			var chekboxes = $('.resource-filters .checkbox input[type="checkbox"]');
+			for (var i = 0; i < chekboxes.length; i++) {
+				chekboxes[i].checked = $(chekboxes[i]).attr('resource-type') == checkedType ? true : false;
+			}
+		},
 	}
 	
 	// show existing resources
 	$('a[href="#tab-existing-resources"]').on('shown.bs.tab', function (e) {
 		if (!$(this).attr("crsms-ajax-executed")) {
-			resourceFormHelper.getResources();
+			resourceFormHelper.showResourcesNotAssociatedWithModule();
 			$(this).attr("crsms-ajax-executed", true);
 		}
 	});
+	
+	// filters
+	// type checkbox
+	$('.resource-filters .checkbox input[type="checkbox"]').change(function(e) {
+		if (this.checked) {
+			resourceFormHelper.uncheckTypeFilters($(this).attr("resource-type"));
+			resourceFormHelper.filtersQuery.type = $(this).attr("resource-type");
+		} else {
+			delete resourceFormHelper.filtersQuery.type;
+		}
+		resourceFormHelper.showResourcesNotAssociatedWithModule();
+	});
+	// search
+	$('#search-btn').click(function(e) {
+		// It is amazing but $(search).val() works even if search have been not initialized at all
+		//resourceFormHelper.filtersQuery.search = $(search).val();
+		var searchText = $('#search').val();
+		if (searchText) {
+			resourceFormHelper.filtersQuery.search = searchText;
+			resourceFormHelper.showResourcesNotAssociatedWithModule();
+		}
+	});
+	// turn off all handlers for #clear-search
+	$('#clear-search').off('click');
+	// bind new
+	$('#clear-search').click(function(e) {
+		if (typeof resourceFormHelper.filtersQuery.search !== "undefined") {
+			delete resourceFormHelper.filtersQuery.search;
+			resourceFormHelper.showResourcesNotAssociatedWithModule();
+		}
+		$('#search').val('').focus();
+	});
+	// search info
+	$('#search-info-popover-landing').popover({title: springMsgs.searchInfoTitle, 
+		content: springMsgs.searchInfo, placement: 'top', trigger: 'focus'})
+	$('#search-info-btn').click(function(e) {
+		$('#search-info-popover-landing').focus();
+	});
+	// END filters
 	
 	// Validation
 	$('#embedded-form').validate({

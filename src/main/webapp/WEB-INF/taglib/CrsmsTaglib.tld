@@ -5,7 +5,7 @@
 	
 	<tag>
 		<name>pagination</name>
-		<tag-class>com.crsms.taglib.PaginationTaglib</tag-class>
+		<tag-class>com.crsms.tag.PaginationTag</tag-class>
 		<body-content>empty</body-content>
 		
 		<attribute>
@@ -35,7 +35,7 @@
 	
 	<tag>
 		<name>sort</name>
-		<tag-class>com.crsms.taglib.SortingTaglib</tag-class>
+		<tag-class>com.crsms.tag.SortingTag</tag-class>
 		<body-content>empty</body-content>
 		
 		<attribute>

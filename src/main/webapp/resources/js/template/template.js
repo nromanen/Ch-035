@@ -17,4 +17,16 @@ $(document).ready(function(e) {
     $("#scroll-to-top").click(function(e) {
     	$('#logo').animatescroll({scrollSpeed:700,easing:'easeOutCirc'});
     });
+    
+    //Search
+    $('#clear-search').click(function() {
+		$(this).prev('input').val('').focus();
+	})
+	
+	$('#search').keyup(function(e) {
+		var ENTER_BUTTON_KEY_CODE = 13;
+		if (e.keyCode == ENTER_BUTTON_KEY_CODE) {
+			$('#search-btn').click();
+		}
+	})
 });
