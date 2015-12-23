@@ -110,7 +110,7 @@ $(document).ready(function() {
 		$('#students-from-search').empty();
 	})
 	
-	$('#serch-btn').click(function() {
+	$('#search-btn').click(function() {
 		var token = $('#crsf-token').val();
 		var textToSearch = $('#search').val();
 		var url = '/crsms/api/students/search';
