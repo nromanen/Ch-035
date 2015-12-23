@@ -54,7 +54,7 @@
 					<ul class="dropdown-menu dropdown-menu-right">
 						<sec:authorize access="hasAnyRole('ADMIN')">
 							<li>
-								<a href="<c:url value="/admin" />">
+								<a href="<c:url value="/private/admin" />">
 									<spring:message code="crsms.admin.title.list" />
 								</a>
 							</li>	

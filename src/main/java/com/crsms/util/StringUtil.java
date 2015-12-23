@@ -9,7 +9,8 @@ package com.crsms.util;
 public class StringUtil {
 
 	static final String DOTS = "...";
-    static final int DOTS_LENGTH = DOTS.length();
+    static final String TRAILING_SPACES_REGEX = "\\s{2,}";
+    static final String SPACE = "\u0020";
 	
 	/**
 	 * Below is a method to trim long strings.
@@ -23,19 +24,28 @@ public class StringUtil {
 	    }
 	    StringBuffer sb = new StringBuffer(string);
 	    // - dotsCount because adds 3 DOTS at the end.
-	    int actualRequriedLength = length - DOTS_LENGTH;
+	    int actualRequriedLength = length - DOTS.length();
 	    // Returned string length has to be length including the DOTS.
 	    if (sb.length() <= actualRequriedLength) {
 	    	return string;
 	    }
         if (!lastWord) {
-            return sb.insert(actualRequriedLength, DOTS).substring(0, actualRequriedLength + DOTS_LENGTH);
+            return sb.insert(actualRequriedLength, DOTS).substring(0, actualRequriedLength + DOTS.length());
         }
         int endIndex = sb.indexOf(" ", actualRequriedLength);
         // if the last word it the last in the whole incoming string than returns incoming string
         if (endIndex == -1) {
         	return string;
         }
-        return sb.insert(endIndex, DOTS).substring(0, endIndex + DOTS_LENGTH);
+        return sb.insert(endIndex, DOTS).substring(0, endIndex + DOTS.length());
 	}
+	
+	public static boolean isEmptyOrNull(String str) {
+		return (str == null || str.isEmpty()) ? true : false; 
+	}
+	
+	public static String trimTrailingSpaces(String str) {
+		return str.trim().replaceAll(TRAILING_SPACES_REGEX, SPACE);
+	}
+	
 }
