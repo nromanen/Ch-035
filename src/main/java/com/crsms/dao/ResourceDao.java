@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.crsms.domain.Resource;
+import com.crsms.service.hibernate.query.ResourceQueryCustomizer;
 
 /**
  * 
@@ -19,6 +20,6 @@ public interface ResourceDao extends BaseDao<Resource> {
 	
 	List<Resource> getAllByModuleId(Long moduleId);
 
-	List<Resource> getAllNotAssociatedWithModule(Long moduleId);
+	List<Resource> getAllNotAssociatedWithModule(Long moduleId, ResourceQueryCustomizer queryCustomizer);
 	
 }

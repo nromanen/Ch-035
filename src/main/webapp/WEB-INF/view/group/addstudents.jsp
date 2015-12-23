@@ -104,7 +104,7 @@
 				<span id = "clear-search" class="glyphicon glyphicon-remove form-control-feedback"></span>
 			</div>
 			<span class = "input-group-btn">
-				<button id = "serch-btn" class = "btn btn-default">
+				<button id = "search-btn" class = "btn btn-default">
 					<span class="glyphicon glyphicon-search"></span>
 				</button>
 			</span>

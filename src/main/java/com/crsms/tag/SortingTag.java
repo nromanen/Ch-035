@@ -1,4 +1,4 @@
-package com.crsms.taglib;
+package com.crsms.tag;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -10,7 +10,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-public class SortingTaglib extends SimpleTagSupport {
+public class SortingTag extends SimpleTagSupport {
 	private static final String PARAM_SORT_BY = "sortBy";
 	private static final String PARAM_ORDER = "order";
 	private static final String ORDER_ASC = "asc";

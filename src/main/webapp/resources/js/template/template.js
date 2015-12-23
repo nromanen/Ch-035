@@ -26,7 +26,7 @@ $(document).ready(function(e) {
 	$('#search').keyup(function(e) {
 		var ENTER_BUTTON_KEY_CODE = 13;
 		if (e.keyCode == ENTER_BUTTON_KEY_CODE) {
-			$('#serch-btn').click();
+			$('#search-btn').click();
 		}
 	})
 });

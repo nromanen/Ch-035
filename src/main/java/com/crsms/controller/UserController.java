@@ -7,8 +7,8 @@ import java.security.Principal;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,16 +80,18 @@ public class UserController {
 
 	@RequestMapping(value = "/submitUser", method = RequestMethod.POST)
 	public String submitUser(@Validated @ModelAttribute("userRegistr") User user,
-			BindingResult result, Principal principal, Model model,	@RequestParam(value = "teacher",
-			required = false, defaultValue = "false") boolean teacher)
+			BindingResult result, Principal principal, Model model, HttpServletRequest request,	
+			@RequestParam(value = "teacher", required = false, defaultValue = "false") boolean teacher)
 			throws MessagingException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException,
 			IllegalBlockSizeException, BadPaddingException {
 		if (result.hasErrors()) {
 			return "signUp";
 		}
 
+		String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() 
+				+ request.getContextPath();
 		userService.saveUser(user, teacher);
-		mailService.sendConfirmation(user.getEmail(), user.getId());
+		mailService.sendConfirmation(user.getEmail(), user.getId(), url);
 		
 		model.addAttribute(user);
 		
