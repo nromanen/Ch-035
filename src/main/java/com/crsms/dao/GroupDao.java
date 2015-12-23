@@ -20,6 +20,8 @@ public interface GroupDao extends BaseDao<Group> {
 	
 	Boolean isSubscribedUser(Long courseId, String email);
 	
+	Group getByCourseAndUser(Long courseId, String email);
+	
 	List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
 			String sortBy, String order, Integer offset, Integer limit);
 

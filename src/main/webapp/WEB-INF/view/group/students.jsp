@@ -29,9 +29,22 @@
 		<tbody>
 			<c:forEach var = "student" items = "${students}">
 				<tr>
-					<td>${student.firstName}</td>
-					<td>${student.lastName}</td>
-					<td>${student.email}</td>
+					<td>
+						<a  href="<c:url value="/courses/progress/${student.id}" />">
+							${student.firstName}
+						</a>
+					</td>
+					<td>
+						<a  href="<c:url value="/courses/progress/${student.id}" />">
+							${student.lastName}
+						</a>
+					</td>
+					<td>
+						<a  href="<c:url value="/courses/progress/${student.id}" />">
+							${student.email}
+						</a>
+					</td>
+					
 					<td class = "text-center">
 						<c:url var = "removeStudent" value = "${student.id}/remove" />
 						<span data-toggle = "tooltip" title="<spring:message code="crsms.button.delete" />">

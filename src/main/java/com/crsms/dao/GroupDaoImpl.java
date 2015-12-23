@@ -101,6 +101,21 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 		}
 	}
 	
+	@Override
+	public Group getByCourseAndUser(Long courseId, String email) {
+		try {
+			return (Group)this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Group.GET_BY_COURSE_AND_USER)
+					   .setParameter("courseId", courseId)
+					   .setParameter("email", email)
+					   .uniqueResult();
+		} catch (Exception e) {
+			getLogger().error("Error in select already subscribed user: " + e);
+			throw e;
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
@@ -148,5 +163,7 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 			throw e;
 		}
 	}
+
+	
 
 }
