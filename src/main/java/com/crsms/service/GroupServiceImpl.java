@@ -70,6 +70,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	@Override
 	public void update(Long courseId, Group group) {
 		group.setCourse(courseService.getById(courseId));
+		group.setUsers(getStudents(group.getId()));
 		groupDao.update(group);
 	}
 
@@ -126,6 +127,11 @@ public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupSer
 	@Override
 	public Long getStudentsCountFromGroup(Long groupId) {
 		return groupDao.getStudentsCountFromGroup(groupId);
+	}
+	
+	@Override
+	public Set<User> getStudents(Long groupId) {
+		return groupDao.getStudents(groupId);
 	}
 
 }

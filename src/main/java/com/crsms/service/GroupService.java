@@ -57,4 +57,6 @@ public interface GroupService extends BaseService<Group> {
 			String sortBy, String order, Integer page, Integer limit);
 
 	Long getStudentsCountFromGroup(Long groupId);
+	
+	Set<User> getStudents(Long groupId);
 }

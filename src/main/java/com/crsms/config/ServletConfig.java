@@ -130,8 +130,6 @@ class ServletConfig extends WebMvcConfigurerAdapter {
 		return mailSender;
 	}
 	
-	// TODO: ======================== R E F A C T O R =======================================
-	
 	/**
 	 * Jackson serialization mappers
 	 * 

@@ -57,7 +57,7 @@ import javax.validation.constraints.Size;
 				query = "select g.course from Group g join g.users u where u.email = :email"),
 	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
 				query = "select c from Course c join c.owner o"
-					 + " where o.email = :email order by c.id"),
+					 + " where o.email = :email and disable = false order by c.id"),
 	@NamedQuery(name = Course.SEARCH,
 				query = "select c from Course c where upper(c.name) like upper(:s) or "
 					  + "upper(c.description) like upper(:s) order by c.name, c.description"),
