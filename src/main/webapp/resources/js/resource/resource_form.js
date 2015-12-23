@@ -29,6 +29,11 @@ $(document).ready(function(e) {
 				},
 				success: function(resources) {
 					targetTableBody.html('');
+					if (resources.length < 1) {
+						resourceFormHelper.showAlert({ msg: springMsgs.noResults, 
+							type: "warning", autoclosable: true });
+						return;
+					}
 					for (var i = 0; i < resources.length; i++) {
 						targetTableBody.append(
 							'\
@@ -165,7 +170,7 @@ $(document).ready(function(e) {
 		showAlert: function(params) {
 			params.target = typeof params.target !== 'undefined' ? params.target : resourceFormHelper.alertContainerSelector;
 			params.type = typeof params.type !== 'undefined' ? params.type : "success";
-			params.title = typeof params.title !== 'undefined' ? params.title : "Alert";
+			params.title = typeof params.title !== 'undefined' ? params.title : "";
 			params.msg = typeof params.msg !== 'undefined' ? params.msg : "";
 			params.autoclosable = typeof params.autoclosable !== 'undefined' ? params.autoclosable : true;
 			params.timeOutMillis = typeof params.timeOutMillis !== 'undefined' ? 
@@ -174,7 +179,7 @@ $(document).ready(function(e) {
 				'\
 				<div class="alert alert-' + params.type + ' alert-dismissible fade in" role="alert"> \
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> \
-				  <strong>' + params.title + '!</strong> ' + params.msg + ' \
+				  <strong>' + params.title + '</strong> ' + params.msg + ' \
 				</div>\
 				';
 			var alertNode = $(alertHtml).prependTo(params.target);
@@ -199,6 +204,7 @@ $(document).ready(function(e) {
 			$(this).attr("crsms-ajax-executed", true);
 		}
 	});
+	
 	// filters
 	// type checkbox
 	$('.resource-filters .checkbox input[type="checkbox"]').change(function(e) {
@@ -210,6 +216,33 @@ $(document).ready(function(e) {
 		}
 		resourceFormHelper.showResourcesNotAssociatedWithModule();
 	});
+	// search
+	$('#search-btn').click(function(e) {
+		// It is amazing but $(search).val() works even if search have been not initialized at all
+		//resourceFormHelper.filtersQuery.search = $(search).val();
+		var searchText = $('#search').val();
+		if (searchText) {
+			resourceFormHelper.filtersQuery.search = searchText;
+			resourceFormHelper.showResourcesNotAssociatedWithModule();
+		}
+	});
+	// turn off all handlers for #clear-search
+	$('#clear-search').off('click');
+	// bind new
+	$('#clear-search').click(function(e) {
+		if (typeof resourceFormHelper.filtersQuery.search !== "undefined") {
+			delete resourceFormHelper.filtersQuery.search;
+			resourceFormHelper.showResourcesNotAssociatedWithModule();
+		}
+		$('#search').val('').focus();
+	});
+	// search info
+	$('#search-info-popover-landing').popover({title: springMsgs.searchInfoTitle, 
+		content: springMsgs.searchInfo, placement: 'top', trigger: 'focus'})
+	$('#search-info-btn').click(function(e) {
+		$('#search-info-popover-landing').focus();
+	});
+	// END filters
 	
 	// Validation
 	$('#embedded-form').validate({

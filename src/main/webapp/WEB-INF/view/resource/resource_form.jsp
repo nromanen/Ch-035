@@ -13,16 +13,18 @@
 		baseLink: "${baseLink}",
 		crsfToken: "${_csrf.token}",
 		springLocalizationMsgs: {
-			addExisting: "<spring:message code = "crsms.resource.text.existing.add" />",
-			success: "<spring:message code = "crsms.text.success" />",
-			error: "<spring:message code = "crsms.text.error" />",
-			successAdd: "<spring:message code = "crsms.resource.msg.success.add" />",
-			errorAdd: "<spring:message code = "crsms.resource.msg.error.add" />",
-			showAssociated: "<spring:message code = "crsms.resource.text.show.associated" />",
-			noResults: "<spring:message code = "crsms.text.no.results" />",
-			course: "<spring:message code = "crsms.text.course" />",
-			module: "<spring:message code = "crsms.text.module" />",
-			noResultsForAssociated: "<spring:message code = "crsms.resource.text.associated.no.results" />"
+			addExisting: '<spring:message code = "crsms.resource.text.existing.add" />',
+			success: '<spring:message code = "crsms.text.success" />',
+			error: '<spring:message code = "crsms.text.error" />',
+			successAdd: '<spring:message code = "crsms.resource.msg.success.add" />',
+			errorAdd: '<spring:message code = "crsms.resource.msg.error.add" />',
+			showAssociated: '<spring:message code = "crsms.resource.text.show.associated" />',
+			noResults: '<spring:message code = "crsms.text.no.results" />',
+			course: '<spring:message code = "crsms.text.course" />',
+			module: '<spring:message code = "crsms.text.module" />',
+			noResultsForAssociated: '<spring:message code = "crsms.resource.text.associated.no.results" />',
+			searchInfo: '<spring:message code = "crsms.resource.text.search.info" />',
+			searchInfoTitle: '<spring:message code = "crsms.text.info" />',
 		},
 	}
 </script>
@@ -143,6 +145,24 @@
 				    </label>
 				</div>
     		</div>
+    		<div id="search-container" class = "input-group col-sm-8">
+				<span class = "input-group-btn">
+					<button id = "search-btn" class = "btn btn-default">
+						<i class="fa fa-lg fa-search"></i>
+					</button>
+				</span>
+				<input id = "search" type="search" class="form-control" 
+						placeholder="<spring:message code = "crsms.button.search" />">
+				<input id="search-info-popover-landing" type="text" class="form-control" />
+			    <span class="input-group-btn">
+					<button id="search-info-btn" class="btn btn-default" type="button">
+			    		<i class="fa fa-lg fa-info"></i>
+			    	</button>
+			    	<button id = "clear-search" class="btn btn-default" type="button">
+			    		<i class="fa fa-lg fa-times"></i>
+			    	</button>
+			    </span>
+			</div>
     	</div>
    		<table class = "table table-bordered table-hover">
 			<thead>

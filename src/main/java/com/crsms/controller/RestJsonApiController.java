@@ -137,11 +137,15 @@ public class RestJsonApiController {
 	@RequestMapping(value = {"/resources/notAssociatedWith/modules/{moduleId}"}, 
 					method = RequestMethod.GET)
 	public List<ResourceJsonDto> getAllResourcesNotAssociatedWithModule(@PathVariable Long moduleId,
-			@RequestParam(required = false) String type) {
+			@RequestParam(required = false) String type,
+			@RequestParam(required = false) String search) {
 		return dtoService.convert(
-				resourceService.getAllNotAssociatedWithModule(moduleId, 
-						new ResourceQueryCustomizer().setType(type)),
-				ResourceJsonDto.class, Resource.class);
+						resourceService.getAllNotAssociatedWithModule(moduleId, 
+								new ResourceQueryCustomizer()
+									.setType(type)
+									.setSearch(search)
+						),
+						ResourceJsonDto.class, Resource.class);
 	}
 	
 	@RequestMapping(value = {"/resources/{resourceId}/associated"}, 
