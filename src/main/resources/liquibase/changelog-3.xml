@@ -94,4 +94,8 @@
     	</sql>
     </changeSet>
     
+    <changeSet author="valeriimotresku" id="1446992667519-176">
+        <sqlFile path="src/main/resources/liquibase/sql/populate_resource_1.sql"/>
+	</changeSet>
+    
 </databaseChangeLog>
