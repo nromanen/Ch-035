@@ -32,7 +32,7 @@ import com.crsms.validator.AdminValidator;
  *
  */
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping(value = "private/admin")
 public class AdminController {
 
 	@Autowired
@@ -103,46 +103,38 @@ public class AdminController {
 		return "admin";
 	}
 	
-	
-	
-	
 	@RequestMapping(value = { "/{userId}/delete" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable long userId) {
 		User user = userService.getById(userId);
 		userService.delete(user);
-		return "redirect:/admin/";
+		return "redirect:/private/admin/";
 	}
 	
-	@RequestMapping(value = { "/{userId}/edit" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/{userId}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable Long userId, ModelMap model) {
 		User user = userService.getById(userId);
 		model.addAttribute("user", user);
 		return "adduser";
 	}
 	
-	@RequestMapping(value = "/{userId}/edit", method = RequestMethod.POST)
-	public String updateUser(@PathVariable long userId, 
-								@Validated User user, BindingResult result) {
-		validator.validate(user, result);
-		if (result.hasErrors()) {
-			return "adduser";
-		}
+	@RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+	public String updateUser(@PathVariable long userId, @ModelAttribute("user") User user) {
 		userService.update(user);
-		return "redirect:/admin/";
+		return "redirect:/private/admin/";
 	}
 
-	@RequestMapping(value = { "request/{requestId}/edit" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/request/{requestId}" }, method = RequestMethod.GET)
 	public String editRequest(@PathVariable Long requestId, ModelMap model) {
 		TeacherRequest request = requestService.getById(requestId);
 		model.addAttribute("request", request);
 		return "request";
 	}
 	
-	@RequestMapping(value = "request/{requestId}/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/request/{requestId}", method = RequestMethod.POST)
 	public String updateRequest(@PathVariable long requestId, 
 			@RequestParam(value = "approve", required = false) boolean approve){
 		requestService.setApprovedStatus(requestId, approve);
-		return "redirect:/admin#approve-request-pane/";
+		return "redirect:/private/admin/#";
 	}
 
 	@ModelAttribute("roles")
@@ -151,7 +143,7 @@ public class AdminController {
 		roles = roleService.getAllRoles();
 		return roles;
 	}
-
+	
 	class RoleEditor extends PropertyEditorSupport {
 		@Override
         public void setAsText(String text) {
