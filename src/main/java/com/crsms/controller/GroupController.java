@@ -2,6 +2,8 @@ package com.crsms.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +26,12 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/{groupId}/leave", method = RequestMethod.GET)
-	public String unsubscribe(@PathVariable Long groupId, Principal principal) {
+	public String unsubscribe(HttpServletRequest request, @PathVariable Long groupId, Principal principal) {
 		groupService.unsubscribe(groupId, principal.getName());
-		return CourseController.MY_COURSES_REDIRECT;
+		
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
+		//return CourseController.MY_COURSES_REDIRECT;
 	}
 	
 }

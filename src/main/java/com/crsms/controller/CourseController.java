@@ -53,6 +53,15 @@ public class CourseController {
 		model.addAttribute("courses", courses);
 		return COURSES_PROGRESS;
 	}
+	
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN', 'STUDENT')")
+	@RequestMapping(value = "/progress/{userId}", method = RequestMethod.GET)
+	public String getProgressForUser(@PathVariable Long userId, Principal principal, Model model) {
+		CoursesViewDto courses = courseService.getAllCourseViewDto(userId);
+		
+		model.addAttribute("courses", courses);
+		return COURSES_PROGRESS;
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAllCourses(HttpServletRequest request, Principal principal, Model model) {
