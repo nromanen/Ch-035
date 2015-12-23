@@ -14,10 +14,10 @@ import com.crsms.domain.Course;
 import com.crsms.domain.Group;
 import com.crsms.domain.Module;
 import com.crsms.domain.User;
+import com.crsms.dto.CourseModuleNamesPairDto;
 import com.crsms.dto.CourseViewDto;
 import com.crsms.dto.CoursesViewDto;
 import com.crsms.dto.ModuleViewDto;
-import com.crsms.dto.CourseModuleNamesPairDto;
 import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
 import com.crsms.util.Invocable;
 
@@ -62,6 +62,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	public void update(Course course, Long areaId, String ownerEmail) {
 		course.setOwner(userService.getUserByEmail(ownerEmail));
 		course.setArea(areaService.getById(areaId));
+		course.setModules(moduleService.getAllByCourseId(course.getId()));
 		courseDao.update(course);
 	}
 
@@ -126,7 +127,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	public CourseViewDto getCourseViewDto(Long courseId, String email) {
 		User user = null;
 		
-		if(email != null) user =userService.getUserByEmail(email);
+		if (email != null) user = userService.getUserByEmail(email);
 		
 		List<Invocable<Course>> initializers = new ArrayList<>();
 		initializers.add(new CourseModulesDeepInitializer());
@@ -138,7 +139,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	public CourseViewDto getCourseViewDto(Course course, User user) {
 		
 		CourseViewDto courseViewDto = dtoService.convert(course, CourseViewDto.class, Course.class);
-		if(user == null) return courseViewDto;
+		if (user == null) return courseViewDto;
 		boolean complete = true;
 		boolean pass = true;
 		double score = 0;
@@ -146,12 +147,12 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		Integer passedModules = 0;
 		Integer allModule = 0;
 		Integer failedModule = 0;
-		for(ModuleViewDto moduleViewDto : courseViewDto.getModules()) {
+		for (ModuleViewDto moduleViewDto : courseViewDto.getModules()) {
 			moduleService.initModuleViewDto(moduleViewDto, user);
 			
-			if(moduleViewDto.getComplete()) {
+			if (moduleViewDto.getComplete()) {
 				score += moduleViewDto.getScore();
-				if(moduleViewDto.getPass()) {
+				if (moduleViewDto.getPass()) {
 					passedModules++;
 				} else {
 					failedModule++;
@@ -205,7 +206,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		int failedCurses = 0;
 		double score = 0;
 		double maxScore = 0;
-		for(Course course: courses) {
+		for (Course course: courses) {
 			initializer.invoke(course);
 			CourseViewDto courseViewDto = this.getCourseViewDto(course, user);
 			courseViewDtos.add(courseViewDto);
@@ -214,9 +215,9 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 			maxScore += courseViewDto.getTotalScore();
 			score += courseViewDto.getScore();
 			
-			if(!courseViewDto.getComplete()) continue;
+			if (!courseViewDto.getComplete()) continue;
 			
-			if(courseViewDto.getPass()) {
+			if (courseViewDto.getPass()) {
 				passedCurses++;
 			} else {
 				failedCurses++;
@@ -234,7 +235,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		coursesViewDto.setContinuedCurses(allCurses - passedCurses - failedCurses);
 		coursesViewDto.setScore(score);
 		coursesViewDto.setMaxScore(maxScore);
-		if(maxScore > 0) {
+		if (maxScore > 0) {
 			coursesViewDto.setProgress(score * 100 / maxScore);
 		} else {
 			coursesViewDto.setProgress(0.);

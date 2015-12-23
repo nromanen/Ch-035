@@ -62,7 +62,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 					 + " and (lower(u.email) like lower(:textToSearch)"
 					 + " or lower(ui.firstName) like lower(:textToSearch)"
 					 + " or lower(ui.lastName) like lower(:textToSearch))"
-					 + " order by ui.firstName")
+					 + " order by ui.firstName"),
+	 @NamedQuery(name = Group.GET_STUDENTS,
+				 query = "select u from Group g join g.users u where g.id = :id")
 })
 public class Group {
 	public static final String GET_ALL_BY_COURSE_ID = "group.getAllByCourseId";
@@ -74,6 +76,7 @@ public class Group {
 			"group.selectAlreadySubscribedUsers";
 	public static final String IS_SUBSCRIBED_USER = "isSubscribedUser";
 	public static final String SEARCH_STUDENTS = "group.searchStudents";
+	public static final String GET_STUDENTS = "group.getStudents";
 	
 	public static final int MAX_NAME_LENGTH = 100;
 	

@@ -1,5 +1,6 @@
 package com.crsms.dao;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Group;
+import com.crsms.domain.User;
 import com.crsms.dto.UserIdFNameLNameEmailDto;
 
 @Repository
@@ -89,7 +91,7 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 	@Override
 	public Boolean isSubscribedUser(Long courseId, String email) {
 		try {
-			return (Boolean)this.getSessionFactory()
+			return (Boolean) this.getSessionFactory()
 					   .getCurrentSession()
 					   .getNamedQuery(Group.IS_SUBSCRIBED_USER)
 					   .setParameter("courseId", courseId)
@@ -164,6 +166,18 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 		}
 	}
 
-	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<User> getStudents(Long groupId) {
+		try {
+			return new HashSet<User>(getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Group.GET_STUDENTS)
+									  .setParameter("id", groupId)
+									  .list());
+		} catch (Exception e) {
+			getLogger().error("Error in get students: " + e);
+			throw e;
+		}
+	}
 
 }
