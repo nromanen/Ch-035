@@ -425,6 +425,9 @@
 		<put-attribute name="title" value="crsms.groups.title.all" />
 		<put-attribute name="header-title" value="crsms.groups.title.all" />
 		<put-attribute name="content" value="/WEB-INF/view/group/students.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/group/students.js" />
+		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/group/students.css" />
 		</put-list-attribute>
