@@ -258,8 +258,13 @@ footer {
 #clear-search {
 	pointer-events: auto;
 }
-
-#serch-btn {
+#search-btn {
 	margin-left: 0;
+}
+#search-info-popover-landing {
+	position: absolute;
+    left: 0;
+    opacity: 0;
+    z-index: -1;
 }
 /*End search*/

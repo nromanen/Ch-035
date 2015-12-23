@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crsms.dao.ResourceDao;
 import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
+import com.crsms.service.hibernate.query.ResourceQueryCustomizer;
 
 /**
  * 
@@ -76,8 +77,8 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource>  implements R
 	}
 
 	@Override
-	public List<Resource> getAllNotAssociatedWithModule(Long moduleId) {
-		return resourceDao.getAllNotAssociatedWithModule(moduleId);
+	public List<Resource> getAllNotAssociatedWithModule(Long moduleId, ResourceQueryCustomizer queryCustomizer) {
+		return resourceDao.getAllNotAssociatedWithModule(moduleId, queryCustomizer);
 	}
 	
 }

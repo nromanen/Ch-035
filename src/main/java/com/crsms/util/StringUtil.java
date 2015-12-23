@@ -10,6 +10,8 @@ public class StringUtil {
 
 	static final String DOTS = "...";
     static final int DOTS_LENGTH = DOTS.length();
+    static final String TRAILING_SPACES_REGEX = "\\s{2,}";
+    static final String SPACE = "\u0020";
 	
 	/**
 	 * Below is a method to trim long strings.
@@ -38,4 +40,13 @@ public class StringUtil {
         }
         return sb.insert(endIndex, DOTS).substring(0, endIndex + DOTS_LENGTH);
 	}
+	
+	public static boolean isEmptyOrNull(String str) {
+		return (str == null || str.isEmpty()) ? true : false; 
+	}
+	
+	public static String trimTrailingSpaces(String str) {
+		return str.trim().replaceAll(TRAILING_SPACES_REGEX, SPACE);
+	}
+	
 }
