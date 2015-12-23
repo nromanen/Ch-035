@@ -54,7 +54,7 @@
 					<ul class="dropdown-menu dropdown-menu-right">
 						<sec:authorize access="hasAnyRole('ADMIN')">
 							<li>
-								<a href="<c:url value="/admin" />">
+								<a href="<c:url value="/private/admin" />">
 									<spring:message code="crsms.admin.title.list" />
 								</a>
 							</li>	
@@ -66,13 +66,13 @@
 								</a>
 							</li>	
 						</sec:authorize>
-						<sec:authorize access="hasAnyRole('STUDENT')">
+						<%-- <sec:authorize access="hasAnyRole('STUDENT')">
 							<li>
 								<a href="<c:url value="/courses/?show=my" />">
 									<spring:message code="crsms.courses.text.your_courses" />
 								</a>
 							</li>
-						</sec:authorize>
+						</sec:authorize> --%>
 						<sec:authorize access="hasAnyRole('STUDENT')">
 							<li>
 								<a href="<c:url value="/courses/progress" />">

@@ -258,6 +258,7 @@ footer {
 #clear-search {
 	pointer-events: auto;
 }
+
 #search-btn {
 	margin-left: 0;
 }
@@ -267,4 +268,5 @@ footer {
     opacity: 0;
     z-index: -1;
 }
+
 /*End search*/

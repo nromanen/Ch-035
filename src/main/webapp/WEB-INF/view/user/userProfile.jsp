@@ -17,7 +17,7 @@
             	</div>
             	<div class="modal-footer">
                 	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.userProfile.modclose"/></button>
-                	<button type="button" class="btn btn-primary" id="imageSelectBtn"><spring:message code = "crsms.userProfile.selectPhoto"/></button>
+                	<button type="button" class="btn btn-primary" id="imageSelectBtn"><spring:message code = "crsms.userProfile.save"/></button>
             	</div>
         	</div>
     	</div>

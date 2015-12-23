@@ -49,6 +49,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 						 + "JOIN g.users user "
 						 + "JOIN g.course course "
 						 + "WHERE course.id = :courseId and user.email = :email"),
+	@NamedQuery(name = Group.GET_BY_COURSE_AND_USER,
+				query = "SELECT g FROM Group g "
+						 + "JOIN g.users user "
+						 + "JOIN g.course course "
+						 + "WHERE course.id = :courseId and user.email = :email"),
 	@NamedQuery(name = Group.SEARCH_STUDENTS,
 				query = "select new com.crsms.dto.UserIdFNameLNameEmailDto(u.id,"
 					 + " ui.firstName, ui.lastName, u.email)"
@@ -63,6 +68,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 })
 public class Group {
 	public static final String GET_ALL_BY_COURSE_ID = "group.getAllByCourseId";
+	public static final String GET_BY_COURSE_AND_USER = "group.getByCourseAndUser";
 	public static final String DELETE_BY_ID = "group.deleteById";
 	public static final String GET_STUDENTS_FROM_GROUP = 
 			"group.getStudentsFromGroup";
@@ -73,6 +79,7 @@ public class Group {
 	public static final String GET_STUDENTS = "group.getStudents";
 	
 	public static final int MAX_NAME_LENGTH = 100;
+	
 
 	
 	@Id

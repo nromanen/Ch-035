@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.CourseDao;
+import com.crsms.dao.GroupDao;
 import com.crsms.domain.Course;
+import com.crsms.domain.Group;
 import com.crsms.domain.Module;
 import com.crsms.domain.User;
 import com.crsms.dto.CourseModuleNamesPairDto;
@@ -30,6 +32,9 @@ import com.crsms.util.Invocable;
 @Service("courseService")
 @Transactional
 public class CourseServiceImpl extends BaseServiceImpl<Course> implements CourseService {
+	
+	@Autowired
+    private  GroupDao groupDao;
 	
 	@Autowired
     private CourseDao courseDao;
@@ -162,6 +167,9 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 			totalScore += moduleViewDto.getTotalScore();
 		}
 		
+		Group group = groupDao.getByCourseAndUser(course.getId(), user.getEmail());
+		
+		courseViewDto.setGroup(group);
 		courseViewDto.setComplete(complete);
 		courseViewDto.setPass(pass);
 		courseViewDto.setScore(score);
@@ -171,12 +179,25 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		courseViewDto.setFailedModule(failedModule);
 		return courseViewDto;
 	}
-
+	
 	@Override
 	public CoursesViewDto getAllCourseViewDto(String email) {
 		User user = userService.getUserByEmail(email);
+		
+		return getAllCourseViewDto(user);
+	}
+	
+	@Override
+	public CoursesViewDto getAllCourseViewDto(Long userId) {
+		User user = userService.getById(userId);
+		
+		return getAllCourseViewDto(user);
+	}
+
+	@Override
+	public CoursesViewDto getAllCourseViewDto(User user) {
 		List<CourseViewDto> courseViewDtos = new ArrayList<>();
-		List<Course> courses = getAllByUserEmail(email);
+		List<Course> courses = getAllByUserEmail(user.getEmail());
 		
 		CourseModulesDeepInitializer initializer = new CourseModulesDeepInitializer();
 		
@@ -206,6 +227,7 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 		}
 		
 		CoursesViewDto coursesViewDto = new CoursesViewDto();
+		coursesViewDto.setUser(user);
 		coursesViewDto.setCourseViewDtos(courseViewDtos);
 		coursesViewDto.setAllCurses(allCurses);
 		coursesViewDto.setPassedCurses(passedCurses);
