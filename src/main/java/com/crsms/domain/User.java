@@ -71,7 +71,7 @@ public class User {
 	private Role role;
 	
 	@OneToOne(mappedBy = "user")
-	@Cascade({CascadeType.SAVE_UPDATE})
+	@Cascade({CascadeType.REMOVE})
 	private TeacherRequest teacherRequest;
 	
 	@Column (nullable = false)
