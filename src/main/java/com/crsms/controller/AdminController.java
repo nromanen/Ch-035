@@ -32,7 +32,7 @@ import com.crsms.validator.AdminValidator;
  *
  */
 @Controller
-@RequestMapping(value = "private/admin")
+@RequestMapping(value = "/private/admin")
 public class AdminController {
 
 	@Autowired

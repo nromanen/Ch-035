@@ -67,9 +67,17 @@
 		</put-list-attribute>
 	</definition>
 	<definition name="adduser" extends="base-template">
-		<put-attribute name="title" value="crsms.admin.title.adduser" />
-		<put-attribute name="header-title" value="crsms.admin.title.adduser" />
 		<put-attribute name="content" value="/WEB-INF/view/users/adduser.jsp" />
+		<put-attribute name="logo" value="" cascade="true" />
+		<put-attribute name="app-title" value="" cascade="true" />
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="header-title" value="" cascade="true" />
+		<put-attribute name="menu" value="" />
+		<put-attribute name="breadcrumbs" value="" />
+		<put-attribute name="content-container-class" value="" />
+		<put-attribute name="footer" value="" />
+		<put-attribute name="favicon" value="" />
 	</definition>
 	<definition name="request" extends="base-template">
 		<put-attribute name="title" value="crsms.request.title.request" />

@@ -57,6 +57,11 @@
 								<a href="<c:url value="/private/admin" />">
 									<spring:message code="crsms.admin.title.list" />
 								</a>
+							</li>
+							<li>
+								<a href="<c:url value="/private/options/" />">
+									<spring:message code="crsms.option.title" />
+								</a>
 							</li>	
 						</sec:authorize>
 						<sec:authorize access="hasAnyRole('TEACHER') or hasAnyRole('ADMIN')">
