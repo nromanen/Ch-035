@@ -66,7 +66,12 @@ class ServletConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/api/**")
 				.excludePathPatterns("/changePassword")
 				.excludePathPatterns("/resources/**")
-				.excludePathPatterns("/**/delete");
+				.excludePathPatterns("/**/delete")
+				.excludePathPatterns("/courses/progress")
+				.excludePathPatterns("/courses/progress/**")
+				.excludePathPatterns("/courses/*/modules/*/tests/*/show/*")
+				.excludePathPatterns("/courses/*/modules/*/tests/*/testresult/*");
+				
 	}
     
 	@Bean

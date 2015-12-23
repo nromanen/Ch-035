@@ -87,8 +87,8 @@
 					<td>${course.group.name}</td>
 					<td>${course.area.name}</td>
 					
-					<td>
-						<div class="progress" align="center">
+					<td >
+						<div class="progress" align="center" style="margin-bottom: 0px;" >
 							<div class="progress-bar progress-bar-success" 
 						  		style="width: <c:out value="${course.passedModules*100.0 / course.allModule}"/>%"
 						  		data-toggle="tooltip" data-placement="top" title="<spring:message code="crsms.courses.text.passed_modules" />"

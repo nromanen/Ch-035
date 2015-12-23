@@ -66,13 +66,13 @@
 								</a>
 							</li>	
 						</sec:authorize>
-						<sec:authorize access="hasAnyRole('STUDENT')">
+						<%-- <sec:authorize access="hasAnyRole('STUDENT')">
 							<li>
 								<a href="<c:url value="/courses/?show=my" />">
 									<spring:message code="crsms.courses.text.your_courses" />
 								</a>
 							</li>
-						</sec:authorize>
+						</sec:authorize> --%>
 						<sec:authorize access="hasAnyRole('STUDENT')">
 							<li>
 								<a href="<c:url value="/courses/progress" />">
