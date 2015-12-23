@@ -219,9 +219,12 @@ $(document).ready(function(e) {
 	// search
 	$('#search-btn').click(function(e) {
 		// It is amazing but $(search).val() works even if search have been not initialized at all
-		//resourceFormHelper.filtersQuery.search = $(search).val();
+		// http://stackoverflow.com/questions/7114956/automatically-created-variables-from-ids-in-js
+		// resourceFormHelper.filtersQuery.search = $(search).val();
 		var searchText = $('#search').val();
-		if (searchText) {
+		var searchParam = typeof resourceFormHelper.filtersQuery.search !== 'undefined' ? resourceFormHelper.filtersQuery.search : "";
+		if ((searchText && (searchText !== searchParam)) 
+				|| (!searchText && resourceFormHelper.filtersQuery.search)) {
 			resourceFormHelper.filtersQuery.search = searchText;
 			resourceFormHelper.showResourcesNotAssociatedWithModule();
 		}
