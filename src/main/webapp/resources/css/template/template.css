@@ -255,6 +255,9 @@ footer {
 /*END Ribbon*/
 
 /*Search*/
+#search-container #search-btn {
+	margin-right: -2px;
+}
 #clear-search {
 	pointer-events: auto;
 }
