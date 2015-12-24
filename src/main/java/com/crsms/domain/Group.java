@@ -49,6 +49,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 						 + "JOIN g.users user "
 						 + "JOIN g.course course "
 						 + "WHERE course.id = :courseId and user.email = :email"),
+	@NamedQuery(name = Group.GET_BY_COURSE_AND_USER,
+				query = "SELECT g FROM Group g "
+						 + "JOIN g.users user "
+						 + "JOIN g.course course "
+						 + "WHERE course.id = :courseId and user.email = :email"),
 	@NamedQuery(name = Group.SEARCH_STUDENTS,
 				query = "select new com.crsms.dto.UserIdFNameLNameEmailDto(u.id,"
 					 + " ui.firstName, ui.lastName, u.email)"
@@ -57,10 +62,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 					 + " and (lower(u.email) like lower(:textToSearch)"
 					 + " or lower(ui.firstName) like lower(:textToSearch)"
 					 + " or lower(ui.lastName) like lower(:textToSearch))"
-					 + " order by ui.firstName")
+					 + " order by ui.firstName"),
+	 @NamedQuery(name = Group.GET_STUDENTS,
+				 query = "select u from Group g join g.users u where g.id = :id")
 })
 public class Group {
 	public static final String GET_ALL_BY_COURSE_ID = "group.getAllByCourseId";
+	public static final String GET_BY_COURSE_AND_USER = "group.getByCourseAndUser";
 	public static final String DELETE_BY_ID = "group.deleteById";
 	public static final String GET_STUDENTS_FROM_GROUP = 
 			"group.getStudentsFromGroup";
@@ -68,8 +76,10 @@ public class Group {
 			"group.selectAlreadySubscribedUsers";
 	public static final String IS_SUBSCRIBED_USER = "isSubscribedUser";
 	public static final String SEARCH_STUDENTS = "group.searchStudents";
+	public static final String GET_STUDENTS = "group.getStudents";
 	
 	public static final int MAX_NAME_LENGTH = 100;
+	
 
 	
 	@Id

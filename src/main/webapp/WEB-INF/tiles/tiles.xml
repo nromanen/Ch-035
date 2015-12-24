@@ -3,6 +3,7 @@
 <tiles-definitions>
 	<definition name="base-template" template="/WEB-INF/view/template/template.jsp">
 		<put-attribute name="logo" value="/resources/images/logo.png" cascade="true" />
+		<put-attribute name="santaLogo" value="/resources/images/holiday/santa_logo.png" cascade="true" />
 		<put-attribute name="app-title" value="crsms.text.app.title" cascade="true" />
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
@@ -13,6 +14,8 @@
 		<put-attribute name="content-container-class" value="container" />
 		<put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
 		<put-attribute name="favicon" value="/resources/images/favicon.ico" />
+		<put-attribute name="jquerySnowfallSrc" value="/resources/js/template/animation/jquery.snowfall/" />
+		<put-attribute name="holidayCss" value="/resources/css/template/holiday.css" />
 		<put-list-attribute name="stylesheets">
 			<add-attribute value="/webjars/bootstrap/3.3.5/css/bootstrap.min.css" />
 			<!-- Font -->
@@ -148,10 +151,13 @@
 	</definition>
 	
 	<definition name="coursesProgress" extends="base-template" >
-		<put-attribute name="title" value="crsms.courses.text.your_courses" />
-		<put-attribute name="header-title" value="crsms.courses.text.your_courses" />
+		<put-attribute name="title" value="crsms.text.user_info" />
+		<put-attribute name="header-title" value="crsms.text.user_info" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courses_progress.jsp" />
 		<put-attribute name="content-container-class" value="course-container" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/course/courses_progress.js" />
+		</put-list-attribute>
 	</definition>
 	
 	<definition name="editFormCourse" extends="base-template" >
@@ -398,6 +404,9 @@
 		<put-attribute name="title" value="crsms.groups.title.all" />
 		<put-attribute name="header-title" value="crsms.groups.title.all" />
 		<put-attribute name="content" value="/WEB-INF/view/group/students.jsp" />
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/resources/js/group/students.js" />
+		</put-list-attribute>
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/group/students.css" />
 		</put-list-attribute>

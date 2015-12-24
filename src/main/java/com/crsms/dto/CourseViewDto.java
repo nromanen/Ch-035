@@ -3,6 +3,7 @@ package com.crsms.dto;
 import java.util.List;
 
 import com.crsms.domain.Area;
+import com.crsms.domain.Group;
 import com.crsms.domain.User;
 import com.googlecode.jmapper.annotations.JMap;
 
@@ -50,6 +51,8 @@ public class CourseViewDto {
 	private Integer failedModule;
 	
 	private Integer allModule;
+	
+	private Group group;
 
 	public Long getId() {
 		return id;
@@ -186,6 +189,13 @@ public class CourseViewDto {
 	public void setAllModule(Integer allModule) {
 		this.allModule = allModule;
 	}
-	
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
 	
 }

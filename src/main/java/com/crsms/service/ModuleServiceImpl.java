@@ -90,18 +90,8 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	@Override
 	public List<Module> getAllByCourseId(Long courseId) {
 		logger.info("in moduleService getAllByCourseId(courseId)");
-		logger.info("checking course id");
-
-		Course course = courseDao.getById(courseId);
-		if (course == null || course.getDisable()) {
-			throw new ElementNotFoundException();
-		}
-		
 		logger.info("trying to get modules");
-		List<Module> modules = moduleDao.getAllByCourseId(courseId);
-		
-		logger.info("out moduleService getAllByCourseId(courseId)");
-		return modules;
+		return moduleDao.getAllByCourseId(courseId);
 	}
 
 	
@@ -144,11 +134,11 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		double score = 0;
 		double totalScore = 0;
 		
-		for(TestViewDto testViewDto : moduleViewDto.getTests()){
+		for (TestViewDto testViewDto : moduleViewDto.getTests()) {
 			testService.initTestViewDto(testViewDto, user);
-			if(testViewDto.getHasTestResult() && testViewDto.getComplete()) {
+			if (testViewDto.getHasTestResult() && testViewDto.getComplete()) {
 				score += testViewDto.getScore();
-				if(!testViewDto.getPass()) pass = false;
+				if (!testViewDto.getPass()) pass = false;
 			} else {
 				complete = false;
 				pass = false;

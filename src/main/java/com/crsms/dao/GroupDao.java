@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.crsms.domain.Group;
+import com.crsms.domain.User;
 import com.crsms.dto.UserIdFNameLNameEmailDto;
 
 public interface GroupDao extends BaseDao<Group> {
@@ -20,9 +21,13 @@ public interface GroupDao extends BaseDao<Group> {
 	
 	Boolean isSubscribedUser(Long courseId, String email);
 	
+	Group getByCourseAndUser(Long courseId, String email);
+	
 	List<UserIdFNameLNameEmailDto> getStudentsFromGroupPaginated(Long groupId,
 			String sortBy, String order, Integer offset, Integer limit);
 
 	Long getStudentsCountFromGroup(Long groupId);
+
+	Set<User> getStudents(Long groupId);
 	
 }

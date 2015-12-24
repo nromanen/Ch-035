@@ -4,7 +4,18 @@
 
 <div>
 	<c:url var = "addStudents" value = "add" />
-	<a id = "add-students-btn" class = "btn btn-primary btn-create" href = "${addStudents}"><spring:message code="crsms.groups.text.add.students"/></a>
+	<a id = "add-students-btn" class = "btn btn-primary btn-create" href = "${addStudents}">
+		<spring:message code="crsms.groups.text.add.students"/>
+	</a>
+	
+	<div class="dropdown pull-right">
+	<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+		<spring:message code="crsms.groups.button.display.limit"/>
+		<span class="caret"></span>
+	</button>
+	<ul id = "limit-select" class="dropdown-menu">
+	</ul>
+	</div>
 </div>
 
 <div id="table-wrapper">
@@ -29,9 +40,22 @@
 		<tbody>
 			<c:forEach var = "student" items = "${students}">
 				<tr>
-					<td>${student.firstName}</td>
-					<td>${student.lastName}</td>
-					<td>${student.email}</td>
+					<td>
+						<a  href="<c:url value="/courses/progress/${student.id}" />">
+							${student.firstName}
+						</a>
+					</td>
+					<td>
+						<a  href="<c:url value="/courses/progress/${student.id}" />">
+							${student.lastName}
+						</a>
+					</td>
+					<td>
+						<a  href="<c:url value="/courses/progress/${student.id}" />">
+							${student.email}
+						</a>
+					</td>
+					
 					<td class = "text-center">
 						<c:url var = "removeStudent" value = "${student.id}/remove" />
 						<span data-toggle = "tooltip" title="<spring:message code="crsms.button.delete" />">
