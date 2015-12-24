@@ -76,7 +76,7 @@
 						<sec:authorize access="hasAnyRole('STUDENT')">
 							<li>
 								<a href="<c:url value="/courses/progress" />">
-									<spring:message code="crsms.courses.text.title.list" />
+									<spring:message code="crsms.text.user_info" />
 								</a>
 							</li>
 						</sec:authorize>

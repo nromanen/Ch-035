@@ -4,7 +4,18 @@
 
 <div>
 	<c:url var = "addStudents" value = "add" />
-	<a id = "add-students-btn" class = "btn btn-primary btn-create" href = "${addStudents}"><spring:message code="crsms.groups.text.add.students"/></a>
+	<a id = "add-students-btn" class = "btn btn-primary btn-create" href = "${addStudents}">
+		<spring:message code="crsms.groups.text.add.students"/>
+	</a>
+	
+	<div class="dropdown pull-right">
+	<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+		<spring:message code="crsms.groups.button.display.limit"/>
+		<span class="caret"></span>
+	</button>
+	<ul id = "limit-select" class="dropdown-menu">
+	</ul>
+	</div>
 </div>
 
 <div id="table-wrapper">
