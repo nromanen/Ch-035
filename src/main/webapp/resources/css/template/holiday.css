@@ -1,0 +1,16 @@
+#logo-xmas-img {
+	position: absolute;
+    margin: 0;
+    height: 160px;
+    top: -23px;
+    left: -20px;
+    z-index: 2;
+}
+#logo-xmas-img-cover {
+	position: absolute;
+    top: 102px;
+    height: 49px;
+    width: 161px;
+    left: -20px;
+    z-index: 3;
+}
