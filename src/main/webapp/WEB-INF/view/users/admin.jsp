@@ -50,9 +50,10 @@
 	<div id="search" class="container-fluid ">
 		<div class="nav navbar-nav ">
 			<form id="itemsperpage" class="navbar-form navbar " method="GET">
-				<label for="itemsperpage" class="control-label"> <spring:message
-						code="crsms.admin.rows" />
-				</label> <input id="itemsperpage" type="text" class="form-control"
+				<label for="itemsperpage" class="control-label"> 
+					<spring:message	code="crsms.admin.rows" />
+				</label> 
+				<input id="itemsperpage" type="text" class="form-control"
 					name="itemsperpage" value="${itemsperpage}"
 					placeholder=<spring:message code="crsms.admin.rows" />>
 			</form>
@@ -63,19 +64,19 @@
 				method="GET">
 				<input id="keyWord" type="text" class="form-control" name="keyWord"
 					value="${keyWord}">
-				<button type="button" onclick="ClearField();"
-					class="btn btn-default">
+				<button type="button" onclick="ClearField();" class="btn btn-default">
 					<span class="glyphicon glyphicon-remove"></span>
 				</button>
 				<button type="submit" id="submit" class="btn btn-default">
-					<span class="glyphicon glyphicon-search"></span> <strong><spring:message
-							code="crsms.button.search" /></strong>
+					<span class="glyphicon glyphicon-search"></span> 
+					<strong><spring:message	code="crsms.button.search" /></strong>
 				</button>
 			</form>
 		</div>
 	</div>
 	<!-- all users pane -->
-	<div role="tabpanel" class="tab-pane fade in active active" id="get-all-pane">
+	<div role="tabpanel" class="tab-pane fade in active active"
+		id="get-all-pane">
 		<jsp:include page="allusers.jsp" />
 	</div>
 	<!-- Teacher request pane -->

@@ -7,13 +7,15 @@
 <c:if test="${direction == null ||direction == 'asc'}">
 <c:set var = "order" value = "desc"/>
 </c:if>
+<c:set var="sortParams" 
+value="sortparam=${sessionScope['sortparam']}&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}" />
 <table class="table table-bordered table-hover">
 		<thead>
 			<tr class="active">
 				<th class = "hide"><spring:message code="crsms.text.id" /></th>
 				<th>
 					<spring:message code="crsms.admin.email" />
-					<a href="<c:url value="?sortparam=email&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=email&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
 						<c:choose>
 							<c:when test="${sortparam == 'email' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
@@ -29,7 +31,7 @@
 				</th>
 				<th>
 					<spring:message code="crsms.admin.userinfo.lastname" />
-					<a href="<c:url value="?sortparam=userInfo.lastName&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=userInfo.lastName&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
 						<c:choose>
 							<c:when test="${sortparam == 'userInfo.lastName' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
@@ -45,7 +47,7 @@
 				</th>
 				<th>
 					<spring:message code="crsms.admin.userinfo.firstname" />
-					<a href="<c:url value="?sortparam=userInfo.firstName&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=userInfo.firstName&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
 					<c:choose>
 							<c:when test="${sortparam == 'userInfo.firstName' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
@@ -61,7 +63,7 @@
 				</th>
 				<th>
 					<spring:message code="crsms.admin.role" />
-					<a href="<c:url value="?sortparam=role.name&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=role.name&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
 					<c:choose>
 						<c:when test="${sortparam == 'role.name' && direction == 'asc'}">
 							<i class="fa fa-sort-alpha-desc fa-lg"></i>
@@ -77,7 +79,7 @@
 				</th>
 				<th>
 					<spring:message code="crsms.admin.isenabled" />
-					<a href="<c:url value="?sortparam=isEnabled&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="?page=${page}&sortparam=isEnabled&direction=${order}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
 						<c:choose>
 							<c:when test="${sortparam == 'isEnabled' && direction == 'asc'}">
 								<i class="fa fa-sort-alpha-desc fa-lg"></i>
@@ -120,38 +122,31 @@
 						</c:choose>
 					</td>
 					<td class="managementCell">
-					<c:url var="editUser"	value="/admin/${user.id}" /> 
+					<c:url var="editUser"	value="/private/admin/${user.id}" /> 
 							<a 	href="${editUser}" class="btn btn-primary btn-sm"
-								data-target="#modalEdit_${user.id}"
 								data-toggle="modal"
+								data-target="#modalEdit_${user.id}"
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.edit" />">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 							</a>
-								<!-- Modal -->
+								<!-- edit user modal window -->
 									<div id="modalEdit_${user.id}" class="modal fade " role="dialog">
 									  <div class="modal-dialog modal-sm-2">
 									    <div class="modal-content">
-									      <div class="modal-header">
-									        <button type="button" class="close" data-dismiss="modal">&times;</button>
-									       <h4 class="modal-title"> <b><spring:message code="crsms.admin.modal.edit.header" /></b></h4>
-									      </div>
-										      <div class="modal-body">
-								      
-
-										      </div><!-- /.modal-body -->
-									    </div><!-- /.modal-content -->
-									  </div><!-- /.modal-dialog -->
+												<!-- edituser.jsp -->
+									    </div>
+									  </div>
 									</div>
 									<!-- End modal -->
-						 	<c:url var="deleteUser"	value="/admin/${user.id}/delete" />  
+						 	<c:url var="deleteUser"	value="/private/admin/${user.id}/delete" />  
 							<a 	href="#modalDeleteConfirm_${user.id}" class="btn btn-danger btn-sm"
 								data-toggle="modal"
 								data-toggle="tooltip"
 								title="<spring:message code="crsms.button.delete" />"> 
 								<span	class="fa fa-trash-o fa-lg" aria-hidden="true"></span>
 							</a>
-							<!-- Modal -->
+							<!-- delete user modal window-->
 							<div id="modalDeleteConfirm_${user.id}" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-sm">
 							    <div class="modal-content">
@@ -160,7 +155,6 @@
 							       <h4 class="modal-title"> <b><spring:message code="crsms.admin.modal.delete.header"/></b></h4>
 							      </div>
 							      <div class="modal-body">
-							      
 							        <spring:message code="crsms.admin.modal.delete.body" arguments="${user.email}" /> 
 							      </div>
 							      <div class="modal-footer">
@@ -168,9 +162,8 @@
 							         href= "${deleteUser}"><spring:message code="crsms.button.delete" /></a>
 							      <button type="button" class="btn btn-success btn-default" data-dismiss="modal" aria-hidden="true" >Cancel</button>
 							      </div>
-							    </div><!-- /.modal-content -->
-							
-							  </div><!-- /.modal-dialog -->
+							    </div>
+							  </div>
 							</div>
 							<!-- End modal -->
 					</td>
@@ -207,16 +200,14 @@
 			</c:when>
 			<c:when test="${page > 1}">
 				<li>				
-					<a href="<c:url value="/admin?page=${1}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>" 
+					<a href="<c:url value="?page=${1}&${sortParams}"/>" 
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.first" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.first" />
 					</a>
 				</li>
 				<li>
-					<a	href="<c:url value="/admin?page=${page - 1}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>" 
+					<a	href="<c:url value="?page=${page - 1}&${sortParams}"/>" 
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.previous" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.previous" />
@@ -230,8 +221,7 @@
 							class = "active"
 						</c:when>
 					</c:choose>>
-					<a href="<c:url value="/admin?page=${p}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="?page=${p}&${sortParams}"/>">
 						 <c:out	value="${p}"/>
 					</a>
 				</li>			
@@ -239,16 +229,14 @@
 			<c:choose>
 			<c:when test="${page < lastpage}">
 				<li>
-					<a	href="<c:url value="/admin?page=${page + 1}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>" 
+					<a	href="<c:url value="?page=${page + 1}&${sortParams}"/>" 
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.next" />">
 					 	<spring:message	code="crsms.paginationlogic.navigation.next" />
 					</a>
 				</li>
 				<li>
-					<a href="<c:url value="/admin?page=${lastpage}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>"  
+					<a href="<c:url value="?page=${lastpage}&${sortParams}"/>"  
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.last" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.last" />
