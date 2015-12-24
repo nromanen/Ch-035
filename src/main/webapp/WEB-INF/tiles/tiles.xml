@@ -172,8 +172,8 @@
 	</definition>
 	
 	<definition name="coursesProgress" extends="base-template" >
-		<put-attribute name="title" value="crsms.courses.text.your_courses" />
-		<put-attribute name="header-title" value="crsms.courses.text.your_courses" />
+		<put-attribute name="title" value="crsms.text.user_info" />
+		<put-attribute name="header-title" value="crsms.text.user_info" />
 		<put-attribute name="content" value="/WEB-INF/view/course/courses_progress.jsp" />
 		<put-attribute name="content-container-class" value="course-container" />
 		<put-list-attribute name="javascripts" inherit="true">
