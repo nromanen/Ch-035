@@ -56,21 +56,17 @@ public class AdminController {
 						@RequestParam (value = "itemsperpage", required = false, defaultValue = "6") int itemsPerPage,
 						HttpSession session, ModelMap model) {
 		
-		if (session.getAttribute("direction") == null) {
+		if (session.getAttribute("direction") == null) 
 			session.setAttribute("direction", direction);
-		}
 
 		int offSet = (page - 1) * itemsPerPage;
 		long rowsCount = userService.getRowsCount(keyWord);
-		long usersToApproveCount = userService.getUsersToApproveCount();
-		long teacherRequestsCount = requestService.getRequestsHistoryCount();
 		String order = (String) session.getAttribute("direction");
 		String sortingField = (String) session.getAttribute("sortparam");
 		int lastpage = (int) ((rowsCount / itemsPerPage));
 		
-		if (rowsCount > (lastpage * itemsPerPage)) {
+		if (rowsCount > (lastpage * itemsPerPage)) 
 			lastpage++;
-		}
 		
 		if (session.getAttribute("direction") != null) {
 			order = direction;
@@ -84,22 +80,21 @@ public class AdminController {
 			session.setAttribute("sortparam", sortParam);
 			sortingField = (String) session.getAttribute("sortparam");
 		}
-		
-		List<User> users = userService.getPagingUsers(
-				offSet, itemsPerPage, sortingField, order, keyWord);
-
 		List<TeacherRequest> requests = requestService.getRequestsHistory();
 		List<User> usersToApprove = userService.getUsersToApprove();
 		model.addAttribute("lastpage", lastpage);
 		model.addAttribute("page", page);
-		model.addAttribute("users", users);
 		model.addAttribute("keyWord", keyWord);
 		model.addAttribute("itemsperpage", itemsPerPage);
 		model.addAttribute("usersToApprove", usersToApprove);
 		model.addAttribute("requests", requests);
 		model.addAttribute("rowscount", rowsCount);
-		model.addAttribute("usersToApproveCount", usersToApproveCount);
-		model.addAttribute("teacherRequestsCount", teacherRequestsCount);
+		model.addAttribute("usersToApproveCount", 
+						userService.getUsersToApproveCount());
+		model.addAttribute("teacherRequestsCount", 
+						requestService.getRequestsHistoryCount());
+		model.addAttribute("users",  userService.getPagingUsers(
+						offSet, itemsPerPage, sortingField, order, keyWord));
 		return "admin";
 	}
 	
@@ -114,11 +109,15 @@ public class AdminController {
 	public String editUser(@PathVariable Long userId, ModelMap model) {
 		User user = userService.getById(userId);
 		model.addAttribute("user", user);
-		return "adduser";
+		return "edituser";
 	}
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.POST)
-	public String updateUser(@PathVariable long userId, @ModelAttribute("user") User user) {
+	public String updateUser(@PathVariable long userId,@Validated User user, BindingResult result) {
+		validator.validate(user, result);
+		if (result.hasErrors()) {
+			return "edituser";
+		}
 		userService.update(user);
 		return "redirect:/private/admin/";
 	}

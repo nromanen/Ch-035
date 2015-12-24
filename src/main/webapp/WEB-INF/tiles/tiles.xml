@@ -66,43 +66,8 @@
 			<add-attribute value="/resources/js/admin/admin.js" />
 		</put-list-attribute>
 	</definition>
-	<definition name="adduser" extends="base-template">
-		<put-attribute name="content" value="/WEB-INF/view/users/adduser.jsp" />
-		<put-attribute name="logo" value="" cascade="true" />
-		<put-attribute name="app-title" value="" cascade="true" />
-		<put-attribute name="title" value="" />
-		<put-attribute name="header" value="" />
-		<put-attribute name="header-title" value="" cascade="true" />
-		<put-attribute name="menu" value="" />
-		<put-attribute name="breadcrumbs" value="" />
-		<put-attribute name="content-container-class" value="" />
-		<put-attribute name="footer" value="" />
-		<put-attribute name="favicon" value="" />
-	</definition>
-	<definition name="request" extends="base-template">
-		<put-attribute name="title" value="crsms.request.title.request" />
-		<put-attribute name="header-title" value="crsms.request.title.request" />
-		<put-attribute name="content" value="/WEB-INF/view/users/request.jsp" />
-	</definition>
-	<definition name="requests" extends="base-template">
-		<put-attribute name="title" value="crsms.request.title.request" />
-		<put-attribute name="header-title" value="crsms.request.title.request" />
-		<put-attribute name="content" value="/WEB-INF/view/users/request.jsp" />
-	</definition>
-	<definition name="manager" extends="base-template">
-		<put-attribute name="title" value="crsms.manager.title.list" />
-		<put-attribute name="header-title" value="crsms.manager.title.list" />
-		<put-attribute name="content" value="/WEB-INF/view/users/manager.jsp" />
-	</definition>
-	<definition name="student" extends="base-template">
-		<put-attribute name="title" value="crsms.student.title.list" />
-		<put-attribute name="header-title" value="crsms.student.title.list" />
-		<put-attribute name="content" value="/WEB-INF/view/users/student.jsp" />
-	</definition>
-	<definition name="teacher" extends="base-template">
-		<put-attribute name="title" value="crsms.teacher.title.list" />
-		<put-attribute name="header-title" value="crsms.teacher.title.list" />
-		<put-attribute name="content" value="/WEB-INF/view/users/teacher.jsp" />
+	<definition name="edituser" extends="base-template" template="/WEB-INF/view/users/edittempl.jsp">
+		<put-attribute name="content" value="/WEB-INF/view/users/edituser.jsp" />
 	</definition>
 	<definition name="signin" extends="base-template">
 		<put-attribute name="title" value="crsms.signin.title.list" />
