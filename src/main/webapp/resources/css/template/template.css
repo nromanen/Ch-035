@@ -9,6 +9,7 @@ body {
 	margin-top: 10px;
 }   
 #page-title {
+	position: relative;
 	text-align: center;
     background: #1F89CA;
     color: #fff;
@@ -25,28 +26,36 @@ body {
 #logo a {
     text-decoration: none;
 }
-#logo a:hover #logo-img {
+#logo a:hover .logo-img {
 	-moz-transform: rotate(360deg);
 	-webkit-transform: rotate(360deg);
 	-o-transform: rotate(360deg);
 	-ms-transform: rotate(360deg);
 	transform: rotate(360deg);
 }
-#logo-img {
+#logo-default-img {
     height: 90px;
     margin: 10px 0;
+    z-index: 1;
 }
 #logo-app-title {
 	padding-left: 5px;
     font-size: 15px;
     font-weight: 700;
 }
-#logo-img, #logo-app-title {
+.logo-img, #logo-app-title {
     -webkit-transition: all 1000ms ease-in-out;
 	-moz-transition: all 1000ms ease-in-out;
 	-ms-transition: all 1000ms ease-in-out;
 	-o-transition: all 1000ms ease-in-out;
 	transition: all 1000ms ease-in-out;
+}
+#let-it-snow {
+	padding: 2px 6px;
+    position: absolute;
+    left: 30px;
+    bottom: -5px;
+    z-index: 4;
 }
 #main-container {
 	padding-top: 20px;
@@ -74,6 +83,9 @@ footer {
 }
 
 /*GENERAL tags & classes*/
+.opacity-0 {
+	opacity: 0;
+}
 .inline-block {
 	display: inline-block;
 }

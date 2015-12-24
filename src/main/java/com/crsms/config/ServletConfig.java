@@ -30,6 +30,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import com.crsms.interceptor.BreadcrumbsInterceptor;
+import com.crsms.interceptor.HolidayInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
@@ -59,6 +60,7 @@ class ServletConfig extends WebMvcConfigurerAdapter {
 		localeChangeInterceptor.setParamName("lang");
 		
 		BreadcrumbsInterceptor breadcrumbsInterceptor = new BreadcrumbsInterceptor();
+		HolidayInterceptor holidayInterceptor = new HolidayInterceptor();
 		
 		registry.addInterceptor(localeChangeInterceptor);
 		registry.addInterceptor(breadcrumbsInterceptor)
@@ -71,6 +73,12 @@ class ServletConfig extends WebMvcConfigurerAdapter {
 				.excludePathPatterns("/courses/progress/**")
 				.excludePathPatterns("/courses/*/modules/*/tests/*/show/*")
 				.excludePathPatterns("/courses/*/modules/*/tests/*/testresult/*");
+		registry.addInterceptor(holidayInterceptor)
+				.excludePathPatterns("/courses/*/modules/*/tests/*/questions/add/question-form")
+				.excludePathPatterns("/api/**")
+				.excludePathPatterns("/changePassword")
+				.excludePathPatterns("/resources/**")
+				.excludePathPatterns("/**/delete");
 				
 	}
     
