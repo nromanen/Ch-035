@@ -7,6 +7,8 @@
 <c:if test="${direction == null ||direction == 'asc'}">
 <c:set var = "order" value = "desc"/>
 </c:if>
+<c:set var="sortParams" 
+value="sortparam=${sessionScope['sortparam']}&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}" />
 <table class="table table-bordered table-hover">
 		<thead>
 			<tr class="active">
@@ -198,16 +200,14 @@
 			</c:when>
 			<c:when test="${page > 1}">
 				<li>				
-					<a href="<c:url value="/private/admin?page=${1}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>" 
+					<a href="<c:url value="?page=${1}&${sortParams}"/>" 
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.first" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.first" />
 					</a>
 				</li>
 				<li>
-					<a	href="<c:url value="/private/admin?page=${page - 1}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>" 
+					<a	href="<c:url value="?page=${page - 1}&${sortParams}"/>" 
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.previous" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.previous" />
@@ -221,8 +221,7 @@
 							class = "active"
 						</c:when>
 					</c:choose>>
-					<a href="<c:url value="/private/admin?page=${p}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>">
+					<a href="<c:url value="?page=${p}&${sortParams}"/>">
 						 <c:out	value="${p}"/>
 					</a>
 				</li>			
@@ -230,16 +229,14 @@
 			<c:choose>
 			<c:when test="${page < lastpage}">
 				<li>
-					<a	href="<c:url value="/private/admin?page=${page + 1}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>" 
+					<a	href="<c:url value="?page=${page + 1}&${sortParams}"/>" 
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.next" />">
 					 	<spring:message	code="crsms.paginationlogic.navigation.next" />
 					</a>
 				</li>
 				<li>
-					<a href="<c:url value="/private/admin?page=${lastpage}&sortparam=${sessionScope['sortparam']}
-											&direction=${sessionScope['direction']}&keyWord=${keyWord}&itemsperpage=${itemsperpage}"/>"  
+					<a href="<c:url value="?page=${lastpage}&${sortParams}"/>"  
 						data-toggle="tooltip"
 						title="<spring:message code="crsms.paginationlogic.tooltip.last" />"> 
 						<spring:message	code="crsms.paginationlogic.navigation.last" />

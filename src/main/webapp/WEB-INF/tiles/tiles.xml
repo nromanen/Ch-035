@@ -59,12 +59,15 @@
 		<put-attribute name="title" value="crsms.admin.title.list" />
 		<put-attribute name="header-title" value="crsms.admin.title.list" />
 		<put-attribute name="content" value="/WEB-INF/view/users/admin.jsp" />
+		<put-attribute name="jquery-validation-messages" value="/WEB-INF/view/utils/jqueryvalidation/jqueryvalidationmessages.jsp" cascade="true" />
 		<put-list-attribute name="stylesheets" inherit="true">
 			<add-attribute value="/resources/css/admin/admin.css" />
 		</put-list-attribute>
 		<put-list-attribute name="javascripts" inherit="true">
 			<add-attribute value="/resources/js/admin/admin.js" />
+			<add-attribute value="/webjars/jquery-validation/1.14.0/jquery.validate.min.js" />
 		</put-list-attribute>
+		
 	</definition>
 	<definition name="edituser" extends="base-template" template="/WEB-INF/view/users/edittempl.jsp">
 		<put-attribute name="content" value="/WEB-INF/view/users/edituser.jsp" />
