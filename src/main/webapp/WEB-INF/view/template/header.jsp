@@ -10,7 +10,7 @@
 <!-- logo -->
 <div id="logo" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 	<a href="${homeLink}">
-		<img id="logo-default-img" class="logo-img" src="<c:url value="${logo}"/>" />
+		<img id="logo-default-img" class="logo-img  ${isXmas ? 'opacity-0' : ''}" src="<c:url value="${logo}"/>" />
 		<span id="logo-app-title" class="inline-block"><spring:message code = "${appTitle}" /></span>
 	</a>
 <!-- end logo -->

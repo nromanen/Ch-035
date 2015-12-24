@@ -128,7 +128,6 @@ $(document).ready(function(e) {
 	logoContainer.prepend('<div id="logo-xmas-img-cover"></div>');
 	logoContainer.children('a').first()
 		.prepend('<img id="logo-xmas-img" class="logo-img" src="' + helper.santaLogoUrl + '" />');
-	$('#logo-default-img').addClass('opacity-0');
 	
 	// let it snow!!!
 	helper.jquerySnowfall = {
