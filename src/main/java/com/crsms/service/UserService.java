@@ -35,6 +35,5 @@ public interface UserService extends BaseService<User> {
 							String sortingField, String order, String keyWord);
 	
 	List<User> getUsersToApprove();
-	
-	User updateUserParameters(User user, Long roleId, Boolean isEnabled);
+
 }
