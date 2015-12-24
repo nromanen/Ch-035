@@ -161,16 +161,4 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	public List<User> getUsersToApprove() {
 		return userDao.getUsersToApprove();
 	}
-
-	@Override
-	@Transactional
-	public User updateUserParameters(User user, Long roleId, Boolean isEnabled) {
-		
-		user.setRole(roleService.getRoleById(roleId));
-		user.setIsEnabled(isEnabled);
-		userDao.update(user);
-		return user;
-	}
-
-	
 }
