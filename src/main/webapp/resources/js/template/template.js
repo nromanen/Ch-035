@@ -1,15 +1,32 @@
 $(document).ready(function(e) {
-
+	
 	// tooltips
 	$('[data-toggle="tooltip"]').tooltip();
-
-	// table rows hover
-	$(".table tbody tr").hover(function(e) {
-		// to avoid bugs reset all rows
-		$(".table tbody tr").removeClass("info");
-		$(e.delegateTarget).addClass("info");
-	}, function(e) {
-		$(e.delegateTarget).removeClass("info");
-	});
-
+	
+	// scrolling effects
+	var offset = 250; // At what pixels start events
+    $(window).scroll(function() {
+    	// scroll to top button fade
+    	if ($(this).scrollTop() > offset) {
+    		$('#scroll-to-top').fadeIn(500); // Time(in Milliseconds) of appearing of the Button when scrolling down.
+        } else {
+        	$('#scroll-to-top').fadeOut(500); // Time(in Milliseconds) of disappearing of Button when scrolling up.
+        }
+    });   
+    // scroll to top button click animation
+    $("#scroll-to-top").click(function(e) {
+    	$('#logo').animatescroll({scrollSpeed:700,easing:'easeOutCirc'});
+    });
+    
+    //Search
+    $('#clear-search').click(function() {
+		$(this).prev('input').val('').focus();
+	})
+	
+	$('#search').keyup(function(e) {
+		var ENTER_BUTTON_KEY_CODE = 13;
+		if (e.keyCode == ENTER_BUTTON_KEY_CODE) {
+			$('#search-btn').click();
+		}
+	})
 });

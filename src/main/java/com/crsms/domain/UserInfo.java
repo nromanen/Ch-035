@@ -1,66 +1,66 @@
 package com.crsms.domain;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-/**
- * 
- * @author Valerii Motresku
- *
- */
 
 @Entity
-@Table(name="user_info")
+@Table(name = "user_info")
+@NamedQueries({
+	@NamedQuery(name = UserInfo.DELETE, query = "DELETE FROM UserInfo uf WHERE uf.id=:id")})
+@PrimaryKeyJoinColumn
 public class UserInfo {
 	
+	public static final int MAX_NAME_LENGTH = 20;
+	public static final String DELETE = "UserInfo.delete";
+	
 	@Id  
-    @Column(name = "user_id")  
-    @GeneratedValue(generator = "user_info_gen")  
-    @GenericGenerator(name = "user_info_gen", strategy = "foreign",   
-    parameters = @Parameter(name = "property", value = "user"))  
-	private Long userId;
+    @Column(name = "id")  
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
+	@SequenceGenerator(name = "crsms_gen", sequenceName = "user_info_id_seq", allocationSize = 1)
+	private Long id;
 	
 	@OneToOne  
-    @PrimaryKeyJoinColumn
+	@Cascade({ CascadeType.ALL })
 	private User user;
 	
-	@Column(nullable = false)
+	@Column
+	@Size(max = MAX_NAME_LENGTH)
 	private String firstName;
 	
-	@Column(nullable = false)
-	private String secondName;
+	@Column
+	@Size(max = MAX_NAME_LENGTH)
+	private String lastName;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@Cascade({CascadeType.ALL})
+	@Column(name = "image", columnDefinition = "text")
+	private String image;
 
-
-	private Set<Group> groups;
-	
-	public UserInfo() {
-		super();
+	public String getImage() {
+		return image;
 	}
 
-
-	public Long getUserId() {
-		return userId;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public User getUser() {
@@ -79,20 +79,12 @@ public class UserInfo {
 		this.firstName = firstName;
 	}
 
-	public String getSecondName() {
-		return secondName;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setSecondName(String secondName) {
-		this.secondName = secondName;
-	}
-
-	public Set<Group> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(Set<Group> groups) {
-		this.groups = groups;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 }

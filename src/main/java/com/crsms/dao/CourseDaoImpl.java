@@ -1,103 +1,201 @@
 package com.crsms.dao;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Course;
+import com.crsms.domain.Question;
+import com.crsms.domain.Test;
+import com.crsms.dto.CourseModuleNamesPairDto;
 
 /**
  * 
- * @author Valerii Motresku
+ * @author Valerii Motresku, maftey, St. Roman
  *
  */
 
-@Repository("courseDao")
-public class CourseDaoImpl implements CourseDao {
-	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	private static Logger logger = LogManager.getLogger(TestDaoImpl.class);
-	
-	@Override
-	public void saveCourse(Course course) {
-		
-		try {
-			if(course.getId() == null) {
-				//sessionFactory.getCurrentSession().persist(course);
-				sessionFactory.getCurrentSession().save(course);
-				logger.info("DAO:create course:" + course.getName());
-			} else {
-				sessionFactory.getCurrentSession().update(course);
-				logger.info("DAO:create update:" + course.getName());
-			}
-		} catch (HibernateException e) {
-			logger.error("Error saveCourse: " + e);
-		}
+@Repository
+public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseDao {
+
+	public CourseDaoImpl() {
+		super(Course.class);
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Course> getAllCourse() {
+	public List<Course> getAllByAreaId(Long areaId) {
 		try {
-			return (List<Course>)sessionFactory.getCurrentSession().createQuery("FROM Course").list();
-
-		} catch (HibernateException e) {
-			logger.error("Error getAllCourse: " + e);
-		}
-		
-		return null;
-	}
-
-	@Override
-	public Course getCourseById(Long id) {
-		try {
-			return (Course)sessionFactory.getCurrentSession().
-					get(Course.class, id);
-		} catch (HibernateException e) {
-			logger.error("Error getCourseById: " + e);
-		}
-		return null;
-	}
-
-	@Override
-	public void updateCourse(Course course) {
-		try {
-			sessionFactory.getCurrentSession().update(course);
-			logger.info("DAO:create update:" + course.getName());
+			return getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Course.GET_BY_AREA_ID)
+							  		  .setParameter("id", areaId)
+							  		  .list();
 		} catch (Exception e) {
-			logger.error("Error updateCourse: " + e);
+			getLogger().error("Error in getting all courses by area id: " + e);
+			throw e;
 		}
+	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllByUserEmail(String email) {
+		try {
+			return getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Course.GET_BY_USER_EMAIL)
+									  .setParameter("email", email).list();
+		} catch (Exception e) {
+			getLogger().error("Error in getting all courses by user email: " + e);
+			throw e;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllByOwnerEmail(String email) {
+		try {
+			return getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Course.GET_BY_OWNER_EMAIL)
+									  .setParameter("email", email).list();
+		} catch (Exception e) {
+			getLogger().error("Error in getting all courses by owner email: " + e);
+			throw e;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> searchCourses(String searchWord) {
+		try {
+			return getSessionFactory().getCurrentSession()
+									  .getNamedQuery(Course.SEARCH)
+									  .setParameter("s", "%" + searchWord + "%")
+									  .list();
+		} catch (HibernateException e) {
+			getLogger().error("Error searchCourses: " + e);
+			throw e;
+		}
+	}
+
+	@Override
+	public Course getByTest(Test test) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_TEST)
+				.setParameter("id", test.getId()).uniqueResult();
 	}
 	
 	@Override
-	public Course getCourse(String name) {
+	public Course getByTest(Long testId) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_TEST)
+				.setParameter("id", testId).uniqueResult();
+	}
+	
+	@Override
+	public Course getByQuestion(Question question) {
+		return (Course) getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_BY_QUESTION)
+					   .setParameter("id", question.getId()).uniqueResult();
+	}
+	
+	@Override
+	public Course getByQuestion(Long questionId) {
+		return (Course) getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_BY_QUESTION)
+					   .setParameter("id", questionId).uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<Long, Long> getStudentCoursesAndGroupsIds(String email) {
 		try {
-			sessionFactory.getCurrentSession()
-				.createQuery("FROM Course c WHERE c.name=:name")
-				.setString("name", name).uniqueResult();
+			List<List<Long>> list = this.getSessionFactory().getCurrentSession()
+										.getNamedQuery(Course.GET_STUDENT_COURSES_AND_GROUPS_IDS)
+									 	.setParameter("email", email)
+									 	.setResultTransformer(Transformers.TO_LIST)
+									 	.list();
+			return transformListToMap(list);
 		} catch (Exception e) {
-			logger.error("Error getCourse: " + e);
+			this.getLogger().error("Error in getting student's courses and groups id's: " + e);
+			throw e;
 		}
-		return null;
+	}
+	
+	/**
+	 * Query Course.GET_STUDENT_COURSES_AND_GROUPS_IDS with result transformer Transformers.TO_LIST
+	 * returns List<List<Long>> with only two values in the inner List<Long>:
+	 * get(0) - course ID, get(1) - group ID.
+	 * Method takes that values from all the inner lists and puts them into Map<Long, Long>, where:
+	 * key - course ID, value - group ID. 
+	 * @param list result of executing query Course.GET_STUDENT_COURSES_AND_GROUPS_IDS
+	 * @return converted List as a Map
+	 */
+	private Map<Long, Long> transformListToMap(List<List<Long>> list) {
+		Map<Long, Long> map = new HashMap<>();
+		for (List<Long> innerList : list) {
+			map.put(innerList.get(0), innerList.get(1));
+		}
+		return map;
+	}
+	
+	@Override
+	public Course getByModule(Long moduleId) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_MODULE)
+				.setParameter("id", moduleId).uniqueResult();
 	}
 
 	@Override
-	public void deleteCourse(Course course) {
+	public Course getByAnswer(Long answerId) {
+		return (Course) getSessionFactory().getCurrentSession().getNamedQuery(Course.GET_BY_ANSWER)
+				.setParameter("id", answerId).uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllPublished() {
 		try {
-			sessionFactory.getCurrentSession().delete(course);
-		} catch (HibernateException e) {
-			logger.error("Error delete: " + e);
+			return this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_ALL_PUBLISHED)
+					   .list();
+		} catch (Exception e) {
+			this.getLogger().error("Error in getting all published courses: " + e);
+			throw e;
 		}
-		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> getAllAssociatedWithResource(Long resourceId) {
+		try {
+			return (List<Course>) this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_ALL_ASSOCIATED_WITH_RESOURCE)
+					   .setParameter("resource_id", resourceId)
+					   .list();
+		} catch (Exception e) {
+			this.getLogger().error("Error getAllAssociatedWithResource courses: " + e);
+			throw e;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
+			Long resourceId) {
+		try {
+			return (List<CourseModuleNamesPairDto>) this.getSessionFactory()
+					   .getCurrentSession()
+					   .getNamedQuery(Course.GET_ALL_COURSE_MODULE_NAMES_PAIRS_ASSOCIATED_WITH_RESOURCE)
+					   .setParameter("resource_id", resourceId)
+					   .list();
+		} catch (Exception e) {
+			this.getLogger().error("Error getAllAssociatedWithResource courses: " + e);
+			throw e;
+		}
 	}
 
 }

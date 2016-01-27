@@ -1,9 +1,12 @@
 package com.crsms.dao;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import com.crsms.domain.Course;
+import com.crsms.domain.Question;
+import com.crsms.domain.Test;
+import com.crsms.dto.CourseModuleNamesPairDto;
 
 
 /**
@@ -12,20 +15,32 @@ import com.crsms.domain.Course;
  *
  */
 
-public interface CourseDao {
+public interface CourseDao extends BaseDao<Course> {
 	
-	void saveCourse(Course course);
+	Course getByTest(Test test);
+	Course getByTest(Long testId);
 	
-	List<Course> getAllCourse();
+	Course getByQuestion(Question question);
+	Course getByQuestion(Long questionId);
 	
-	/**
-	 * @return a Course instance or null
-	 */
-	Course getCourseById(Long id);
+	Course getByModule(Long moduleId);
+	
+	Course getByAnswer(Long answerId);
+	
+	List<Course> getAllByAreaId(Long areaId);
+	
+	List<Course> getAllByUserEmail(String email);
+	
+	List<Course> getAllByOwnerEmail(String email);
 
-	void updateCourse(Course course);
-	
-	Course getCourse(String name);
-	
-	void deleteCourse(Course course);
+	List<Course> searchCourses(String searchWord);
+
+	Map<Long, Long> getStudentCoursesAndGroupsIds(String email);
+
+	List<Course> getAllPublished();
+
+	List<Course> getAllAssociatedWithResource(Long resourceId);
+
+	List<CourseModuleNamesPairDto> getAllCourseModuleNamesPairsAssociatedWithResource(
+			Long resourceId);
 }

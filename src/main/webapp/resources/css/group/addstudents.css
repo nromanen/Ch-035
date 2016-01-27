@@ -1,0 +1,15 @@
+.half-block {
+	width: 50%;
+	float: left;
+}
+
+.tab-pane {
+	position: relative;
+	height: 330px;
+}
+
+.submit-btn {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}

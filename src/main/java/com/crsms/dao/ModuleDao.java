@@ -3,6 +3,7 @@ package com.crsms.dao;
 import java.util.List;
 
 import com.crsms.domain.Module;
+import com.crsms.domain.Test;
 
 /**
  * 
@@ -10,18 +11,15 @@ import com.crsms.domain.Module;
  *
  */
 
-public interface ModuleDao {
+public interface ModuleDao extends BaseDao<Module> {
 	
-	void add(Module module);
-	
-	void update(Module module);
-	
-	void delete(Module module);
-	
-	Module getById(Long id);
-	
-	List<Module> getAll();
+	List<Module> getAllByCourseId(Long courseId);
 
 	void deleteById(Long id);
+	
+	Module getByTest(Test test);
+	Module getByTest(Long testId);
+
+	List<Module> getAllAssociatedWithResource(Long resourceId);
 	
 }

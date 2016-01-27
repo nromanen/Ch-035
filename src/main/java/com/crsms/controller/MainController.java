@@ -1,99 +1,94 @@
 package com.crsms.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.crsms.service.UserService;
+/**
+ * 
+ * @author Roman Romaniuk
+ *
+ */
 @Controller
 public class MainController {
-
-	@RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
-	public ModelAndView defaultPage() {
-
-		ModelAndView model = new ModelAndView();
-		model.addObject("title", "Course Management System");
-		model.addObject("message", "This is default page for all users!");
-		model.setViewName("hello");
-		return model;
-
+	
+	@Autowired
+	private PersistentTokenRepository tokenRepository;
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String homePage() {
+		return "redirect:/courses/";
 	}
 
-	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
-	public ModelAndView adminPage() {
-
-		ModelAndView model = new ModelAndView();
-		model.addObject("title", "Course Management System");
-		model.addObject("message", "This page is for ROLE_ADMIN only!");
-		model.setViewName("admin");
-
-		return model;
-
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
-
-		ModelAndView model = new ModelAndView();
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)
+	public String loginPage(@RequestParam (
+					value = "error", required = false) String error,  
+					HttpServletRequest request, ModelMap model) {
 		if (error != null) {
-			model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+			model.addAttribute("error", selectErrorException(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
-
-		if (logout != null) {
-			model.addObject("msg", "You've been logged out successfully.");
-		}
-		model.setViewName("login");
-
-		return model;
-
+		return "signin";
 	}
-
-	// customize the error message
-	private String getErrorMessage(HttpServletRequest request, String key) {
-
-		Exception exception = (Exception) request.getSession().getAttribute(key);
-
-		String error = "";
-		if (exception instanceof BadCredentialsException) {
-			error = "Invalid username and password!";
-		} else if (exception instanceof LockedException) {
-			error = exception.getMessage();
-		} else {
-			error = "Invalid username and password!";
+	
+	@RequestMapping(value = "/signout", method = RequestMethod.GET)
+	public String logoutPage(HttpServletRequest request, 
+								HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext()
+								.getAuthentication();
+		if (auth != null) {
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+			tokenRepository.removeUserTokens(auth.getName());
 		}
-
-		return error;
+		return "redirect:/signin?signout";
 	}
-
-	// for 403 access denied page
+	
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public ModelAndView accesssDenied() {
 
 		ModelAndView model = new ModelAndView();
-
-		// check if user is login
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			System.out.println(userDetail);
-
 			model.addObject("username", userDetail.getUsername());
-
 		}
-
 		model.setViewName("403");
 		return model;
-
 	}
-
+	
+	private String selectErrorException(HttpServletRequest request, String key){
+		Exception exception = 
+                   (Exception) request.getSession().getAttribute(key);
+		String error = "";
+		if (exception instanceof BadCredentialsException) {
+			error = "credentialsException";
+		} else if (exception instanceof DisabledException) {
+			error = "disabledException";
+		} else if (exception instanceof LockedException) {
+			error = "lockedException";
+		}  else {
+			error = exception.getMessage();
+		}
+		return error;
+	}
 }

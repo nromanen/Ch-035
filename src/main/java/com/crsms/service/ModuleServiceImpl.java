@@ -12,6 +12,11 @@ import com.crsms.dao.CourseDao;
 import com.crsms.dao.ModuleDao;
 import com.crsms.domain.Course;
 import com.crsms.domain.Module;
+import com.crsms.domain.Resource;
+import com.crsms.domain.User;
+import com.crsms.dto.ModuleViewDto;
+import com.crsms.dto.TestViewDto;
+import com.crsms.exception.ElementNotFoundException;
 
 /**
  * 
@@ -21,23 +26,32 @@ import com.crsms.domain.Module;
 
 @Service("moduleService")
 @Transactional
-public class ModuleServiceImpl implements ModuleService {
+public class ModuleServiceImpl extends BaseServiceImpl<Module> implements ModuleService {
 	
 	private static Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
+	
+	@Autowired
+	private CourseService courseService;
+	
+	@Autowired
+	private ModuleDao moduleDao;
 	
 	@Autowired
 	private CourseDao courseDao;
 	
 	@Autowired
-	private ModuleDao moduleDao;
+	private ResourceService resourceService;
+	
+	@Autowired
+	private TestService testService;
 
 	@Override
-	public void add(Long courseId, Module module) {
-		logger.info("in moduleService save(Module)");
-		Course course = courseDao.getCourseById(courseId);
-		module.setCourse(course);
-		moduleDao.add(module);
-		logger.info("out moduleService save(Module)");
+	public void save(Long courseId, Module module) {
+		logger.info("in moduleService save(courseId, Module)");
+		Course course = courseService.getById(courseId);
+		course.addModule(module);
+		moduleDao.save(module);
+		logger.info("out moduleService save(courseId, Module)");
 	}
 	
 	@Override
@@ -52,31 +66,105 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public void delete(Module module) {
-		logger.info("in moduleService delete(Module)");
-		moduleDao.delete(module);
-		logger.info("out moduleService delete(Module)");
-	}
-
-	@Override
-	public Module getById(Long id) {
-		logger.info("in moduleService getById(module id)");
-		logger.info("trying to get module");
-		return moduleDao.getById(id);
-	}
-
-	@Override
-	public List<Module> getAll() {
-		logger.info("in moduleService getAll(Module)");
-		logger.info("trying to get modules");
-		return moduleDao.getAll();
-	}
-
-	@Override
-	public void deleteById(Long id) {
-		logger.info("in moduleService deleteById(module id)");
-		moduleDao.deleteById(id);
+	public void deleteById(Long moduleId) {
+		logger.info("in moduleService deleteById()");
+		logger.info("checking module id");
+		
+		Module module = moduleDao.getById(moduleId);
+		if (module == null) {
+			throw new ElementNotFoundException();
+		}
+		
+		logger.info("trying to delete module");
+		Course course = courseDao.getByModule(module.getId());
+		
+		module.disable();
+		this.freeResource(module);
+		if (!course.getPublished()) {
+			course.deleteModule(module);
+			moduleDao.delete(module);
+		}
 		logger.info("out moduleService deleteById(module id)");
+	}
+	
+	@Override
+	public List<Module> getAllByCourseId(Long courseId) {
+		logger.info("in moduleService getAllByCourseId(courseId)");
+		logger.info("checking course id");
+
+		Course course = courseDao.getById(courseId);
+		if (course == null || course.getDisable()) {
+			throw new ElementNotFoundException();
+		}
+		
+		logger.info("trying to get modules");
+		List<Module> modules = moduleDao.getAllByCourseId(courseId);
+		
+		logger.info("out moduleService getAllByCourseId(courseId)");
+		return modules;
+	}
+
+	
+	@Override
+	public void addResource(Long moduleId, Resource resource) {
+		Module module = getById(moduleId);
+		resourceService.save(resource);
+		module.addResource(resource);
+		update(module);
+	}
+	
+	@Override
+	public void addExistingResource(Long moduleId, Resource resource) {
+		Module module = getById(moduleId);
+		module.addResource(resource);
+		update(module);
+	}
+
+	@Override
+	public void removeResource(Long moduleId, Resource resource) {
+		Module module = moduleDao.getById(moduleId);
+		this.removeResource(module, resource);
+	}
+	
+	@Override
+	public void removeResource(Module module, Resource resource) {
+		module.removeResource(resource);
+	}
+
+	@Override
+	public void freeResource(Module module) {
+		module.getResources().clear();
+		moduleDao.update(module);
+	}
+
+	@Override
+	public void initModuleViewDto(ModuleViewDto moduleViewDto, User user) {
+		boolean complete = true;
+		boolean pass = true;
+		double score = 0;
+		double totalScore = 0;
+		
+		for(TestViewDto testViewDto : moduleViewDto.getTests()){
+			testService.initTestViewDto(testViewDto, user);
+			if(testViewDto.getHasTestResult() && testViewDto.getComplete()) {
+				score += testViewDto.getScore();
+				if(!testViewDto.getPass()) pass = false;
+			} else {
+				complete = false;
+				pass = false;
+			}
+			
+			totalScore += 100;
+		}
+		
+		moduleViewDto.setComplete(complete);
+		moduleViewDto.setScore(score);
+		moduleViewDto.setTotalScore(totalScore);
+		moduleViewDto.setPass(pass);
+	}
+
+	public List<Module> getAllAssociatedWithResource(Long resourceId) {
+		return moduleDao.getAllAssociatedWithResource(resourceId);
 	}
 
 }

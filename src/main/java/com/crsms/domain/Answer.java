@@ -5,38 +5,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 /**
- * 
- * @author Valerii Motresku
- *
+ * @author Petro Andriets, Valerii Motresku
  */
 
 @Entity
-@Table(name="answer")
+@Table(name = "answer")
+@NamedQueries(@NamedQuery(name = Answer.GET_BY_QUESTION_ID,
+						  query = "SELECT answers FROM Question q WHERE q.id = :id"))
 public class Answer {
+	public static final int MAX_TEXT_LENGTH = 200;
+	public static final String GET_BY_QUESTION_ID = "Answer.getByQuestionId";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "answer_id_seq",  allocationSize = 1)
 	private Long id;
 	
-	@ManyToOne
-	@JoinColumn(name = "question_id")
-	private Question question;
-	
 	@Column(nullable = false)
+	@NotNull
+	@Size(max = MAX_TEXT_LENGTH)
 	private String text;
 	
 	@Column(nullable = false)
 	private Boolean correct = false;
 	
-	
-	
-	public Answer() {}
+	@Column(nullable = false)
+	private Boolean disable = false;
 
 	public Long getId() {
 		return id;
@@ -62,12 +65,16 @@ public class Answer {
 		this.correct = correct;
 	}
 
-	public Question getQuestion() {
-		return question;
+	public Boolean getDisable() {
+		return disable;
+	}
+	
+	public void disable() {
+		this.disable = true;
 	}
 
-	public void setQuestion(Question question) {
-		this.question = question;
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
 	}
-
+	
 }

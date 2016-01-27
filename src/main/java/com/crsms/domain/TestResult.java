@@ -1,11 +1,14 @@
 package com.crsms.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,31 +22,53 @@ import org.hibernate.annotations.CascadeType;
  */
 
 @Entity
-@Table(name="test_result")
+@Table(name = "test_result")
+@NamedQueries({
+	@NamedQuery(name = TestResult.GET_CURRENT,
+				query = "FROM TestResult testResult "
+						+ "WHERE testResult.test.id = :testId AND "
+						+ "testResult.user.id = :userId"),
+	@NamedQuery(name = TestResult.GET_BY_ID_AND_USER,
+				query = "FROM TestResult testResult "
+						+ "WHERE testResult.id = :testResultId AND testResult.user.id = :userId"),
+	@NamedQuery(name = TestResult.COUNT_CORRECT_ANSWER,
+				query = "SELECT COUNT(*) "
+						+ "FROM UserAnswer userAnswer "
+						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.answer.correct = true"),
+	@NamedQuery(name = TestResult.COUNT_INCORRECT_ANSWER,
+				query = "SELECT COUNT(*) "
+						+ "FROM UserAnswer userAnswer "
+						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.answer.correct = false")		
+})
 public class TestResult {
+	public static final String GET_CURRENT = "TestResult.getCurrent";
+	public static final String GET_BY_ID_AND_USER = "TestResult.getByIdAndUser";
+	public static final String COUNT_CORRECT_ANSWER = "TestResult.countCorrectAnswer";
+	public static final String COUNT_INCORRECT_ANSWER = "TestResult.countIncorrectAnswer";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
 	@SequenceGenerator(name = "crsms_gen", sequenceName = "test_result_id_seq", allocationSize = 1)
 	private Long id;
 	
-	@OneToOne
+	@ManyToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="test_id")
+    @JoinColumn(name = "test_id")
 	private Test test;
 	
-	
 	private Boolean complete = false;
-	
-	// TODO field Result. How to calculate.
 	// private Type Result;
 	
-	@OneToOne
+	@ManyToOne
 	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
 	private User user;
 	
-	public TestResult() {}
+	@Column(nullable = false)
+	private Double score;
+	
+	@Column
+	private Boolean pass;
 
 	public Long getId() {
 		return id;
@@ -77,4 +102,20 @@ public class TestResult {
 		this.user = user;
 	}
 
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
+	}
+
+	public Boolean getPass() {
+		return pass;
+	}
+
+	public void setPass(Boolean pass) {
+		this.pass = pass;
+	}
+	
 }

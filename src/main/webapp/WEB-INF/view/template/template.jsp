@@ -3,9 +3,21 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <tiles:importAttribute name="javascripts"/>
 <tiles:importAttribute name="stylesheets"/>
+<tiles:importAttribute name="favicon"/>
+<c:if test="${empty pageTitle}">
+	<tiles:importAttribute name="title" toName="pageTitle" />
+	<spring:message code = "${pageTitle}" var="pageTitle" />
+</c:if>
+<c:if test="${empty headerTitle}">
+	<tiles:importAttribute name="header-title" toName="headerTitle" />
+	<spring:message code = "${headerTitle}" var="headerTitle" />
+</c:if>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -20,8 +32,10 @@
     <meta name="description" content="SOME DESC">
     
     <!-- title -->
-    <title><tiles:insertAttribute name="title"></tiles:insertAttribute></title>
+    <title>${pageTitle}</title>
     <!-- end title -->
+    
+    <link rel="shortcut icon" href="<c:url value="${favicon}"/>" type="image/x-icon" />
     
     <!-- stylesheets -->
 	<c:forEach var="css" items="${stylesheets}">
@@ -48,10 +62,10 @@
         </p>
     <![endif]-->
 
+    
     <!-- header -->
     <header id="header">
     	<div class="container">
-    	  <h3><tiles:insertAttribute name="header-title"></tiles:insertAttribute></h3>
     	  <tiles:insertAttribute name="header"></tiles:insertAttribute>
     	</div>
 	</header>
@@ -65,19 +79,25 @@
 
     <!-- content -->
     <main id="main-body">
-    	<div class="container">
+    	<div id="page-title">${headerTitle}</div>
+	    <tiles:insertAttribute name="breadcrumbs"></tiles:insertAttribute>
+    	<div id="main-container" class="<tiles:insertAttribute name="content-container-class"></tiles:insertAttribute>">
           <tiles:insertAttribute name="content"></tiles:insertAttribute>
         </div>
     </main>
     <!-- end content -->
 
     <!-- footer -->
-    <footer id="footer">
+    <footer id="footer" class="" >
     	<div class="container">
           <tiles:insertAttribute name="footer"></tiles:insertAttribute>
         </div>
     </footer>
     <!-- end footer -->
-
+    
+    <!-- Scroll To Top -->
+    <button id="scroll-to-top" class="btn btn-warning"><i class="fa fa-chevron-up"></i></button>
+    <!-- end Scroll To Top -->
+	
 </body>
 </html>

@@ -1,12 +1,15 @@
 package com.crsms.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Type {
-	private Long id;
-	private String name;
+	public static final int MAX_NAME_LENGTH = 20;
 	
-	public Type() {
-		super();
-	}
+	private Long id;
+	@NotNull
+	@Size(min = 2, max = MAX_NAME_LENGTH)
+	private String name;
 
 	public Long getId() {
 		return id;

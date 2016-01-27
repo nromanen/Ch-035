@@ -1,0 +1,25 @@
+th {
+	text-align: center;
+}
+
+.managementCell {
+	width: 8%;
+}
+
+.contentCell {
+	width: 16%;
+}
+
+.nameCell {
+	width: 30%;
+}
+
+.btn-create {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.errorTxt {
+	font-weight: bold;
+	color: red;
+}

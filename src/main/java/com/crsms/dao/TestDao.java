@@ -1,25 +1,24 @@
 package com.crsms.dao;
 
+import java.util.List;
+
 import com.crsms.domain.Test;
 
-import java.util.List;
 
 /**
  * @author Petro Andriets
  */
 
-public interface TestDao {
+public interface TestDao extends BaseDao<Test> {
+    
+    List<Test> getAllByModuleId(Long moduleId);
+    
+    Test getByQuestion(Long questionId);
 
-    public void saveTest(Test test);
+    void deleteTestById(Long id);
+    
+    Test getTestById(Long id);
 
-    public Test getTestById(Long id);
-
-    public List<Test> getAllTests();
-
-    public void updateTest(Test test);
-
-    public void deleteTest(Test test);
-
-    public void deleteTestById(Long id);
-
+	Long countCorrectAnswer(Long testId);
+    
 }

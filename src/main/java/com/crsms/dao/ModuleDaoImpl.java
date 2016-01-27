@@ -1,16 +1,15 @@
 package com.crsms.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.crsms.domain.Module;
+import com.crsms.domain.Test;
 
 /**
  * 
@@ -18,74 +17,60 @@ import com.crsms.domain.Module;
  *
  */
 
-@Repository("moduleDao")
-public class ModuleDaoImpl implements ModuleDao {
+@Repository
+public class ModuleDaoImpl extends BaseDaoImpl<Module> implements ModuleDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
 	private static Logger logger = LogManager.getLogger(ModuleDaoImpl.class);
-
-	@Override
-	public void add(Module module) {
-		try {
-			sessionFactory.getCurrentSession().persist(module);
-		} catch (Exception e) {
-			logger.error("Error in save module: " + e);
-		}
+	
+	public ModuleDaoImpl() {
+		super(Module.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public void update(Module module) {
+	public List<Module> getAllByCourseId(Long courseId) {
 		try {
-			sessionFactory.getCurrentSession().update(module);
+			return sessionFactory.getCurrentSession()
+								 .getNamedQuery(Module.GET_ALL_BY_COURSE_ID)
+								 .setParameter("id", courseId).list();
 		} catch (Exception e) {
-			logger.error("Error in update module: " + e);
+			logger.error("Error in getting all modules by course id: " + e);
+			throw e;
 		}
-	}
-
-	@Override
-	public void delete(Module module) {
-		try {
-			sessionFactory.getCurrentSession().delete(module);
-		} catch (Exception e) {
-			logger.error("Error in delete module: " + e);
-		}
-	}
-
-	@Override
-	public Module getById(Long id) {
-		Module module = null;
-		try {
-			module = (Module) sessionFactory.getCurrentSession().get(Module.class, id);
-		} catch (Exception e) {
-			logger.error("Error in get module by id: " + e);
-		}
-		//Hibernate.initialize(module.getCourse());
-		return module;
-	}
-
-	@Override
-	public List<Module> getAll() {
-		List<Module> list = new ArrayList<Module>();
-		try {
-			String hql = "from Module m order by m.id asc";
-			list = sessionFactory.getCurrentSession().createQuery(hql).list();
-		} catch (Exception e) {
-			logger.error("Error in get all modules: " + e);
-		}
-		return list;
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		String hql = "delete Module where id = :id";
-	    Query qeury = sessionFactory.getCurrentSession().createQuery(hql).setParameter("id", id);
 	    try {
-	    	qeury.executeUpdate();
+	    	sessionFactory.getCurrentSession()
+	    				  .getNamedQuery(Module.DELETE_BY_ID)
+	    				  .setParameter("id", id).executeUpdate();
 		} catch (Exception e) {
 			logger.error("Error in delete module by id: " + e);
+			throw e;
 		}
+	}
+	
+	@Override
+	public Module getByTest(Test test) {
+		return (Module) sessionFactory.getCurrentSession().getNamedQuery(Module.GET_BY_TEST)
+				.setParameter("id", test.getId()).uniqueResult();
+	}
+
+	@Override
+	public Module getByTest(Long testId) {
+		return (Module) sessionFactory.getCurrentSession().getNamedQuery(Module.GET_BY_TEST)
+				.setParameter("id", testId).uniqueResult();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Module> getAllAssociatedWithResource(Long resourceId) {
+		return (List<Module>) sessionFactory.getCurrentSession().getNamedQuery(Module.GET_ALL_ASSOCIATED_WITH_RESOURCE)
+				.setParameter("resource_id", resourceId).list();
 	}
 
 }

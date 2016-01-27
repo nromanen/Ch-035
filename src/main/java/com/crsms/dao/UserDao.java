@@ -1,19 +1,27 @@
 package com.crsms.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import com.crsms.domain.User;
+import org.joda.time.DateTime;
+/**
+ * 
+ * @author Roman Romaniuk
+ *
+ */
 
-public interface UserDao {
-
-	User saveUser(User user);
-
-	User getUserById(Long id);
-
+public interface UserDao extends BaseDao<User> {
+	
 	User getUserByEmail(String email);
 
-	void delete(Long id);
+	long getRowsCount(String keyWord);
+	
+	List<User> getPagingUsers(int offSet, int itemsPerPage,
+							String sortingField, String order, String keyWord);
+	
+	long getUsersToApproveCount();
+	
+	List<User> getUsersToApprove();
 
-	List<User> getAllUsers();
+	
 }

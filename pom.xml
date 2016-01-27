@@ -11,7 +11,7 @@
 	<properties>
 		<java.version>1.7</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.2.1.RELEASE</spring.version>
+		<spring.version>4.2.2.RELEASE</spring.version>
 		<hibernate.version>4.3.11.Final</hibernate.version>
 		<postgresql.version>9.4-1204-jdbc41</postgresql.version>
 		<junit.version>4.12</junit.version>
@@ -22,6 +22,8 @@
 		<spring-security.version>4.0.2.RELEASE</spring-security.version>
 		<servletapi.version>2.5</servletapi.version>
 		<apache.tiles.version>3.0.5</apache.tiles.version>
+		<liquibase.version>3.4.1</liquibase.version>
+		<jackson.version>2.6.3</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -60,6 +62,18 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 
@@ -181,7 +195,29 @@
             <version>${apache.tiles.version}</version>
         </dependency>
         
-        <!-- UI: jQuery, Bootstrap -->
+		<!-- Jackson JSON support -->
+        <dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+        <dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		
+		<!-- Mapper for DTO -->
+        <dependency>
+			<groupId>com.googlecode.jmapper-framework</groupId>
+			<artifactId>jmapper-core</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+        
+        
+        
+        <!-- UI: Webjars: jQuery, Bootstrap etc. -->
         <dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
@@ -192,13 +228,68 @@
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap-datepicker</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-cookie</artifactId>
+			<version>1.4.1-1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-validation</artifactId>
+			<version>1.14.0-1</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>font-awesome</artifactId>
+		    <version>4.4.0</version>
+		</dependency>
 		
-
-
+		<!-- Jsoup -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		
+		<!-- Google API, Drive -->
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-drive</artifactId>
+			<version>v2-rev194-1.21.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client-jetty</artifactId>
+			<version>1.21.0</version>
+		</dependency>
+		
+		<!-- JavaMail API -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
 		<finalName>crsms</finalName>
+		<filters>
+			<filter>src/main/resources/properties/hibernate.properties</filter>
+		</filters>
+		<resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -224,6 +315,33 @@
 					</includes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-resources-plugin</artifactId>
+        		<version>2.7</version>
+        		<configuration>
+          			<encoding>UTF-8</encoding>
+        		</configuration>
+      		</plugin>
+			<!-- TODO:replase value -->
+			<plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                	<propertyFileWillOverride>true</propertyFileWillOverride>
+                    <!-- <propertyFile>src/main/resources/liquibase.properties</propertyFile> -->
+                    <propertyFile>target/classes/properties/liquibase.properties</propertyFile>
+                </configuration>
+                <executions>
+                	<execution>
+                    	<phase>install</phase>
+                    	<goals>
+                        	<goal>update</goal>
+                    	</goals>
+                	</execution>
+            	</executions>
+            </plugin>
 		</plugins>
 	</build>
 

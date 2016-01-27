@@ -2,22 +2,39 @@ package com.crsms.service;
 
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-
 import com.crsms.domain.User;
+import com.crsms.util.Invocable;
+/**
+ * 
+ * @author Roman Romaniuk
+ *
+ */
+public interface UserService extends BaseService<User> {
 
-public interface UserService {
-
+	boolean isEmailExists(String email);
+	
 	User saveUser(User user);
+	
+	User saveUser(User user, boolean teacherRequest);
+		
+	User createAndSaveStudent(String email, String password, String url);
 
-	User updateUser(User user);
-
-	User getUserById(Long id);
+	boolean changePassword(String email, String currentPassword, String newPassword);
+	
+	User activateUser(User user);
 
 	User getUserByEmail(String email);
-
-	void delete(Long id);
-
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	List<User> getAllUsers();
+	
+	User getUserByEmail(String email, List<Invocable<User>> initializers);
+	
+	long getRowsCount(String keyWord);
+	
+	long getUsersToApproveCount();
+	
+	List<User> getPagingUsers(int offSet, int itemsPerPage,
+							String sortingField, String order, String keyWord);
+	
+	List<User> getUsersToApprove();
+	
+	User updateUserParameters(User user, Long roleId, Boolean isEnabled);
 }

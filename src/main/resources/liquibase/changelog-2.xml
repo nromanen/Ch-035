@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext 
+						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+						http://www.liquibase.org/xml/ns/dbchangelog 
+						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+						
+	<changeSet author="valeriimotresku" id="1446992667519-115">
+        <addColumn tableName="resource" >
+        	<column name="storage_type" type="integer" defaultValue="0" >
+        		<constraints nullable="false" />
+        	</column>
+    	</addColumn>
+    </changeSet>
+    
+    <!-- NEW DATABASE CONCEPTION -->
+    <changeSet author="stefankiv (generated)" id="1446992667519-116">
+        <createTable tableName="groups_users">
+            <column name="groups_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="users_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-117">
+        <addColumn tableName="groups">
+            <column name="course_id" type="int8"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-118">
+        <addColumn tableName="groups">
+            <column name="startdate" type="timestamp(29, 6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-119">
+        <addPrimaryKey columnNames="groups_id, users_id" constraintName="groups_users_pkey" tableName="groups_users"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-120">
+        <addForeignKeyConstraint baseColumnNames="groups_id" baseTableName="groups_users" constraintName="fk_78p7vbckpk4tlwhweqwv6ymo2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-121">
+        <addForeignKeyConstraint baseColumnNames="users_id" baseTableName="groups_users" constraintName="fk_ewsdo90bf97qmunwue89wq623" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-122">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="groups" constraintName="fk_pfrqi70hq38payknjojrr1ox" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-123">
+        <dropForeignKeyConstraint baseTableName="course_users" constraintName="fk_6xl7wf5027p2w5scwoj8fxtpm"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-124">
+        <dropForeignKeyConstraint baseTableName="user_info_groups" constraintName="fk_ic1n3xyu84argef87naf3nwe"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-125">
+        <dropForeignKeyConstraint baseTableName="course_users" constraintName="fk_k3h0elyvgu2ntt4q7usfm9p73"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-126">
+        <dropForeignKeyConstraint baseTableName="user_info_groups" constraintName="fk_o93timi6qcpn95v2w9awu2uh0"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-127">
+        <dropForeignKeyConstraint baseTableName="groups_course" constraintName="fk_obpjw8fsqsbycc2slx5ytj8yy"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-128">
+        <dropForeignKeyConstraint baseTableName="groups_course" constraintName="fk_ppxmhtaiu3srk1ngtaj9f2ta5"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-129">
+        <dropForeignKeyConstraint baseTableName="groups" constraintName="fk_s2y5ymegf3px4s5269daugtqg"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-130">
+        <dropSequence sequenceName="group_type_id_seq"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-131">
+        <dropTable tableName="course_users"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-132">
+        <dropTable tableName="group_type"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-133">
+        <dropTable tableName="groups_course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-134">
+        <dropTable tableName="user_info_groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-135">
+        <dropPrimaryKey constraintName="course_module_pkey" tableName="course_module"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-136">
+        <dropPrimaryKey constraintName="module_resource_pkey" tableName="module_resource"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-137">
+        <dropPrimaryKey constraintName="module_test_pkey" tableName="module_test"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-138">
+        <dropColumn columnName="maxusercount" tableName="groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-139">
+        <dropColumn columnName="recruited" tableName="groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-140">
+        <dropColumn columnName="startdate" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-141">
+        <dropColumn columnName="type_id" tableName="groups"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-142">
+        <modifyDataType columnName="description" newDataType="varchar(255)" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-143">
+        <modifyDataType columnName="description" newDataType="varchar(255)" tableName="module"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-144">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="answer"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="answer"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-145">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="course"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-146">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="module"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="module"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-147">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="question"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="question"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-148">
+        <addNotNullConstraint columnDataType="bool" columnName="disable" tableName="test"/>
+        <dropDefaultValue columnDataType="bool" columnName="disable" tableName="test"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-149">
+        <addNotNullConstraint columnDataType="int" columnName="duration" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-150">
+        <dropNotNullConstraint columnDataType="timestamp(29,6)" columnName="last_used" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-151">
+        <addNotNullConstraint columnDataType="bool" columnName="published" tableName="course"/>
+        <dropDefaultValue columnDataType="bool" columnName="published" tableName="course"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-152">
+        <modifyDataType columnName="text" newDataType="varchar(200)" tableName="answer"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-153">
+        <dropNotNullConstraint columnDataType="varchar(64)" columnName="token" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="stefankiv (generated)" id="1446992667519-154">
+        <dropNotNullConstraint columnDataType="varchar(64)" columnName="username" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="kucher" id="1446992667519-155">
+        <sql>
+	    	UPDATE course SET duration='15';
+	    </sql>
+    </changeSet>
+    <!-- END -->
+    
+    <changeSet author="valeriimotresku" id="1446992667519-156">
+	    <renameColumn
+	    		oldColumnName="url"
+	            tableName="resource"
+	            newColumnName="path" />
+	</changeSet>
+	
+	<changeSet author="valeriimotresku" id="1446992667519-157">
+        <createTable tableName="setup_option">
+            <column name="option_key" type="character varying(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="setup_option_pkey" />
+            </column>
+            <column name="option_value" type="text">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="valeriimotresku" id="1446992667519-158">
+        <sql>
+        	TRUNCATE setup_option;
+			INSERT INTO setup_option VALUES('storage.type', 'GOOGLE_DRIVE');
+        </sql>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-159">
+		<addColumn tableName="user_answer" >
+        	<column name="checked" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    	
+    	<addColumn tableName="user_answer" >
+        	<column name="correctAnswer" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    	
+    	<addColumn tableName="user_answer" >
+        	<column name="cost" type="double precision" defaultValue="0.25" />
+    	</addColumn>
+	</changeSet>
+
+	<changeSet author="andriets" id="1446992667519-160">
+        <sqlFile path="src/main/resources/liquibase/populateDB4.sql"/>
+    </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-161">
+	    <sql>
+	    	UPDATE course SET published='TRUE';
+	    </sql>
+	</changeSet>
+	
+	<changeSet author="stefankiv" id="1446992667519-162">
+	    <sqlFile path="src/main/resources/liquibase/populateDB5.sql"/>
+	</changeSet>
+
+</databaseChangeLog>

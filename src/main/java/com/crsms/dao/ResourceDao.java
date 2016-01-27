@@ -2,7 +2,10 @@ package com.crsms.dao;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import com.crsms.domain.Resource;
+import com.crsms.service.hibernate.query.ResourceQueryCustomizer;
 
 /**
  * 
@@ -10,17 +13,13 @@ import com.crsms.domain.Resource;
  *
  */
 
-public interface ResourceDao {
+public interface ResourceDao extends BaseDao<Resource> {
 	
-	void save(Resource resource);
-	
-	void update(Resource resource);
-	
-	void delete(Resource resource);
-	
-	Resource getById(Long id);
-	
-	List<Resource> getAll();
-
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void deleteById(Long id);
+	
+	List<Resource> getAllByModuleId(Long moduleId);
+
+	List<Resource> getAllNotAssociatedWithModule(Long moduleId, ResourceQueryCustomizer queryCustomizer);
+	
 }

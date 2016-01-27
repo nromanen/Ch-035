@@ -1,10 +1,10 @@
 package com.crsms.domain;
 
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,28 +15,84 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * 
  * @author Valerii Motresku
  * @author maftey
- *
+ * @author St. Roman
+ * 
  */
 
 @Entity
-@Table(name="course")
+@Table(name = "course")
 @NamedQueries({
-	@NamedQuery(name = Course.GET_BY_NAME, query = "FROM Course c WHERE c.name=:name")
+	@NamedQuery(name = Course.GET_BY_NAME,
+				query = "from Course c where c.name=:name"),
+	@NamedQuery(name = Course.GET_BY_MODULE,
+				query = "SELECT course FROM Course course "
+						+ "JOIN course.modules module "
+						+ "WHERE module.id = :id"),
+	@NamedQuery(name = Course.GET_BY_TEST,
+				query = "SELECT course FROM Course course "
+						+ "JOIN course.modules module "
+						+ "JOIN module.tests test "
+						+ "WHERE test.id = :id"),
+	@NamedQuery(name = Course.GET_BY_QUESTION,
+				query = "SELECT course FROM Course course "
+						+ "JOIN course.modules module "
+						+ "JOIN module.tests test "
+						+ "JOIN test.questions question "
+						+ "WHERE question.id = :id"),
+	@NamedQuery(name = Course.GET_BY_ANSWER,
+				query = "SELECT course FROM Course course "
+						+ "JOIN course.modules module "
+						+ "JOIN module.tests test "
+						+ "JOIN test.questions question "
+						+ "JOIN question.answers answer "
+						+ "WHERE answer.id = :id"),
+	@NamedQuery(name = Course.GET_BY_USER_EMAIL,
+				query = "select g.course from Group g join g.users u where u.email = :email"),
+	@NamedQuery(name = Course.GET_BY_OWNER_EMAIL,
+				query = "select c from Course c join c.owner o"
+					 + " where o.email = :email order by c.id"),
+	@NamedQuery(name = Course.SEARCH,
+				query = "select c from Course c where upper(c.name) like upper(:s) or "
+					  + "upper(c.description) like upper(:s) order by c.name, c.description"),
+	@NamedQuery(name = Course.GET_STUDENT_COURSES_AND_GROUPS_IDS,
+				query = "select c.id, g.id from Group g"
+					 + " join g.course c join g.users u where u.email = :email"),
+	@NamedQuery(name = Course.GET_ALL_PUBLISHED,
+				query = "from Course where published = true"),
+	@NamedQuery(name = Course.GET_ALL_ASSOCIATED_WITH_RESOURCE,
+				query = "select distinct c from Course c join c.modules cm "
+						+ "join cm.resources cmr where cmr.id = :resource_id"),
+	@NamedQuery(name = Course.GET_ALL_COURSE_MODULE_NAMES_PAIRS_ASSOCIATED_WITH_RESOURCE,
+				query = "select new com.crsms.dto.CourseModuleNamesPairDto(c.name, cm.name) from Course c join c.modules cm "
+						+ "join cm.resources cmr where cmr.id = :resource_id"),
+	@NamedQuery(name = Course.GET_BY_AREA_ID,
+				query = "from Course where area_id = :id order by id asc")
 })
 public class Course {
 	public static final String GET_BY_NAME = "course.getCourseByName";
+	public static final String GET_BY_USER_EMAIL = "course.getCourseByUserEmail";
+	public static final String GET_BY_OWNER_EMAIL = "course.getCourseByOwnerEmail";
+	public static final String GET_BY_MODULE = "course.getByModule";
+	public static final String GET_BY_TEST = "course.getByTest";
+	public static final String GET_BY_QUESTION = "course.getByQuestion";
+	public static final String GET_BY_ANSWER = "course.getByAnswer";
+	public static final String SEARCH = "course.search";
+	public static final String GET_STUDENT_COURSES_AND_GROUPS_IDS = 
+												"course.getStudentCoursesAndGroupsIds";
+	public static final String GET_ALL_PUBLISHED = "course.getAllPublished";
+	public static final String GET_ALL_ASSOCIATED_WITH_RESOURCE = "course.getAllAssociatedWithResource";
+	public static final String GET_ALL_COURSE_MODULE_NAMES_PAIRS_ASSOCIATED_WITH_RESOURCE = 
+			"course.getAllCourseModuleNamesPairsAssociatedWithResource";
+	public static final String GET_BY_AREA_ID = "course.getByAreaId";
+	
+	public static final int MAX_NAME_LENGTH = 255;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -44,33 +100,36 @@ public class Course {
 	private Long id;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(min = 1, max = MAX_NAME_LENGTH)
 	private String name;
 	
-	@Column(nullable = false, length = 1024)
+	@Column(nullable = false)
 	private String description;
 	
+	@Column(nullable = false)
+	@NotNull
+	private Integer duration;
 	
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private DateTime startDate;
-	
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsSecondsInteger")
-	private Duration duration;
-	
-	@OneToMany(mappedBy="course", fetch = FetchType.LAZY)
-	@Cascade({CascadeType.ALL})
-	private Set<Module> modules;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Module> modules;
 	
 	@Column(nullable = false)
 	private Boolean open = false;
 	
 	@ManyToOne
-	@Cascade({CascadeType.ALL})
-    @JoinColumn(name="direction_id")
+    @JoinColumn(name = "area_id")
 	private Area area;
 	
-	public Course() { }
-
+	@Column(nullable = false)
+	private Boolean disable = false;
+	
+	@Column(nullable = false)
+	private Boolean published = false;
+	
+	@ManyToOne
+	private User owner;
+	
 	public Long getId() {
 		return id;
 	}
@@ -87,27 +146,25 @@ public class Course {
 		this.name = name;
 	}
 
-	public DateTime getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(DateTime startDate) {
-		this.startDate = startDate;
-	}
-
-	public Duration getDuration() {
+	/**
+	 * @return duration in weeks
+	 */
+	public Integer getDuration() {
 		return duration;
 	}
-
-	public void setDuration(Duration duration) {
+	
+	/**
+	 * @param duration duration in days
+	 */
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 
-	public Set<Module> getModules() {
+	public List<Module> getModules() {
 		return modules;
 	}
 
-	public void setModules(Set<Module> modules) {
+	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
 
@@ -123,7 +180,7 @@ public class Course {
 		return area;
 	}
 
-	public void setDirection(Area area) {
+	public void setArea(Area area) {
 		this.area = area;
 	}
 
@@ -134,4 +191,47 @@ public class Course {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public boolean addModule(Module module) {
+		return this.modules.add(module);
+	}
+	
+	public boolean deleteModule(Module module) {
+		if (this.modules.contains(module)) {
+			return this.modules.remove(module);
+		}
+		return false;
+	}
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
+	}
+	
+	public void disable() {
+		this.disable = true;
+		for (Module module : this.modules) {
+			module.disable();
+		}
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+	
+	public Boolean getPublished() {
+		return published;
+	}
+
+	public void setPublished(Boolean published) {
+		this.published = published;
+	}
+	
 }

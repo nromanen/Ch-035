@@ -1,5 +1,6 @@
 package com.crsms.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crsms.dao.ResourceDao;
+import com.crsms.domain.FileBucket;
 import com.crsms.domain.Resource;
+import com.crsms.service.hibernate.query.ResourceQueryCustomizer;
 
 /**
  * 
@@ -19,48 +22,63 @@ import com.crsms.domain.Resource;
 
 @Service("resourceService")
 @Transactional
-public class ResourceServiceImpl implements ResourceService {
+public class ResourceServiceImpl extends BaseServiceImpl<Resource>  implements ResourceService {
 	
 	private static Logger logger = LogManager.getLogger(ResourceServiceImpl.class);
 	
 	@Autowired
 	private ResourceDao resourceDao;
 	
+	@Autowired
+	private ModuleService moduleService;
+	
+	@Autowired
+	private FileService fileService;
+	
 	@Override
-	public void save(Resource resource) {
-		
-		
-
-	}
-
-	@Override
-	public void update(Resource resource) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete(Resource resource) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Resource getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Resource> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public void delete(Long resourceId, Long moduleId) {
+		logger.info("in resourceService delete(Long resourceId, Long moduleId)");
+		Resource resource = resourceDao.getById(resourceId);
+		moduleService.removeResource(moduleId, resource);
+		logger.info("out resourceService delete(Long resourceId, Long moduleId)");
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-
+		logger.info("in resourceService deleteById(resource id)");
+		resourceDao.deleteById(id);
+		logger.info("out resourceService deleteById(resource id)");
+	}
+	
+	@Override
+	public List<Resource> getAllByModuleId(Long moduleId) {
+		logger.info("in resourceService getAllByModuleId(Resource)");
+		logger.info("trying to get resources");
+		return resourceDao.getAllByModuleId(moduleId);
 	}
 
+	@Override
+	public Resource prepareFileResource(String name, String path, Resource.StorageType storageType) {
+		Resource resource = new Resource();
+		resource.setName(name);
+		resource.setPath(path);
+		resource.setStorageType(storageType);
+		resource.setType(Resource.Type.FILE);
+		return resource;
+	}
+	
+	@Override
+	public Resource uploadRecivedFileAndPrepareResource(FileBucket fileBucket) throws IOException {	
+		Resource.StorageType storageType = fileService.getResourceStorageTypeOption();
+		return prepareFileResource(
+				fileBucket.getFile().getOriginalFilename(),
+				fileService.uploadFile(fileBucket.getFile(), storageType), 
+				storageType);
+	}
+
+	@Override
+	public List<Resource> getAllNotAssociatedWithModule(Long moduleId, ResourceQueryCustomizer queryCustomizer) {
+		return resourceDao.getAllNotAssociatedWithModule(moduleId, queryCustomizer);
+	}
+	
 }

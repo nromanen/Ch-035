@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext 
+						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+						http://www.liquibase.org/xml/ns/dbchangelog 
+						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+						
+	<changeSet author="maftey" id="1446992667519-93">
+        <sqlFile path="src/main/resources/liquibase/populateDB1.sql"/>
+    </changeSet>
+	<changeSet author="maftey" id="1446992667519-94">
+        <addColumn tableName="course" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-95">
+        <addColumn tableName="module" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+
+    <changeSet author="maftey" id="1446992667519-96">
+	    <modifyDataType 
+	            columnName="name"
+	            newDataType="character varying(255)"
+	            tableName="module"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-97">
+	    <modifyDataType 
+	            columnName="description"
+	            newDataType="text"
+	            tableName="module"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-98">
+        <sqlFile path="src/main/resources/liquibase/populateDB2.sql"/>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-99">
+        <sqlFile path="src/main/resources/liquibase/fixSequence.sql"/>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-100">
+        <addColumn tableName="test" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-101">
+	    <modifyDataType 
+	            columnName="name"
+	            newDataType="character varying(255)"
+	            tableName="course"/>
+	</changeSet> 
+	
+	<changeSet author="maftey" id="1446992667519-102">
+	    <modifyDataType 
+	            columnName="description"
+	            newDataType="text"
+	            tableName="course"/>
+	</changeSet>
+	
+	<changeSet author="maftey" id="1446992667519-103">
+        <addColumn tableName="course" >
+        	<column name="published" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-104">
+        <addColumn tableName="question" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-105">
+        <addColumn tableName="answer" >
+        	<column name="disable" type="boolean" defaultValue="FALSE" />
+    	</addColumn>
+    </changeSet>
+	
+	<changeSet author="stefankiv" id="1446992667519-106">
+		<addColumn tableName="course">
+			<column name="owner_id" type="BIGINT"/>
+ 		</addColumn>
+    </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-107">
+        <addForeignKeyConstraint 
+        	baseColumnNames="owner_id"
+        	baseTableName="course"
+        	constraintName="fk_course_owner"
+        	deferrable="false"
+        	initiallyDeferred="false"
+        	onDelete="NO ACTION"
+        	onUpdate="NO ACTION"
+        	referencedColumnNames="id"
+        	referencedTableName="users"/>
+    </changeSet>
+    
+    <changeSet author="stefankiv" id="1446992667519-108">
+	    <sql>
+	    	UPDATE course SET owner_id='3'
+	    </sql>
+	</changeSet>
+	
+	<changeSet author="stefankiv" id="1446992667519-109">
+	    <sql>
+	    	UPDATE course SET duration='90';
+	    </sql>
+	</changeSet>
+	
+	<changeSet author="andriets" id="1446992667519-110">
+        <sqlFile path="src/main/resources/liquibase/populateDB3.sql"/>
+    </changeSet>
+	
+    <changeSet author="andriets" id="1446992667519-111">
+        <sqlFile path="src/main/resources/liquibase/fixSequence.sql"/>
+    </changeSet>
+    
+    <changeSet author="yuliia" id="1446992667519-112">
+        <addColumn tableName="user_info" >
+         <column name="image" type="text" defaultValue="null" />
+     	</addColumn>
+    </changeSet>
+    
+    <changeSet author="yuliia" id="1446992667519-113">
+        <createSequence sequenceName="user_info_id_seq"/>
+    </changeSet>
+    
+    <changeSet author="maftey" id="1446992667519-114">
+        <sql>
+        	INSERT INTO user_info(id, user_id)
+				SELECT nextval('user_info_id_seq'), "users".id 
+					FROM  "users"
+					LEFT JOIN user_info ON "users".id = user_info.user_id
+        </sql>
+    </changeSet>
+    
+</databaseChangeLog>
