@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$('#publishModal').on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget);
 		var courseId = button.data('course-id');
-		var url = '/crsms/api/courses/' + courseId + '/groups/';
+		var url = $('#api-url').val() + '/courses/' + courseId + '/groups/';
 		$.get(url, function(groups) {
 			if (groups.length == 0) {
 				$('#no-groups').removeClass('hide');

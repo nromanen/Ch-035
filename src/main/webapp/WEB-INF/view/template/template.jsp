@@ -65,52 +65,52 @@
 <!-- end head -->
 
 <body>
+	<div id="wrapper">
+		<!--[if lt IE 10]>
+			<p class="alert alert-warning">
+				Warning: You are using an unsupported version of Internet Explorer. We recommend using Internet Explorer
+				10+. If you are a Windows XP user you'll need to download an alternative browsers such as FireFox, Chrome,
+				Opera, or Safari.
+			</p>
+		<![endif]-->
 
-    <!--[if lt IE 10]>
-        <p class="alert alert-warning">
-            Warning: You are using an unsupported version of Internet Explorer. We recommend using Internet Explorer
-            10+. If you are a Windows XP user you'll need to download an alternative browsers such as FireFox, Chrome,
-            Opera, or Safari. 
-        </p>
-    <![endif]-->
 
-    
-    <!-- header -->
-    <header id="header">
-    	<div class="container">
-    	  <tiles:insertAttribute name="header"></tiles:insertAttribute>
-    	</div>
-	</header>
-    <!-- end header  -->
-    
-    <!-- menu -->
-    <div id="menu">
-        <tiles:insertAttribute name="menu"></tiles:insertAttribute>
-    </div>
-    <!-- end menu  -->
-	
-    <!-- content -->
-    <main id="main-body">
-    	<div id="page-title"><span>${headerTitle}</span></div>
-	    <tiles:insertAttribute name="breadcrumbs"></tiles:insertAttribute>
-    	<div id="main-container" class="<tiles:insertAttribute name="content-container-class"></tiles:insertAttribute>">
-          <tiles:insertAttribute name="content"></tiles:insertAttribute>
-        </div>
-    </main>
-    <!-- end content -->
+		<!-- header -->
+		<header id="header">
+			<div class="container">
+			  <tiles:insertAttribute name="header"></tiles:insertAttribute>
+			</div>
+		</header>
+		<!-- end header  -->
 
-    <!-- footer -->
-    <footer id="footer" class="" >
-    	<div class="container">
-          <tiles:insertAttribute name="footer"></tiles:insertAttribute>
-        </div>
-    </footer>
-    <!-- end footer -->
-    
-    <!-- Scroll To Top -->
-    <button id="scroll-to-top" class="btn btn-warning"><i class="fa fa-chevron-up"></i></button>
-    <!-- end Scroll To Top -->
-	
+		<!-- menu -->
+		<div id="menu">
+			<tiles:insertAttribute name="menu"></tiles:insertAttribute>
+		</div>
+		<!-- end menu  -->
+
+		<!-- content -->
+		<main id="main-body">
+			<div id="page-title"><span>${headerTitle}</span></div>
+			<tiles:insertAttribute name="breadcrumbs"></tiles:insertAttribute>
+			<div id="main-container" class="<tiles:insertAttribute name="content-container-class"></tiles:insertAttribute>">
+			  <tiles:insertAttribute name="content"></tiles:insertAttribute>
+			</div>
+		</main>
+		<!-- end content -->
+
+		<!-- footer -->
+	</div>
+	<footer id="footer" class="" >
+		<div class="container">
+			<tiles:insertAttribute name="footer"></tiles:insertAttribute>
+		</div>
+	</footer>
+	<!-- end footer -->
+
+	<!-- Scroll To Top -->
+	<button id="scroll-to-top" class="btn btn-warning"><i class="fa fa-chevron-up"></i></button>
+	<!-- end Scroll To Top -->
 </body>
 <script type="text/javascript">
 var crsmsGlobalHelper = {

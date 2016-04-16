@@ -32,7 +32,7 @@
 										<spring:message code="crsms.tests.close.accordion" />
 										</a>
 										<a value="${test.id}" id = "add-question-${test.id}" role="button" class="text-primary pull-right question-add" 
-										   data-toggle="modal" data-target="#my-modal" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.add.question" />">
+										   data-toggle="modal" data-target="#add-question" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.add.question" />">
 											<i class="glyphicon glyphicon-plus"></i><spring:message code="crsms.tests.add.question" />&nbsp
 										</a>
 									</p>
@@ -46,10 +46,11 @@
 													<a href="${questionById}" class="list-group-item-warning">
 														${question.text}
 														&nbsp
-														<a href="#" class="nonUnderlineDelete pull-right" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.delete.question" />" value="${question.id}">
+															<a href="#"  class="nonUnderlineDelete pull-right" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.delete.question" />" value="${question.id}">
 															<i class="glyphicon glyphicon-trash"></i></a>
-														
-														<a href="#" class="nonUnderlineEdit pull-right" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.edit.question" />" value="${question.id}">
+
+															<c:url var="editQuestion" value="${test.id}/questions/${question.id}/edit" />
+															<a href="${editQuestion}" id="btn-edit-question-${question.id}" class="nonUnderlineEdit pull-right btn-edit-question" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.edit.question" />" value="${question.id}">
 															<i class="glyphicon glyphicon-pencil"></i>&nbsp</a>								
 													</a>
 												</li>
@@ -83,7 +84,7 @@
 <a class="btn btn-primary" href="${createTest}"><spring:message code="crsms.tests.create.new" /></a>
 
 <!-- Add questions with answers modal window. -->
-<div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="add-question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -92,7 +93,7 @@
 			</div>
 			<div class="modal-body">
 			
-				<form:form modelAttribute="question" method="POST" class="form-horizontal" id="modal-form">
+				<form:form modelAttribute="question" method="POST" class="form-horizontal" id="add-question-form">
 					<form:input path="id" id ="id" type="hidden" />
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				  
@@ -105,7 +106,7 @@
 				    <c:set var="answerVersion">
 				      <spring:message code="crsms.answer.version" />
 				    </c:set>
-				  
+
 					  <div class="form-group">
 					    <label for="text" class="col-sm-2 control-label">${questionWord}:</label>
 					    <div class="col-sm-10">
@@ -114,7 +115,7 @@
 					    </div>		    
 					  </div>
 					 
-					  	<br>
+					  <br>
  					  <div class="form-group">
 					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#1:</label>
 					    <div class="col-sm-10">
@@ -123,7 +124,7 @@
 					      <form:errors path="text" cssClass = "label label-danger" />		
 					      <div id="answer1-error" class="errorTxt"></div>
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[0].correct"
+						      <input type="checkbox" form = "add-question-form" name="answers[0].correct"
 						      		 id="answers0" class="answer"> <spring:message code="crsms.tests.correct.answer" />
 						  </div>
 					    </div>
@@ -136,7 +137,7 @@
 					      <form:errors path="text" cssClass = "label label-danger" />
 					      <div id="answer2-error" class="errorTxt"></div>
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[1].correct" id="answers1"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "add-question-form" name="answers[1].correct" id="answers1"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>				      
 					    </div>
 					  </div>
@@ -148,32 +149,130 @@
 					      <form:errors path="text" cssClass = "label label-danger" />	
 					      <div id="answer3-error" class="errorTxt"></div>	
 					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[2].correct" id="answers2"> <spring:message code="crsms.tests.correct.answer" />
+						      <input type="checkbox" form = "add-question-form" name="answers[2].correct" id="answers2"> <spring:message code="crsms.tests.correct.answer" />
 						   </div>		      
 					    </div>
 					  </div>
 					  
 					  <div class="form-group">
-					  	<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#4:</label>
-					    <div class="col-sm-10">
-					      <form:textarea path="answers[3].text" name="answers[3].text" value="" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
-					      <form:errors path="text" cssClass = "label label-danger" />
-					      <div id="answer4-error" class="errorTxt"></div>
-					      <div class="checkbox-inline">
-						      <input type="checkbox" form = "modal-form" name="answers[3].correct" id="answers3"> <spring:message code="crsms.tests.correct.answer" />
+						<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#4:</label>
+						<div class="col-sm-10">
+						  <form:textarea path="answers[3].text" name="answers[3].text" value="" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
+						  <form:errors path="text" cssClass = "label label-danger" />
+						  <div id="answer4-error" class="errorTxt"></div>
+						  <div class="checkbox-inline">
+							  <input type="checkbox" form = "add-question-form" name="answers[3].correct" id="answers3"> <spring:message code="crsms.tests.correct.answer" />
 						  </div>
 						  <br>
 						  <label id="answers[0].correct-error" class="errorTxt" for="answers[0].correct" style="display: inline-block;"></label>			      
 					    </div>
 					  </div>
-					
-					  <div class="form-group">
+
+					<div class="form-group">
 					    <div class="col-sm-offset-2 col-sm-10">
-					      <span class="btn btn-primary pull-right" id="modal-form-submit"><spring:message code="crsms.button.save" /></span>
+					      <span class="btn btn-primary pull-right" id="add-question-form-submit"><spring:message code="crsms.button.save" /></span>
 					    </div>
 					  </div>
 				</form:form>
 				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit questions with answers modal window. -->
+<div class="modal fade" id="edit-question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class = "align-center" id="orangeQuote"><spring:message code="crsms.tests.text.edit.question" /></h4>
+			</div>
+			<div class="modal-body">
+
+				<form:form modelAttribute="question" method="POST" class="form-horizontal" id="edit-question-form">
+					<form:input path="id" id ="id" type="hidden" />
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					<input type="hidden" name="id" value="${id}"/>
+
+					<c:set var="questionWord">
+						<spring:message code="crsms.question.word" />
+					</c:set>
+					<c:set var="questionTitle">
+						<spring:message code="crsms.question.title" />
+					</c:set>
+					<c:set var="answerVersion">
+						<spring:message code="crsms.answer.version" />
+					</c:set>
+
+					<div class="form-group">
+						<label for="text" class="col-sm-2 control-label">${questionWord}:</label>
+						<div class="col-sm-10">
+							<form:textarea rows="3" path="text" id="text" class="form-control clear-textarea" placeholder="${questionTitle}" />
+							<form:errors path="text" cssClass = "label label-danger" />
+						</div>
+					</div>
+
+					<br>
+					<div class="form-group">
+						<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#1:</label>
+						<div class="col-sm-10">
+							<form:textarea path="answers[0].text" name="answers[0].text" value="" id="answer1"
+										   class="form-control clear-textarea" placeholder="${answerVersion}" />
+							<form:errors path="text" cssClass = "label label-danger" />
+							<div id="answer1-error" class="errorTxt"></div>
+							<div class="checkbox-inline">
+								<input type="checkbox" form = "edit-question-form" name="answers[0].correct"
+									   id="answers0" class="answer"> <spring:message code="crsms.tests.correct.answer" />
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#2:</label>
+						<div class="col-sm-10">
+							<form:textarea path="answers[1].text" name="answers[1].text" value="" id="answer2" class="form-control clear-textarea" placeholder="${answerVersion}" />
+							<form:errors path="text" cssClass = "label label-danger" />
+							<div id="answer2-error" class="errorTxt"></div>
+							<div class="checkbox-inline">
+								<input type="checkbox" form = "edit-question-form" name="answers[1].correct" id="answers1"> <spring:message code="crsms.tests.correct.answer" />
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#3:</label>
+						<div class="col-sm-10">
+							<form:textarea path="answers[2].text" name="answers[2].text" value="" id="answer3" class="form-control clear-textarea" placeholder="${answerVersion}" />
+							<form:errors path="text" cssClass = "label label-danger" />
+							<div id="answer3-error" class="errorTxt"></div>
+							<div class="checkbox-inline">
+								<input type="checkbox" form = "edit-question-form" name="answers[2].correct" id="answers2"> <spring:message code="crsms.tests.correct.answer" />
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="text" class="col-sm-2 control-label"><spring:message code="crsms.tests.answer" />&nbsp#4:</label>
+						<div class="col-sm-10">
+							<form:textarea path="answers[3].text" name="answers[3].text" value="" id="answer4" class="form-control clear-textarea" placeholder="${answerVersion}" />
+							<form:errors path="text" cssClass = "label label-danger" />
+							<div id="answer4-error" class="errorTxt"></div>
+							<div class="checkbox-inline">
+								<input type="checkbox" form = "edit-question-form" name="answers[3].correct" id="answers3"> <spring:message code="crsms.tests.correct.answer" />
+							</div>
+							<br>
+							<label id="answers[0].correct-error" class="errorTxt" for="answers[0].correct" style="display: inline-block;"></label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<span class="btn btn-primary pull-right" id="edit-question-form-submit"><spring:message code="crsms.button.save" /></span>
+						</div>
+					</div>
+				</form:form>
+
 			</div>
 		</div>
 	</div>

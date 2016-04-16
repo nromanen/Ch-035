@@ -156,7 +156,7 @@ $(document).ready(function() {
 		var path = $(location).attr('pathname');
 		var courseId = /courses\/(\d+)\//.exec(path)[1];
 		var groupId = /groups\/(\d+)\//.exec(path)[1];
-		var url = '/crsms/api/courses/' + courseId + '/groups/' + groupId + '/addstudents';
+		var url = $('#api-url').val() + '/courses/' + courseId + '/groups/' + groupId + '/addstudents';
 		var token = $('#crsf-token').val();
 		$.post(url,
 			{

@@ -1,7 +1,9 @@
 package com.crsms.controller;
 
-import java.util.List;
-
+import com.crsms.domain.Test;
+import com.crsms.dto.QuestionFormDto;
+import com.crsms.service.TestService;
+import com.crsms.validator.TestFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.crsms.domain.Test;
-import com.crsms.dto.QuestionFormDto;
-import com.crsms.service.TestService;
-import com.crsms.validator.TestFormValidator;
+import java.util.List;
 
 /**
  * @author Adriets Petro, St. Roman
@@ -92,5 +91,4 @@ public class PrivateTestController {
 	private String redirect(Long courseId, Long moduleId) {
 		return "redirect:/private/courses/" + courseId + "/modules/" + moduleId + "/tests/";
 	}
-	
 }

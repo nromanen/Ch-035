@@ -1,9 +1,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <input type = "hidden" id = "crsf-token" value = "${_csrf.token}">
+<input type = "hidden" id = "api-url" value = "${initParam['apiUrl']}">
 
 <div id = "alert" class="alert alert-info collapse" role="alert">
-	<button id="close-alert-btn" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+	<button id="close-alert-btn" type="button" class="close" aria-label="Close"><span aria-hidden="true">ï¿½</span></button>
 	
 	<div id = "all-subscribed">
 		<spring:message code="crsms.groups.message.subscribed.all" />

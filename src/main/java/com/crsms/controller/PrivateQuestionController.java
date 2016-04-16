@@ -1,7 +1,11 @@
 package com.crsms.controller;
 
-import java.util.List;
-
+import com.crsms.domain.Answer;
+import com.crsms.domain.Question;
+import com.crsms.dto.AnswerFormDto;
+import com.crsms.dto.QuestionFormDto;
+import com.crsms.service.QuestionService;
+import com.crsms.validator.QuestionFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -9,16 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.crsms.domain.Question;
-import com.crsms.dto.QuestionFormDto;
-import com.crsms.service.QuestionService;
-import com.crsms.validator.QuestionFormValidator;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * @author Adriets Petro
@@ -80,22 +78,23 @@ public class PrivateQuestionController {
         }
         return question;
     }
-    
+
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String editQuestion(@PathVariable("id") Long id, Model model) {
-        Question tempQuestion = questionService.getById(id);
-        model.addAttribute("question", tempQuestion);
-        return CREATE_QUESTION_PAGE;
+    @ResponseBody
+    public Question editQuestion(@PathVariable("id") Long id) {
+        return questionService.getById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMIN')")
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     public String editQuestion(@PathVariable Long courseId, @PathVariable Long moduleId,
                                @PathVariable Long testId, @PathVariable Long id,
-                               @Validated Question question, BindingResult result) {
+                               @Validated QuestionFormDto question, BindingResult result) {
         if (result.hasErrors()) {
             return CREATE_QUESTION_PAGE;
         } else if (questionService.getById(id) != null) {
-            questionService.update(question);
+            questionService.update(createQuestionFromDto(question));
         }
         return redirect(courseId, moduleId, testId);
     }
@@ -121,6 +120,21 @@ public class PrivateQuestionController {
         return "redirect:/private/courses/" + courseId 
         		+ "/modules/" + moduleId
         		+ "/tests/" + testId + "/questions/";
+    }
+
+    private Question createQuestionFromDto(QuestionFormDto dto) {
+        Question question = new Question();
+        question.setId(dto.getId());
+        question.setText(dto.getText());
+        question.setAnswers(new LinkedHashSet());
+        for (AnswerFormDto answerDto: dto.getAnswers()) {
+            Answer answer = new Answer();
+            answer.setText(answerDto.getText());
+            answer.setCorrect(answerDto.getCorrect());
+            question.getAnswers().add(answer);
+        }
+
+        return question;
     }
 
 }

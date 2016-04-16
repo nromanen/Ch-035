@@ -13,4 +13,9 @@
 		<error-code>500</error-code>
 		<location>/error</location>
 	</error-page>
+
+	<context-param>
+		<param-name>apiUrl</param-name>
+		<param-value>http://localhost:8080/crsms/api</param-value>
+	</context-param>
 </web-app>

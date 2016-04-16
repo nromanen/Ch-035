@@ -2,6 +2,8 @@
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<input type = "hidden" id = "api-url" value = "${initParam['apiUrl']}">
+
 <div id = "courses-table-wrapper" class = "container">
 	<table class="table table-bordered table-hover">
 		<thead>

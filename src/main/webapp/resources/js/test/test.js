@@ -43,8 +43,8 @@ $(document).ready(function (e){
 	
 	//Add questions with answers modal window.
 	function doAjaxPost() {
-		var form = $('#modal-form');
-		var testId = $('#modal-form-submit').val();
+		var form = $('#add-question-form');
+		var testId = $('#add-question-form-submit').val();
 
 		$.ajax({
 			url : document.URL + testId +'/questions/add/question-form',
@@ -54,7 +54,7 @@ $(document).ready(function (e){
 			
 			complete: function() {
 				//Hide add question modal after form submitting.
-				$("#my-modal").modal('hide');
+				$("#add-question").modal('hide');
 				
 				//Clear text area after add question form closing.
 				$(".clear-textarea").val("");
@@ -85,6 +85,57 @@ $(document).ready(function (e){
 			}
 		});
 	}
+
+	// Edit question
+	$('.btn-edit-question').click(function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : document.URL + $(this).attr('href'),
+			dataType: 'json',
+			type : "GET",
+
+			success : function(question) {
+				var editForm = $('#edit-question-form');
+				editForm.find("input[name = 'id']").val(question.id);
+				editForm.find("#text").val(question.text);
+				editForm.find('textarea[name = "answers[0].text"]').val(question.answers[0].text);
+				editForm.find('input[name = "answers[0].correct"]').prop("checked", question.answers[0].correct);
+				editForm.find('textarea[name = "answers[1].text"]').val(question.answers[1].text);
+				editForm.find('input[name = "answers[1].correct"]').prop("checked", question.answers[1].correct);
+				editForm.find('textarea[name = "answers[2].text"]').val(question.answers[2].text);
+				editForm.find('input[name = "answers[2].correct"]').prop("checked", question.answers[2].correct);
+				editForm.find('textarea[name = "answers[3].text"]').val(question.answers[3].text);
+				editForm.find('input[name = "answers[3].correct"]').prop("checked", question.answers[3].correct);
+				$("#edit-question").modal('show');
+			},
+
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert('Error: ' + thrownError + "\n" + xhr);
+			}
+		});
+	});
+
+	$("#edit-question-form-submit").click(function() {
+		var form = $('#edit-question-form');
+		var questionId = form.find("input[name = 'id']").val();
+		var url = document.URL + $('#btn-edit-question-' + questionId).attr('href');
+
+		$.ajax({
+			url : url,
+			dataType: 'text',
+			data : form.serialize(),
+			type : "POST",
+
+			complete: function() {
+				//Hide edit question modal after form submitting.
+				$("#edit-question").modal('hide');
+			},
+
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert('Error: ' + thrownError + "\n" + xhr);
+			}
+		});
+	});
 	
 	//End add questions with answers modal window.
 	
@@ -100,20 +151,20 @@ $(document).ready(function (e){
 	
 	//Get Test id from inner JSP for-each loop.
 	$(".question-add").click(function (e){
-		 $('#modal-form-submit').val($(this).attr("value"));
+		 $('#add-question-form-submit').val($(this).attr("value"));
 	});
 	
 	//Send ajax request when form submitted.
-	$("#modal-form-submit").click(function (e){
+	$("#add-question-form-submit").click(function (e){
 		$('[id^="answers"]').rules("add" ,{
 			oneCheckbox: true
 		});
-		if ($('#modal-form').valid()) {
+		if ($('#add-question-form').valid()) {
 			doAjaxPost();
 		}
 	});
 
-	$('#modal-form').validate({
+	$('#add-question-form, #edit-question-form').validate({
 		errorClass: "errorTxt",	
 		rules: {
 			

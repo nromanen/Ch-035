@@ -24,7 +24,7 @@
 		<label for = "description" class="col-sm-2 control-label">${moduleDescription}: </label>
 		<div class="col-sm-10">
 			<form:textarea path = "description" name = "description" 
-							class="form-control" placeholder="${moduleDescription}"/>
+							class="form-control" placeholder="${moduleDescription}" rows="10"/>
 			<form:errors path = "description" cssClass = "label label-danger" />
 		</div>
 	</div>

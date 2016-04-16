@@ -1,11 +1,10 @@
 package com.crsms.service;
 
-import java.util.List;
-
+import com.crsms.util.Invocable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.crsms.util.Invocable;
+import java.util.List;
 
 @Transactional
 public interface BaseService<E> {

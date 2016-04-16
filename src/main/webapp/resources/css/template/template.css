@@ -1,6 +1,9 @@
 body {
 	font-family: 'Open Sans', sans-serif;
 }
+#wrapper {
+	min-height: calc(100vh - 60px);
+}
 #header {
 	background: #DDECF7;
 	min-height: 50px;
