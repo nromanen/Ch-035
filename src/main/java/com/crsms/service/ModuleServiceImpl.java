@@ -1,13 +1,5 @@
 package com.crsms.service;
 
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.crsms.dao.CourseDao;
 import com.crsms.dao.ModuleDao;
 import com.crsms.domain.Course;
@@ -17,6 +9,14 @@ import com.crsms.domain.User;
 import com.crsms.dto.ModuleViewDto;
 import com.crsms.dto.TestViewDto;
 import com.crsms.exception.ElementNotFoundException;
+import com.google.api.client.util.Lists;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 
@@ -133,8 +133,13 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 		boolean pass = true;
 		double score = 0;
 		double totalScore = 0;
-		
+
+		List<TestViewDto> testsToRemove = Lists.newArrayList();
 		for (TestViewDto testViewDto : moduleViewDto.getTests()) {
+			if (!testViewDto.getAvailable()) {
+				testsToRemove.add(testViewDto);
+				continue;
+			}
 			testService.initTestViewDto(testViewDto, user);
 			if (testViewDto.getHasTestResult() && testViewDto.getComplete()) {
 				score += testViewDto.getScore();
@@ -146,6 +151,7 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 			
 			totalScore += 100;
 		}
+		moduleViewDto.getTests().removeAll(testsToRemove);
 		
 		moduleViewDto.setComplete(complete);
 		moduleViewDto.setScore(score);
