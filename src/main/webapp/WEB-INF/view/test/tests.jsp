@@ -63,6 +63,12 @@
 					</td>
 				<td>
 					<div align="center">
+						<c:url var="viewResults" value="${test.id}/results" />
+						<button data-resultsurl="${viewResults}" class="btn btn-warning btn-sm btn-view-results" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.view.results" />"
+								value="${test.id}">
+							<i class="glyphicon glyphicon-list-alt"></i>
+						</button>
+
 						<c:url var="editTest" value="${test.id}/edit" />
 						<a href="${editTest}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="<spring:message code="crsms.tests.tooltip.edit" />"> 
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -298,4 +304,31 @@
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="view-results-group-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title"><spring:message code = "crsms.tests.text.choose.group" /></h4>
+			</div>
+			<div class="modal-body" style="margin-bottom: 50px">
+				<div class="col-sm-12 control-label">
+					<spring:message code = "crsms.tests.msg.group.select" />:
+				</div>
+				<div class="col-sm-6">
+					<select name="group" class="selectpicker">
+						<c:forEach var="group" items="${groups}">
+							<option value="${group.id}">${group.name}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="" id="btn-modal-view-test-results" class="btn btn-info"><spring:message code = "crsms.button.view.results" /></a>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.button.cancel" /></button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

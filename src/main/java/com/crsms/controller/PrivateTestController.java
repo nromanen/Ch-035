@@ -2,6 +2,8 @@ package com.crsms.controller;
 
 import com.crsms.domain.Test;
 import com.crsms.dto.QuestionFormDto;
+import com.crsms.service.CourseService;
+import com.crsms.service.GroupService;
 import com.crsms.service.TestService;
 import com.crsms.validator.TestFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,12 @@ public class PrivateTestController {
 	
 	@Autowired
 	private TestFormValidator testFormValidator;
+
+	@Autowired
+	private GroupService groupService;
+
+	@Autowired
+	private CourseService courseService;
 	
 	@InitBinder(value = "test")
     private void initBinder(WebDataBinder binder) {
@@ -82,6 +90,8 @@ public class PrivateTestController {
 		List<Test> tests = testService.getAllByModuleId(moduleId);
 		model.addAttribute("tests", tests);
 		model.addAttribute("question", new QuestionFormDto());
+		model.addAttribute("groups", groupService.getAllByCourseId(courseService.getCourseByModuleId(moduleId).getId()));
+
 		return TESTS_PAGE;
 	}
 

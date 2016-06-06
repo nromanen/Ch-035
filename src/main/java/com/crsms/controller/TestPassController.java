@@ -1,8 +1,11 @@
 package com.crsms.controller;
 
-import java.security.Principal;
-import java.util.List;
-
+import com.crsms.domain.Question;
+import com.crsms.domain.Test;
+import com.crsms.domain.TestResult;
+import com.crsms.dto.UserAnswerAndQuestionDto;
+import com.crsms.dto.UserAnswerFormDto;
+import com.crsms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.crsms.domain.Question;
-import com.crsms.domain.Test;
-import com.crsms.domain.TestResult;
-import com.crsms.dto.UserAnswerAndQuestionDto;
-import com.crsms.dto.UserAnswerFormDto;
-import com.crsms.service.GroupService;
-import com.crsms.service.QuestionService;
-import com.crsms.service.TestResultService;
-import com.crsms.service.TestService;
-import com.crsms.service.UserAnswerService;
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/courses/{courseId}/modules/{moduleId}/tests")
@@ -62,10 +58,11 @@ public class TestPassController {
 	public String showTest(
 			@PathVariable Long courseId, @PathVariable Long moduleId, 
 			@PathVariable("testId") Long testId, 
-			@PathVariable("questionIndex") Integer questionIndex, Model model, Principal principal
+			@PathVariable("questionIndex") Integer questionIndex,
+			Model model, Principal principal, HttpServletRequest request
 	) {
 		//TODO: check: student subscribe on course
-		
+
 		Test test = testService.getById(testId);
 		Long questionCount = questionService.getCountQestionsByTest(testId);
 		
@@ -74,20 +71,23 @@ public class TestPassController {
 		
 		Question question = questionService.getByTestByIndex(testId, questionIndex - 1);
 		TestResult testResult = testResultService.getCurrent(testId, principal.getName());
-		
-		if(testResult.getComplete())
-			return redirectToTestResult(courseId, moduleId, testId, testResult.getId());
-		
+
+		if (!testResult.getComplete())
+			testResultService.complete(testResult.getId());
+
 		List<Boolean> isAnsweredQuestions = userAnswerService.getIsAnsweredQuestions(test.getId(), testResult.getId(), questionCount);
 
 		UserAnswerFormDto userAnswerFormDto = userAnswerService.getUserAnswerFormDto(testResult.getId(), question.getId());
-		
+
 		model.addAttribute("isAnsweredQuestions", isAnsweredQuestions);
 		model.addAttribute("userAnswerFormDto", userAnswerFormDto);
 		model.addAttribute("test", test);
 		model.addAttribute("questionCount", questionCount);
 		model.addAttribute("questionIndex", questionIndex);
 		model.addAttribute("question", question);
+		if (request.getSession().getAttribute("duration") == null || request.getSession().getAttribute("duration") == 0) {
+			request.getSession().setAttribute("duration", test.getDuration() == null ? 0 : test.getDuration() * 60);
+		}
 		return SHOW_TEST_PAGE;
 	}
 	
@@ -96,8 +96,10 @@ public class TestPassController {
 			@PathVariable Long courseId, @PathVariable Long moduleId, 
 			@RequestParam("nextIndex") Long nextIndex,
 			@RequestParam("finished") Boolean finished, @PathVariable("testId") Long testId, 
-			@PathVariable("questionIndex") Integer questionIndex, 
-			UserAnswerFormDto userAnswerFormDto, Model model, Principal principal
+			@PathVariable("questionIndex") Integer questionIndex,
+			@RequestParam(value = "duration", required = false) Integer duration,
+			UserAnswerFormDto userAnswerFormDto, Model model, Principal principal,
+			HttpServletRequest request
 	) {
 		if(!groupService.isSubscribedUser(courseId, principal.getName()))
 			return redirectToCourse(courseId);
@@ -110,6 +112,7 @@ public class TestPassController {
 		}
 		
 		Long questionCount = questionService.getCountQestionsByTest(testId);
+		request.getSession().setAttribute("duration", duration == null ? 0 : duration);
 		if(0 < nextIndex && nextIndex < questionCount){
 			return redirectToQuestion(courseId, moduleId, testId, nextIndex);
 		} else {

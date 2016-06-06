@@ -1,19 +1,11 @@
 package com.crsms.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 
@@ -38,13 +30,18 @@ import org.hibernate.annotations.CascadeType;
 	@NamedQuery(name = TestResult.COUNT_INCORRECT_ANSWER,
 				query = "SELECT COUNT(*) "
 						+ "FROM UserAnswer userAnswer "
-						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.answer.correct = false")		
+						+ "WHERE userAnswer.testResult.id = :testResultId AND userAnswer.answer.correct = false"),
+	@NamedQuery(name = TestResult.GET_BY_TEST_ID_AND_USERS,
+		query = "SELECT tr "
+			+ "FROM TestResult tr "
+			+ "WHERE tr.test.id = :testId AND tr.user.id IN :users")
 })
 public class TestResult {
 	public static final String GET_CURRENT = "TestResult.getCurrent";
 	public static final String GET_BY_ID_AND_USER = "TestResult.getByIdAndUser";
 	public static final String COUNT_CORRECT_ANSWER = "TestResult.countCorrectAnswer";
 	public static final String COUNT_INCORRECT_ANSWER = "TestResult.countIncorrectAnswer";
+	public static final String GET_BY_TEST_ID_AND_USERS = "TestResult.getByTestIdAndGroupId";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crsms_gen")
@@ -66,7 +63,7 @@ public class TestResult {
 	
 	@Column(nullable = false)
 	private Double score;
-	
+
 	@Column
 	private Boolean pass;
 
@@ -117,5 +114,4 @@ public class TestResult {
 	public void setPass(Boolean pass) {
 		this.pass = pass;
 	}
-	
 }

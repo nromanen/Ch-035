@@ -1,10 +1,10 @@
 package com.crsms.service;
 
-import java.util.List;
-
 import com.crsms.domain.TestResult;
 import com.crsms.dto.UserAnswerAndQuestionDto;
 import com.crsms.dto.UserAnswerFormDto;
+
+import java.util.List;
 
 public interface TestResultService {
 
@@ -22,4 +22,7 @@ public interface TestResultService {
 
 	Double getScore(TestResult testResult);
 
+	List<TestResult> getAllByTestIdAndGroupId(Long testId, Long groupId);
+
+	void clearScore(Long testResultId);
 }

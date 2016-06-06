@@ -14,8 +14,10 @@
 	" />
 	<form:hidden path = "testResultId"/>
 	<form:hidden path = "questionId"/>
+	<input type="hidden" name="duration" id="duration" />
+	<div style="font-weight: bold" class="col-sm-2" id="timer" data-duration="${sessionScope.duration}"></div>
 	<div class="form-group">
-		<div class="col-sm-offset-2 col-sm-10" >
+		<div class="col-sm-10" >
 			<nav>
 			  <ul class="pagination">
 			  	<c:forEach var="i" begin="1" end="${questionCount}">

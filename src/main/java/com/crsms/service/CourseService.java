@@ -1,15 +1,14 @@
 package com.crsms.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.crsms.domain.Course;
 import com.crsms.domain.User;
+import com.crsms.dto.CourseModuleNamesPairDto;
 import com.crsms.dto.CourseViewDto;
 import com.crsms.dto.CoursesViewDto;
-import com.crsms.dto.CourseModuleNamesPairDto;
-
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -48,7 +47,9 @@ public interface CourseService extends BaseService<Course> {
 	
 	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	void publish(Long courseId);
-	
+
+	Course getCourseByModuleId(Long moduleId);
+
 	List<Course> getAllPublished();
 
 	CourseViewDto getCourseViewDto(Long courseId, String name);

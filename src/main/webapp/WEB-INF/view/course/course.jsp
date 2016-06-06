@@ -81,7 +81,7 @@
 				<c:if test="${module.totalScore != null}">
 					<c:url var = "showTest" value = "/courses/${course.id}/modules/${module.id}/tests/${moduleTest.id}/show/1" />
 				</c:if>
-				<a class="btn btn-default" href = "${showTest}" >
+				<a data-url="${moduleTest.complete ? "" : showTest}" class="btn btn-default start-test-btn">
 					<c:choose>	
 						<c:when test="${moduleTest.complete}">
 							<c:choose>
@@ -109,5 +109,24 @@
 		
 	</div>
 	</c:forEach>
+	<div class="modal fade" id="start-test-confirmation-modal" >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title"><spring:message code = "crsms.tests.text.confirmation" /></h4>
+				</div>
+				<div class="modal-body">
+					<p style="font-size: 15px; font-weight: 600;">
+						<spring:message code = "crsms.course.text.start.test.confirm" />
+					</p>
+				</div>
+				<div class="modal-footer">
+					<a id="btn-modal-start-test" class="btn btn-primary"><spring:message code = "crsms.course.text.start.test" /></a>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code = "crsms.button.cancel" /></button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 </div>
 

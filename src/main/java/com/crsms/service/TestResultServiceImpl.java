@@ -1,26 +1,25 @@
 package com.crsms.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.crsms.dao.GroupDao;
+import com.crsms.dao.QuestionDao;
+import com.crsms.dao.TestResultDao;
+import com.crsms.dao.UserAnswerDao;
+import com.crsms.domain.*;
+import com.crsms.dto.UserAnswerAndQuestionDto;
+import com.crsms.dto.UserAnswerFormDto;
+import com.crsms.dto.UserIdFNameLNameEmailDto;
+import com.crsms.exception.ElementNotFoundException;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.crsms.dao.AnswerDao;
-import com.crsms.dao.QuestionDao;
-import com.crsms.dao.TestDao;
-import com.crsms.dao.TestResultDao;
-import com.crsms.dao.UserAnswerDao;
-import com.crsms.domain.Answer;
-import com.crsms.domain.Question;
-import com.crsms.domain.Test;
-import com.crsms.domain.TestResult;
-import com.crsms.domain.User;
-import com.crsms.domain.UserAnswer;
-import com.crsms.dto.UserAnswerAndQuestionDto;
-import com.crsms.dto.UserAnswerFormDto;
-import com.crsms.exception.ElementNotFoundException;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service("testResultService")
 @Transactional
@@ -36,9 +35,6 @@ public class TestResultServiceImpl implements TestResultService {
 	private TestService testService;
 	
 	@Autowired
-	private TestDao testDao;
-	
-	@Autowired
 	private QuestionService questionService;
 	
 	@Autowired
@@ -49,9 +45,9 @@ public class TestResultServiceImpl implements TestResultService {
 	
 	@Autowired
 	private UserAnswerDao userAnswerDao;
-	
+
 	@Autowired
-	private AnswerDao answerDao;
+	private GroupDao groupDao;
 
 	@Override
 	public TestResult getCurrent(Long testId, String email) {
@@ -96,8 +92,6 @@ public class TestResultServiceImpl implements TestResultService {
 	public void save(UserAnswerFormDto userAnswerFormDto, String email) {
 		User user = userService.getUserByEmail(email);
 		TestResult testResult = testResultDao.getByIdAndUser(userAnswerFormDto.getTestResultId(), user.getId());
-		if(testResult.getComplete())
-			return;
 		
 		Question question = questionService.getById(userAnswerFormDto.getQuestionId());
 		//TODO replace on something better
@@ -164,6 +158,26 @@ public class TestResultServiceImpl implements TestResultService {
 			return 0.;
 		
 		return score / maxScore * 100;
+	}
+
+	@Override
+	public List<TestResult> getAllByTestIdAndGroupId(Long testId, Long groupId) {
+		Set<Long> userIds = Sets.newHashSet(Iterables.transform(groupDao.getStudentsFromGroup(groupId), new Function<UserIdFNameLNameEmailDto, Long>() {
+			@Nullable
+			@Override
+			public Long apply(@Nullable UserIdFNameLNameEmailDto userIdFNameLNameEmailDto) {
+				return userIdFNameLNameEmailDto.getId();
+			}
+		}));
+		return testResultDao.getByTestIdAndUsers(testId, userIds);
+	}
+
+	@Override
+	public void clearScore(Long testResultId) {
+		TestResult testResult = testResultDao.getById(testResultId);
+		testResult.setComplete(false);
+		testResult.setScore(null);
+		testResultDao.update(testResult);
 	}
 
 	private double getScoreForQuestion(Long testResultId, Long questionId) {

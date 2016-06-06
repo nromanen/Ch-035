@@ -39,6 +39,23 @@ $(document).ready(function (e){
 		
 		$("#delete-confirmation-modal").modal('show');
 	});
+
+	$(".btn-view-results").click(function(e) {
+		var resultsUrl = $(this).attr("data-resultsurl");
+
+		//Hide tooltip.
+		$(e.delegateTarget).tooltip('hide');
+
+		//Add delete rest.
+		$("#btn-modal-view-test-results").attr("data-resultsurl", resultsUrl);
+
+		$("#view-results-group-modal").modal('show');
+	});
+
+	$("#btn-modal-view-test-results").click(function(e) {
+		var resultsUrl = $(this).attr("data-resultsurl") + '/' + $("select[name='group']").val();
+		$(this).attr("href", resultsUrl);
+	});
 	//End delete test modal window.
 	
 	//Add questions with answers modal window.

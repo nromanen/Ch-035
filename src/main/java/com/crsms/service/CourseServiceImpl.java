@@ -1,13 +1,5 @@
 package com.crsms.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.crsms.dao.CourseDao;
 import com.crsms.dao.GroupDao;
 import com.crsms.domain.Course;
@@ -20,6 +12,13 @@ import com.crsms.dto.CoursesViewDto;
 import com.crsms.dto.ModuleViewDto;
 import com.crsms.service.hibernate.initializer.CourseModulesDeepInitializer;
 import com.crsms.util.Invocable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -116,6 +115,11 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
 	public void publish(Long courseId) {
 		Course course = this.getById(courseId);
 		course.setPublished(true);		
+	}
+
+	@Override
+	public Course getCourseByModuleId(Long moduleId) {
+		return courseDao.getByModule(moduleId);
 	}
 
 	@Override

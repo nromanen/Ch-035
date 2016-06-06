@@ -1,8 +1,10 @@
 package com.crsms.dao;
 
+import com.crsms.domain.TestResult;
 import org.springframework.stereotype.Repository;
 
-import com.crsms.domain.TestResult;
+import java.util.List;
+import java.util.Set;
 
 @Repository
 public class TestResultDaoImpl extends BaseDaoImpl<TestResult> implements TestResultDao {
@@ -33,6 +35,15 @@ public class TestResultDaoImpl extends BaseDaoImpl<TestResult> implements TestRe
 	public Long counIncorrectAnswers(Long testResultId) {
 		return (Long) getSessionFactory().getCurrentSession().getNamedQuery(TestResult.COUNT_INCORRECT_ANSWER)
 				.setParameter("testResultId", testResultId).uniqueResult();
+	}
+
+	@Override
+	public List<TestResult> getByTestIdAndUsers(Long testId, Set<Long> users) {
+		return (List<TestResult>) getSessionFactory().getCurrentSession()
+			.getNamedQuery(TestResult.GET_BY_TEST_ID_AND_USERS)
+			.setParameter("testId", testId)
+			.setParameterList("users", users)
+			.list();
 	}
 
 }
