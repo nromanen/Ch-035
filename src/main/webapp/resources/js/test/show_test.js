@@ -37,7 +37,7 @@ $(document).ready(function() {
 
     function initializeTimer() {
         var display = $('#timer');
-        if (duration != 0)
+        if (timer != 0)
             startTimer(timer, display);
     }
 

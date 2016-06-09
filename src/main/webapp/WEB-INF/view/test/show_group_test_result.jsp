@@ -31,6 +31,11 @@
                         <button data-clearscoreurl="${clearScore}" class="btn btn-warning btn-sm clear-score-button" ${result.complete ? '' : 'disabled'}>
                             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <spring:message code="crsms.test.results.text.btn.clear" />
                         </button>
+
+                        <c:url var="viewResult" value="testresult/${result.id}" />
+                        <a href="${viewResult}" class="btn btn-primary btn-sm" ${result.complete ? '' : 'disabled'}>
+                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <spring:message code="crsms.test.results.text.btn.view" />
+                        </a>
                     </div>
                 </td>
             </tr>

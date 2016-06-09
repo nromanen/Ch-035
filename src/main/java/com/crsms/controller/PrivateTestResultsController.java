@@ -1,6 +1,7 @@
 package com.crsms.controller;
 
 import com.crsms.domain.TestResult;
+import com.crsms.dto.UserAnswerAndQuestionDto;
 import com.crsms.service.GroupService;
 import com.crsms.service.TestResultService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.List;
 public class PrivateTestResultsController {
 
     public static final String TEST_RESULTS_PAGE = "show_group_test_result";
+    private static final String SHOW_TEST_RESULT_PAGE = "show_test_result";
 
     @Autowired
     private TestResultService testResultService;
@@ -39,5 +41,18 @@ public class PrivateTestResultsController {
     @ResponseStatus(value = HttpStatus.OK)
     public void clearTestResultScore(@PathVariable Long testResultId) {
         testResultService.clearScore(testResultId);
+    }
+
+    @RequestMapping(value = "/testresult/{testResultId}", method = RequestMethod.GET)
+    public String showTestResult(
+        @PathVariable("testResultId") Long testResultId, Model model) {
+        TestResult testResult = testResultService.getById(testResultId);
+
+        List<UserAnswerAndQuestionDto> userAnswerAndQuestionList
+            = testResultService.getUserAnswerAndQuestionList(testResult.getId());
+
+        model.addAttribute("userAnswerAndQuestionList", userAnswerAndQuestionList);
+        model.addAttribute("testResaltScore", testResult.getScore());
+        return SHOW_TEST_RESULT_PAGE;
     }
 }

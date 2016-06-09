@@ -14,6 +14,8 @@ public interface TestResultService {
 
 	void complete(Long testResultId);
 
+	TestResult getById(Long testResultId);
+
 	TestResult getById(Long testResultId, String name);
 
 	List<UserAnswerAndQuestionDto> getUserAnswerAndQuestionList(Long testResultId);

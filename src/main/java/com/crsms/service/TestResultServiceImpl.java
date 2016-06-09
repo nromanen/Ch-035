@@ -141,6 +141,11 @@ public class TestResultServiceImpl implements TestResultService {
 	}
 
 	@Override
+	public TestResult getById(Long testResultId) {
+		return testResultDao.getById(testResultId);
+	}
+
+	@Override
 	public Double getScore(TestResult testResult) {
 		//TestResult testResult = testResultDao.getById(testResultId);
 		Test test = testResult.getTest();
